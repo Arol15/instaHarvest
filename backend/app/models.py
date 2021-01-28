@@ -13,10 +13,10 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30))
     email = db.Column(db.String(50), unique=True, nullable=False)
-    email_verified = db.Boolean(default=False)
+    email_verified = db.Column(default=False)
     image_url = db.Column(db.String, default="https://img.icons8.com/doodle/148/000000/test-account.png")
     hashed_password = db.Column(db.String(100), nullable=False)
-    createdAt = db.Column(db.DateTime, default=datetime.utc)
+    createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     @property
@@ -53,7 +53,7 @@ class Product(db.Model):
     price = db.Column(db.Float, default=0)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
-    createdAt = db.Column(db.DateTime, default=datetime.utc)
+    createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     deletedAt = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
@@ -71,7 +71,7 @@ class Location(db.Model):
     city = db.Column(db.String(20))
     zip_code = db.Column(db.Integer)
 
-    user = db.relationship("User", backref='location', nullable=False)
+    user = db.relationship("User", backref='location', lazy=False)
 
 
 class Chat(db.Model):
@@ -89,7 +89,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chats_id = db.Column(db.Integer, db.ForeignKey('chats.id'), nullable=False)
     body = db.Column(db.String(2000))
-    createdAt = db.Column(db.DateTime, default=datetime.utc)
+    createdAt = db.Column(db.DateTime, default=datetime.utcnow)
 
     chat = db.relationship("Chat", backref="message", lazy=True)
 
