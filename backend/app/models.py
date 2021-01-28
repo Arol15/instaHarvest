@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func, expression
 from datetime import datetime 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -13,7 +13,7 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30))
     email = db.Column(db.String(50), unique=True, nullable=False)
-    email_verified = db.Column(default=False)
+    email_verified = db.Column(db.Boolean)
     image_url = db.Column(db.String, default="https://img.icons8.com/doodle/148/000000/test-account.png")
     hashed_password = db.Column(db.String(100), nullable=False)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
