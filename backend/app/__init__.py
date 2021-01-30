@@ -10,4 +10,6 @@ app.config.from_object(Config)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-from app import routes
+from app.routes import users
+
+app.register_blueprint(users.bp)

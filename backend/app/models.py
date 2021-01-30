@@ -74,24 +74,24 @@ class Location(db.Model):
     user = db.relationship("User", backref='location', lazy=False)
 
 
-class Chat(db.Model):
-    __tablename__ = "chats"
-    id = db.Column(db.Integer, primary_key=True)
-    buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    seller_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+# class Chat(db.Model):
+#     __tablename__ = "chats"
+#     id = db.Column(db.Integer, primary_key=True)
+#     buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+#     seller_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    user = db.relationship("User", backref="chat", lazy=True)
+#     user = db.relationship("User", backref="chat", lazy=True)
 
 
 
-class Message(db.Model):
-    __tablename__ = "messages"
-    id = db.Column(db.Integer, primary_key=True)
-    chats_id = db.Column(db.Integer, db.ForeignKey('chats.id'), nullable=False)
-    body = db.Column(db.String(2000))
-    createdAt = db.Column(db.DateTime, default=datetime.utcnow)
+# class Message(db.Model):
+#     __tablename__ = "messages"
+#     id = db.Column(db.Integer, primary_key=True)
+#     chats_id = db.Column(db.Integer, db.ForeignKey('chats.id'), nullable=False)
+#     body = db.Column(db.String(2000))
+#     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
 
-    chat = db.relationship("Chat", backref="message", lazy=True)
+#     chat = db.relationship("Chat", backref="message", lazy=True)
 
 
 
