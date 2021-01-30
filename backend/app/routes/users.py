@@ -9,7 +9,7 @@ bp = Blueprint("users", __name__, url_prefix='/api/users')
 
 
 
-@app.route("/signup", methods=["POST"])
+@bp.route("/signup", methods=["POST"])
 def signup():
     data = json.loads(request.get_data().decode('UTF-8'))
     username = data['username']
