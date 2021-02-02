@@ -20,8 +20,6 @@ class User(db.Model):
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
-    chats = db.relationship("Chat", lazy=True)
-
     @property
     def password(self):
         return self.hashed_password
@@ -49,9 +47,9 @@ class User(db.Model):
 class Product(db.Model):
     __tablename__ = "products"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     location_id = db.Column(db.Integer, db.ForeignKey(
-        'locations.id'), nullable=False)
+        "locations.id"), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
     image_urls = db.Column(db.ARRAY(db.String(255)))
@@ -77,23 +75,24 @@ class Location(db.Model):
     city = db.Column(db.String(20))
     zip_code = db.Column(db.Integer)
 
-    user = db.relationship("User", backref='locations', lazy=False)
+    user = db.relationship("User", backref="locations", lazy=False)
 
 
 class Chat(db.Model):
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
+
     user1_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    user1 = db.relationship("User", lazy=True)
-    user2 = db.relationship("User", lazy=True)
+    user1 = db.relationship("User", foreign_keys=[user1_id], lazy=False)
+    user2 = db.relationship("User", foreign_keys=[user2_id], lazy=False)
 
 
 class Message(db.Model):
     __tablename__ = "messages"
     id = db.Column(db.Integer, primary_key=True)
-    chats_id = db.Column(db.Integer, db.ForeignKey('chats.id'), nullable=False)
+    chats_id = db.Column(db.Integer, db.ForeignKey("chats.id"), nullable=False)
     body = db.Column(db.String(2000))
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
 
