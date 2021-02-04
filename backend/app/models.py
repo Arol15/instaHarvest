@@ -12,8 +12,8 @@ class User(db.Model):
     last_name = db.Column(db.String(30))
     email = db.Column(db.String(50), unique=True, nullable=False)
     email_verified = db.Column(db.Boolean)
-    image_url = db.Column(
-        db.String, default="https://img.icons8.com/doodle/148/000000/test-account.png")
+    user_role = db.Column(db.String(16), default='user')
+    image_url = db.Column(db.String)
     hashed_password = db.Column(db.String(100), nullable=False)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=func.now())
@@ -35,7 +35,7 @@ class User(db.Model):
     def __repr__(self):
         return f"User with {self.username} and {self.password}"
 
-    def to_dict(self):
+    def to_dict(self, email=False):
         return {
             "username": self.username,
             "first_name": self.first_name,
@@ -82,7 +82,7 @@ class Location(db.Model):
 class Chat(db.Model):
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
-
+    createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     user1_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 

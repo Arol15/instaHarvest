@@ -1,8 +1,8 @@
 """version 2
 
-Revision ID: 2b72ad95a75a
+Revision ID: a4b88321c1f2
 Revises: 
-Create Date: 2021-02-03 11:09:53.239314
+Create Date: 2021-02-04 11:56:53.463459
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2b72ad95a75a'
+revision = 'a4b88321c1f2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,6 +25,7 @@ def upgrade():
     sa.Column('last_name', sa.String(length=30), nullable=True),
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('email_verified', sa.Boolean(), nullable=True),
+    sa.Column('user_role', sa.String(length=16), nullable=True),
     sa.Column('image_url', sa.String(), nullable=True),
     sa.Column('hashed_password', sa.String(length=100), nullable=False),
     sa.Column('createdAt', sa.DateTime(), nullable=True),
@@ -34,6 +35,7 @@ def upgrade():
     )
     op.create_table('chats',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('createdAt', sa.DateTime(), nullable=True),
     sa.Column('user1_id', sa.Integer(), nullable=False),
     sa.Column('user2_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user1_id'], ['users.id'], ),
