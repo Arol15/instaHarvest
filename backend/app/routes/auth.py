@@ -1,5 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, url_for
 from app.models import db, User
+from app.utils.security import ts
 # from flask import jsonify
 import json
 
@@ -8,7 +9,7 @@ bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 @bp.route('/signup', methods=['POST'])
 def signup():
-    data = json.loads(request.get_data().decode('UTF-8'))
+    data = request.get_json()
     email = data['email']
     username = data['username']
     if User.query.filter_by(email=email).first():
@@ -24,7 +25,14 @@ def signup():
         image_url = None
     email_verified = False
     user = User(username=username, first_name=first_name, last_name=last_name,
-                hashed_password=password, email=email, email_verified=email_verified, image_url=image_url)
+                password=password, email=email, email_verified=email_verified, image_url=image_url)
+
+    # Send confirmation email
+    token = ts.dumps(email, salt='email-confirm')
+    confirm_url = url_for('.confirm_email', token=token, _external=True)
+    print(confirm_url)
+    # send_email(email, confirm_url)
+
     db.session.add(user)
     db.session.commit()
     return {'email': email}, 201
@@ -33,3 +41,18 @@ def signup():
 @bp.route('/login', methods=['GET'])
 def login():
     return {'username': 'user.username'}, 200
+
+
+@bp.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        email = ts.loads(token, salt="email-confirm", max_age=86400)
+    except:
+        return {'error': '404 Not Found'}, 404
+    print(email)
+
+    user = User.query.filter_by(email=email).first_or_404()
+    user.email_verified = True
+    db.session.add(user)
+    db.session.commit()
+    return {'email': email}, 200
