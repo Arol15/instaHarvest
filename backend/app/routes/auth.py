@@ -7,6 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from app import jwt, db
 from app.models import User
 from app.utils.security import ts, admin_required
+from app.utils.email_support import send_email
 
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
@@ -30,19 +31,26 @@ def signup():
                 password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
                 user_role=data['user_role'])
 
-    # Send confirmation email
-    token = ts.dumps(email, salt='email-confirm')
-    confirm_url = url_for('.confirm_email', token=token, _external=True)
-    # send_email(email, confirm_url)
-
     db.session.add(user)
     db.session.commit()
     claims = {'roles': user.user_role}
     access_token = create_access_token(
         identity=user.id, user_claims=claims, fresh=True)
     refresh_token = create_refresh_token(user.id, user_claims=claims)
-    return {'access_token': access_token,
-            'refresh_token': refresh_token}, 201
+    ret = {'access_token': access_token,
+           'refresh_token': refresh_token,
+           'confirmation_email': 'sent'}
+
+    # Send confirmation email
+    email_token = ts.dumps(email, salt='email-confirm')
+    confirm_url = url_for('.confirm_email', token=email_token, _external=True)
+    subject = "InstaHarvest - Confirm your account"
+    try:
+        send_email(email, subject, 'confirmation_email',
+                   user=user, confirm_url=confirm_url)
+    except:
+        ret['confirmation_email'] = 'error'
+    return ret, 201
 
 
 @bp.route('/login', methods=['POST'])

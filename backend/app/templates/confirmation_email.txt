@@ -1,0 +1,16 @@
+Dear {{ user.first_name }} {{ user.last_name }},
+
+Welcome to InstaHarvest!
+
+To confirm your email please click on the following link:
+
+{{ confirm_url }}
+
+Alternatively, you can paste the following link in your browser's address bar:
+{{ confirm_url }}
+
+Sincerely,
+
+The InstaHarvest Team
+
+Note: replies to this email address are not monitored.
