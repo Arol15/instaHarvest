@@ -7,6 +7,8 @@ verify_ssl = true
 
 [packages]
 python-dotenv = "*"
+flask-jwt-extended = "*"
+flask-mail = "*"
 
 [requires]
 python_version = "3.8"

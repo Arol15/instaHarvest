@@ -15,6 +15,12 @@ class User(db.Model):
     user_role = db.Column(db.String(16), default='user')
     image_url = db.Column(db.String)
     hashed_password = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(100))
+    lgt = db.Column(db.Float)
+    lat = db.Column(db.Float)
+    state = db.Column(db.String(12), nullable=False)
+    city = db.Column(db.String(20), nullable=False)
+    zip_code = db.Column(db.Integer)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     updatedAt = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
@@ -49,8 +55,6 @@ class Product(db.Model):
     __tablename__ = "products"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    location_id = db.Column(db.Integer, db.ForeignKey(
-        "locations.id"), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
     image_urls = db.Column(db.ARRAY(db.String(255)))
@@ -64,19 +68,6 @@ class Product(db.Model):
 
     user = db.relationship("User", backref="products", lazy=True)
     location = db.relationship("Location", backref="products", lazy=True)
-
-
-class Location(db.Model):
-    __tablename__ = "locations"
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    lgt = db.Column(db.Float, nullable=False)
-    lat = db.Column(db.Float, nullable=False)
-    state = db.Column(db.String(12))
-    city = db.Column(db.String(20))
-    zip_code = db.Column(db.Integer)
-
-    user = db.relationship("User", backref="locations", lazy=False)
 
 
 class Chat(db.Model):
