@@ -29,7 +29,8 @@ def signup():
     email_verified = False
     user = User(username=username, first_name=data['first_name'], last_name=data['last_name'],
                 password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
-                user_role=data['user_role'])
+                user_role=data['user_role'], address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
+                city=data['city'], zip_code=data['zip_code'])
 
     db.session.add(user)
     db.session.commit()

@@ -1,8 +1,8 @@
-"""new schema with no locations
+"""corrected schema
 
-Revision ID: c33cc535d169
+Revision ID: f63cda006efc
 Revises: 
-Create Date: 2021-02-05 16:46:22.080067
+Create Date: 2021-02-05 14:51:30.210445
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c33cc535d169'
+revision = 'f63cda006efc'
 down_revision = None
 branch_labels = None
 depends_on = None
