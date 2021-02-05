@@ -70,18 +70,32 @@ def login():
             'refresh_token': refresh_token}, 200
 
 
+@bp.route('/resend_email', methods=['POST'])
+@jwt_required
+def resend_email():
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first_or_404()
+    email = user.email
+    email_token = ts.dumps(email, salt='email-confirm')
+    confirm_url = url_for('.confirm_email', token=email_token, _external=True)
+    subject = "InstaHarvest - Confirm your account"
+    send_email(email, subject, 'confirmation_email',
+               user=user, confirm_url=confirm_url)
+    return {}, 200
+
+
 @bp.route('/confirm/<token>')
 def confirm_email(token):
     try:
         email = ts.loads(token, salt="email-confirm", max_age=86400)
     except:
-        return {'msg': '404 Not Found'}, 404
+        return {}, 404
 
     user = User.query.filter_by(email=email).first_or_404()
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return {'email': email}, 200
+    return {'msg': 'Email confirmed'}, 200
 
 
 @bp.route('/refresh', methods=['POST'])

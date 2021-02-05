@@ -18,6 +18,8 @@ def send_email(to, subject, template, **kwargs):
     """
     Send email to the user
     """
+    if not Config.SEND_CONFIRM_EMAIL:
+        return
     sender = f'InstaHarvest <{Config.MAIL_USERNAME}>'
     msg = Message(subject, sender=sender, recipients=[to])
     msg.body = render_template(template + '.txt', **kwargs)
