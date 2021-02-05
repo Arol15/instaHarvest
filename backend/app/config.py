@@ -8,6 +8,6 @@ class Config(object):
     JWT_ACCESS_TOKEN_EXPIRES = 900
     MAIL_PASSWORD = os.environ.get('GMAIL_PASS')
     MAIL_USERNAME = os.environ.get('GMAIL_USERNAME')
-    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_SERVER = 'smtp.googlemail1.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True

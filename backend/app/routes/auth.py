@@ -45,12 +45,10 @@ def signup():
     email_token = ts.dumps(email, salt='email-confirm')
     confirm_url = url_for('.confirm_email', token=email_token, _external=True)
     subject = "InstaHarvest - Confirm your account"
-    try:
-        send_email(email, subject, 'confirmation_email',
-                   user=user, confirm_url=confirm_url)
-    except:
-        ret['confirmation_email'] = 'error'
-    return ret, 201
+    send_email(email, subject, 'confirmation_email',
+               user=user, confirm_url=confirm_url)
+    return {'access_token': access_token,
+            'refresh_token': refresh_token}, 201
 
 
 @bp.route('/login', methods=['POST'])
