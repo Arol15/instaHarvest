@@ -58,7 +58,7 @@ class Product(db.Model):
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
     image_urls = db.Column(db.ARRAY(db.String(255)))
-    price = db.Column(db.Float, default=0)
+    price = db.Column(db.Float)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
@@ -67,7 +67,6 @@ class Product(db.Model):
     due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     user = db.relationship("User", backref="products", lazy=True)
-    location = db.relationship("Location", backref="products", lazy=True)
 
 
 class Chat(db.Model):

@@ -29,7 +29,8 @@ def signup():
     email_verified = False
     user = User(username=username, first_name=data['first_name'], last_name=data['last_name'],
                 password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
-                user_role=data['user_role'])
+                user_role=data['user_role'], address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
+                city=data['city'], zip_code=data['zip_code'])
 
     db.session.add(user)
     db.session.commit()
@@ -45,12 +46,10 @@ def signup():
     email_token = ts.dumps(email, salt='email-confirm')
     confirm_url = url_for('.confirm_email', token=email_token, _external=True)
     subject = "InstaHarvest - Confirm your account"
-    try:
-        send_email(email, subject, 'confirmation_email',
-                   user=user, confirm_url=confirm_url)
-    except:
-        ret['confirmation_email'] = 'error'
-    return ret, 201
+    send_email(email, subject, 'confirmation_email',
+               user=user, confirm_url=confirm_url)
+    return {'access_token': access_token,
+            'refresh_token': refresh_token}, 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -72,18 +71,32 @@ def login():
             'refresh_token': refresh_token}, 200
 
 
+@bp.route('/resend_email', methods=['POST'])
+@jwt_required
+def resend_email():
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first_or_404()
+    email = user.email
+    email_token = ts.dumps(email, salt='email-confirm')
+    confirm_url = url_for('.confirm_email', token=email_token, _external=True)
+    subject = "InstaHarvest - Confirm your account"
+    send_email(email, subject, 'confirmation_email',
+               user=user, confirm_url=confirm_url)
+    return {}, 200
+
+
 @bp.route('/confirm/<token>')
 def confirm_email(token):
     try:
         email = ts.loads(token, salt="email-confirm", max_age=86400)
     except:
-        return {'msg': '404 Not Found'}, 404
+        return {}, 404
 
     user = User.query.filter_by(email=email).first_or_404()
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return {'email': email}, 200
+    return {'msg': 'Email confirmed'}, 200
 
 
 @bp.route('/refresh', methods=['POST'])
