@@ -69,6 +69,17 @@ class Product(db.Model):
     due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "product_type": self.product_type,
+            "image_urls": self.image_urls,
+            "price": self.price,
+            "description": self.description,
+            "status": self.status
+        }
+
+
 class Chat(db.Model):
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
