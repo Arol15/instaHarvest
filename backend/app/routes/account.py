@@ -2,7 +2,8 @@ import json
 from flask import Blueprint, request
 from flask_jwt_extended import (fresh_jwt_required, get_jwt_identity,
                                 jwt_required)
-from app.models import db, User
+from app import db
+from app.models import User
 from app.utils.security import ts, admin_required
 from app.utils.email_support import send_email
 
