@@ -16,6 +16,7 @@ bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 @bp.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
+    # print(data)
     email = data['email']
     username = data['username']
     if User.query.filter_by(email=email).first():

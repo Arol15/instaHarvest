@@ -14,7 +14,7 @@ def create_product():
     #what does it return???
     user_id = get_jwt_identity()
     print(user_id)
-    product = Product(user_id = userId, name = data['name'], 
+    product = Product(user_id = user_id, name = data['name'], 
                     product_type=data['product_type'], image_urls=data['image_urls'], 
                     price=data['price'], status=data['status'], description=data['description'])
     db.session.add(product)
@@ -22,12 +22,13 @@ def create_product():
     return "Posted"
 
 
-# @bp.route('/product-per-user')
-# @jwt_required
-# def get_products_per_user():
-#     user_id = get_jwt_identity()
-
-#     user_products = 
+@bp.route('/products-per-user')
+@jwt_required
+def get_products_per_user():
+    user_id = get_jwt_identity()
+    user_products = Product.query.filter_by(id=user_id).all()
+    user_products = [product.to_dict() for product in user_products]
+    return {'user-products': user_products}
 
 
 @bp.route('/get-all')
