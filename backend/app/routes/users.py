@@ -1,6 +1,7 @@
 import json
 from flask import Blueprint, request
-from app.models import db, User
+from app import db
+from app.models import User
 
 bp = Blueprint('users', __name__, url_prefix='/api/users')
 
