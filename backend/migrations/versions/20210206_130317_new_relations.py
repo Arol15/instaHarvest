@@ -1,8 +1,8 @@
-"""corrected schema
+"""new relations
 
-Revision ID: f63cda006efc
+Revision ID: b4a74f5bbdc1
 Revises: 
-Create Date: 2021-02-05 14:51:30.210445
+Create Date: 2021-02-06 13:03:17.677497
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f63cda006efc'
+revision = 'b4a74f5bbdc1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,14 +34,14 @@ def upgrade():
     sa.Column('state', sa.String(length=12), nullable=False),
     sa.Column('city', sa.String(length=20), nullable=False),
     sa.Column('zip_code', sa.Integer(), nullable=True),
-    sa.Column('createdAt', sa.DateTime(), nullable=True),
-    sa.Column('updatedAt', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_table('chats',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('createdAt', sa.DateTime(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('user1_id', sa.Integer(), nullable=False),
     sa.Column('user2_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user1_id'], ['users.id'], ),
@@ -57,19 +57,20 @@ def upgrade():
     sa.Column('price', sa.Float(), nullable=True),
     sa.Column('status', sa.String(), nullable=True),
     sa.Column('description', sa.String(length=2000), nullable=True),
-    sa.Column('createdAt', sa.DateTime(), nullable=True),
-    sa.Column('updatedAt', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('deletedAt', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('deleted_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('due_date', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('messages',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('chats_id', sa.Integer(), nullable=False),
+    sa.Column('chat_id', sa.Integer(), nullable=False),
+    sa.Column('sender_id', sa.Integer(), nullable=False),
     sa.Column('body', sa.String(length=2000), nullable=True),
-    sa.Column('createdAt', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['chats_id'], ['chats.id'], ),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['chat_id'], ['chats.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
