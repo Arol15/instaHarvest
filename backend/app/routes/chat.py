@@ -48,6 +48,8 @@ def send_message():
 def get_chat_messages():
     data = request.get_json()
     chat = Chat.query.filter_by(id=data['chat_id']).first()
+    if not chat:
+        return {}, 404
     messages = chat.messages.order_by(Message.created_at.desc()).all()
     msgs_dict = [message.to_dict() for message in messages]
     return {'messages': msgs_dict}, 200
