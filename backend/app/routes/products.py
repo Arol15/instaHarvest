@@ -19,16 +19,18 @@ def create_product():
                     price=data['price'], status=data['status'], description=data['description'])
     db.session.add(product)
     db.session.commit()
-    return "Posted"
+    return {'msg': "Product created"}, 200
 
 
 @bp.route('/products-per-user')
 @jwt_required
 def get_products_per_user():
     user_id = get_jwt_identity()
-    user_products = Product.query.filter_by(id=user_id).all()
-    user_products = [product.to_dict() for product in user_products]
-    return {'user-products': user_products}
+    user = User.query.filter_by(id=user_id).first_or_404()
+    user_products = user.products.all()
+    # user_products = Product.query.filter_by(id=user_id).all()
+    products = [product.to_dict() for product in user_products]
+    return {'user-products': products}
 
 
 @bp.route('/get-all')
