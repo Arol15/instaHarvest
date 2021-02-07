@@ -40,7 +40,7 @@ def send_message():
     db.session.add(message)
     db.session.commit()
 
-    return {}, 200
+    return {'chat_id': chat.id}, 200
 
 
 @bp.route('/get_chat_messages', methods=['POST'])

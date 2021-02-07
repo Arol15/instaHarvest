@@ -16,7 +16,6 @@ bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 @bp.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
-    # print(data)
     email = data['email']
     username = data['username']
     user_role = 'user'
@@ -42,9 +41,6 @@ def signup():
     access_token = create_access_token(
         identity=user.id, user_claims=claims, fresh=True)
     refresh_token = create_refresh_token(user.id, user_claims=claims)
-    ret = {'access_token': access_token,
-           'refresh_token': refresh_token,
-           'confirmation_email': 'sent'}
 
     # Send confirmation email
     email_token = ts.dumps(email, salt='email-confirm')
