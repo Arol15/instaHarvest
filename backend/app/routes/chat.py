@@ -15,9 +15,9 @@ def get_user_chats():
     user_id = get_jwt_identity()
     chats = Chat.query.filter(
         or_(Chat.user1_id == user_id, Chat.user2_id == user_id)).all()
-    resp = [chat.to_dict(user_id) for chat in chats]
+    chats_dict = [chat.to_dict(user_id) for chat in chats]
 
-    return {'chats': resp}, 200
+    return {'chats': chats_dict}, 200
 
 
 @ bp.route('/send_message', methods=['POST'])
@@ -41,3 +41,13 @@ def send_message():
     db.session.commit()
 
     return {}, 200
+
+
+@bp.route('/get_chat_messages', methods=['POST'])
+@jwt_required
+def get_chat_messages():
+    data = request.get_json()
+    chat = Chat.query.filter_by(id=data['chat_id']).first()
+    messages = chat.messages.order_by(Message.created_at.desc()).all()
+    msgs_dict = [message.to_dict() for message in messages]
+    return {'messages': msgs_dict}, 200
