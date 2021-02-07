@@ -1,6 +1,7 @@
 import json
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy import or_
 from app import db
 from app.models import User, Chat, Message
 
@@ -12,15 +13,15 @@ bp = Blueprint('chat', __name__, url_prefix='/api/chat')
 @jwt_required
 def get_user_chats():
     user_id = get_jwt_identity()
-    chats = Chat.query.filter_by(user1_id=user_id).all()
-    chats.extend(Chat.query.filter_by(user2_id=user_id).all())
-    resp = [chat.to_dict(user_id) for chat in chats]
+    chats = Chat.query.filter(
+        or_(Chat.user1_id == user_id, Chat.user2_id == user_id)).all()
+    chats_dict = [chat.to_dict(user_id) for chat in chats]
 
-    return {'chats': resp}, 200
+    return {'chats': chats_dict}, 200
 
 
-@bp.route('/send_message', methods=['POST'])
-@jwt_required
+@ bp.route('/send_message', methods=['POST'])
+@ jwt_required
 def send_message():
     data = request.get_json()
     user_id = get_jwt_identity()
@@ -39,4 +40,14 @@ def send_message():
     db.session.add(message)
     db.session.commit()
 
-    return {}, 200
+    return {'chat_id': chat.id}, 200
+
+
+@bp.route('/get_chat_messages', methods=['POST'])
+@jwt_required
+def get_chat_messages():
+    data = request.get_json()
+    chat = Chat.query.filter_by(id=data['chat_id']).first()
+    messages = chat.messages.order_by(Message.created_at.desc()).all()
+    msgs_dict = [message.to_dict() for message in messages]
+    return {'messages': msgs_dict}, 200

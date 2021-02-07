@@ -68,7 +68,6 @@ class Product(db.Model):
     deleted_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
-
     def to_dict(self):
         return {
             "name": self.name,
@@ -107,3 +106,10 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, nullable=False)
     body = db.Column(db.String(2000))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "created_at": self.created_at,
+            "sender_id": self.sender_id,
+            "body": self.body
+        }
