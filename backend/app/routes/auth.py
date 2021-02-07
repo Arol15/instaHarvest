@@ -19,6 +19,7 @@ def signup():
     # print(data)
     email = data['email']
     username = data['username']
+    user_role = 'user'
     if User.query.filter_by(email=email).first():
         return {'msg': f'The user with email {email} already exists'}, 409
     if username and User.query.filter_by(username=username).first():
@@ -27,10 +28,12 @@ def signup():
         image_url = data['image_url']
     else:
         image_url = 'https://img.icons8.com/doodle/148/000000/test-account.png'
+    if data['user_role']:
+        user_role = data['user_role']
     email_verified = False
     user = User(username=username, first_name=data['first_name'], last_name=data['last_name'],
                 password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
-                user_role=data['user_role'], address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
+                user_role=user_role, address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
                 city=data['city'], zip_code=data['zip_code'])
 
     db.session.add(user)
@@ -114,19 +117,19 @@ def refresh():
     return {'access_token': new_token}, 200
 
 
-@bp.route('/protected')
+@bp.route('/protected', methods=['POST'])
 @jwt_required
 def protected():
     return {'message': 'Hello'}
 
 
-@bp.route('/fresh-protected')
+@bp.route('/fresh-protected', methods=['POST'])
 @fresh_jwt_required
 def fresh_protected():
     return {'message': 'Hello'}
 
 
-@bp.route('/admin')
+@bp.route('/admin', methods=['POST'])
 @admin_required
 def admin():
     return {'message': 'Hello admin'}
