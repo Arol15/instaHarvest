@@ -37,5 +37,5 @@ def get_products_per_user():
 def get_all_products():
     products = Product.query.all()
     products = [product.to_dict() for product in products]
-    print(products)
+    # print(products)
     return {'products': products}
