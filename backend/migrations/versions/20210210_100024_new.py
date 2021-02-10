@@ -1,8 +1,8 @@
-"""new relations
+"""new
 
-Revision ID: b4a74f5bbdc1
+Revision ID: 9382ebf6a156
 Revises: 
-Create Date: 2021-02-06 13:03:17.677497
+Create Date: 2021-02-10 10:00:24.578322
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b4a74f5bbdc1'
+revision = '9382ebf6a156'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,15 +25,15 @@ def upgrade():
     sa.Column('last_name', sa.String(length=30), nullable=True),
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('email_verified', sa.Boolean(), nullable=True),
-    sa.Column('user_role', sa.String(length=16), nullable=True),
+    sa.Column('user_role', sa.String(length=16), nullable=False),
     sa.Column('image_url', sa.String(), nullable=True),
     sa.Column('hashed_password', sa.String(length=100), nullable=False),
     sa.Column('address', sa.String(length=100), nullable=True),
-    sa.Column('lgt', sa.Float(), nullable=True),
-    sa.Column('lat', sa.Float(), nullable=True),
+    sa.Column('lgt', sa.Float(), server_default='0.0', nullable=True),
+    sa.Column('lat', sa.Float(), server_default='0.0', nullable=True),
     sa.Column('state', sa.String(length=12), nullable=False),
     sa.Column('city', sa.String(length=20), nullable=False),
-    sa.Column('zip_code', sa.Integer(), nullable=True),
+    sa.Column('zip_code', sa.Integer(), server_default='0', nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),

@@ -16,24 +16,23 @@ bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 @bp.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
+    for key, value in data.items():
+        if not value:
+            data[key] = None
     email = data['email']
     username = data['username']
-    user_role = 'user'
+    image_url = request.json.get('image_url', None)
     if User.query.filter_by(email=email).first():
         return {'msg': f'The user with email {email} already exists'}, 409
     if username and User.query.filter_by(username=username).first():
         return {'msg': f'The user with username {username} already exists'}, 409
-    if data['image_url']:
-        image_url = data['image_url']
-    else:
+    if not image_url:
         image_url = 'https://img.icons8.com/doodle/148/000000/test-account.png'
-    if data['user_role']:
-        user_role = data['user_role']
     email_verified = False
-    print(username)
+
     user = User(username=username, first_name=data['first_name'], last_name=data['last_name'],
                 password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
-                user_role=user_role, address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
+                user_role=data['user_role'], address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
                 city=data['city'], zip_code=data['zip_code'])
 
     db.session.add(user)
