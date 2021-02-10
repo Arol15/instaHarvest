@@ -30,6 +30,7 @@ def signup():
     if data['user_role']:
         user_role = data['user_role']
     email_verified = False
+    print(username)
     user = User(username=username, first_name=data['first_name'], last_name=data['last_name'],
                 password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
                 user_role=user_role, address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
