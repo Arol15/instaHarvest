@@ -46,7 +46,7 @@ def edit_username():
     user = User.query.filter_by(id=user_id).first_or_404()
     username = data['username']
     if User.query.filter_by(username=username).first():
-        return {'msg': f'The user with username {username} already exists'}, 409
+        return {'error': f'The user with username {username} already exists'}, 409
     user.username = username
     db.session.add(user)
     db.session.commit()
