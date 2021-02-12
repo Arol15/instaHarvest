@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import useFetch from "../hooks/fetch";
+import useRequest from "../hooks/useRequest";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({});
-  const [isLoading, data, error, sendRequest] = useFetch();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
   useEffect(() => {
-    sendRequest("api/account/get_profile", "POST", {}, "ACCESS");
+    sendRequest("api/account/get_profile", "POST", {}, true);
   }, []);
   useEffect(() => {
     setProfileData({ ...data });
