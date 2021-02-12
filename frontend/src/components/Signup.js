@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import useFetch from "../hooks/fetch";
+import useRequest from "../hooks/useRequest";
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
-  const [isLoading, data, error, sendRequest] = useFetch();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
   const onSubmit = (formData) => {
-    sendRequest("api/auth/signup", "POST", JSON.stringify(formData), null);
+    sendRequest("api/auth/signup", "post", formData);
   };
 
   useEffect(() => {
