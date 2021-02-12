@@ -4,9 +4,9 @@ const Home = () => {
 
     const history = useHistory();
 
-    const handleBuyProducts = () => {
-        history.push('/buy')
-    }
+    // const handleBuyProducts = () => {
+    //     history.push('/buy')
+    // }
     const handleSellProducts = () => {
         history.push('/sign-up')
     }
@@ -14,8 +14,11 @@ const Home = () => {
     return(
     <div>
         <h1>Welcome to instaHarvest</h1>
-        <button onClick = {handleBuyProducts}>Buy</button>
-        <button onClick = {handleSellProducts}>Sell</button>
+        {/* <button onClick = {handleBuyProducts}>Buy</button> */}
+        <form>
+            <input type="text" placeholder="Enter your location"/>
+        </form>
+        <button onClick = {handleSellProducts}>Share</button>
     </div>
     )
 }
