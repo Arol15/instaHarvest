@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import Home from "./components/Home";
 import SignUp from "./components/Signup";
 import Profile from "./components/Profile";
+import Products from './components/Products'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         {/* <Route path="/login" component={Login} /> */}
         <Route path="/sign-up" component={SignUp} />
         <Route path="/profile" component={Profile} />
+        <Route path="/buy" component={Products} />
       </Switch>
     </Router>
   );
