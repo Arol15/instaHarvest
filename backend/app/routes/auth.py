@@ -23,9 +23,9 @@ def signup():
     username = data['username']
     image_url = request.json.get('image_url', None)
     if User.query.filter_by(email=email).first():
-        return {'msg': f'The user with email {email} already exists'}, 409
+        return {'error': f'The user with email {email} already exists'}, 409
     if username and User.query.filter_by(username=username).first():
-        return {'msg': f'The user with username {username} already exists'}, 409
+        return {'error': f'The user with username {username} already exists'}, 409
     if not image_url:
         image_url = 'https://img.icons8.com/doodle/148/000000/test-account.png'
     email_verified = False

@@ -17,7 +17,7 @@ def admin_required(fn):
         verify_jwt_in_request()
         claims = get_jwt_claims()
         if claims['roles'] != 'admin':
-            return {'msg': 'Admins only!'}, 403
+            return {'error': 'Admins only!'}, 403
         else:
             return fn(*args, **kwargs)
     return wrapper
