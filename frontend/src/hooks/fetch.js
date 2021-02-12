@@ -4,19 +4,19 @@ const fetchReducer = (currState, action) => {
   switch (action.type) {
     case "SEND":
       return {
-        loading: true,
+        isLoading: true,
         error: null,
         data: null,
       };
     case "RESPONSE":
       return {
         ...currState,
-        loading: false,
+        isLoading: false,
         data: action.responseData,
       };
     case "ERROR":
       return {
-        loading: false,
+        isLoading: false,
         error: action.errorMessage,
       };
   }
@@ -29,32 +29,43 @@ const useFetch = () => {
     data: null,
   });
 
-  const sendRequest = useCallback((url, method, body) => {
+  const sendRequest = useCallback(async (url, method, body, jwtType) => {
+    let headers = { "Content-Type": "application/json" };
+    switch (jwtType) {
+      case "ACCESS":
+        headers.Authorization =
+          "Bearer " + localStorage.getItem("access_token");
+        break;
+      case "REFRESH":
+        headers.Authorization =
+          "Bearer " + localStorage.getItem("refresh_token");
+        break;
+    }
+
     dispatchFetch({ type: "SEND" });
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    })
-      .then((res) => {
-        const contentType = res.headers.get("content-type");
-        if (!res.ok && !contentType) {
-          throw "Something went wrong";
-        }
-        return res.json();
-      })
-      .then((resData) => {
-        if (resData.error) {
-          throw resData.error;
-        }
-        console.log(resData);
-        dispatchFetch({ type: "RESPONSE", responseData: resData });
-      })
-      .catch((error) => {
-        dispatchFetch({ type: "ERROR", errorMessage: error });
+    try {
+      const res = await fetch(url, {
+        method: method,
+        headers: headers,
+        body: body,
       });
+
+      const contentType = res.headers.get("content-type");
+      if (!res.ok && !contentType) {
+        throw "Something went wrong";
+      }
+
+      const json = await res.json();
+
+      if (!res.ok && json.error) {
+        throw json.error;
+      } else if (!res.ok) {
+        throw "Something went wrong";
+      }
+      dispatchFetch({ type: "RESPONSE", responseData: json });
+    } catch (error) {
+      dispatchFetch({ type: "ERROR", errorMessage: error });
+    }
   }, []);
 
   return [fetchState.isLoading, fetchState.data, fetchState.error, sendRequest];

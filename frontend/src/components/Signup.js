@@ -1,18 +1,21 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import useFetch from "../hooks/fetch";
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, sendRequest] = useFetch();
+  const history = useHistory();
   const onSubmit = (formData) => {
-    sendRequest("api/auth/signup", "POST", JSON.stringify(formData));
+    sendRequest("api/auth/signup", "POST", JSON.stringify(formData), null);
   };
 
   useEffect(() => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
+      history.push("/profile");
     }
   }, [data]);
 
