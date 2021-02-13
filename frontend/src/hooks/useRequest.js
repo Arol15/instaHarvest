@@ -1,5 +1,7 @@
-import { useReducer, useCallback } from "react";
 import axios from "axios";
+import { useReducer, useCallback } from "react";
+import { useHistory } from "react-router-dom";
+
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -34,7 +36,18 @@ const useRequest = () => {
     data: null,
   });
 
+  const history = useHistory();
+
   const sendRequest = useCallback(async (url, method, body, isJwt = false) => {
+    if (isJwt){
+      const accessToken = localStorage.getItem("access_token");
+    if (!accessToken){
+      history.push("/signup");
+      return
+    }
+    }
+    
+    
     let headers = {};
     if (isJwt) {
       headers.Authorization = "Bearer " + localStorage.getItem("access_token");

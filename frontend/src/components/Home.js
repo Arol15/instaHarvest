@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react'; 
-import Products from "./Products"
+import ShareProducts from "./ShareProducts"
 
 const Home = () => {
 
-    const [products, setProducts] = useState([]);
+   
 
-    useEffect(() => {
-        fetch('/api/products/get-all')
-        .then((res) => {
-        // console.log(res)
-        return res.json()
-        })
-        .then(data => setProducts(data.products))
-    }, [])
+    // const handleBuyProducts = () => {
+    //     history.push('/buy')
+    // }
+ 
 
     return(
     <div>
         <h1>Welcome to instaHarvest</h1>
-        <Products products={products} />
+        {/* <button onClick = {handleBuyProducts}>Buy</button> */}
+        <form>
+            <input type="text" placeholder="Enter your location"/>
+            <ShareProducts />
+        </form>
+        
     </div>
     )
 }

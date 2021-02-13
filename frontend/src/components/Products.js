@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'; 
+import Product from './Product'; 
 
-export default function Products({products}) {
+const Products = () => {
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/products/get-all')
+        .then((res) => {
+        // console.log(res)
+        return res.json()
+        })
+        .then(data => setProducts(data.products))
+    }, [])
+
     return (
         <div>
-            {products.map(product => {
-                return (
-                    <li>{product.name}</li>
-                )
-            })}
+            <Product products = {products}/>
         </div>
     )
 }
+
+export default Products; 
 
