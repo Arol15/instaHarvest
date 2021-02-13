@@ -1,15 +1,13 @@
-import { useHistory } from "react-router-dom";
+import ShareProducts from "./ShareProducts"
 
 const Home = () => {
 
-    const history = useHistory();
+   
 
     // const handleBuyProducts = () => {
     //     history.push('/buy')
     // }
-    const handleSellProducts = () => {
-        history.push('/sign-up')
-    }
+ 
 
     return(
     <div>
@@ -17,8 +15,9 @@ const Home = () => {
         {/* <button onClick = {handleBuyProducts}>Buy</button> */}
         <form>
             <input type="text" placeholder="Enter your location"/>
+            <ShareProducts />
         </form>
-        <button onClick = {handleSellProducts}>Share</button>
+        
     </div>
     )
 }
