@@ -7,16 +7,17 @@ from app.models import Product
 
 bp = Blueprint("products", __name__, url_prefix='/api/products')
 
+
 @bp.route('/add-product', methods=['POST'])
 @jwt_required
 def create_product():
     data = request.get_json()
-    #what does it return???
+    # what does it return???
     user_id = get_jwt_identity()
     print(user_id)
-    product = Product(user_id = user_id, name = data['name'], 
-                    product_type=data['product_type'], image_urls=data['image_urls'], 
-                    price=data['price'], status=data['status'], description=data['description'])
+    product = Product(user_id=user_id, name=data['name'],
+                      product_type=data['product_type'], image_urls=data['image_urls'],
+                      price=data['price'], status=data['status'], description=data['description'])
     db.session.add(product)
     db.session.commit()
     return {'msg': "Product created"}, 200
