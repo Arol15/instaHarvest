@@ -47,6 +47,6 @@ def get_all_products():
     prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
     # print(prods)
     user_products = [product.to_dict() for product in prods]
-    print(user_products)
+    # print(user_products)
     return {'products': user_products}
    
