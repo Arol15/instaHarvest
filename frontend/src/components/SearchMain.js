@@ -1,28 +1,39 @@
 import { useState, useEffect } from 'react'; 
+import { useForm } from "react-hook-form";
 import useRequest from "../hooks/useRequest"; 
+import Search from './Search'
 
 const SearchMain = () => {
 
+    const { register, handleSubmit, setValue } = useForm();
     const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-    const [searchDataTerm, setSearchDataTerm] = useState(""); 
     const [products, setProducts] = useState([]); 
 
-    const onClick = (searchDataTerm) => {
-        sendRequest('/api/products/get-all', "post", searchDataTerm); 
+    const onSubmit = (searchTerm) => {
+        sendRequest("/api/products/get-all", "post", searchTerm); 
     }; 
 
     useEffect(() => {
        if(data) {
            setProducts(data)
+        //    console.log(products)
        }
-    }, [])
+    }, [data])
 
 
     return(
-        <div>
-            <input type="text" placeholder="Enter your location" onChange={(e) => {setSearchDataTerm(e.target.value)}}/>
-            <button onClick={onClick}>Find</button>
-        </div> 
+        <>
+            {!data ? 
+            (<form onSubmit={handleSubmit(onSubmit)}>
+                <input type="text" placeholder="Enter your location" name="search_term" ref={register}/>
+                <button type="submit">Find</button>
+            </form>) : (
+                <Search products={products}/>
+            )
+            
+        }
+            
+        </>
     )
 }
 

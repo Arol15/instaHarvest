@@ -75,7 +75,7 @@ class Product(db.Model):
             "image_urls": self.image_urls,
             "price": self.price,
             "description": self.description,
-            "status": self.status
+            "status": self.status, 
         }
 
 

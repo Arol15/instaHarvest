@@ -1,24 +1,26 @@
-import { useState, useEffect } from 'react'; 
+import { useState } from 'react'; 
 
-const Search = () => {
+const Search = ({products}) => {
+    console.log(products)
 
     const [searchData, setSearchData] = useState(""); 
-    const [products, setProducts] = useState([]); 
+    // const [products, setProducts] = useState([]); 
 
-    useEffect(() => {
-        fetch('/api/products/get-all')
-        .then((res) => {
-        // console.log(res)
-        return res.json()
-        })
-        .then(data => setProducts(data.products))
-    }, [])
+    // useEffect(() => {
+    //     fetch('/api/products/get-all')
+    //     .then((res) => {
+    //     // console.log(res)
+    //     return res.json()
+    //     })
+    //     .then(data => setProducts(data.products))
+    // }, [])
 
     return(
         <div>
             <input type="text" placeholder="Enter name of the product" onChange={(e) => {setSearchData(e.target.value)}}/>
             {products.filter((val) => {
-                if (val.name.toLowerCase().includes(searchData.toLowerCase())) {
+                if (searchData === "") return val
+                else if (val.name.toLowerCase().includes(searchData.toLowerCase())) {
                     return val
                 }
             }).map((val, key) => {
