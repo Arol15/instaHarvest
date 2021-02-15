@@ -5,7 +5,7 @@ import useRequest from "../hooks/useRequest";
 import Spinner from "./UI/Spinner";
 import Error from "./UI/Error";
 
-const Login = () => {
+const Login = (props) => {
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
@@ -26,7 +26,7 @@ const Login = () => {
   }, [data]);
 
   return (
-    <>
+    <div>
       <h1>Login</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -45,8 +45,8 @@ const Login = () => {
         {!isLoading ? <input type="submit" /> : <Spinner inPlace={true} />}
       </form>
       {error ? <Error errorMsg={error} /> : <div></div>}
-      <Link to="/signup">Sign Up</Link>
-    </>
+      {props.inModal ? null : <Link to="/signup">Sign Up</Link>}
+    </div>
   );
 };
 

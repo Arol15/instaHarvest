@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
 import Portal from "./Portal";
-import classNames from "classNames";
+import classnames from "classnames";
 import "./Modal.css";
 
 const Modal = (props) => {
@@ -37,22 +37,22 @@ const Modal = (props) => {
     };
   }, [open, onClose]);
   return (
-    <>
+    <div>
       {(open || active) && (
         <Portal>
           <div
             ref={backdrop}
-            className={classNames("backdrop", { "bd-active": active && open })}
+            className={classnames("backdrop", { "bd-active": active && open })}
           >
             <div
-              className={classNames("modal", { "mdl-active": active && open })}
+              className={classnames("modal", { "mdl-active": active && open })}
             >
               {props.children}
             </div>
           </div>
         </Portal>
       )}
-    </>
+    </div>
   );
 };
 

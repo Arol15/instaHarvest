@@ -2,12 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
-import Modal from "./UI/Modal";
-import Auth from "./Auth";
 
 const Signup = () => {
-  const [showModal, setShowModal] = useState(false);
-
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
@@ -23,21 +19,8 @@ const Signup = () => {
     }
   }, [data]);
 
-  const login = () => {
-    setShowModal(!showModal);
-  };
-
   return (
     <div>
-      <button onClick={login}>Login</button>
-      <Modal
-        onClose={() => {
-          setShowModal(false);
-        }}
-        open={showModal}
-      >
-        <Auth />
-      </Modal>
       {error && <h1>Error: {error}</h1>}
 
       {isLoading && <h1>Is Loading</h1>}
