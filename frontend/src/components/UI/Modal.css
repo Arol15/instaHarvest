@@ -15,19 +15,22 @@
 }
 
 .modal {
+  background-color: white;
   position: relative;
   padding: 20px;
   box-sizing: border-box;
   min-height: 100px;
   min-width: 100px;
-  max-height: 80%;
-  max-width: 80%;
+  max-height: 60%;
+  max-width: 60%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  background-color: white;
-  border-radius: 2px;
+  border-radius: 10px;
   transform: translateY(100px);
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
+  text-align: center;
+  animation: normal;
+  animation-duration: 200ms;
 }
 
 .mdl-active {

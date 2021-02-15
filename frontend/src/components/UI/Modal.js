@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
 import Portal from "./Portal";
+import classNames from "classNames";
 import "./Modal.css";
 
 const Modal = (props) => {
@@ -35,16 +36,17 @@ const Modal = (props) => {
       window.removeEventListener("keyup", keyHandler);
     };
   }, [open, onClose]);
-
   return (
     <>
       {(open || active) && (
         <Portal>
           <div
             ref={backdrop}
-            className={`backdrop ${active && open ? "bd-active" : ""}`}
+            className={classNames("backdrop", { "bd-active": active && open })}
           >
-            <div className={`modal ${active && open ? "mdl-active" : ""}`}>
+            <div
+              className={classNames("modal", { "mdl-active": active && open })}
+            >
               {props.children}
             </div>
           </div>

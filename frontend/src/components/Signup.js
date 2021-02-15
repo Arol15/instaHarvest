@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
 import Modal from "./UI/Modal";
-import Login from "./Login";
+import Auth from "./Auth";
 
 const Signup = () => {
   const [showModal, setShowModal] = useState(false);
@@ -36,7 +36,7 @@ const Signup = () => {
         }}
         open={showModal}
       >
-        <Login />
+        <Auth />
       </Modal>
       {error && <h1>Error: {error}</h1>}
 
