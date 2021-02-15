@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
-import Modal from "./UI/Modal";
-import Login from "./Login";
+import MsgModal from "./UI/MsgModal";
+import Spinner from "./UI/Spinner";
 
 const Signup = () => {
-  const [showModal, setShowModal] = useState(false);
-
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
@@ -23,25 +21,10 @@ const Signup = () => {
     }
   }, [data]);
 
-  const login = () => {
-    setShowModal(!showModal);
-  };
-
   return (
     <div>
-      <button onClick={login}>Login</button>
-      <Modal
-        onClose={() => {
-          setShowModal(false);
-        }}
-        open={showModal}
-      >
-        <Login />
-      </Modal>
-      {error && <h1>Error: {error}</h1>}
-
-      {isLoading && <h1>Is Loading</h1>}
-      {data && <h1>User registered</h1>}
+      {error ? <MsgModal styles={["error"]}>{error}</MsgModal> : <div></div>}
+      {isLoading && <Spinner inPlace={false} />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"

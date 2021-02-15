@@ -3,18 +3,14 @@ import { useForm } from "react-hook-form";
 import { useHistory, Link } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
 import Spinner from "./UI/Spinner";
-import Error from "./UI/Error";
+import MsgModal from "./UI/MsgModal";
 
-const Login = () => {
+const Login = (props) => {
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
   const onSubmit = (formData) => {
     sendRequest("api/auth/login", "post", formData);
-  };
-
-  const handleClick = () => {
-    history.push("/signup");
   };
 
   useEffect(() => {
@@ -26,8 +22,10 @@ const Login = () => {
   }, [data]);
 
   return (
-    <>
+    <div>
       <h1>Login</h1>
+      {error ? <MsgModal styles={["error"]}>{error}</MsgModal> : <div></div>}
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
@@ -42,11 +40,12 @@ const Login = () => {
           name="password"
           ref={register}
         />
-        {!isLoading ? <input type="submit" /> : <Spinner inPlace={true} />}
+        <input type="submit" disabled={isLoading} />
+        {isLoading && <Spinner inPlace={false} />}
       </form>
-      {error ? <Error errorMsg={error} /> : <div></div>}
-      <Link to="/signup">Sign Up</Link>
-    </>
+
+      {props.inModal ? null : <Link to="/signup">Sign Up</Link>}
+    </div>
   );
 };
 

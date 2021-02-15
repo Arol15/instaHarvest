@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useRequest from "../hooks/useRequest";
 import Spinner from "./UI/Spinner";
+import Error from "./UI/MsgModal";
 
 const Profile = (props) => {
   const [profileData, setProfileData] = useState({});
@@ -31,7 +32,7 @@ const Profile = (props) => {
   }
 
   console.log("error:" + error);
-  return profile;
+  return <h1>Profile</h1>;
 };
 
 export default Profile;
