@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
+import MsgModal from "./UI/MsgModal";
+import Spinner from "./UI/Spinner";
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
@@ -21,10 +23,8 @@ const Signup = () => {
 
   return (
     <div>
-      {error && <h1>Error: {error}</h1>}
-
-      {isLoading && <h1>Is Loading</h1>}
-      {data && <h1>User registered</h1>}
+      {error ? <MsgModal styles={["error"]}>{error}</MsgModal> : <div></div>}
+      {isLoading && <Spinner inPlace={false} />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
