@@ -50,5 +50,10 @@ def get_all_products():
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
     return {'products': user_products}
-   
+
+
+@bp.route('/product-location-info', methods=["POST"])
+def product_location_info(user_id):
+    # data = request.get_json()
+    
 
