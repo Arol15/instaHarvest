@@ -57,16 +57,20 @@ def login():
     data = request.get_json()
     login = data['login']
     if '@' in login:
-        user = User.query.filter_by(email=login).first_or_404()
+        user = User.query.filter_by(email=login).first()
+        if not user:
+            return {'error': f'The user with email {login} does not exist'}, 401
     else:
-        user = User.query.filter_by(username=login).first_or_404()
+        user = User.query.filter_by(username=login).first()
+        if not user:
+            return {'error': f'The user with username {login} does not exist'}, 401
     if user.check_password(data['password']):
         claims = {'roles': user.user_role}
         access_token = create_access_token(
             identity=user.id, user_claims=claims, fresh=True)
         refresh_token = create_refresh_token(user.id, user_claims=claims)
     else:
-        return {'msg': 'Wrong password'}, 401
+        return {'error': 'Wrong password'}, 401
     return {'access_token': access_token,
             'refresh_token': refresh_token}, 200
 

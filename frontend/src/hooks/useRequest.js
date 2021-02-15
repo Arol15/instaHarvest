@@ -2,7 +2,6 @@ import axios from "axios";
 import { useReducer, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-
 const fetchReducer = (currState, action) => {
   switch (action.type) {
     case "SEND":
@@ -39,15 +38,15 @@ const useRequest = () => {
   const history = useHistory();
 
   const sendRequest = useCallback(async (url, method, body, isJwt = false) => {
-    if (isJwt){
+    if (isJwt) {
       const accessToken = localStorage.getItem("access_token");
-    if (!accessToken){
-      history.push("/signup");
-      return
+      const refreshToken = localStorage.getItem("refresh_token");
+      if (!accessToken && !refreshToken) {
+        history.push("/signup");
+        return;
+      }
     }
-    }
-    
-    
+
     let headers = {};
     if (isJwt) {
       headers.Authorization = "Bearer " + localStorage.getItem("access_token");
@@ -77,7 +76,7 @@ const useRequest = () => {
       return;
     }
 
-    if (resp.status === 401) {
+    if (isJwt && resp.status >= 300) {
       const refrResp = await axios({
         method: "post",
         url: "api/auth/refresh",
@@ -131,10 +130,15 @@ const useRequest = () => {
         type: "RESPONSE",
         responseData: resp.data,
       });
+    } else if (resp.data.error) {
+      dispatchFetch({
+        type: "ERROR",
+        errorMessage: resp.data.error,
+      });
     } else if (resp.status === 401) {
       dispatchFetch({
         type: "ERROR",
-        errorMessage: "Authorization denied",
+        errorMessage: "Authorization denied. Please sign in or sign up",
         errorNum: 401,
       });
     } else if (resp.status === 403) {
@@ -142,11 +146,6 @@ const useRequest = () => {
         type: "ERROR",
         errorMessage: "Not enough privileges",
         errorNum: 403,
-      });
-    } else if (resp.data.error) {
-      dispatchFetch({
-        type: "ERROR",
-        errorMessage: resp.data.error,
       });
     } else {
       dispatchFetch({
