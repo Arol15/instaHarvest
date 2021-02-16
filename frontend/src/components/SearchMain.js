@@ -12,15 +12,18 @@ const SearchMain = () => {
 
     const onSubmit = (searchTerm) => {
         sendRequest("/api/products/get-all", "post", searchTerm); 
+        // console.log(data)
     }; 
 
     useEffect(() => {
-       if(data) {
+       if (data) {
+        //    console.log(data)
            setProducts(data)
-       }
+       } 
     }, [data])
 
-    console.log(products.products)
+    // console.log(products)
+    // console.log(typeof(products))
     return(
         <>
         {error && <h1>Error: {error}</h1>}
@@ -29,7 +32,7 @@ const SearchMain = () => {
         (<form onSubmit={handleSubmit(onSubmit)}>
             <input type="text" placeholder="Enter your location" name="search_term" ref={register}/>
             <button type="submit">Find</button>
-        </form>) : ( 
+        </form>) : (
             <Product products={products.products}/>)
         }   
         </>

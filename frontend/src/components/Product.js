@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 const Product = ({products}) => {
 
     const history = useHistory(); 
-    // console.log(products)
+    console.log(products)
     const divStyle = {
         border: "1px solid black", 
         margin: "5px"

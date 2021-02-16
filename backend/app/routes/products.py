@@ -48,12 +48,18 @@ def get_all_products():
     prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
     # print(prods)
     user_products = [product.to_dict() for product in prods]
-    # print(user_products)
+    print(user_products)
     return {'products': user_products}
 
 
-# @bp.route('/product-location-info', methods=["POST"])
-# def product_location_info(user_id):
-    # data = request.get_json()
-
+@bp.route('/product-location-info/<int:userId>')
+def product_location_info(userId):
+    # print(userId)
+    user = User.query.filter_by(id=userId).first_or_404()
+    lat = user.lat
+    lgt = user.lgt
+    # lgt = User.query.filter_by(id=userId).lgt.first()
+    # print(lat)
+    # print(lgt)
+    return {"lat": lat, "lgt": lgt}
 

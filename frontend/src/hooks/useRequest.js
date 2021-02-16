@@ -77,6 +77,7 @@ const useRequest = () => {
     }
 
     if (isJwt && resp.status >= 300) {
+      // console.log(resp.response)
       const refrResp = await axios({
         method: "post",
         url: "api/auth/refresh",
