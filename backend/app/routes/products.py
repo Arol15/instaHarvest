@@ -52,8 +52,8 @@ def get_all_products():
     return {'products': user_products}
 
 
-@bp.route('/product-location-info', methods=["POST"])
-def product_location_info(user_id):
+# @bp.route('/product-location-info', methods=["POST"])
+# def product_location_info(user_id):
     # data = request.get_json()
-    
+
 

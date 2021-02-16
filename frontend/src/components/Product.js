@@ -1,20 +1,22 @@
+import { useHistory } from "react-router-dom"; 
 
 const Product = ({products}) => {
-    console.log(products)
+
+    const history = useHistory(); 
+    // console.log(products)
     const divStyle = {
         border: "1px solid black", 
         margin: "5px"
     }
 
-    const handleClick = (user_id) => {
-        
-        console.log("clicked", user_id)
+    const handleClick = (product) => {
+        history.push("/product-info", [product])
     }
     return (
         <>
             {products.map((product, key) => {
             return (
-                <div onClick={() => handleClick(product.user_id)} style={divStyle} className="product" key={key}>
+                <div onClick={() => handleClick(product)} style={divStyle} className="product" key={key}>
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>{product.price}</p>
