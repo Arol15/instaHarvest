@@ -36,7 +36,7 @@ const Auth = () => {
           }
           classNames="fade"
         >
-          {showSignup ? <Signup /> : <Login inModal={true} />}
+          {showSignup ? <Signup inModal={true} /> : <Login inModal={true} />}
         </CSSTransition>
       </SwitchTransition>
     </div>

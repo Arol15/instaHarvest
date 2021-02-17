@@ -2,16 +2,25 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
-import MsgModal from "./UI/MsgModal";
+import useModal from "../hooks/useModal";
 import Spinner from "./UI/Spinner";
 
-const Signup = () => {
+const Signup = (props) => {
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
   const onSubmit = (formData) => {
     sendRequest("api/auth/signup", "post", formData);
   };
+  const [modal, showModal] = useModal({
+    withBackdrop: false,
+    useTimer: true,
+    inPlace: props.inModal ? true : false,
+  });
+  const access_token = localStorage.getItem("access_token");
+  if (access_token) {
+    history.push("/profile");
+  }
 
   useEffect(() => {
     if (data) {
@@ -21,10 +30,19 @@ const Signup = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (error) {
+      showModal(error, "mdl-error");
+    } else if (data && data.msg) {
+      showModal(data.msg, "mdl-ok");
+    }
+  }, [error, errorNum, data]);
+
   return (
     <div>
-      {error ? <MsgModal styles={["error"]}>{error}</MsgModal> : <div></div>}
-      {isLoading && <Spinner inPlace={false} />}
+      {modal}
+      {isLoading && <Spinner />}
+      <br></br>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
@@ -79,7 +97,6 @@ const Signup = () => {
           name="zip_code"
           ref={register}
         />
-
         <input type="submit" />
       </form>
     </div>

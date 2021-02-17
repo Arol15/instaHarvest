@@ -24,6 +24,8 @@ const fetchReducer = (currState, action) => {
         error: action.errorMessage,
         errorNum: action.errorNum,
       };
+    default:
+      return;
   }
 };
 

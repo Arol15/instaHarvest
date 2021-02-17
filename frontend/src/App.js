@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React, { useContext } from "react";
 import Home from "./components/Home";
 import SignUp from "./components/Signup";
-import Profile from "./components/Profile";
+import Profile from "./pages/Profile";
 import Products from "./components/Products";
 import Login from "./components/Login";
 
