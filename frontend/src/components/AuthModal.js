@@ -1,28 +1,31 @@
 import { useState } from "react";
-import Login from "./Login";
-import Signup from "./Signup";
-import "./Auth.css";
+import Auth from "../pages/Auth";
+import "./AuthModal.css";
 import classnames from "classnames";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 
-const Auth = () => {
-  const [showSignup, setShowSignup] = useState(true);
+const AuthModal = () => {
+  const [view, setView] = useState("signup");
 
   const switchComponents = () => {
-    setShowSignup(!showSignup);
+    if (view === "login") {
+      setView("signup");
+    } else {
+      setView("login");
+    }
   };
   return (
     <div>
       <button
-        disabled={!showSignup}
-        className={classnames("authButton", { active: !showSignup })}
+        disabled={view === "login"}
+        className={classnames("authButton", { active: view === "login" })}
         onClick={switchComponents}
       >
         Login
       </button>
       <button
-        disabled={showSignup}
-        className={classnames("authButton", { active: showSignup })}
+        disabled={view === "signup"}
+        className={classnames("authButton", { active: view === "signup" })}
         onClick={switchComponents}
       >
         Sign Up
@@ -30,17 +33,21 @@ const Auth = () => {
 
       <SwitchTransition>
         <CSSTransition
-          key={showSignup ? "1" : "2"}
+          key={view}
           addEndListener={(node, done) =>
             node.addEventListener("transitionend", done, false)
           }
           classNames="fade"
         >
-          {showSignup ? <Signup inModal={true} /> : <Login inModal={true} />}
+          {view === "signup" ? (
+            <Auth view={view} inModal={true} />
+          ) : (
+            <Auth view={view} inModal={true} />
+          )}
         </CSSTransition>
       </SwitchTransition>
     </div>
   );
 };
 
-export default Auth;
+export default AuthModal;

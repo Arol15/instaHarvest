@@ -32,17 +32,15 @@ const Profile = (props) => {
   }, [error, errorNum, data]);
 
   const { image_url, username, email, ...rest } = profileData;
-  console.log(modal);
   return (
     <>
       {isLoading && <Spinner />}
 
       {modal}
 
-      <h1>Profile</h1>
-
       {!isLoading && data && (
         <div>
+          <h1>Profile</h1>
           <div className="prf-public">
             {/* <ProfileField title="Display name" /> */}
           </div>

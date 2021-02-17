@@ -39,10 +39,6 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
     classes: null,
     modal: null,
   });
-  if (!timeOut) {
-    console.log(timeOut);
-    timeOut = 5000;
-  }
   const backdrop = useRef(null);
   const showModal = (children, classes) => {
     dispatchFetch({ type: "setOpen", open: true });
@@ -92,9 +88,12 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
 
   useEffect(() => {
     if (fetchState.open && useTimer) {
-      setTimeout(() => {
-        onClose();
-      }, timeOut);
+      setTimeout(
+        () => {
+          onClose();
+        },
+        timeOut ? timeOut : 5000
+      );
     }
   }, [fetchState.open]);
 
