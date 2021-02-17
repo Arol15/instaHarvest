@@ -1,13 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory, Link } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
 import Spinner from "../components/UI/Spinner";
 import useModal from "../hooks/useModal";
-import AuthModal from "../components/AuthModal";
+import { v4 as uuid } from "uuid";
 
 const Auth = ({ view, inModal }) => {
-  // const [view, setView] = useState(props.view)
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
@@ -17,13 +16,7 @@ const Auth = ({ view, inModal }) => {
     inPlace: inModal ? true : false,
   });
 
-  const access_token = localStorage.getItem("access_token");
-  if (access_token) {
-    history.push("/profile");
-  }
-
   const onSubmit = (formData) => {
-    console.log(formData);
     sendRequest(
       view === "login" ? "api/auth/login" : "api/auth/signup",
       "post",
@@ -32,12 +25,19 @@ const Auth = ({ view, inModal }) => {
   };
 
   useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      history.push("/profile");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       history.push("/profile");
     }
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (error) {
@@ -45,7 +45,7 @@ const Auth = ({ view, inModal }) => {
     } else if (data && data.msg) {
       showModal(data.msg, "mdl-ok");
     }
-  }, [error, errorNum, data]);
+  }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -54,6 +54,7 @@ const Auth = ({ view, inModal }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {view === "signup" && (
           <input
+            key={uuid()}
             type="text"
             placeholder="Username"
             name="username"
@@ -62,16 +63,24 @@ const Auth = ({ view, inModal }) => {
         )}
         {view === "login" ? (
           <input
+            key={uuid()}
             type="text"
             placeholder="Email/Username"
             name="login"
             ref={register}
           />
         ) : (
-          <input type="text" placeholder="Email" name="email" ref={register} />
+          <input
+            key={uuid()}
+            type="text"
+            placeholder="Email"
+            name="email"
+            ref={register}
+          />
         )}
 
         <input
+          key={uuid()}
           type="password"
           placeholder="Password"
           name="password"
@@ -80,22 +89,30 @@ const Auth = ({ view, inModal }) => {
         {view === "signup" && (
           <>
             <input
+              key={uuid()}
               type="text"
               placeholder="First Name"
               name="first_name"
               ref={register}
             />
             <input
+              key={uuid()}
               type="text"
               placeholder="State"
               name="state"
               ref={register}
             />
-            <input type="text" placeholder="City" name="city" ref={register} />
+            <input
+              key={uuid()}
+              type="text"
+              placeholder="City"
+              name="city"
+              ref={register}
+            />
           </>
         )}
 
-        <input type="submit" disabled={isLoading} />
+        <input key={uuid()} type="submit" disabled={isLoading} />
         {isLoading && <Spinner />}
       </form>
       {inModal ? null : view === "login" ? (

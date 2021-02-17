@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useReducer } from "react";
+import { useRef, useEffect, useReducer } from "react";
 
 import Portal from "../components/UI/Portal";
 import classnames from "classnames";
@@ -28,6 +28,8 @@ const fetchReducer = (currState, action) => {
         ...currState,
         modal: action.modal,
       };
+    default:
+      break;
   }
 };
 
