@@ -1,4 +1,5 @@
 import json
+from uuid import uuid4
 from flask import Blueprint, request, url_for
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, fresh_jwt_required,
@@ -29,11 +30,23 @@ def signup():
     if not image_url:
         image_url = 'https://img.icons8.com/doodle/148/000000/test-account.png'
     email_verified = False
+    profile_addr = str(uuid4())[:13]
 
-    user = User(username=username, first_name=data['first_name'], last_name=data['last_name'],
-                password=data['password'], email=email, email_verified=email_verified, image_url=image_url,
-                user_role=data['user_role'], address=data['address'], lgt=data['lgt'], lat=data['lat'], state=data['state'],
-                city=data['city'], zip_code=data['zip_code'])
+    user = User(username=username,
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+                password=data['password'],
+                email=email,
+                email_verified=email_verified,
+                image_url=image_url,
+                user_role=data['user_role'],
+                address=data['address'],
+                lgt=data['lgt'],
+                lat=data['lat'],
+                state=data['state'],
+                city=data['city'],
+                zip_code=data['zip_code'],
+                profile_addr=profile_addr)
 
     db.session.add(user)
     db.session.commit()
