@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
 import Spinner from "../components/UI/Spinner";
@@ -7,7 +6,6 @@ import useModal from "../hooks/useModal";
 import { v4 as uuid } from "uuid";
 
 const Auth = ({ view, inModal, closeModal, user }) => {
-  const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
   const [modal, showModal] = useModal({
@@ -16,7 +14,29 @@ const Auth = ({ view, inModal, closeModal, user }) => {
     inPlace: inModal ? true : false,
   });
 
-  const onSubmit = (formData) => {
+  const [formData, setFormData] = useState({
+    login: user,
+    email: "",
+    password: "",
+    username: "",
+    first_name: "",
+    state: "",
+    city: "",
+  });
+
+  // const onSubmit = (formData) => {
+  //   sendRequest(
+  //     view === "login" || view === "confirm"
+  //       ? "api/auth/login"
+  //       : "api/auth/signup",
+  //     "post",
+  //     formData
+  //   );
+  // };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
     sendRequest(
       view === "login" || view === "confirm"
         ? "api/auth/login"
@@ -24,6 +44,10 @@ const Auth = ({ view, inModal, closeModal, user }) => {
       "post",
       formData
     );
+  };
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
@@ -56,84 +80,85 @@ const Auth = ({ view, inModal, closeModal, user }) => {
   return (
     <div>
       {modal}
-      {view === "login" && <h1>Loign</h1>}
+      {isLoading && <Spinner />}
+      {view === "login" && <h1>Login</h1>}
       {view === "signup" && <h1>Sign Up</h1>}
-      {view === "confirm" && <h1>Confrim identity</h1>}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {view === "signup" && (
-          <input
-            key={uuid()}
-            type="text"
-            placeholder="Username"
-            name="username"
-            ref={register}
-          />
-        )}
+      {view === "confirm" && <h1>Confirm identity</h1>}
+
+      <form onSubmit={onSubmit}>
         {view === "login" && (
           <input
-            key={uuid()}
+            key="1"
             type="text"
             placeholder="Email/Username"
             name="login"
-            ref={register}
-          />
-        )}
-        {view === "signup" && (
-          <input
-            key={uuid()}
-            type="text"
-            placeholder="Email"
-            name="email"
-            ref={register}
-          />
-        )}
-        {view === "confirm" && (
-          <input
-            hidden={true}
-            key={uuid()}
-            type="text"
-            name="login"
-            defaultValue={user}
-            ref={register}
+            onChange={onChange}
+            value={formData.login}
           />
         )}
 
+        {view === "signup" && (
+          <input
+            key="2"
+            type="text"
+            placeholder="Username"
+            name="username"
+            onChange={onChange}
+            value={formData.signup}
+          />
+        )}
+
+        {view === "signup" && (
+          <input
+            key="3"
+            type="text"
+            placeholder="Email"
+            name="email"
+            onChange={onChange}
+            value={formData.email}
+          />
+        )}
+
+        {view === "confirm" && <p>{formData.login}</p>}
         <input
-          key={uuid()}
+          key="4"
           type="password"
           placeholder="Password"
           name="password"
-          ref={register}
+          onChange={onChange}
+          value={formData.password}
         />
         {view === "signup" && (
           <>
             <input
-              key={uuid()}
+              key="5"
               type="text"
               placeholder="First Name"
               name="first_name"
-              ref={register}
+              onChange={onChange}
+              value={formData.first_name}
             />
             <input
-              key={uuid()}
+              key="6"
               type="text"
               placeholder="State"
               name="state"
-              ref={register}
+              onChange={onChange}
+              value={formData.state}
             />
             <input
-              key={uuid()}
+              key="7"
               type="text"
               placeholder="City"
               name="city"
-              ref={register}
+              onChange={onChange}
+              value={formData.city}
             />
           </>
         )}
-
         <input key={uuid()} type="submit" disabled={isLoading} />
-        {isLoading && <Spinner />}
       </form>
+
       {inModal ? null : view === "login" ? (
         <Link to="/signup">Sign Up</Link>
       ) : (
