@@ -24,7 +24,6 @@ class User(db.Model):
     zip_code = db.Column(db.Integer, server_default="0")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    display_name = db.Column(db.String(30))
 
     products = db.relationship("Product", backref="user", lazy="dynamic")
 
@@ -48,17 +47,21 @@ class User(db.Model):
     def to_dict_private(self):
         return {
             "username": self.username,
-            "display_name": self.display_name,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "image_url": self.image_url,
             "email": self.email,
-            "profile_addr": self.profile_addr
+            "profile_addr": self.profile_addr,
+            "email_verified": self.email_verified,
+            "state": self.state,
+            "city": self.city,
+            "zip_code": self.zip_code,
+            "address": self.address
         }
 
     def to_dict_public(self):
         return {
-            "display_name": self.display_name,
+            "first_name": self.first_name,
             "image_url": self.image_url,
             "email_verified": self.email_verified
         }

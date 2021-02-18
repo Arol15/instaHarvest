@@ -43,7 +43,9 @@ def change_pass():
 @jwt_required
 def edit_profile():
     """
-    Can update only `first_name`, `last_name`, `image_url`
+    Can update only `first_name`, `last_name`, `image_url`, `address`,
+    `address`, `city`, `state`, `zip_code`
+
     """
     data = request.get_json()
     user_id = get_jwt_identity()
@@ -68,6 +70,21 @@ def edit_username():
     db.session.add(user)
     db.session.commit()
     return {'msg': 'Username updated'}, 200
+
+
+@bp.route('/edit_profile_address', methods=['PATCH'])
+@jwt_required
+def edit_profile_address():
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first_or_404()
+    new_profile_addr = data['profile_addr']
+    if User.query.filter_by(profile_addr=new_profile_addr).first():
+        return {'error': f'This address already exists'}, 409
+    user.profile_addr = new_profile_addr
+    db.session.add(user)
+    db.session.commit()
+    return {'msg': 'Profile address updated'}, 200
 
 
 @bp.route('/request_change_email', methods=['POST'])
