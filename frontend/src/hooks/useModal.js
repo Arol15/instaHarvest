@@ -161,7 +161,7 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
     }
   }, [fetchState.active, fetchState.open, fetchState.children]);
 
-  return [fetchState.modal, showModal, onClose];
+  return [fetchState.modal, showModal, onClose, fetchState.open];
 };
 
 export default useModal;

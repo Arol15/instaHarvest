@@ -6,7 +6,7 @@ import Spinner from "../components/UI/Spinner";
 import useModal from "../hooks/useModal";
 import { v4 as uuid } from "uuid";
 
-const Auth = ({ view, inModal, closeModal, user }) => {
+const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const { register, handleSubmit } = useForm();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
@@ -37,6 +37,9 @@ const Auth = ({ view, inModal, closeModal, user }) => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
+      if (afterConfirm) {
+        afterConfirm();
+      }
       if (closeModal) {
         closeModal();
       } else {
@@ -52,13 +55,12 @@ const Auth = ({ view, inModal, closeModal, user }) => {
       showModal(data.msg, "mdl-ok");
     }
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  console.log("RERENDER");
   return (
     <div>
-      {modal}
-      {view === "login" && <h1>Loign</h1>}
+      {view === "login" && <h1>Login</h1>}
       {view === "signup" && <h1>Sign Up</h1>}
-      {view === "confirm" && <h1>Confrim identity</h1>}
+      {view === "confirm" && <h1>Confirm identity</h1>}
       <form onSubmit={handleSubmit(onSubmit)}>
         {view === "signup" && (
           <input
@@ -85,17 +87,21 @@ const Auth = ({ view, inModal, closeModal, user }) => {
             placeholder="Email"
             name="email"
             ref={register}
+            onUpda
           />
         )}
         {view === "confirm" && (
-          <input
-            hidden={true}
-            key={uuid()}
-            type="text"
-            name="login"
-            defaultValue={user}
-            ref={register}
-          />
+          <>
+            <p>{user}</p>
+            <input
+              hidden={true}
+              key={uuid()}
+              type="text"
+              name="login"
+              defaultValue={user}
+              ref={register}
+            />
+          </>
         )}
 
         <input

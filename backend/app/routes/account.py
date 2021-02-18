@@ -21,7 +21,6 @@ def get_profile():
 
 @bp.route('/<string:uuid>')
 def get_profile_public(uuid):
-    print(uuid)
     user = User.query.filter_by(profile_addr=uuid).first_or_404()
     res = user.to_dict_public()
     return res, 200
@@ -90,13 +89,15 @@ def edit_profile_address():
 @bp.route('/request_change_email', methods=['POST'])
 @fresh_jwt_required
 def edit_email():
+
     data = request.get_json()
+
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first_or_404()
     new_email = data['new_email']
-    if User.query.filter_by(username=new_email).first():
-        return {'error': f'The user with email {new_email} already exists'}, 409
 
+    if User.query.filter_by(email=new_email).first():
+        return {'error': f'The user with email {new_email} already exists'}, 409
     email_token = ts.dumps([new_email, user.email], salt='email-change')
     confirm_url = url_for('.change_email', token=email_token, _external=True)
     subject = "InstaHarvest email change verification"
@@ -117,13 +118,9 @@ def change_email(token):
     except:
         return {}, 404
 
-    print(new_email, old_email)
-
     user = User.query.filter_by(email=old_email).first_or_404()
     user.email = new_email
     db.session.add(user)
     db.session.commit()
-
-    print(user.email)
 
     return {'msg': 'Email confirmed'}, 200

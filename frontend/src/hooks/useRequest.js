@@ -8,6 +8,7 @@ const fetchReducer = (currState, action) => {
       return {
         ...currState,
         isLoading: true,
+        errorNum: null,
         error: null,
         data: null,
       };
@@ -78,7 +79,7 @@ const useRequest = () => {
       return;
     }
 
-    if (isJwt && resp.status >= 300) {
+    if (isJwt && resp.status === 401) {
       console.log("useRequest: refresh_token");
       const refrResp = await axios({
         method: "post",
