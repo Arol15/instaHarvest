@@ -17,6 +17,7 @@ const Profile = (props) => {
   const [modal, showModal] = useModal({
     withBackdrop: false,
     useTimer: true,
+    timeOut: 7000,
     inPlace: false,
   });
 
@@ -45,6 +46,8 @@ const Profile = (props) => {
   const sendMessage = (msg, classes) => {
     showModal(msg, classes);
   };
+
+  const resendConfrimEmail = () => {};
 
   return (
     <>
@@ -93,6 +96,7 @@ const Profile = (props) => {
                 method="POST"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                user={profileData.email}
                 prefix={
                   <Icon
                     icon={
@@ -103,12 +107,12 @@ const Profile = (props) => {
                     width="30"
                     height="30"
                     color={profileData.email_verified && "#4E9340"}
-                    user={profileData.email}
                   />
                 }
               >
                 {profileData.email}
               </ProfileField>
+              {/* <link onClick={}>Resend confirmation email</link> */}
 
               <ProfileField
                 name="last_name"

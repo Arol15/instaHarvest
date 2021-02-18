@@ -8,18 +8,32 @@ import "./Profile.css";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
+  // const [savedFormData, setFormData] = useState({
+  //   formData: false,
+  //   resend: false,
+  // });
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const { register, handleSubmit } = useForm();
-  const [modalLogin, showModalLogin, onClose] = useModal({
+  const [modalLogin, showModalLogin, onClose, isOpen] = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
   });
 
   const onSubmit = (formData) => {
+    console.log(formData);
     sendRequest(`api/account${props.api}`, props.method, formData, true);
-    setEditState(false);
   };
+
+  useEffect(() => {
+    if (error && !errorNum) {
+      props.sendMsg(error, "mdl-error");
+    } else if (data && data.msg) {
+      props.sendMsg(data.msg, "mdl-ok");
+      props.update();
+      setEditState(false);
+    }
+  }, [data, error]);
 
   useEffect(() => {
     if (errorNum === 401) {
@@ -28,16 +42,12 @@ const ProfileFild = (props) => {
           view={"confirm"}
           inModal={true}
           closeModal={onClose}
+          afterConfirm={handleSubmit(onSubmit)}
           user={props.user}
         />
       );
-    } else if (error) {
-      props.sendMsg(error, "mdl-error");
-    } else if (data && data.msg) {
-      props.sendMsg(data.msg, "mdl-ok");
-      props.update();
     }
-  }, [data, error, errorNum]);
+  }, [errorNum]);
 
   return (
     <div className="prf-field">
@@ -45,7 +55,7 @@ const ProfileFild = (props) => {
       {isLoading && <Spinner />}
       <b>{props.title}:</b>
       {editState ? (
-        <p>
+        <div>
           {props.prefix}
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
@@ -67,7 +77,7 @@ const ProfileFild = (props) => {
               </button>
             </div>
           </form>
-        </p>
+        </div>
       ) : (
         <>
           <p>
