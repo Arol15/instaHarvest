@@ -7,6 +7,7 @@ from app import db
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
+    profile_addr = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(30))
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30))
@@ -43,13 +44,26 @@ class User(db.Model):
     def __repr__(self):
         return f"User with {self.username} and {self.password}"
 
-    def to_dict(self):
+    def to_dict_private(self):
         return {
             "username": self.username,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "image_url": self.image_url,
             "email": self.email,
+            "profile_addr": self.profile_addr,
+            "email_verified": self.email_verified,
+            "state": self.state,
+            "city": self.city,
+            "zip_code": self.zip_code,
+            "address": self.address
+        }
+
+    def to_dict_public(self):
+        return {
+            "first_name": self.first_name,
+            "image_url": self.image_url,
+            "email_verified": self.email_verified
         }
 
 
@@ -75,7 +89,7 @@ class Product(db.Model):
             "image_urls": self.image_urls,
             "price": self.price,
             "description": self.description,
-            "status": self.status, 
+            "status": self.status,
         }
 
 

@@ -1,10 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import React, { useContext } from "react";
 import Home from "./components/Home";
-import SignUp from "./components/Signup";
-import Profile from "./components/Profile";
+import Profile from "./pages/profile/Profile";
 import Products from "./components/Products";
-import Login from "./components/Login";
+import Auth from "./pages/Auth";
 
 function App() {
   return (
@@ -12,8 +10,13 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         {/* <Route path="/login" component={Login} /> */}
-        <Route path="/signup" component={SignUp} />
-        <Route path="/login" component={Login} />
+        {/* <Route path="/signup" component={SignUp} /> */}
+        <Route path="/login">
+          <Auth view="login" />
+        </Route>
+        <Route path="/signup">
+          <Auth view="signup" />
+        </Route>
         <Route path="/profile" component={Profile} />
         <Route path="/buy" component={Products} />
       </Switch>

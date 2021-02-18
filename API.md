@@ -11,11 +11,10 @@
 - [Hooks](#Hooks)
 
   - [useRequest](#useRequest)
+  - [useModal](#useModal)
 
 - [Components](#Components)
-  - [Modal](#Modal)
   - [Spinner](#Spinner)
-  - [MsgModal](#MsgModal)
 
 ## REST
 
@@ -360,7 +359,11 @@ Authorization: Bearer [ACCESS_TOKEN(FRESH)]
 
 **200**
 
-> msg
+```json
+{
+  "msg": "Username updated"
+}
+```
 
 **404**
 
@@ -386,6 +389,82 @@ json {}
 {
   "msg": "The user with username {username} already exists"
 }
+```
+
+#### /request_change_email
+
+**POST**
+
+**header:**
+
+```
+Content-Type: application/json
+Authorization: Bearer [ACCESS_TOKEN(FRESH)]
+```
+
+**request body**
+
+```json
+{
+  "new_email": "[M]"
+}
+```
+
+**response:**
+
+**200**
+
+```json
+{
+  "msg": "A confirmation e-mail was sent to your {new_email} address. Please follow the instructions in the e-mail to confirm your new email"
+}
+
+**404**
+
+```
+
+json {}
+
+````
+
+**401**
+
+```json
+{
+    "msg": "Token has expired"
+}
+
+{
+    "msg": "Fresh token required"
+}
+````
+
+**409**
+
+```json
+{
+  "msg": "The user with email {new_email} already exists"
+}
+```
+
+#### /confirm/<token>
+
+**GET**
+
+**response:**
+
+**200**
+
+```json
+{
+  "msg": "Email confirmed"
+}
+```
+
+**404**
+
+```
+json {}
 ```
 
 ---
@@ -517,6 +596,88 @@ Authorization: Bearer [ACCESS_TOKEN]
 ## Hooks
 
 ### useRequest
+
+```js
+const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+```
+
+**isLoading** - is _true_ while waiting for a response from server
+
+**data** - _(object)_, response from a server if request is successful
+
+**error** - _(string)_, error message
+
+**errorNum** - only for 401 (Authorization denied) and 403 (Not enough privileges) errors
+
+**sendRequest** - function to send request
+
+```js
+sendRequest(url, method, body, isJwt);
+```
+
+**isJwt** - _bool_, default is `false`, if `true` tries to send request with token from local storage
+
+#### example:
+
+```js
+const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+
+const onSubmit = (formData) => {
+  sendRequest("api/auth/login", "post", formData);
+};
+
+useEffect(() => {
+  if (data) {
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("refresh_token", data.refresh_token);
+    history.push("/profile");
+  }
+}, [data]);
+```
+
+### useModal
+
+```js
+const [modal, showModal] = useModal({
+    withBackdrop: //bool,
+    useTimer: //bool,
+    inPlace: //bool,
+    timeOut: //int(milliseconds) for timer (default 5000 ms)
+  });
+```
+
+**modal** - react element
+
+**showModal** - function to show modal
+
+```js
+showModal(children, classes);
+```
+
+**children** - element to add to modal
+
+**classes** - _(string)_ css classes
+
+#### Example:
+
+```js
+const [modal, showModal] = useModal({
+  withBackdrop: false,
+  useTimer: true,
+  timeOut: 10000,
+  inPlace: false,
+});
+
+useEffect(() => {
+  if (error) {
+    showModal(error, "mdl-error");
+  } else if (data && data.msg) {
+    showModal(data.msg, "mdl-ok");
+  }
+}, [error, errorNum, data]);
+
+return { modal };
+```
 
 ---
 
