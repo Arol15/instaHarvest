@@ -8,10 +8,6 @@ import "./Profile.css";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
-  // const [savedFormData, setFormData] = useState({
-  //   formData: false,
-  //   resend: false,
-  // });
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const { register, handleSubmit } = useForm();
   const [modalLogin, showModalLogin, onClose, isOpen] = useModal({

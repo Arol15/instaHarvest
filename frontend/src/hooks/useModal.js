@@ -89,14 +89,20 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   }, [fetchState.open]);
 
   useEffect(() => {
+    let id;
     if (fetchState.open && useTimer) {
-      setTimeout(
+      id = setTimeout(
         () => {
           onClose();
         },
         timeOut ? timeOut : 5000
       );
     }
+    return () => {
+      if (useTimer) {
+        clearTimeout(id);
+      }
+    };
   }, [fetchState.open]);
 
   useEffect(() => {
