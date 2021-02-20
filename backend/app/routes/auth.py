@@ -154,21 +154,21 @@ def admin():
     return {'message': 'Hello admin'}
 
 
-@bp.route('/time/<id>', methods=['POST'])
-def time(id):
-    user = User.query.filter_by(id=id).first_or_404()
-    cr = user.created_at
-    print(cr)
-    # print(cr.strftime("%B %d, %Y"))
-    now = datetime.now(tz=tz.tzlocal())
-    print(now)
-    # print(cr.tzinfo)
-    # user.confirm_email_sent = now
-    # db.session.add(user)
-    # db.session.commit()
-    # print(user.confirm_email_sent)
-    diff = now - cr
-    print(type(diff.seconds))
+# @bp.route('/time/<id>', methods=['POST'])
+# def time(id):
+#     user = User.query.filter_by(id=id).first_or_404()
+#     cr = user.created_at
+#     print(cr)
+#     # print(cr.strftime("%B %d, %Y"))
+#     now = datetime.now(tz=tz.tzlocal())
+#     print(now)
+#     # print(cr.tzinfo)
+#     # user.confirm_email_sent = now
+#     # db.session.add(user)
+#     # db.session.commit()
+#     # print(user.confirm_email_sent)
+#     diff = now - cr
+#     print(type(diff.seconds))
 
-    print(diff.seconds)
-    return {}, 200
+#     print(diff.seconds)
+#     return {}, 200
