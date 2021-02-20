@@ -105,6 +105,7 @@ def resend_email():
     user.confirm_email_sent = now
     db.session.add(user)
     db.session.commit()
+    print("sent")
     return {'msg': 'Confirmation email has been sent'}, 200
 
 

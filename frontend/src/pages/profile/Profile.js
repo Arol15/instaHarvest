@@ -49,8 +49,8 @@ const Profile = (props) => {
   useEffect(() => {
     if (errorEmailReq) {
       showModal(errorEmailReq, "mdl-error");
-    } else if (data && data.msg) {
-      showModal(data.msg, "mdl-ok");
+    } else if (dataEmailReq && dataEmailReq.msg) {
+      showModal(dataEmailReq.msg, "mdl-ok");
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
 
