@@ -3,9 +3,11 @@ import { useHistory, Link } from "react-router-dom";
 import useRequest from "../hooks/useRequest";
 import Spinner from "../components/UI/Spinner";
 import useModal from "../hooks/useModal";
-import validateForm from "../utils/validateForm";
 import useForm from "../hooks/useForm";
+import statesList from "../data/states.json";
+import validateAuth from "../form_validation/validateAuth";
 import "../hooks/useForm.css";
+
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
@@ -31,7 +33,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm(onSubmit);
+  ] = useForm({}, onSubmit, validateAuth);
 
   useEffect(() => {
     if (view === "login") {
@@ -80,7 +82,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       showModal(data.msg, "mdl-ok");
     }
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  console.log(formData);
   return (
     <div>
       {modal}
@@ -92,13 +94,14 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       <form onSubmit={handleSubmit}>
         {view === "login" && (
           <>
+            <label>Username or email: </label>
             <input
               key="1"
               type="text"
               placeholder="Email/Username"
               name="login"
               onChange={handleInputChange}
-              value={formData.login}
+              value={formData.login || ""}
             />
             <div className="form-danger">
               {formErrors.login && formErrors.login}
@@ -108,13 +111,14 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
         {view === "signup" && (
           <>
+            <label>Username: </label>
             <input
               key="2"
               type="text"
               placeholder="Username"
               name="username"
               onChange={handleInputChange}
-              value={formData.username}
+              value={formData.username || ""}
             />
             <div className="form-danger">
               {formErrors.username && formErrors.username}
@@ -124,13 +128,14 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
         {view === "signup" && (
           <>
+            <label>email: </label>
             <input
               key="3"
               type="text"
               placeholder="Email"
               name="email"
               onChange={handleInputChange}
-              value={formData.email}
+              value={formData.email || ""}
             />
             <div className="form-danger">
               {formErrors.email && formErrors.email}
@@ -140,13 +145,14 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
         {view === "confirm" && <p>{formData.login}</p>}
         <>
+          <label>Password: </label>
           <input
             key="4"
             type="password"
             placeholder="Password"
             name="password"
             onChange={handleInputChange}
-            value={formData.password}
+            value={formData.password || ""}
           />
           <div className="form-danger">
             {formErrors.password && formErrors.password}
@@ -154,46 +160,60 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         </>
         {view === "signup" && (
           <>
+            <label>Confirm password: </label>
             <input
               key="15"
               type="password"
               placeholder="Confirm password"
               name="confirm_pass"
               onChange={handleInputChange}
-              value={formData.confirm_pass}
+              value={formData.confirm_pass || ""}
             />
             <div className="form-danger">
               {formErrors.confirm_pass && formErrors.confirm_pass}
             </div>
+            <label>First name: </label>
             <input
               key="5"
               type="text"
               placeholder="First Name"
               name="first_name"
               onChange={handleInputChange}
-              value={formData.first_name}
+              value={formData.first_name || ""}
             />
             <div className="form-danger">
               {formErrors.first_name && formErrors.first_name}
             </div>
-            <input
+            <label>State: </label>
+            <select
               key="6"
-              type="text"
               placeholder="State"
               name="state"
               onChange={handleInputChange}
-              value={formData.state}
-            />
+              value={formData.state || ""}
+            >
+              <option key="-" value="">
+                Select state
+              </option>
+              {statesList.map((elem) => {
+                return (
+                  <option key={elem.abbreviation} value={statesList.name}>
+                    {elem.name}
+                  </option>
+                );
+              })}
+            </select>
             <div className="form-danger">
               {formErrors.state && formErrors.state}
             </div>
+            <label>City: </label>
             <input
               key="7"
               type="text"
               placeholder="City"
               name="city"
               onChange={handleInputChange}
-              value={formData.city}
+              value={formData.city || ""}
             />
             <div className="form-danger">
               {formErrors.city && formErrors.city}

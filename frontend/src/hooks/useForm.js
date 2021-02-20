@@ -1,24 +1,28 @@
 import { useState } from "react";
-import validateForm from "../utils/validateForm";
 
-const useForm = (sendRequest) => {
-  const [formState, setFormState] = useState({});
+/**
+ *  useForm
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useForm
+ */
+
+const useForm = (formData, onSubmit, formValidation) => {
+  const [formState, setFormState] = useState({ ...formData });
   const [formErrors, setErrors] = useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const validationErrors = validateForm(formState);
+
+    const validationErrors = formValidation(formState);
     const isValid = Object.keys(validationErrors).length === 0;
     setErrors(validationErrors);
-    console.log("HandleSubmit: ");
-    console.log(validationErrors);
+
     if (isValid) {
-      sendRequest();
+      onSubmit();
     }
   };
 
   const handleInputChange = (event) => {
-    event.persist();
+    // event.persist();
     setFormState({ ...formState, [event.target.name]: event.target.value });
   };
 

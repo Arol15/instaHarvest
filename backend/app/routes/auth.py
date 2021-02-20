@@ -1,5 +1,8 @@
 import json
 from uuid import uuid4
+from datetime import datetime
+
+from dateutil import tz
 from flask import Blueprint, request, url_for
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, fresh_jwt_required,
@@ -29,6 +32,7 @@ def signup():
         return {'error': f'The user with username {username} already exists'}, 409
     email_verified = False
     profile_addr = str(uuid4())[:13]
+    now = datetime.now(tz=tz.tzlocal())
 
     user = User(username=username,
                 first_name=data['first_name'],
@@ -38,7 +42,8 @@ def signup():
                 image_url=image_url,
                 state=data['state'],
                 city=data['city'],
-                profile_addr=profile_addr)
+                profile_addr=profile_addr,
+                confirm_email_sent=now)
 
     db.session.add(user)
     db.session.commit()
@@ -48,6 +53,7 @@ def signup():
     refresh_token = create_refresh_token(user.id, user_claims=claims)
 
     # Send confirmation email
+
     email_token = ts.dumps(email, salt='email-confirm')
     confirm_url = url_for('.confirm_email', token=email_token, _external=True)
     subject = "InstaHarvest - Confirm your account"
@@ -85,13 +91,21 @@ def login():
 def resend_email():
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first_or_404()
+    now = datetime.now(tz=tz.tzlocal())
+    time_diff = now - user.confirm_email_sent
+    if time_diff.seconds < 14400:
+        return {'error': f'You can resend confirmation email in {(14400 - time_diff.seconds) // 60} minutes'}, 406
     email = user.email
     email_token = ts.dumps(email, salt='email-confirm')
     confirm_url = url_for('.confirm_email', token=email_token, _external=True)
     subject = "InstaHarvest - Confirm your account"
     send_email(email, subject, 'confirmation_email',
                user=user, confirm_url=confirm_url)
-    return {}, 200
+
+    user.confirm_email_sent = now
+    db.session.add(user)
+    db.session.commit()
+    return {'msg': 'Confirmation email has been sent'}, 200
 
 
 @bp.route('/confirm/<token>')
@@ -138,3 +152,23 @@ def fresh_protected():
 @admin_required
 def admin():
     return {'message': 'Hello admin'}
+
+
+@bp.route('/time/<id>', methods=['POST'])
+def time(id):
+    user = User.query.filter_by(id=id).first_or_404()
+    cr = user.created_at
+    print(cr)
+    # print(cr.strftime("%B %d, %Y"))
+    now = datetime.now(tz=tz.tzlocal())
+    print(now)
+    # print(cr.tzinfo)
+    # user.confirm_email_sent = now
+    # db.session.add(user)
+    # db.session.commit()
+    # print(user.confirm_email_sent)
+    diff = now - cr
+    print(type(diff.seconds))
+
+    print(diff.seconds)
+    return {}, 200

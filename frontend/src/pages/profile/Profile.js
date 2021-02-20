@@ -13,6 +13,13 @@ const Profile = (props) => {
   const [profileData, setProfileData] = useState(null);
   const [updateProfile, setUpdateProfile] = useState(false);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [
+    loadingEmailReq,
+    dataEmailReq,
+    errorEmailReq,
+    errorNumEmailReq,
+    sendEmailRequest,
+  ] = useRequest();
 
   const [modal, showModal] = useModal({
     withBackdrop: false,
@@ -39,6 +46,14 @@ const Profile = (props) => {
     }
   }, [error, errorNum, data]);
 
+  useEffect(() => {
+    if (errorEmailReq) {
+      showModal(errorEmailReq, "mdl-error");
+    } else if (data && data.msg) {
+      showModal(data.msg, "mdl-ok");
+    }
+  }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
+
   const updateProfileData = () => {
     sendRequest("api/account/get_profile_private", "POST", {}, true);
   };
@@ -47,8 +62,9 @@ const Profile = (props) => {
     showModal(msg, classes);
   };
 
-  const resendConfrimEmail = () => {};
-
+  const resendConfirmEmail = () => {
+    sendEmailRequest("api/auth/resend_email", "POST", {}, true);
+  };
   return (
     <>
       {isLoading && <Spinner />}
@@ -63,32 +79,36 @@ const Profile = (props) => {
           <button>Edit</button>
 
           <div className="prf-block">
-            <ProfileField
-              name="first_name"
-              title="First name"
-              api="/edit_profile"
-              method="PATCH"
-              update={updateProfileData}
-              sendMsg={sendMessage}
-            >
-              {profileData.first_name}
-            </ProfileField>
-            <ProfileField
-              name="profile_addr"
-              title="Profile address"
-              api="/edit_profile_address"
-              method="PATCH"
-              update={updateProfileData}
-              sendMsg={sendMessage}
-              prefix={"https://instaharvest.com/"}
-            >
-              {profileData.profile_addr}
-            </ProfileField>
+            <div className="prf-field">
+              <ProfileField
+                name="first_name"
+                title="First name"
+                api="/edit_profile"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+              >
+                {profileData.first_name}
+              </ProfileField>
+            </div>
+            <div className="prf-field">
+              <ProfileField
+                name="profile_addr"
+                title="Profile address"
+                api="/edit_profile_address"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                prefix={"https://instaharvest.com/"}
+              >
+                {profileData.profile_addr}
+              </ProfileField>
+            </div>
           </div>
 
           <div className="prf-block">
             <h2>Private information</h2>
-            <div>
+            <div className="prf-field">
               <ProfileField
                 name="new_email"
                 title="Email"
@@ -112,8 +132,12 @@ const Profile = (props) => {
               >
                 {profileData.email}
               </ProfileField>
-              {/* <link onClick={}>Resend confirmation email</link> */}
 
+              {!profileData.email_verified && (
+                <a onClick={resendConfirmEmail}>Resend confirmation email</a>
+              )}
+            </div>
+            <div className="prf-field">
               <ProfileField
                 name="last_name"
                 title="Last name"
@@ -125,8 +149,10 @@ const Profile = (props) => {
                 {profileData.last_name}
               </ProfileField>
             </div>
+          </div>
 
-            <div>
+          <div className="prf-block">
+            <div className="prf-field">
               <ProfileField
                 name="address"
                 title="Address"
@@ -137,6 +163,8 @@ const Profile = (props) => {
               >
                 {profileData.address}
               </ProfileField>
+            </div>
+            <div className="prf-field">
               <ProfileField
                 name="city"
                 title="City"
@@ -147,16 +175,21 @@ const Profile = (props) => {
               >
                 {profileData.city}
               </ProfileField>
+            </div>
+            <div className="prf-field">
               <ProfileField
                 name="state"
                 title="State"
                 api="/edit_profile"
                 method="PATCH"
+                type="state"
                 update={updateProfileData}
                 sendMsg={sendMessage}
               >
                 {profileData.state}
               </ProfileField>
+            </div>
+            <div className="prf-field">
               <ProfileField
                 name="zip_code"
                 title="Zip code"

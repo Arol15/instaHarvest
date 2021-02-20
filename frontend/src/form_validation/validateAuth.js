@@ -1,8 +1,8 @@
-const validateForm = (data) => {
+const validateAuth = (data) => {
   const errors = {};
   if (data.password && data.confirm_pass) {
     if (data.password !== data.confirm_pass) {
-      errors.confirm_pass = "Password doesn't match";
+      errors.confirm_pass = "Passwords don't match";
     }
     if (!/^[A-z0-9.!?,+]{6,}$/i.test(data.password)) {
       errors.confirm_pass =
@@ -10,8 +10,12 @@ const validateForm = (data) => {
     }
   }
   Object.entries(data).forEach(([key, value]) => {
-    console.log(key);
-    console.log(value);
+    if (key === "username") {
+      if (!/^[a-z0-9]$/i.test(value)) {
+        errors.username = "Allowed characters: a-z 0-9";
+      }
+    }
+
     if (key === "password") {
       if (!value) {
         errors.password = "Please enter your password";
@@ -35,10 +39,18 @@ const validateForm = (data) => {
       }
     }
     if (key === "state") {
+      if (!value.length) {
+        errors.state = "Please select state";
+      }
+    }
+    if (key === "city") {
+      if (!value.length) {
+        errors.city = "Please enter city";
+      }
     }
   });
 
   return errors;
 };
 
-export default validateForm;
+export default validateAuth;
