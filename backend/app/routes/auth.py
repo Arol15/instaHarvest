@@ -1,7 +1,6 @@
 import json
 from uuid import uuid4
 from datetime import datetime
-
 from dateutil import tz
 from flask import Blueprint, request, url_for
 from flask_jwt_extended import (create_access_token, create_refresh_token,
@@ -94,7 +93,7 @@ def resend_email():
     now = datetime.now(tz=tz.tzlocal())
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:
-        return {'error': f'You can resend confirmation email in {(14400 - time_diff.seconds) // 60} minutes'}, 406
+        return {'error': f'Sorry, you can resend confirmation email in {(14400 - time_diff.seconds) // 60} minutes'}, 406
     email = user.email
     email_token = ts.dumps(email, salt='email-confirm')
     confirm_url = url_for('.confirm_email', token=email_token, _external=True)

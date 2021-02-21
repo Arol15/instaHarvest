@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import Spinner from "../../components/UI/Spinner";
 import useModal from "../../hooks/useModal";
 import ProfileField from "./ProfileField";
-import { Icon, InlineIcon } from "@iconify/react";
-import baselineVerified from "@iconify-icons/ic/baseline-verified";
-import outlineVerified from "@iconify-icons/ic/outline-verified";
+import EmailConfirmIcon from "../../components/UI/EmailConfirmIcon";
 
 import "./Profile.css";
 
@@ -28,8 +27,10 @@ const Profile = (props) => {
     inPlace: false,
   });
 
+  const history = useHistory();
+
   useEffect(() => {
-    sendRequest("api/account/get_profile_private", "POST", {}, true);
+    sendRequest("/api/account/get_profile_private", "POST", {}, true);
   }, [updateProfile]);
 
   useEffect(() => {
@@ -49,13 +50,13 @@ const Profile = (props) => {
   useEffect(() => {
     if (errorEmailReq) {
       showModal(errorEmailReq, "mdl-error");
-    } else if (data && data.msg) {
-      showModal(data.msg, "mdl-ok");
+    } else if (dataEmailReq && dataEmailReq.msg) {
+      showModal(dataEmailReq.msg, "mdl-ok");
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
 
   const updateProfileData = () => {
-    sendRequest("api/account/get_profile_private", "POST", {}, true);
+    sendRequest("/api/account/get_profile_private", "POST", {}, true);
   };
 
   const sendMessage = (msg, classes) => {
@@ -63,7 +64,7 @@ const Profile = (props) => {
   };
 
   const resendConfirmEmail = () => {
-    sendEmailRequest("api/auth/resend_email", "POST", {}, true);
+    sendEmailRequest("/api/auth/resend_email", "POST", {}, true);
   };
   return (
     <>
@@ -87,8 +88,9 @@ const Profile = (props) => {
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                value={profileData.first_name}
               >
-                {profileData.first_name}
+                <p>{profileData.first_name}</p>
               </ProfileField>
             </div>
             <div className="prf-field">
@@ -99,9 +101,17 @@ const Profile = (props) => {
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
-                prefix={"https://instaharvest.com/"}
+                value={profileData.profile_addr}
               >
-                {profileData.profile_addr}
+                <p>
+                  <a
+                    onClick={() => {
+                      history.push(`/profile/${profileData.profile_addr}`);
+                    }}
+                  >
+                    https://instaharvest.com/{profileData.profile_addr}
+                  </a>
+                </p>
               </ProfileField>
             </div>
           </div>
@@ -117,24 +127,20 @@ const Profile = (props) => {
                 update={updateProfileData}
                 sendMsg={sendMessage}
                 user={profileData.email}
-                prefix={
-                  <Icon
-                    icon={
-                      profileData.email_verified
-                        ? baselineVerified
-                        : outlineVerified
-                    }
-                    width="30"
-                    height="30"
-                    color={profileData.email_verified && "#4E9340"}
-                  />
-                }
+                value={profileData.email}
               >
-                {profileData.email}
+                <div>
+                  <EmailConfirmIcon email_verified={profileData.email_verified}>
+                    <p className="inline-block">{profileData.email}</p>
+                  </EmailConfirmIcon>
+                </div>
+                <p></p>
               </ProfileField>
 
               {!profileData.email_verified && (
-                <a onClick={resendConfirmEmail}>Resend confirmation email</a>
+                <div>
+                  <a onClick={resendConfirmEmail}>Resend confirmation email</a>
+                </div>
               )}
             </div>
             <div className="prf-field">
@@ -145,8 +151,9 @@ const Profile = (props) => {
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                value={profileData.last_name}
               >
-                {profileData.last_name}
+                <p>{profileData.last_name}</p>
               </ProfileField>
             </div>
           </div>
@@ -160,8 +167,9 @@ const Profile = (props) => {
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                value={profileData.address}
               >
-                {profileData.address}
+                <p>{profileData.address}</p>
               </ProfileField>
             </div>
             <div className="prf-field">
@@ -172,8 +180,9 @@ const Profile = (props) => {
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                value={profileData.city}
               >
-                {profileData.city}
+                <p>{profileData.city}</p>
               </ProfileField>
             </div>
             <div className="prf-field">
@@ -185,8 +194,9 @@ const Profile = (props) => {
                 type="state"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                value={profileData.state}
               >
-                {profileData.state}
+                <p>{profileData.state}</p>
               </ProfileField>
             </div>
             <div className="prf-field">
@@ -197,8 +207,9 @@ const Profile = (props) => {
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                value={profileData.zip_code}
               >
-                {profileData.zip_code}
+                <p>{profileData.zip_code}</p>
               </ProfileField>
             </div>
           </div>

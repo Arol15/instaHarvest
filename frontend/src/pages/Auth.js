@@ -20,8 +20,8 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const onSubmit = (e) => {
     sendRequest(
       view === "login" || view === "confirm"
-        ? "api/auth/login"
-        : "api/auth/signup",
+        ? "/api/auth/login"
+        : "/api/auth/signup",
       "post",
       formData
     );
@@ -82,7 +82,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       showModal(data.msg, "mdl-ok");
     }
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
-  console.log(formData);
+
   return (
     <div>
       {modal}

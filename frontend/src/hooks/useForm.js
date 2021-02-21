@@ -10,7 +10,7 @@ const useForm = (formData, onSubmit, formValidation) => {
   const [formErrors, setErrors] = useState({});
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event && event.preventDefault();
 
     const validationErrors = formValidation(formState);
     const isValid = Object.keys(validationErrors).length === 0;

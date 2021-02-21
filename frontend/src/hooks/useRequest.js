@@ -88,7 +88,7 @@ const useRequest = () => {
       console.log("useRequest: refresh_token");
       const refrResp = await axios({
         method: "post",
-        url: "api/auth/refresh",
+        url: "/api/auth/refresh",
         data: {},
         timeout: 5000,
         headers: {

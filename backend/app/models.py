@@ -62,10 +62,14 @@ class User(db.Model):
         }
 
     def to_dict_public(self):
+        joined = self.created_at.strftime("%b %Y")
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
-            "email_verified": self.email_verified
+            "email_verified": self.email_verified,
+            "joined": joined,
+            "state": self.state,
+            "city": self.city
         }
 
 
