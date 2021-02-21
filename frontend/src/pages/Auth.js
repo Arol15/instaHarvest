@@ -6,7 +6,7 @@ import useModal from "../hooks/useModal";
 import useForm from "../hooks/useForm";
 import statesList from "../data/states.json";
 import validateAuth from "../form_validation/validateAuth";
-import "../hooks/useForm.css";
+import ResetPassword from "../pages/ResetPassword";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -227,6 +227,16 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         <Link to="/signup">Sign Up</Link>
       ) : (
         <Link to="/login">Login</Link>
+      )}
+      <p></p>
+      {view === "login" && (
+        <a
+          onClick={() => {
+            history.push("/reset_password");
+          }}
+        >
+          Forgot your password?
+        </a>
       )}
     </div>
   );

@@ -55,3 +55,7 @@ a {
   visibility: visible;
   opacity: 1;
 }
+
+.form-danger {
+  color: red;
+}

@@ -123,11 +123,13 @@ def change_email(token):
         new_email, old_email = ts.loads(
             token, salt="email-change", max_age=86400)
     except:
-        return {}, 404
+        return redirect("http://localhost:3000/404", code=302)
 
-    user = User.query.filter_by(email=old_email).first_or_404()
+    user = User.query.filter_by(email=old_email).first()
+    if not user:
+        redirect("http://localhost:3000/404", code=302)
     user.email = new_email
     db.session.add(user)
     db.session.commit()
 
-    return {'msg': 'Email confirmed'}, 200
+    return redirect("http://localhost:3000/profile", code=302)
