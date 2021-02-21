@@ -1,5 +1,4 @@
 import { useRef, useEffect, useReducer } from "react";
-
 import Portal from "../components/UI/Portal";
 import classnames from "classnames";
 import "./useModal.css";
@@ -32,6 +31,11 @@ const fetchReducer = (currState, action) => {
       break;
   }
 };
+
+/**
+ *  useModal
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useModal
+ */
 
 const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   const [fetchState, dispatchFetch] = useReducer(fetchReducer, {
@@ -89,14 +93,20 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   }, [fetchState.open]);
 
   useEffect(() => {
+    let id;
     if (fetchState.open && useTimer) {
-      setTimeout(
+      id = setTimeout(
         () => {
           onClose();
         },
         timeOut ? timeOut : 5000
       );
     }
+    return () => {
+      if (useTimer) {
+        clearTimeout(id);
+      }
+    };
   }, [fetchState.open]);
 
   useEffect(() => {

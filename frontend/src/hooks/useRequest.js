@@ -30,6 +30,11 @@ const fetchReducer = (currState, action) => {
   }
 };
 
+/**
+ *  useRequest
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useRequest
+ */
+
 const useRequest = () => {
   const [fetchState, dispatchFetch] = useReducer(fetchReducer, {
     isLoading: false,

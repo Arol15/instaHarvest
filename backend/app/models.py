@@ -22,7 +22,9 @@ class User(db.Model):
     state = db.Column(db.String(12), nullable=False)
     city = db.Column(db.String(20), nullable=False)
     zip_code = db.Column(db.Integer, server_default="0")
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    confirm_email_sent = db.Column(db.DateTime(timezone=True))
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     products = db.relationship("Product", backref="user", lazy="dynamic")
@@ -77,7 +79,8 @@ class Product(db.Model):
     price = db.Column(db.Float)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     deleted_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
@@ -96,7 +99,8 @@ class Product(db.Model):
 class Chat(db.Model):
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
     user1_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
@@ -119,7 +123,8 @@ class Message(db.Model):
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"), nullable=False)
     sender_id = db.Column(db.Integer, nullable=False)
     body = db.Column(db.String(2000))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
 
     def to_dict(self):
         return {

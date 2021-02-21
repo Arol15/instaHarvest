@@ -12,6 +12,7 @@
 
   - [useRequest](#useRequest)
   - [useModal](#useModal)
+  - [useForm](#useForm)
 
 - [Components](#Components)
   - [Spinner](#Spinner)
@@ -638,7 +639,7 @@ useEffect(() => {
 ### useModal
 
 ```js
-const [modal, showModal] = useModal({
+const [modal, showModal, onClose, open] = useModal({
     withBackdrop: //bool,
     useTimer: //bool,
     inPlace: //bool,
@@ -646,9 +647,13 @@ const [modal, showModal] = useModal({
   });
 ```
 
-**modal** - react element
+**modal** - created react element
 
-**showModal** - function to show modal
+**showModal** - function to show the modal
+
+**onClose** - function to close the modal
+
+**open** - state of the modal, `true` if modal is open
 
 ```js
 showModal(children, classes);
@@ -679,8 +684,40 @@ useEffect(() => {
 return { modal };
 ```
 
+### useForm
+
+```js
+const [
+  setFormState,
+  handleSubmit,
+  handleInputChange,
+  formState,
+  formErrors,
+] = useForm(formData, onSubmit, formValidation);
+```
+
+**setFormData** - function to update form fields state
+
+**handleSubmit** - starting validation and sending request
+
+**handleInputChange** - update form fields state
+
+**formState** - form fields state
+
+**formErrors** - form fields errors after validation
+
+**formData** - initial form fields
+
+**onSubmit** - function to execute after validation
+
+**formValidation** - function to validate form fields
+
 ---
 
 ## Components
 
 ###
+
+```
+
+```

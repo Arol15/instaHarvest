@@ -1,29 +1,34 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import useRequest from "../../hooks/useRequest";
-import useModal from "../../hooks/useModal";
+// import { useForm } from "react-hook-form";
+import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Spinner from "../../components/UI/Spinner";
 import Auth from "../Auth";
+import statesList from "../../data/states.json";
+import validateAuth from "../../form_validation/validateAuth";
 import "./Profile.css";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
-  // const [savedFormData, setFormData] = useState({
-  //   formData: false,
-  //   resend: false,
-  // });
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
   const [modalLogin, showModalLogin, onClose, isOpen] = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
   });
 
-  const onSubmit = (formData) => {
+  const onSubmit = () => {
     console.log(formData);
     sendRequest(`api/account${props.api}`, props.method, formData, true);
   };
+
+  const [
+    setFormData,
+    handleSubmit,
+    handleInputChange,
+    formData,
+    formErrors,
+  ] = useForm({ [props.name]: props.children }, onSubmit, validateAuth);
 
   useEffect(() => {
     if (error && !errorNum) {
@@ -42,29 +47,52 @@ const ProfileFild = (props) => {
           view={"confirm"}
           inModal={true}
           closeModal={onClose}
-          afterConfirm={handleSubmit(onSubmit)}
+          afterConfirm={handleSubmit}
           user={props.user}
         />
       );
     }
   }, [errorNum]);
 
+  // console.log(formData);
   return (
-    <div className="prf-field">
+    <>
       {modalLogin}
       {isLoading && <Spinner />}
       <b>{props.title}:</b>
       {editState ? (
         <div>
           {props.prefix}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              defaultValue={props.children && props.children}
-              placeholder={props.children ? "" : "empty"}
-              type="text"
-              name={props.name}
-              ref={register}
-            ></input>
+          <form onSubmit={handleSubmit}>
+            {props.type === "state" ? (
+              <select
+                key="6"
+                placeholder="State"
+                name="state"
+                onChange={handleInputChange}
+                value={formData.state || ""}
+              >
+                <option key="-" value="">
+                  Select state
+                </option>
+                {statesList.map((elem) => {
+                  return (
+                    <option key={elem.abbreviation} value={statesList.name}>
+                      {elem.name}
+                    </option>
+                  );
+                })}
+              </select>
+            ) : (
+              <input
+                // defaultValue={props.children && props.children}
+                placeholder={props.children ? "" : "empty"}
+                type="text"
+                name={props.name}
+                onChange={handleInputChange}
+                value={formData[props.name] || ""}
+              ></input>
+            )}
 
             <div>
               <input type="submit" disabled={isLoading}></input>
@@ -84,18 +112,25 @@ const ProfileFild = (props) => {
             {props.prefix && props.prefix}
             {props.children ? props.children : "Empty"}
           </p>
-          <button
+          <a
             onClick={() => {
               setEditState(true);
             }}
           >
             Edit
-          </button>
+          </a>
+          {/* <button
+            onClick={() => {
+              setEditState(true);
+            }}
+          >
+            Edit
+          </button> */}
         </>
       )}
 
       <br />
-    </div>
+    </>
   );
 };
 
