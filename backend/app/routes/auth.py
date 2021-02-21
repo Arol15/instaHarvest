@@ -114,7 +114,7 @@ def reset_password():
     if not user:
         return {'error': f'The user with email {email} does not exist'}, 401
     email_token = ts.dumps(email, salt='pass-reset')
-    confirm_url = f'http://localhost:3000/reset_password/{email_token}'
+    confirm_url = f'http://localhost:3000/reset_password_confirm/{email_token}'
     subject = "InstaHarvest - Password Reset"
     send_email(email, subject, 'reset_password',
                user=user, confirm_url=confirm_url)
@@ -141,7 +141,7 @@ def confirm_email(token):
 def reset_password_confirm():
     data = request.get_json()
     try:
-        email = ts.loads(data['token'], salt="reset_password", max_age=86400)
+        email = ts.loads(data['token'], salt="pass-reset", max_age=86400)
     except:
         return {'error': 'Token is not valid or expired'}, 406
 

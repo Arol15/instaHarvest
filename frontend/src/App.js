@@ -23,12 +23,15 @@ function App() {
         <Route path="/profile" component={Profile} exact />
         <Route path="/profile/:addr" component={PublicProfile} />
         <Route path="/buy" component={Products} />
-        <Route path="/reset_password" exact>
+        <Route path="/reset_password">
           <ResetPassword />
         </Route>
-        <Route path="/reset_password/:token">
-          <ResetPassword confrim={true} />
-        </Route>
+        <Route
+          path="/reset_password_confirm/:token"
+          component={ResetPassword}
+        />
+        {/* <ResetPassword confirm={true} />
+        </Route> */}
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

@@ -16,7 +16,7 @@ const PublicProfile = (props) => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});
   }, []);
 
-  console.log();
+  console.log(props);
   return (
     <>
       {isLoading && <Spinner />}

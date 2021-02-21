@@ -13,12 +13,12 @@ const ResetPassword = (props) => {
     timeOut: 7000,
     inPlace: false,
   });
-
+  console.log(props);
   const onSubmit = () => {
-    if (props.confirm) {
+    if (props.match.params.token) {
       sendRequest("/api/auth/reset_password_confirm", "POST", {
         password: formData.password,
-        token: props.match.params.addr,
+        token: props.match.params.token,
       });
     } else {
       sendRequest("/api/auth/reset_password", "POST", {
@@ -34,7 +34,9 @@ const ResetPassword = (props) => {
     formData,
     formErrors,
   ] = useForm(
-    props.confirm ? { password: "", confirm_pass: "" } : { email: "" },
+    props.match.params.token
+      ? { password: "", confirm_pass: "" }
+      : { email: "" },
     onSubmit,
     formValidation
   );
@@ -44,7 +46,7 @@ const ResetPassword = (props) => {
       showModal(error, "mdl-error");
     } else if (data && data.msg) {
       showModal(data.msg, "mdl-ok");
-      if (props.confirm) {
+      if (props.match.params.token) {
         history.push("/login");
       } else {
       }
@@ -56,7 +58,7 @@ const ResetPassword = (props) => {
       {modal}
       {isLoading && <Spinner />}
       <h1>Reset Password</h1>
-      {props.confirm ? (
+      {props.match.params.token ? (
         <>
           <form onSubmit={handleSubmit}>
             <label>New password: </label>
@@ -84,6 +86,7 @@ const ResetPassword = (props) => {
             <div className="form-danger">
               {formErrors.confirm_pass && formErrors.confirm_pass}
             </div>
+            <input key="87" type="submit" disabled={isLoading} />
           </form>
         </>
       ) : (
@@ -102,6 +105,7 @@ const ResetPassword = (props) => {
             <div className="form-danger">
               {formErrors.email && formErrors.email}
             </div>
+            <input key="8" type="submit" disabled={isLoading} />
           </form>
         </>
       )}
