@@ -1,28 +1,26 @@
-import { useEffect } from "react";
-import { useRequest, useModal, useForm } from "../hooks/hooks";
+import { useEffect, useContext } from "react";
+import { useRequest, useForm } from "../hooks/hooks";
 import formValidation from "../form_validation/validateAuth";
 import { useHistory } from "react-router-dom";
 import Spinner from "../components/UI/Spinner";
+import { ModalMsgContext } from "../context/ModalMsgContext";
 
 const ResetPassword = (props) => {
   const history = useHistory();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [modal, showModal] = useModal({
-    withBackdrop: false,
-    useTimer: true,
-    timeOut: 7000,
-    inPlace: false,
-  });
-  console.log(props);
+
+  const [msgState, setMsgState] = useContext(ModalMsgContext);
+
   const onSubmit = () => {
-    if (props.match.params.token) {
+    if (props.reset) {
+      console.log("ONSUBMIT SENT RESET");
+      sendRequest("/api/auth/reset_password", "POST", {
+        email: formData.email,
+      });
+    } else {
       sendRequest("/api/auth/reset_password_confirm", "POST", {
         password: formData.password,
         token: props.match.params.token,
-      });
-    } else {
-      sendRequest("/api/auth/reset_password", "POST", {
-        email: formData.email,
       });
     }
   };
@@ -34,31 +32,56 @@ const ResetPassword = (props) => {
     formData,
     formErrors,
   ] = useForm(
-    props.match.params.token
-      ? { password: "", confirm_pass: "" }
-      : { email: "" },
+    props.reset ? { email: "" } : { password: "", confirm_pass: "" },
     onSubmit,
     formValidation
   );
 
   useEffect(() => {
     if (error) {
-      showModal(error, "mdl-error");
+      setMsgState({
+        open: true,
+        msg: error,
+        classes: "mdl-error",
+      });
     } else if (data && data.msg) {
-      showModal(data.msg, "mdl-ok");
-      if (props.match.params.token) {
+      setMsgState({
+        open: true,
+        msg: data.msg,
+        classes: "mdl-ok",
+      });
+      if (props.reset) {
         history.push("/login");
       } else {
+        history.push("/login");
       }
     }
   }, [error, errorNum, data]);
 
   return (
     <>
-      {modal}
       {isLoading && <Spinner />}
       <h1>Reset Password</h1>
-      {props.match.params.token ? (
+      {props.reset ? (
+        <>
+          <p>Enter your email address below</p>
+          <form onSubmit={handleSubmit}>
+            <label>Email: </label>
+            <input
+              key="9"
+              type="text"
+              placeholder="Email"
+              name="email"
+              onChange={handleInputChange}
+              value={formData.email || ""}
+            />
+            <div className="form-danger">
+              {formErrors.email && formErrors.email}
+            </div>
+            <input key="8" type="submit" disabled={isLoading} />
+          </form>
+        </>
+      ) : (
         <>
           <form onSubmit={handleSubmit}>
             <label>New password: </label>
@@ -87,25 +110,6 @@ const ResetPassword = (props) => {
               {formErrors.confirm_pass && formErrors.confirm_pass}
             </div>
             <input key="87" type="submit" disabled={isLoading} />
-          </form>
-        </>
-      ) : (
-        <>
-          <p>Enter your email address below</p>
-          <form onSubmit={handleSubmit}>
-            <label>Email: </label>
-            <input
-              key="9"
-              type="text"
-              placeholder="Email"
-              name="email"
-              onChange={handleInputChange}
-              value={formData.email || ""}
-            />
-            <div className="form-danger">
-              {formErrors.email && formErrors.email}
-            </div>
-            <input key="8" type="submit" disabled={isLoading} />
           </form>
         </>
       )}

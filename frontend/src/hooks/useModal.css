@@ -33,23 +33,6 @@
   animation-duration: 200ms;
 }
 
-.mdl-msg {
-  width: 100%;
-  text-align: center;
-  position: fixed;
-  top: 0em;
-  transform: translateY(-50px);
-  transition: all 1000ms;
-  transition-delay: 300ms;
-  opacity: 0;
-  text-align: center;
-  /* animation: normal;
-    animation-duration: 200ms; */
-  /* bottom: 0.1; */
-  /* position: absolute;
-    /* bottom: 2em; */
-}
-
 .mdl-inpl {
   width: 100%;
   text-align: center;
@@ -85,12 +68,4 @@
   transition-duration: 250ms;
   transition-delay: 0ms;
   opacity: 1;
-}
-
-.mdl-error {
-  background-color: rgba(230, 30, 20, 0.3);
-}
-
-.mdl-ok {
-  background-color: rgba(74, 202, 35, 0.3);
 }
