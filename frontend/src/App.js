@@ -3,6 +3,8 @@ import Home from "./components/Home";
 import Profile from "./pages/profile/Profile";
 import Products from "./components/Products";
 import Auth from "./pages/Auth";
+import NotFound from "./pages/NotFound";
+import PublicProfile from "./pages/profile/PublicProfile";
 
 function App() {
   return (
@@ -17,8 +19,11 @@ function App() {
         <Route path="/signup">
           <Auth view="signup" />
         </Route>
-        <Route path="/profile" component={Profile} />
+
+        <Route path="/profile" component={Profile} exact />
+        <Route path="/profile/:addr" component={PublicProfile} />
         <Route path="/buy" component={Products} />
+        <Route path="*" component={NotFound} />
       </Switch>
     </Router>
   );

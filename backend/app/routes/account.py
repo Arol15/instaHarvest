@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+from dateutil import tz
 from flask import Blueprint, request, url_for
 from flask_jwt_extended import (fresh_jwt_required, get_jwt_identity,
                                 jwt_required)
@@ -19,9 +21,9 @@ def get_profile():
     return res, 200
 
 
-@bp.route('/<string:uuid>')
-def get_profile_public(uuid):
-    user = User.query.filter_by(profile_addr=uuid).first_or_404()
+@bp.route('/<string:addr>')
+def get_profile_public(addr):
+    user = User.query.filter_by(profile_addr=addr).first_or_404()
     res = user.to_dict_public()
     return res, 200
 
@@ -89,13 +91,15 @@ def edit_profile_address():
 @bp.route('/request_change_email', methods=['POST'])
 @fresh_jwt_required
 def edit_email():
-
     data = request.get_json()
-
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first_or_404()
-    new_email = data['new_email']
 
+    now = datetime.now(tz=tz.tzlocal())
+    time_diff = now - user.confirm_email_sent
+    if time_diff.seconds < 14400:
+        return {'error': f'Sorry, you can resend request in {(14400 - time_diff.seconds) // 60} minutes'}, 406
+    new_email = data['new_email']
     if User.query.filter_by(email=new_email).first():
         return {'error': f'The user with email {new_email} already exists'}, 409
     email_token = ts.dumps([new_email, user.email], salt='email-change')
@@ -107,6 +111,9 @@ def edit_email():
     subject = "InstaHarvest email change notification"
     send_email(user.email, subject, 'change_email_notification',
                user=user, new_email=new_email)
+    user.confirm_email_sent = now
+    db.session.add(user)
+    db.session.commit()
     return {'msg': f'A confirmation e-mail was sent to your {new_email} address. Please follow the instructions in the e-mail to confirm your new email'}, 200
 
 

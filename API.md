@@ -624,7 +624,7 @@ sendRequest(url, method, body, isJwt);
 const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
 const onSubmit = (formData) => {
-  sendRequest("api/auth/login", "post", formData);
+  sendRequest("/api/auth/login", "post", formData);
 };
 
 useEffect(() => {

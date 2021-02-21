@@ -10,7 +10,6 @@ import "./Profile.css";
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  // const { register, handleSubmit } = useForm();
   const [modalLogin, showModalLogin, onClose, isOpen] = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -18,8 +17,7 @@ const ProfileFild = (props) => {
   });
 
   const onSubmit = () => {
-    console.log(formData);
-    sendRequest(`api/account${props.api}`, props.method, formData, true);
+    sendRequest(`/api/account${props.api}`, props.method, formData, true);
   };
 
   const [
@@ -28,7 +26,7 @@ const ProfileFild = (props) => {
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({ [props.name]: props.children }, onSubmit, validateAuth);
+  ] = useForm({ [props.name]: props.value }, onSubmit, validateAuth);
 
   useEffect(() => {
     if (error && !errorNum) {
@@ -54,7 +52,6 @@ const ProfileFild = (props) => {
     }
   }, [errorNum]);
 
-  // console.log(formData);
   return (
     <>
       {modalLogin}
@@ -62,7 +59,6 @@ const ProfileFild = (props) => {
       <b>{props.title}:</b>
       {editState ? (
         <div>
-          {props.prefix}
           <form onSubmit={handleSubmit}>
             {props.type === "state" ? (
               <select
@@ -85,8 +81,7 @@ const ProfileFild = (props) => {
               </select>
             ) : (
               <input
-                // defaultValue={props.children && props.children}
-                placeholder={props.children ? "" : "empty"}
+                placeholder={""}
                 type="text"
                 name={props.name}
                 onChange={handleInputChange}
@@ -108,10 +103,7 @@ const ProfileFild = (props) => {
         </div>
       ) : (
         <>
-          <p>
-            {props.prefix && props.prefix}
-            {props.children ? props.children : "Empty"}
-          </p>
+          {props.value ? props.children : <p>Empty</p>}
           <a
             onClick={() => {
               setEditState(true);

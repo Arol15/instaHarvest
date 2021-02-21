@@ -17,3 +17,41 @@ a {
   text-decoration-line: underline;
   cursor: pointer;
 }
+
+/* .inline {
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+} */
+
+.inline-block {
+  margin-block: 0;
+  display: inline-block;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  width: max-content;
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(65, 146, 54, 0.288);
+  color: black;
+  font-size: 0.7rem;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  transition: all 500ms ease-in-out;
+  top: -10px;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
