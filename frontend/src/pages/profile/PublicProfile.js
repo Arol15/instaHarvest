@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 import { useRequest, useModal } from "../../hooks/hooks";
 import Spinner from "../../components/UI/Spinner";
-
-import { Icon, InlineIcon } from "@iconify/react";
-import baselineVerified from "@iconify-icons/ic/baseline-verified";
-import outlineVerified from "@iconify-icons/ic/outline-verified";
 import statesList from "../../data/states.json";
+import EmailConfirmIcon from "../../components/UI/EmailConfirmIcon";
 
 const PublicProfile = (props) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -30,20 +27,9 @@ const PublicProfile = (props) => {
       {data && (
         <div className="">
           <img src={data.image_url} />
-          <div>
+          <EmailConfirmIcon email_verified={data.email_verified}>
             <h2 className="inline-block">{data.first_name}</h2>
-            <span className="tooltip">
-              <InlineIcon
-                icon={data.email_verified ? baselineVerified : outlineVerified}
-                width="30"
-                height="30"
-                color={data.email_verified && "#4E9340"}
-              />
-              <span className="tooltiptext">
-                {data.email_verified ? "Email verified" : "Email not verified"}
-              </span>
-            </span>
-          </div>
+          </EmailConfirmIcon>
           <p>
             {data.city},{" "}
             {statesList.find((elem) => elem.name === data.state).abbreviation}

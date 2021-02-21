@@ -4,9 +4,8 @@ import useRequest from "../../hooks/useRequest";
 import Spinner from "../../components/UI/Spinner";
 import useModal from "../../hooks/useModal";
 import ProfileField from "./ProfileField";
-import { Icon, InlineIcon } from "@iconify/react";
-import baselineVerified from "@iconify-icons/ic/baseline-verified";
-import outlineVerified from "@iconify-icons/ic/outline-verified";
+import EmailConfirmIcon from "../../components/UI/EmailConfirmIcon";
+
 import "./Profile.css";
 
 const Profile = (props) => {
@@ -131,24 +130,9 @@ const Profile = (props) => {
                 value={profileData.email}
               >
                 <div>
-                  <p className="inline-block">{profileData.email}</p>
-                  <span className="tooltip">
-                    <InlineIcon
-                      icon={
-                        profileData.email_verified
-                          ? baselineVerified
-                          : outlineVerified
-                      }
-                      width="30"
-                      height="30"
-                      color={profileData.email_verified && "#4E9340"}
-                    />
-                    <span className="tooltiptext">
-                      {profileData.email_verified
-                        ? "Email verified"
-                        : "Email not verified"}
-                    </span>
-                  </span>
+                  <EmailConfirmIcon email_verified={profileData.email_verified}>
+                    <p className="inline-block">{profileData.email}</p>
+                  </EmailConfirmIcon>
                 </div>
                 <p></p>
               </ProfileField>
