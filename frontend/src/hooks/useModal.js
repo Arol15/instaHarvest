@@ -1,7 +1,8 @@
-import { useRef, useEffect, useReducer } from "react";
+import { useRef, useEffect, useReducer, useContext } from "react";
 import Portal from "../components/UI/Portal";
 import classnames from "classnames";
 import "./useModal.css";
+import { ModalMsgContext } from "../context/ModalMsgContext";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -58,6 +59,7 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   const onClose = () => {
     dispatchFetch({ type: "setOpen", open: false });
   };
+  const [, setMsgState] = useContext(ModalMsgContext);
 
   useEffect(() => {
     if (withBackdrop === true) {
@@ -84,7 +86,13 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   }, [fetchState.open, fetchState.modal]);
 
   useEffect(() => {
-    if (fetchState.open) {
+    if (fetchState.open && !withBackdrop && !inPlace) {
+      setMsgState({
+        open: true,
+        msg: fetchState.children,
+        classes: fetchState.classes,
+      });
+    } else if (fetchState.open) {
       window.setTimeout(() => {
         document.activeElement.blur();
         dispatchFetch({ type: "setActive", active: fetchState.open });
@@ -150,24 +158,7 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
         ),
       });
     } else {
-      dispatchFetch({
-        type: "setModal",
-        modal: (
-          <div>
-            {(fetchState.open || fetchState.active) && (
-              <Portal>
-                <div
-                  className={classnames("mdl-msg", fetchState.classes, {
-                    "mdl-active": fetchState.active && fetchState.open,
-                  })}
-                >
-                  {fetchState.children}
-                </div>
-              </Portal>
-            )}
-          </div>
-        ),
-      });
+      <></>;
     }
   }, [fetchState.active, fetchState.open, fetchState.children]);
 

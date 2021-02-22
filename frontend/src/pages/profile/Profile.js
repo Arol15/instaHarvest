@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import Spinner from "../../components/UI/Spinner";
-import useModal from "../../hooks/useModal";
 import ProfileField from "./ProfileField";
 import EmailConfirmIcon from "../../components/UI/EmailConfirmIcon";
-
+import { ModalMsgContext } from "../../context/ModalMsgContext";
 import "./Profile.css";
 
 const Profile = (props) => {
@@ -13,19 +12,14 @@ const Profile = (props) => {
   const [updateProfile, setUpdateProfile] = useState(false);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const [
-    loadingEmailReq,
+    ,
     dataEmailReq,
     errorEmailReq,
     errorNumEmailReq,
     sendEmailRequest,
   ] = useRequest();
 
-  const [modal, showModal] = useModal({
-    withBackdrop: false,
-    useTimer: true,
-    timeOut: 7000,
-    inPlace: false,
-  });
+  const [, setMsgState] = useContext(ModalMsgContext);
 
   const history = useHistory();
 
@@ -41,17 +35,33 @@ const Profile = (props) => {
 
   useEffect(() => {
     if (error) {
-      showModal(error, "mdl-error");
+      setMsgState({
+        open: true,
+        msg: error,
+        classes: "mdl-error",
+      });
     } else if (data && data.msg) {
-      showModal(data.msg, "mdl-ok");
+      setMsgState({
+        open: true,
+        msg: data.msg,
+        classes: "mdl-ok",
+      });
     }
   }, [error, errorNum, data]);
 
   useEffect(() => {
     if (errorEmailReq) {
-      showModal(errorEmailReq, "mdl-error");
+      setMsgState({
+        open: true,
+        msg: errorEmailReq,
+        classes: "mdl-error",
+      });
     } else if (dataEmailReq && dataEmailReq.msg) {
-      showModal(dataEmailReq.msg, "mdl-ok");
+      setMsgState({
+        open: true,
+        msg: dataEmailReq.msg,
+        classes: "mdl-error",
+      });
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
 
@@ -60,7 +70,11 @@ const Profile = (props) => {
   };
 
   const sendMessage = (msg, classes) => {
-    showModal(msg, classes);
+    setMsgState({
+      open: true,
+      msg: msg,
+      classes: classes,
+    });
   };
 
   const resendConfirmEmail = () => {
@@ -70,7 +84,6 @@ const Profile = (props) => {
     <>
       {isLoading && <Spinner />}
 
-      {modal}
       {profileData && (
         <div>
           <h1>Profile</h1>

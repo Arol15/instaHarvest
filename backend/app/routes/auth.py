@@ -2,7 +2,7 @@ import json
 from uuid import uuid4
 from datetime import datetime
 from dateutil import tz
-from flask import Blueprint, request, url_for
+from flask import Blueprint, request, url_for, redirect
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, fresh_jwt_required,
                                 jwt_refresh_token_required, get_jwt_identity,
@@ -107,22 +107,55 @@ def resend_email():
     return {'msg': 'Confirmation email has been sent'}, 200
 
 
+@bp.route('/reset_password', methods=['POST'])
+def reset_password():
+    email = request.json.get('email')
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return {'error': f'The user with email {email} does not exist'}, 401
+    email_token = ts.dumps(email, salt='pass-reset')
+    confirm_url = f'http://localhost:3000/reset_password_confirm/{email_token}'
+    subject = "InstaHarvest - Password Reset"
+    send_email(email, subject, 'reset_password',
+               user=user, confirm_url=confirm_url)
+    return {'msg': 'Reset password email has been sent'}, 200
+
+
 @bp.route('/confirm/<token>')
 def confirm_email(token):
     try:
         email = ts.loads(token, salt="email-confirm", max_age=86400)
     except:
-        return {}, 404
+        redirect("http://localhost:3000/404", code=302)
 
-    user = User.query.filter_by(email=email).first_or_404()
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        redirect("http://localhost:3000/404", code=302)
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return {'msg': 'Email confirmed'}, 200
+    return redirect("http://localhost:3000/login", code=302)
 
 
-@bp.route('/refresh', methods=['POST'])
-@jwt_refresh_token_required
+@bp.route('/reset_password_confirm', methods=['POST'])
+def reset_password_confirm():
+    data = request.get_json()
+    try:
+        email = ts.loads(data['token'], salt="pass-reset", max_age=86400)
+    except:
+        return {'error': 'Token is not valid or expired'}, 406
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return {'error': 'Can not find user'}, 404
+    user.change_password(data['password'])
+    db.session.add(user)
+    db.session.commit()
+    return {'msg': 'New password saved'}, 200
+
+
+@ bp.route('/refresh', methods=['POST'])
+@ jwt_refresh_token_required
 def refresh():
     """
     Insures a valid refresh token is present and creates
