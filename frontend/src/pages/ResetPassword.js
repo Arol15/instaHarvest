@@ -13,7 +13,6 @@ const ResetPassword = (props) => {
 
   const onSubmit = () => {
     if (props.reset) {
-      console.log("ONSUBMIT SENT RESET");
       sendRequest("/api/auth/reset_password", "POST", {
         email: formData.email,
       });

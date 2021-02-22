@@ -6,7 +6,6 @@ import useModal from "../hooks/useModal";
 import useForm from "../hooks/useForm";
 import statesList from "../data/states.json";
 import validateAuth from "../form_validation/validateAuth";
-import ResetPassword from "../pages/ResetPassword";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();

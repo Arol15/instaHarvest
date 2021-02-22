@@ -11,7 +11,7 @@ const validateAuth = (data) => {
   }
   Object.entries(data).forEach(([key, value]) => {
     if (key === "username") {
-      if (!/^[a-z0-9]$/i.test(value)) {
+      if (!/^[a-z0-9]{0,}$/.test(value)) {
         errors.username = "Allowed characters: a-z 0-9";
       }
     }

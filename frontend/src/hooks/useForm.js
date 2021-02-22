@@ -11,7 +11,7 @@ const useForm = (formData, onSubmit, formValidation) => {
 
   const handleSubmit = (event) => {
     event && event.preventDefault();
-
+    console.log(formState);
     const validationErrors = formValidation(formState);
     const isValid = Object.keys(validationErrors).length === 0;
     setErrors(validationErrors);

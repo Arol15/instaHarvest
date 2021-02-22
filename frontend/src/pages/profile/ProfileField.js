@@ -29,7 +29,7 @@ const ProfileFild = (props) => {
   ] = useForm({ [props.name]: props.value }, onSubmit, validateAuth);
 
   useEffect(() => {
-    if (error && !errorNum) {
+    if (error && errorNum !== 401) {
       props.sendMsg(error, "mdl-error");
     } else if (data && data.msg) {
       props.sendMsg(data.msg, "mdl-ok");
@@ -80,13 +80,18 @@ const ProfileFild = (props) => {
                 })}
               </select>
             ) : (
-              <input
-                placeholder={""}
-                type="text"
-                name={props.name}
-                onChange={handleInputChange}
-                value={formData[props.name] || ""}
-              ></input>
+              <>
+                <input
+                  placeholder={""}
+                  type="text"
+                  name={props.name}
+                  onChange={handleInputChange}
+                  value={formData[props.name] || ""}
+                ></input>
+                <div className="form-danger">
+                  {formErrors[props.name] && formErrors[props.name]}
+                </div>
+              </>
             )}
 
             <div>

@@ -11,7 +11,6 @@ const PublicProfile = (props) => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});
   }, []);
 
-  console.log(props);
   return (
     <>
       {isLoading && <Spinner />}
@@ -19,7 +18,7 @@ const PublicProfile = (props) => {
       {error && <h1>Profile Not Found</h1>}
       {data && (
         <div className="">
-          <img src={data.image_url} />
+          <img className="profile-img" src={data.image_url} />
           <EmailConfirmIcon email_verified={data.email_verified}>
             <h2 className="inline-block">{data.first_name}</h2>
           </EmailConfirmIcon>
