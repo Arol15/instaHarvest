@@ -24,7 +24,7 @@ def signup():
     #         data[key] = None
     email = data['email']
     username = request.json.get('username', None)
-    image_url = 'https://img.icons8.com/doodle/148/000000/test-account.png'
+    image_url = 'https://w7.pngwing.com/pngs/748/359/png-transparent-orange-fruit-cartoon-orange-food-photography-orange.png'
     if User.query.filter_by(email=email).first():
         return {'error': f'The user with email {email} already exists'}, 409
     if username and User.query.filter_by(username=username).first():

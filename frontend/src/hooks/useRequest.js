@@ -79,7 +79,7 @@ const useRequest = () => {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Something went wrong",
-        errorNum: null,
+        errorNum: 500,
       });
       return;
     }
@@ -103,7 +103,7 @@ const useRequest = () => {
         dispatchFetch({
           type: "ERROR",
           errorMessage: "Something went wrong",
-          errorNum: null,
+          errorNum: 500,
         });
         return;
       }
@@ -125,7 +125,7 @@ const useRequest = () => {
           dispatchFetch({
             type: "ERROR",
             errorMessage: "Something went wrong",
-            errorNum: null,
+            errorNum: 500,
           });
           return;
         }
@@ -133,7 +133,6 @@ const useRequest = () => {
         resp = refrResp;
       }
     }
-
     if (resp.status >= 200 && resp.status < 300) {
       dispatchFetch({
         type: "RESPONSE",
@@ -143,6 +142,7 @@ const useRequest = () => {
       dispatchFetch({
         type: "ERROR",
         errorMessage: resp.data.error,
+        errorNum: resp.status,
       });
     } else if (resp.status === 401) {
       dispatchFetch({
@@ -160,6 +160,7 @@ const useRequest = () => {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Something went wrong",
+        errorNum: resp.status,
       });
     }
   }, []);

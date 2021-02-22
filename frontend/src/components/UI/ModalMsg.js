@@ -8,9 +8,6 @@ const ModalMsg = (props) => {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    console.log("Modal->useEffect");
-    console.log(state);
-
     if (state.open) {
       window.setTimeout(() => {
         document.activeElement.blur();

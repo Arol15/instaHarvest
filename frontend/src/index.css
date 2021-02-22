@@ -95,3 +95,8 @@ a {
   /* transition-delay: 150ms; */
   transition-duration: 500ms;
 }
+
+.profile-img {
+  height: 152px;
+  width: 152px;
+}

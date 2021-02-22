@@ -16,7 +16,7 @@ bp = Blueprint('account', __name__, url_prefix='/api/account')
 @jwt_required
 def get_profile():
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.filter_by(id=user_id).first_or_404()
     res = user.to_dict_private()
     return res, 200
 

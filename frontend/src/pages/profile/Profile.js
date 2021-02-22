@@ -89,7 +89,7 @@ const Profile = (props) => {
           <h1>Profile</h1>
           <h2>Public Information</h2>
           <div></div>
-          <img src={profileData.image_url} />
+          <img className="profile-img" src={profileData.image_url} />
           <button>Edit</button>
 
           <div className="prf-block">
@@ -156,6 +156,21 @@ const Profile = (props) => {
                 </div>
               )}
             </div>
+
+            <div className="prf-field">
+              <ProfileField
+                name="username"
+                title="Username"
+                api="/edit_profile"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                value={profileData.username}
+              >
+                <p>{profileData.username}</p>
+              </ProfileField>
+            </div>
+
             <div className="prf-field">
               <ProfileField
                 name="last_name"
