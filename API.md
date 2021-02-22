@@ -688,10 +688,10 @@ return { modal };
 
 ```js
 const [
-  setFormState,
+  setFormData,
   handleSubmit,
   handleInputChange,
-  formState,
+  formData,
   formErrors,
 ] = useForm(formData, onSubmit, formValidation);
 ```
@@ -702,7 +702,7 @@ const [
 
 **handleInputChange** - update form fields state
 
-**formState** - form fields state
+**formData** - form fields state
 
 **formErrors** - form fields errors after validation
 

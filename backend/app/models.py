@@ -62,12 +62,11 @@ class User(db.Model):
         }
 
     def to_dict_public(self):
-        joined = self.created_at.strftime("%b %Y")
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
             "email_verified": self.email_verified,
-            "joined": joined,
+            "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
             "city": self.city
         }
@@ -132,7 +131,8 @@ class Message(db.Model):
 
     def to_dict(self):
         return {
-            "created_at": self.created_at,
+            "created_at": self.created_at.strftime("%d %b"),
+            "created_at_str": self.created_at.strftime("%d %b, %H:%M:%S"),
             "sender_id": self.sender_id,
             "body": self.body
         }

@@ -4,7 +4,7 @@ import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Spinner from "../../components/UI/Spinner";
 import Auth from "../Auth";
 import statesList from "../../data/states.json";
-import validateAuth from "../../form_validation/validateAuth";
+import validation from "../../form_validation/validation";
 import "./Profile.css";
 
 const ProfileFild = (props) => {
@@ -26,7 +26,7 @@ const ProfileFild = (props) => {
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({ [props.name]: props.value }, onSubmit, validateAuth);
+  ] = useForm({ [props.name]: props.value }, onSubmit, validation);
 
   useEffect(() => {
     if (error && errorNum !== 401) {

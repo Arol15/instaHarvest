@@ -5,7 +5,7 @@ import Spinner from "../components/UI/Spinner";
 import useModal from "../hooks/useModal";
 import useForm from "../hooks/useForm";
 import statesList from "../data/states.json";
-import validateAuth from "../form_validation/validateAuth";
+import validation from "../form_validation/validation";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -32,7 +32,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({}, onSubmit, validateAuth);
+  ] = useForm({}, onSubmit, validation);
 
   useEffect(() => {
     if (view === "login") {

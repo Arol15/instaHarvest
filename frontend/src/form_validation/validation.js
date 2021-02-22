@@ -1,4 +1,4 @@
-const validateAuth = (data) => {
+const validation = (data) => {
   const errors = {};
   if (data.password && data.confirm_pass) {
     if (data.password !== data.confirm_pass) {
@@ -34,18 +34,23 @@ const validateAuth = (data) => {
       }
     }
     if (key === "first_name") {
-      if (!value.length) {
+      if (!value) {
         errors.first_name = "Please enter you name";
       }
     }
     if (key === "state") {
-      if (!value.length) {
+      if (!value) {
         errors.state = "Please select state";
       }
     }
     if (key === "city") {
-      if (!value.length) {
+      if (!value) {
         errors.city = "Please enter city";
+      }
+    }
+    if (key === "body") {
+      if (!value) {
+        errors.body = "Please enter something";
       }
     }
   });
@@ -53,4 +58,4 @@ const validateAuth = (data) => {
   return errors;
 };
 
-export default validateAuth;
+export default validation;

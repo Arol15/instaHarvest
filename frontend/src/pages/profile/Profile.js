@@ -87,12 +87,13 @@ const Profile = (props) => {
       {profileData && (
         <div>
           <h1>Profile</h1>
-          <h2>Public Information</h2>
-          <div></div>
-          <img className="profile-img" src={profileData.image_url} />
-          <button>Edit</button>
 
           <div className="prf-block">
+            <h2>Public Information</h2>
+            <p></p>
+            <img className="profile-img" src={profileData.image_url} />
+            <button>Edit</button>
+
             <div className="prf-field">
               <ProfileField
                 name="first_name"
@@ -106,6 +107,7 @@ const Profile = (props) => {
                 <p>{profileData.first_name}</p>
               </ProfileField>
             </div>
+
             <div className="prf-field">
               <ProfileField
                 name="profile_addr"
@@ -149,7 +151,6 @@ const Profile = (props) => {
                 </div>
                 <p></p>
               </ProfileField>
-
               {!profileData.email_verified && (
                 <div>
                   <a onClick={resendConfirmEmail}>Resend confirmation email</a>
@@ -161,10 +162,11 @@ const Profile = (props) => {
               <ProfileField
                 name="username"
                 title="Username"
-                api="/edit_profile"
+                api="/edit_username"
                 method="PATCH"
                 update={updateProfileData}
                 sendMsg={sendMessage}
+                user={profileData.email}
                 value={profileData.username}
               >
                 <p>{profileData.username}</p>

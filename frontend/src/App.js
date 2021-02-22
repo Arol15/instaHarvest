@@ -8,6 +8,7 @@ import PublicProfile from "./pages/profile/PublicProfile";
 import ResetPassword from "./pages/ResetPassword";
 import { ModalMsgContextProvider } from "./context/ModalMsgContext";
 import ModalMsg from "./components/UI/ModalMsg";
+import ChatPageTest from "./pages/ChatPageTest";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             path="/reset_password_confirm/:token"
             component={ResetPassword}
           />
+          <Route path="/chat_test/:id" component={ChatPageTest} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
