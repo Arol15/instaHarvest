@@ -54,14 +54,8 @@ const Chat = ({ recipient_id, recipient_name }) => {
         classes: "mdl-error",
       });
     } else if (dataMsg) {
-      sendRequest(
-        "/api/chat/get_chat_messages",
-        "POST",
-        {
-          chat_id: data.chat_id,
-        },
-        true
-      );
+      setChatMsgs([...chatMsgs, dataMsg]);
+      setFormData({ ...formData, body: "" });
     }
   }, [dataMsg, errorMsg, errorNumMsg]);
 
@@ -91,12 +85,13 @@ const Chat = ({ recipient_id, recipient_name }) => {
         })}
       {
         <form>
-          <input
+          <textarea
+            rows={3}
             type="text"
             name="body"
             onChange={handleInputChange}
             value={formData.body || ""}
-          ></input>
+          ></textarea>
           <div className="form-danger">
             {formErrors.body && formErrors.body}
           </div>

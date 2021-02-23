@@ -34,7 +34,7 @@ def send_message():
                       body=data['body'])
     db.session.add(message)
     db.session.commit()
-    return {'chat_id': chat.id}, 200
+    return message.to_dict(), 200
 
 
 @bp.route('/get_chat_between_users', methods=['POST'])
