@@ -46,4 +46,3 @@ app.register_blueprint(auth.bp)
 app.register_blueprint(account.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(chat.bp)
-

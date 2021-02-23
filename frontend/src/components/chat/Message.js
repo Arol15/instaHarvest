@@ -1,4 +1,4 @@
-const Message = ({ body, created_at, sender, recipient_name }) => {
+const Message = ({ body, createdAt, sender, recipientName }) => {
   const splitMsg = body.split("\n").map((e, i) => {
     return <p key={i}>{e}</p>;
   });
@@ -7,7 +7,7 @@ const Message = ({ body, created_at, sender, recipient_name }) => {
     <>
       <p>{sender}:</p>
       {splitMsg}
-      <p>{created_at}</p>
+      <p>{createdAt}</p>
       <hr />
     </>
   );

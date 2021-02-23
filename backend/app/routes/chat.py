@@ -15,7 +15,7 @@ bp = Blueprint('chat', __name__, url_prefix='/api/chat')
 def get_user_chats():
     user_id = get_jwt_identity()
     chats = Chat.query.filter(
-        or_(Chat.user1_id == user_id, Chat.user2_id == user_id)).all()
+        or_(Chat.user1_id == user_id, Chat.user2_id == user_id)).order_by(Chat.created_at.desc()).all()
     chats_dict = [chat.to_dict(user_id) for chat in chats]
 
     return {'chats': chats_dict}, 200

@@ -608,7 +608,7 @@ const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
 **error** - _(string)_, error message
 
-**errorNum** - only for 401 (Authorization denied) and 403 (Not enough privileges) errors
+**errorNum** - error status number
 
 **sendRequest** - function to send request
 
