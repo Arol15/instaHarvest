@@ -62,12 +62,11 @@ class User(db.Model):
         }
 
     def to_dict_public(self):
-        joined = self.created_at.strftime("%b %Y")
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
             "email_verified": self.email_verified,
-            "joined": joined,
+            "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
             "city": self.city
         }
@@ -114,10 +113,13 @@ class Chat(db.Model):
 
     def to_dict(self, user_id):
         recipient_id = self.user2_id if self.user1_id == user_id else self.user1_id
+        recipient = User.query.filter_by(id=recipient_id).first()
         return {
             "chat_id": self.id,
             "created_at": self.created_at,
             "recipient_id": recipient_id,
+            "recipient_img": recipient.image_url,
+            "recipient_name": recipient.first_name
         }
 
 
@@ -132,7 +134,8 @@ class Message(db.Model):
 
     def to_dict(self):
         return {
-            "created_at": self.created_at,
+            "created_at": self.created_at.strftime("%d %b"),
+            "created_at_str": self.created_at.strftime("%d %b, %H:%M:%S"),
             "sender_id": self.sender_id,
             "body": self.body
         }

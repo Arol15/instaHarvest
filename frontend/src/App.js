@@ -8,6 +8,8 @@ import PublicProfile from "./pages/profile/PublicProfile";
 import ResetPassword from "./pages/ResetPassword";
 import { ModalMsgContextProvider } from "./context/ModalMsgContext";
 import ModalMsg from "./components/UI/ModalMsg";
+import UserChats from "./pages/profile/UserChats";
+import Chat from "./components/chat/Chat";
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
             <Auth view="signup" />
           </Route>
           <Route path="/profile" component={Profile} exact />
+          <Route path="/profile/chats" component={UserChats} exact />
           <Route path="/profile/:addr" component={PublicProfile} />
+          <Route path="/chat/:name" component={Chat} />
           <Route path="/buy" component={Products} />
           <Route path="/reset_password">
             <ResetPassword reset={true} />

@@ -608,7 +608,7 @@ const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
 **error** - _(string)_, error message
 
-**errorNum** - only for 401 (Authorization denied) and 403 (Not enough privileges) errors
+**errorNum** - error status number
 
 **sendRequest** - function to send request
 
@@ -688,10 +688,10 @@ return { modal };
 
 ```js
 const [
-  setFormState,
+  setFormData,
   handleSubmit,
   handleInputChange,
-  formState,
+  formData,
   formErrors,
 ] = useForm(formData, onSubmit, formValidation);
 ```
@@ -702,7 +702,7 @@ const [
 
 **handleInputChange** - update form fields state
 
-**formState** - form fields state
+**formData** - form fields state
 
 **formErrors** - form fields errors after validation
 

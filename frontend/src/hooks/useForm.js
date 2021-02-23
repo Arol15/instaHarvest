@@ -11,7 +11,6 @@ const useForm = (formData, onSubmit, formValidation) => {
 
   const handleSubmit = (event) => {
     event && event.preventDefault();
-    console.log(formState);
     const validationErrors = formValidation(formState);
     const isValid = Object.keys(validationErrors).length === 0;
     setErrors(validationErrors);
@@ -23,7 +22,10 @@ const useForm = (formData, onSubmit, formValidation) => {
 
   const handleInputChange = (event) => {
     // event.persist();
+
     setFormState({ ...formState, [event.target.name]: event.target.value });
+    console.log(event.target.value === "↵");
+    console.log(formState);
   };
 
   return [setFormState, handleSubmit, handleInputChange, formState, formErrors];
