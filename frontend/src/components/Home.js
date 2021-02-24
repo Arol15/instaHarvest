@@ -7,7 +7,11 @@ const Home = () => {
   //     history.push('/buy')
   // }
 
-  return (
+    // const handleBuyProducts = () => {
+    //     history.push('/buy')
+    // }
+
+    return(
     <div>
       <MainNavbar />
       <h1>Welcome to instaHarvest</h1>

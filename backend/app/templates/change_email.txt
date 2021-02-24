@@ -1,6 +1,6 @@
 Hello {{ user.first_name }},
 
-Welcome to InstaHarvest!
+You get this email to confirm the change of email.
 
 To confirm your email please click on the following link:
 

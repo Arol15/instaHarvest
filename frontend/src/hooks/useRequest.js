@@ -8,6 +8,7 @@ const fetchReducer = (currState, action) => {
       return {
         ...currState,
         isLoading: true,
+        errorNum: null,
         error: null,
         data: null,
       };
@@ -24,8 +25,15 @@ const fetchReducer = (currState, action) => {
         error: action.errorMessage,
         errorNum: action.errorNum,
       };
+    default:
+      return;
   }
 };
+
+/**
+ *  useRequest
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useRequest
+ */
 
 const useRequest = () => {
   const [fetchState, dispatchFetch] = useReducer(fetchReducer, {
@@ -42,7 +50,7 @@ const useRequest = () => {
       const accessToken = localStorage.getItem("access_token");
       const refreshToken = localStorage.getItem("refresh_token");
       if (!accessToken && !refreshToken) {
-        history.push("/signup");
+        history.push("/login");
         return;
       }
     }
@@ -71,15 +79,16 @@ const useRequest = () => {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Something went wrong",
-        errorNum: null,
+        errorNum: 500,
       });
       return;
     }
 
-    if (isJwt && resp.status >= 300) {
+    if (isJwt && resp.status === 401) {
+      console.log("useRequest: refresh_token");
       const refrResp = await axios({
         method: "post",
-        url: "api/auth/refresh",
+        url: "/api/auth/refresh",
         data: {},
         timeout: 5000,
         headers: {
@@ -94,7 +103,7 @@ const useRequest = () => {
         dispatchFetch({
           type: "ERROR",
           errorMessage: "Something went wrong",
-          errorNum: null,
+          errorNum: 500,
         });
         return;
       }
@@ -116,7 +125,7 @@ const useRequest = () => {
           dispatchFetch({
             type: "ERROR",
             errorMessage: "Something went wrong",
-            errorNum: null,
+            errorNum: 500,
           });
           return;
         }
@@ -124,7 +133,6 @@ const useRequest = () => {
         resp = refrResp;
       }
     }
-
     if (resp.status >= 200 && resp.status < 300) {
       dispatchFetch({
         type: "RESPONSE",
@@ -134,6 +142,7 @@ const useRequest = () => {
       dispatchFetch({
         type: "ERROR",
         errorMessage: resp.data.error,
+        errorNum: resp.status,
       });
     } else if (resp.status === 401) {
       dispatchFetch({
@@ -151,6 +160,7 @@ const useRequest = () => {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Something went wrong",
+        errorNum: resp.status,
       });
     }
   }, []);

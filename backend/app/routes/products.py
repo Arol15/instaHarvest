@@ -3,7 +3,7 @@ from flask_jwt_extended import (fresh_jwt_required, get_jwt_identity,
                                 jwt_required)
 import json
 from app import db
-from app.models import Product
+from app.models import Product, User
 
 bp = Blueprint("products", __name__, url_prefix='/api/products')
 
@@ -24,19 +24,31 @@ def create_product():
 
 
 @bp.route('/products-per-user')
-@jwt_required
+# @jwt_required
 def get_products_per_user():
+    # product = Product.query.filter_by(id=1).first()
+    # print(product.name)
+    # user = product.user
+    # print(user.email)
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first_or_404()
     user_products = user.products.all()
-    # user_products = Product.query.filter_by(id=user_id).all()
+    user_products = Product.query.filter_by(id=user_id).all()
     products = [product.to_dict() for product in user_products]
     return {'user-products': products}
+    # return {}
 
 
-@bp.route('/get-all')
+@bp.route('/get-all', methods=["POST"])
 def get_all_products():
-    products = Product.query.all()
-    products = [product.to_dict() for product in products]
-    # print(products)
-    return {'products': products}
+    data = request.get_json()
+    # print(data)
+    searchCity = data["search_term"]
+    # print(searchCity)
+    prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
+    # print(prods)
+    user_products = [product.to_dict() for product in prods]
+    # print(user_products)
+    return {'products': user_products}
+   
+
