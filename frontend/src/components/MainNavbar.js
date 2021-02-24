@@ -9,9 +9,9 @@ const MainNavbar = () => {
     )
     // console.log(isToken)
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    })
+    // })
     
     return(
         <nav className='main-navbar'>

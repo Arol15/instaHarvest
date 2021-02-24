@@ -30,6 +30,11 @@ const Profile = (props) => {
   useEffect(() => {
     if (data) {
       setProfileData({ ...data });
+      localStorage.setItem("app_data", JSON.stringify({first_name: data.first_name}))
+      const appD = JSON.parse(localStorage.getItem("app_data"))
+      console.log(appD)
+      console.log(appD.first_name)
+    
     }
   }, [data]);
 
@@ -80,6 +85,7 @@ const Profile = (props) => {
   const resendConfirmEmail = () => {
     sendEmailRequest("/api/auth/resend_email", "POST", {}, true);
   };
+
   return (
     <>
       {isLoading && <Spinner />}
