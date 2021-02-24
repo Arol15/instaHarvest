@@ -11,14 +11,19 @@ const validation = (data) => {
   }
   Object.entries(data).forEach(([key, value]) => {
     if (key === "username") {
-      if (!/^[a-z0-9]{0,}$/.test(value)) {
-        errors.username = "Allowed characters: a-z 0-9";
+      if (!/^[a-z0-9._]{0,}$/.test(value)) {
+        errors.username = "Allowed characters: a-z 0-9 . _";
       }
     }
 
     if (key === "password") {
       if (!value) {
         errors.password = "Please enter your password";
+      }
+    }
+    if (key === "confirm_pass") {
+      if (!value) {
+        errors.confirm_pass = "Passwords don't match";
       }
     }
     if (key === "login") {

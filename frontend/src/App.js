@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Profile from "./pages/profile/Profile";
+import Profile from "./components/profile/Profile";
 import Products from "./components/Products";
-import Auth from "./pages/Auth";
-import NotFound from "./pages/NotFound";
-import PublicProfile from "./pages/profile/PublicProfile";
-import ResetPassword from "./pages/ResetPassword";
+import Auth from "./components/auth/Auth";
+import NotFoundPage from "./components/NotFoundPage";
+import PublicProfile from "./components/profile/PublicProfile";
+import ResetPassword from "./components/auth/ResetPassword";
 import { ModalMsgContextProvider } from "./context/ModalMsgContext";
 import ModalMsg from "./components/UI/ModalMsg";
-import UserChats from "./pages/profile/UserChats";
+import UserChatsPage from "./components/chat/UserChatsPage";
 import Chat from "./components/chat/Chat";
 
 function App() {
@@ -26,9 +26,9 @@ function App() {
             <Auth view="signup" />
           </Route>
           <Route path="/profile" component={Profile} exact />
-          <Route path="/profile/chats" component={UserChats} exact />
+          <Route path="/chats" component={UserChatsPage} exact />
+          <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
-          <Route path="/chat/:name" component={Chat} />
           <Route path="/buy" component={Products} />
           <Route path="/reset_password">
             <ResetPassword reset={true} />
@@ -37,7 +37,7 @@ function App() {
             path="/reset_password_confirm/:token"
             component={ResetPassword}
           />
-          <Route path="*" component={NotFound} />
+          <Route path="*" component={NotFoundPage} />
         </Switch>
       </Router>
       <ModalMsg />

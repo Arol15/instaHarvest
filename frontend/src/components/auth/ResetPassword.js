@@ -1,9 +1,9 @@
 import { useEffect, useContext } from "react";
-import { useRequest, useForm } from "../hooks/hooks";
-import validation from "../form_validation/validation";
+import { useRequest, useForm } from "../../hooks/hooks";
+import validation from "../../form_validation/validation";
 import { useHistory } from "react-router-dom";
-import Spinner from "../components/UI/Spinner";
-import { ModalMsgContext } from "../context/ModalMsgContext";
+import Spinner from "../UI/Spinner";
+import { ModalMsgContext } from "../../context/ModalMsgContext";
 
 const ResetPassword = (props) => {
   const history = useHistory();

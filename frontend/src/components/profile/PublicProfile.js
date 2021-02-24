@@ -1,8 +1,8 @@
 import { useEffect, useContext } from "react";
 import { useRequest, useModal } from "../../hooks/hooks";
-import Spinner from "../../components/UI/Spinner";
+import Spinner from "../UI/Spinner";
 import statesList from "../../data/states.json";
-import EmailConfirmIcon from "../../components/UI/EmailConfirmIcon";
+import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 
 const PublicProfile = (props) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();

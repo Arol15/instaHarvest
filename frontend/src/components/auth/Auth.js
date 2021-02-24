@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import useRequest from "../hooks/useRequest";
-import Spinner from "../components/UI/Spinner";
-import useModal from "../hooks/useModal";
-import useForm from "../hooks/useForm";
-import statesList from "../data/states.json";
-import validation from "../form_validation/validation";
+import useRequest from "../../hooks/useRequest";
+import Spinner from "../UI/Spinner";
+import useModal from "../../hooks/useModal";
+import useForm from "../../hooks/useForm";
+import statesList from "../../data/states.json";
+import validation from "../../form_validation/validation";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -112,7 +112,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
           <>
             <label>Username: </label>
             <input
-              key="2"
+              autoFocus
               type="text"
               placeholder="Username"
               name="username"
@@ -129,7 +129,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
           <>
             <label>email: </label>
             <input
-              key="3"
+              autoFocus
               type="text"
               placeholder="Email"
               name="email"

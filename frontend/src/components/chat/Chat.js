@@ -9,7 +9,6 @@ import Message from "./Message";
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const [isLoadingMsg, dataMsg, errorMsg, errorNumMsg, sendMsg] = useRequest();
-  const [chatProps, setChatProps] = useState({});
   const [chatMsgs, setChatMsgs] = useState(null);
   const bottom = useRef();
   const location = useLocation();
@@ -91,9 +90,9 @@ const Chat = () => {
           return (
             <Message
               key={i}
-              created_at={msg.created_at_str}
+              createdAt={msg.created_at_str}
               sender={sender}
-              recipient_name={recipientName}
+              recipientName={recipientName}
               body={msg.body}
             />
           );
