@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 // import { useForm } from "react-hook-form";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
-import Spinner from "../../components/UI/Spinner";
-import Auth from "../Auth";
+import Spinner from "../UI/Spinner";
+import Auth from "../../components/auth/Auth";
 import statesList from "../../data/states.json";
 import validation from "../../form_validation/validation";
 import "./Profile.css";

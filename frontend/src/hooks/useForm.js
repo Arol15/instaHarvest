@@ -24,8 +24,6 @@ const useForm = (formData, onSubmit, formValidation) => {
     // event.persist();
 
     setFormState({ ...formState, [event.target.name]: event.target.value });
-    console.log(event.target.value === "↵");
-    console.log(formState);
   };
 
   return [setFormState, handleSubmit, handleInputChange, formState, formErrors];

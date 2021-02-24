@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const Message = ({ body, createdAt, sender, recipientName }) => {
   const splitMsg = body.split("\n").map((e, i) => {
     return <p key={i}>{e}</p>;
@@ -13,4 +15,4 @@ const Message = ({ body, createdAt, sender, recipientName }) => {
   );
 };
 
-export default Message;
+export default memo(Message);

@@ -1,19 +1,19 @@
 import { useEffect, useContext, useState } from "react";
 import { useRequest } from "../../hooks/hooks";
-import Spinner from "../../components/UI/Spinner";
+import Spinner from "../UI/Spinner";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
-import Chat from "../../components/chat/Chat";
+import Chat from "./Chat";
 import { useHistory } from "react-router-dom";
-import "./UserChats.css";
+import "./chat.css";
 
-const UserChats = () => {
+const UserChatsPage = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const [, setModalMsgState] = useContext(ModalMsgContext);
 
   const history = useHistory();
   const openChat = (recipientId, recipientName, recipientImg) => {
     history.push({
-      pathname: `/chat/${recipientName}`,
+      pathname: `/chats/${recipientName}`,
       state: {
         recipientId: recipientId,
         recipientName: recipientName,
@@ -62,4 +62,4 @@ const UserChats = () => {
   );
 };
 
-export default UserChats;
+export default UserChatsPage;

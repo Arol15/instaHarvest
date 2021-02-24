@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Auth from "../pages/Auth";
-import "./AuthModal.css";
+import Auth from "../../components/auth/Auth";
+import "./auth.css";
 import classnames from "classnames";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 

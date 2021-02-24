@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
-import Spinner from "../../components/UI/Spinner";
+import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
-import EmailConfirmIcon from "../../components/UI/EmailConfirmIcon";
+import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
 import "./Profile.css";
 
