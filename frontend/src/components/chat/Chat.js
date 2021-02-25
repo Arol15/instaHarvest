@@ -8,7 +8,13 @@ import Message from "./Message";
 
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [isLoadingMsg, dataMsg, errorMsg, errorNumMsg, sendMsg] = useRequest();
+  const [
+    isLoadingMsg,
+    dataMsg,
+    errorMsg,
+    errorNumMsg,
+    processMsg,
+  ] = useRequest();
   const [chatMsgs, setChatMsgs] = useState(null);
   const bottom = useRef();
   const location = useLocation();
@@ -18,7 +24,7 @@ const Chat = () => {
   }
   const { recipientId, recipientName, recipientImg } = location.state;
   const onSubmit = (e) => {
-    sendMsg("/api/chat/send_message", "POST", formData, true);
+    processMsg("/api/chat/send_message", "POST", formData, true);
   };
   const [
     setFormData,
@@ -28,6 +34,10 @@ const Chat = () => {
     formErrors,
   ] = useForm({ body: "", recipient_id: recipientId }, onSubmit, validation);
   const [, setNotifState] = useContext(ModalMsgContext);
+
+  const onDeleteMsg = (msgId) => {
+    processMsg("/api/chat/delete_message", "POST", { msg_id: msgId }, true);
+  };
 
   useEffect(() => {
     sendRequest(
@@ -74,29 +84,34 @@ const Chat = () => {
   }, [dataMsg, errorMsg, errorNumMsg]);
 
   useEffect(() => {
-    bottom && bottom.current.scrollIntoView();
+    bottom.current && bottom.current.scrollIntoView();
   }, [chatMsgs]);
 
   return (
     <>
       {isLoading && <Spinner />}
-      {chatMsgs &&
-        chatMsgs.map((msg, i) => {
-          const sender =
-            parseInt(msg.sender_id) === parseInt(recipientId)
-              ? recipientName
-              : "Me";
-
-          return (
-            <Message
-              key={i}
-              createdAt={msg.created_at_str}
-              sender={sender}
-              recipientName={recipientName}
-              body={msg.body}
-            />
-          );
-        })}
+      <h1>Chat with {recipientName}</h1>
+      <div className="chat-scroll">
+        {chatMsgs &&
+          chatMsgs.map((msg, i) => {
+            const sender =
+              parseInt(msg.sender_id) === parseInt(recipientId)
+                ? recipientName
+                : "Me";
+            return (
+              <div key={i} ref={i === chatMsgs.length - 1 ? bottom : null}>
+                <Message
+                  msgId={msg.msg_id}
+                  onDeleteMsg={onDeleteMsg}
+                  createdAt={msg.created_at_str}
+                  sender={sender}
+                  body={msg.body}
+                  image={msg.sender_img}
+                />
+              </div>
+            );
+          })}
+      </div>
       {
         <form>
           <textarea
@@ -109,9 +124,7 @@ const Chat = () => {
           <div className="form-danger">
             {formErrors.body && formErrors.body}
           </div>
-          <button ref={bottom} onClick={handleSubmit}>
-            Send
-          </button>
+          <button onClick={handleSubmit}>Send</button>
         </form>
       }
     </>

@@ -3,6 +3,7 @@ import { useRequest, useModal } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import statesList from "../../data/states.json";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
+import "./profile.css";
 
 const PublicProfile = (props) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -18,7 +19,7 @@ const PublicProfile = (props) => {
       {error && <h1>Profile Not Found</h1>}
       {data && (
         <div className="">
-          <img className="profile-img" src={data.image_url} />
+          <img className="prf-img" src={data.image_url} />
           <EmailConfirmIcon email_verified={data.email_verified}>
             <h2 className="inline-block">{data.first_name}</h2>
           </EmailConfirmIcon>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ModalMsgContext = React.createContext([{}, () => {}]);
+const ModalMsgContext = React.createContext();
 
 const ModalMsgContextProvider = (props) => {
   const [state, setState] = useState({

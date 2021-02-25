@@ -5,7 +5,7 @@ import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
-import "./Profile.css";
+import "./profile.css";
 
 const Profile = (props) => {
   const [profileData, setProfileData] = useState(null);
@@ -30,11 +30,13 @@ const Profile = (props) => {
   useEffect(() => {
     if (data) {
       setProfileData({ ...data });
-      localStorage.setItem("app_data", JSON.stringify({first_name: data.first_name}))
-      const appD = JSON.parse(localStorage.getItem("app_data"))
-      console.log(appD)
-      console.log(appD.first_name)
-    
+      localStorage.setItem(
+        "app_data",
+        JSON.stringify({ first_name: data.first_name })
+      );
+      const appD = JSON.parse(localStorage.getItem("app_data"));
+      console.log(appD);
+      console.log(appD.first_name);
     }
   }, [data]);
 
@@ -97,7 +99,7 @@ const Profile = (props) => {
           <div className="prf-block">
             <h2>Public Information</h2>
             <p></p>
-            <img className="profile-img" src={profileData.image_url} />
+            <img className="prf-img" src={profileData.image_url} />
             <button>Edit</button>
 
             <div className="prf-field">
