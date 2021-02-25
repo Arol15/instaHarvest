@@ -133,9 +133,12 @@ class Message(db.Model):
                            server_default=func.now())
 
     def to_dict(self):
+        user = User.query.filter_by(id=self.sender_id).first()
         return {
+            "msg_id": self.id,
             "created_at": self.created_at.strftime("%d %b"),
             "created_at_str": self.created_at.strftime("%d %b, %H:%M:%S"),
             "sender_id": self.sender_id,
+            "sender_img": user.image_url,
             "body": self.body
         }

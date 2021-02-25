@@ -65,7 +65,17 @@ def get_chat_messages():
     data = request.get_json()
     chat = Chat.query.filter_by(id=data['chat_id']).first()
     if not chat:
-        return {}, 406
+        return {'chat_id': data['chat_id'], 'msgs': []}, 200
     messages = chat.messages.order_by(Message.created_at).all()
     msgs_dict = [message.to_dict() for message in messages]
     return {'chat_id': data['chat_id'], 'msgs': msgs_dict}, 200
+
+
+@bp.route('/delete_message', methods=['POST'])
+@jwt_required
+def delete_msg():
+    msg_id = request.json.get('msg_id')
+    msg = Message.query.filter_by(id=msg_id).first()
+    db.session.delete(msg)
+    db.session.commit()
+    return {}, 200
