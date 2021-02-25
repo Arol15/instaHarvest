@@ -6,6 +6,7 @@ import useModal from "../../hooks/useModal";
 import useForm from "../../hooks/useForm";
 import statesList from "../../data/states.json";
 import validation from "../../form_validation/validation";
+import { checkAuth } from "../../utils/localStorage";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -16,7 +17,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     inPlace: inModal ? true : false,
   });
 
-  localStorage.getItem("access_token") && !inModal && history.push("/profile");
+  checkAuth() && !inModal && history.push("/profile");
 
   const onSubmit = (e) => {
     sendRequest(

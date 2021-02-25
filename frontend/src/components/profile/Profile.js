@@ -5,6 +5,7 @@ import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
+import { saveJSON } from "../../utils/localStorage";
 import "./profile.css";
 
 const Profile = (props) => {
@@ -30,13 +31,7 @@ const Profile = (props) => {
   useEffect(() => {
     if (data) {
       setProfileData({ ...data });
-      localStorage.setItem(
-        "app_data",
-        JSON.stringify({ first_name: data.first_name })
-      );
-      const appD = JSON.parse(localStorage.getItem("app_data"));
-      console.log(appD);
-      console.log(appD.first_name);
+      saveJSON("app_data", { first_name: data.first_name });
     }
   }, [data]);
 
