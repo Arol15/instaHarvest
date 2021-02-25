@@ -71,7 +71,7 @@ def get_chat_messages():
     return {'chat_id': data['chat_id'], 'msgs': msgs_dict}, 200
 
 
-@bp.route('/delete_message', methods=['POST'])
+@bp.route('/delete_message', methods=['DELETE'])
 @jwt_required
 def delete_msg():
     msg_id = request.json.get('msg_id')

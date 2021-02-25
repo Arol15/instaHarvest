@@ -1,7 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import classnames from "classnames";
 import "./dropDownMenu.css";
-const DropDownMenu = ({ children, open, button, onClick }) => {
+const DropDownMenu = ({
+  children,
+  open,
+  button,
+  onClick,
+  classContainer,
+  classMenu,
+  classActive,
+}) => {
+  const [classes] = useState({
+    clContainer: classContainer ? classContainer : "menu-container",
+    clMenu: classMenu ? classMenu : "menu",
+    clActive: classActive ? classActive : "menu-active",
+  });
+
   const refer = useRef(null);
   useEffect(() => {
     const clickEvent = (e) => {
@@ -19,9 +33,12 @@ const DropDownMenu = ({ children, open, button, onClick }) => {
   }, [open]);
 
   return (
-    <div className="menu-container">
+    <div className={classes.clContainer}>
       {button}
-      <nav ref={refer} className={classnames("menu", { "menu-active": open })}>
+      <nav
+        ref={refer}
+        className={classnames(classes.clMenu, { [classes.clActive]: open })}
+      >
         {children}
       </nav>
     </div>

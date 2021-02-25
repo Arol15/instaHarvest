@@ -36,7 +36,7 @@ const Chat = () => {
   const [, setNotifState] = useContext(ModalMsgContext);
 
   const onDeleteMsg = (msgId) => {
-    processMsg("/api/chat/delete_message", "POST", { msg_id: msgId }, true);
+    processMsg("/api/chat/delete_message", "DELETE", { msg_id: msgId }, true);
   };
 
   useEffect(() => {
