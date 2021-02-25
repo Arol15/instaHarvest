@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 // import { useForm } from "react-hook-form";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
-import Auth from "../../components/auth/Auth";
+import Auth from "../auth/Auth";
 import statesList from "../../data/states.json";
 import validation from "../../form_validation/validation";
-import "./Profile.css";
+import "./profile.css";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);

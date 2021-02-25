@@ -95,15 +95,3 @@ a {
   /* transition-delay: 150ms; */
   transition-duration: 500ms;
 }
-
-.profile-img {
-  height: 152px;
-  width: 152px;
-  border-radius: 50%;
-}
-
-.chat-img {
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-}

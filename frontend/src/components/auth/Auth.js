@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, Redirect } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
 import useModal from "../../hooks/useModal";
 import useForm from "../../hooks/useForm";
 import statesList from "../../data/states.json";
 import validation from "../../form_validation/validation";
+import { checkAuth } from "../../utils/localStorage";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -15,6 +16,8 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     useTimer: true,
     inPlace: inModal ? true : false,
   });
+
+  checkAuth() && !inModal && history.push("/profile");
 
   const onSubmit = (e) => {
     sendRequest(
@@ -52,12 +55,12 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     }
   }, [view]);
 
-  useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    if (access_token && !inModal) {
-      history.push("/profile");
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   const access_token = localStorage.getItem("access_token");
+  //   if (access_token && !inModal) {
+  //     history.push("/profile");
+  //   }
+  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data) {
@@ -81,7 +84,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       showModal(data.msg, "mdl-ok");
     }
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  console.log("AUTH");
   return (
     <div>
       {modal}
