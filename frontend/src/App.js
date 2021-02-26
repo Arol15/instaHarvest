@@ -10,6 +10,7 @@ import { ModalMsgContextProvider } from "./context/ModalMsgContext";
 import ModalMsg from "./components/UI/ModalMsg";
 import UserChatsPage from "./components/chat/UserChatsPage";
 import Chat from "./components/chat/Chat";
+import AddProduct from "./components/AddProduct"
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Auth view="signup" />
           </Route>
           <Route path="/profile" component={Profile} exact />
+          <Route path="/add-product" component={AddProduct} exact />
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
