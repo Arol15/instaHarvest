@@ -5,7 +5,7 @@ import classnames from "classnames";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 
 const AuthModal = () => {
-  const [view, setView] = useState("signup");
+  const [view, setView] = useState("login");
 
   const switchComponents = () => {
     if (view === "login") {
@@ -21,7 +21,7 @@ const AuthModal = () => {
         className={classnames("authButton", { active: view === "login" })}
         onClick={switchComponents}
       >
-        Login
+        Log In
       </button>
       <button
         disabled={view === "signup"}

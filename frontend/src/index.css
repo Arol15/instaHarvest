@@ -57,7 +57,9 @@ a {
 }
 
 .form-danger {
+  height: fit-content;
   color: red;
+  font-size: 0.8rem;
 }
 
 .mdl-msg {

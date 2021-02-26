@@ -639,7 +639,7 @@ useEffect(() => {
 ### useModal
 
 ```js
-const [modal, showModal, onClose, open] = useModal({
+const [modal, showModal, closeModal, isOpen] = useModal({
     withBackdrop: //bool,
     useTimer: //bool,
     inPlace: //bool,
@@ -651,9 +651,9 @@ const [modal, showModal, onClose, open] = useModal({
 
 **showModal** - function to show the modal
 
-**onClose** - function to close the modal
+**closeModal** - function to close the modal
 
-**open** - state of the modal, `true` if modal is open
+**isOpen** - state of the modal, `true` if modal is open
 
 ```js
 showModal(children, classes);
@@ -666,7 +666,7 @@ showModal(children, classes);
 #### Example:
 
 ```js
-const [modal, showModal] = useModal({
+const [modal, showModal, closeModal, isOpen] = useModal({
   withBackdrop: false,
   useTimer: true,
   timeOut: 10000,
