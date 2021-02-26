@@ -2,7 +2,6 @@ import { useEffect, useContext, useState } from "react";
 import { useRequest } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
-import Chat from "./Chat";
 import { useHistory } from "react-router-dom";
 import "./chat.css";
 

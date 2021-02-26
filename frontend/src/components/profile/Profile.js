@@ -148,7 +148,7 @@ const Profile = (props) => {
                 value={profileData.email}
               >
                 <div>
-                  <EmailConfirmIcon email_verified={profileData.email_verified}>
+                  <EmailConfirmIcon verified={profileData.email_verified}>
                     <p className="inline-block">{profileData.email}</p>
                   </EmailConfirmIcon>
                 </div>

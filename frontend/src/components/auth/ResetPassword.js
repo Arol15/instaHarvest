@@ -9,7 +9,7 @@ const ResetPassword = (props) => {
   const history = useHistory();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
-  const [msgState, setMsgState] = useContext(ModalMsgContext);
+  const [, setMsgState] = useContext(ModalMsgContext);
 
   const onSubmit = () => {
     if (props.reset) {
@@ -24,13 +24,7 @@ const ResetPassword = (props) => {
     }
   };
 
-  const [
-    setFormData,
-    handleSubmit,
-    handleInputChange,
-    formData,
-    formErrors,
-  ] = useForm(
+  const [, handleSubmit, handleInputChange, formData, formErrors] = useForm(
     props.reset ? { email: "" } : { password: "", confirm_pass: "" },
     onSubmit,
     validation

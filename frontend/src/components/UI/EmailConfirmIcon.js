@@ -1,20 +1,19 @@
-import { Icon, InlineIcon } from "@iconify/react";
-import baselineVerified from "@iconify-icons/ic/baseline-verified";
-import outlineVerified from "@iconify-icons/ic/outline-verified";
+import { VscUnverified } from "react-icons/vsc";
+import { GoVerified } from "react-icons/go";
 
-const EmailConfirmIcon = (props) => {
+const EmailConfirmIcon = ({ verified, children }) => {
   return (
     <div>
-      {props.children}
+      {children}
       <span className="tooltip">
-        <InlineIcon
-          icon={props.email_verified ? baselineVerified : outlineVerified}
-          width="30"
-          height="30"
-          color={props.email_verified && "#4E9340"}
-        />
+        {verified ? (
+          <GoVerified size={"24px"} color={"#4e9340"} />
+        ) : (
+          <VscUnverified size={"24px"} />
+        )}
+
         <span className="tooltiptext">
-          {props.email_verified ? "Email verified" : "Email not verified"}
+          {verified ? "Email verified" : "Email not verified"}
         </span>
       </span>
     </div>
