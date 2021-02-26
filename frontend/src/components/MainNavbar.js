@@ -1,6 +1,7 @@
 import { Link, useHistory } from "react-router-dom"; 
 import { useState } from 'react'; 
 import "./MainNavbar.css"
+import { loadJSON } from '../utils/localStorage'; 
 
 const MainNavbar = () => { 
 
@@ -9,6 +10,8 @@ const MainNavbar = () => {
     )
 
     const history = useHistory(); 
+
+    const first_name = loadJSON("app_data").first_name; 
 
     const logout = () => {
         const toLogout = window.confirm("Are you sure to logout?"); 
@@ -24,7 +27,7 @@ const MainNavbar = () => {
             {isToken ? (
             <div className="main-navbar-links">
                 <div>
-                    {localStorage.getItem("first_name")}
+                    {first_name}
                 </div>
                 <button onClick={logout}>
                     Logout
