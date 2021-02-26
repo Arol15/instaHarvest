@@ -6,6 +6,7 @@ export const saveJSON = (key, data) =>
 export const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
+  localStorage.removeItem("app_data");
 };
 
 export const checkAuth = () =>

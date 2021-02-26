@@ -21,7 +21,7 @@ const fetchReducer = (currState, action) => {
     case "setOpen":
       return {
         ...currState,
-        open: action.open,
+        isOpen: action.isOpen,
       };
     case "setModal":
       return {
@@ -41,14 +41,14 @@ const fetchReducer = (currState, action) => {
 const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   const [fetchState, dispatchFetch] = useReducer(fetchReducer, {
     active: false,
-    open: false,
+    isOpen: false,
     children: null,
     classes: null,
     modal: null,
   });
   const backdrop = useRef(null);
   const showModal = (children, classes) => {
-    dispatchFetch({ type: "setOpen", open: true });
+    dispatchFetch({ type: "setOpen", isOpen: true });
     dispatchFetch({
       type: "setChildren",
       children: children,
@@ -56,8 +56,8 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
     });
   };
 
-  const onClose = () => {
-    dispatchFetch({ type: "setOpen", open: false });
+  const closeModal = () => {
+    dispatchFetch({ type: "setOpen", isOpen: false });
   };
   const [, setMsgState] = useContext(ModalMsgContext);
 
@@ -65,9 +65,10 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
     if (withBackdrop === true) {
       const { current } = backdrop;
       const transitionEnd = () =>
-        dispatchFetch({ type: "setActive", active: fetchState.open });
-      const keyHandler = (event) => [27].indexOf(event.which) >= 0 && onClose();
-      const clickHandler = (event) => event.target === current && onClose();
+        dispatchFetch({ type: "setActive", active: fetchState.isOpen });
+      const keyHandler = (event) =>
+        [27].indexOf(event.which) >= 0 && closeModal();
+      const clickHandler = (event) => event.target === current && closeModal();
 
       if (current) {
         current.addEventListener("transitionend", transitionEnd);
@@ -83,29 +84,29 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
         window.removeEventListener("keyup", keyHandler);
       };
     }
-  }, [fetchState.open, fetchState.modal]);
+  }, [fetchState.isOpen, fetchState.modal]);
 
   useEffect(() => {
-    if (fetchState.open && !withBackdrop && !inPlace) {
+    if (fetchState.isOpen && !withBackdrop && !inPlace) {
       setMsgState({
         open: true,
         msg: fetchState.children,
         classes: fetchState.classes,
       });
-    } else if (fetchState.open) {
+    } else if (fetchState.isOpen) {
       window.setTimeout(() => {
         document.activeElement.blur();
-        dispatchFetch({ type: "setActive", active: fetchState.open });
+        dispatchFetch({ type: "setActive", active: fetchState.isOpen });
       }, 10);
     }
-  }, [fetchState.open]);
+  }, [fetchState.isOpen]);
 
   useEffect(() => {
     let id;
-    if (fetchState.open && useTimer) {
+    if (fetchState.isOpen && useTimer) {
       id = setTimeout(
         () => {
-          onClose();
+          closeModal();
         },
         timeOut ? timeOut : 5000
       );
@@ -115,7 +116,7 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
         clearTimeout(id);
       }
     };
-  }, [fetchState.open]);
+  }, [fetchState.isOpen]);
 
   useEffect(() => {
     if (withBackdrop) {
@@ -123,17 +124,17 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
         type: "setModal",
         modal: (
           <div>
-            {(fetchState.open || fetchState.active) && (
+            {(fetchState.isOpen || fetchState.active) && (
               <Portal>
                 <div
                   ref={backdrop}
                   className={classnames("backdrop", {
-                    "bd-active": fetchState.active && fetchState.open,
+                    "bd-active": fetchState.active && fetchState.isOpen,
                   })}
                 >
                   <div
                     className={classnames("modal", {
-                      "mdl-active": fetchState.active && fetchState.open,
+                      "mdl-active": fetchState.active && fetchState.isOpen,
                     })}
                   >
                     {fetchState.children}
@@ -150,7 +151,7 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
         modal: (
           <div
             className={classnames("mdl-inpl", fetchState.classes, {
-              "mdl-inpl-active": fetchState.active && fetchState.open,
+              "mdl-inpl-active": fetchState.active && fetchState.isOpen,
             })}
           >
             {fetchState.children}
@@ -160,9 +161,9 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
     } else {
       <></>;
     }
-  }, [fetchState.active, fetchState.open, fetchState.children]);
+  }, [fetchState.active, fetchState.isOpen, fetchState.children]);
 
-  return [fetchState.modal, showModal, onClose, fetchState.open];
+  return [fetchState.modal, showModal, closeModal, fetchState.isOpen];
 };
 
 export default useModal;
