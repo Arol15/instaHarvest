@@ -1,0 +1,11 @@
+.prf-field {
+  background-color: rgb(192, 192, 192);
+  margin: 10px;
+  padding: 10px;
+}
+
+.prf-img {
+  height: 152px;
+  width: 152px;
+  border-radius: 50%;
+}
