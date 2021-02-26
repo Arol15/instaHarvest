@@ -20,7 +20,7 @@ const PublicProfile = (props) => {
       {data && (
         <div className="">
           <img className="prf-img" src={data.image_url} />
-          <EmailConfirmIcon email_verified={data.email_verified}>
+          <EmailConfirmIcon verified={data.email_verified}>
             <h2 className="inline-block">{data.first_name}</h2>
           </EmailConfirmIcon>
           <p>
