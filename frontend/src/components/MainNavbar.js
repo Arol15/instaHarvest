@@ -9,14 +9,17 @@ const MainNavbar = () => {
         localStorage.getItem("access_token") ? true : false
     )
 
+    // const []
+
     const history = useHistory(); 
 
-    const first_name = loadJSON("app_data").first_name; 
+    // const app_data = loadJSON("app_data")
 
     const logout = () => {
         const toLogout = window.confirm("Are you sure to logout?"); 
         if (toLogout) {
             localStorage.clear(); 
+            setToken(false)
             history.push("/")
         }
     }
@@ -27,7 +30,7 @@ const MainNavbar = () => {
             {isToken ? (
             <div className="main-navbar-links">
                 <div>
-                    {first_name}
+                    {loadJSON("app_data").first_name}
                 </div>
                 <button onClick={logout}>
                     Logout
