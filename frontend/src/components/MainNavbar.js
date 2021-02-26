@@ -1,33 +1,25 @@
 import { Link, useHistory } from "react-router-dom"; 
 import { useState } from 'react'; 
 import "./MainNavbar.css"
-import { loadJSON } from '../utils/localStorage'; 
+import { checkAuth, loadJSON } from '../utils/localStorage'; 
 
 const MainNavbar = () => { 
 
-    const [ isToken, setToken ] = useState(
-        localStorage.getItem("access_token") ? true : false
-    )
-
-    // const []
-
     const history = useHistory(); 
 
-    // const app_data = loadJSON("app_data")
-
     const logout = () => {
+//TODO: use modal to display message on the logout
         const toLogout = window.confirm("Are you sure to logout?"); 
         if (toLogout) {
             localStorage.clear(); 
-            setToken(false)
             history.push("/")
         }
     }
-  
+
     return(
         <nav className='main-navbar'>
             <div>instaHarvest Logo</div>
-            {isToken ? (
+            {checkAuth() ? (
             <div className="main-navbar-links">
                 <div>
                     {loadJSON("app_data").first_name}
@@ -49,7 +41,6 @@ const MainNavbar = () => {
             }
         </nav>
     )
-  
 }
 
 export default MainNavbar; 
