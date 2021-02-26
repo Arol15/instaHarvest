@@ -59,7 +59,8 @@ def signup():
     send_email(email, subject, 'confirmation_email',
                user=user, confirm_url=confirm_url)
     return {'access_token': access_token,
-            'refresh_token': refresh_token}, 201
+            'refresh_token': refresh_token,
+            'first_name': user.first_name}, 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -82,7 +83,8 @@ def login():
     else:
         return {'error': 'Wrong password'}, 401
     return {'access_token': access_token,
-            'refresh_token': refresh_token}, 200
+            'refresh_token': refresh_token,
+            'first_name': user.first_name}, 200
 
 
 @bp.route('/resend_email', methods=['POST'])

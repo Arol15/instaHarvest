@@ -1,46 +1,54 @@
-import { Link, useHistory } from "react-router-dom"; 
-import { useState } from 'react'; 
-import "./MainNavbar.css"
-import { checkAuth, loadJSON } from '../utils/localStorage'; 
+import { useHistory } from "react-router-dom";
+import "./MainNavbar.css";
+import { checkAuth, loadJSON, logout } from "../utils/localStorage";
+import { useModal } from "../hooks/hooks";
+import AuthModal from "../components/auth/AuthModal";
 
-const MainNavbar = () => { 
+const MainNavbar = () => {
+  const history = useHistory();
 
-    const history = useHistory(); 
+  const [modal, showModal, closeModal] = useModal({
+    withBackdrop: true,
+    useTimer: false,
+    inPlace: false,
+  });
 
-    const logout = () => {
-//TODO: use modal to display message on the logout
-        const toLogout = window.confirm("Are you sure to logout?"); 
-        if (toLogout) {
-            localStorage.clear(); 
-            history.push("/")
-        }
+  const logoutUser = (val) => {
+    if (val) {
+      logout();
+      history.push("/");
     }
+    closeModal();
+  };
 
-    return(
-        <nav className='main-navbar'>
-            <div>instaHarvest Logo</div>
-            {checkAuth() ? (
-            <div className="main-navbar-links">
-                <div>
-                    {loadJSON("app_data").first_name}
-                </div>
-                <button onClick={logout}>
-                    Logout
-                </button>
+  const confirmLogout = (
+    <>
+      <p>Are you sure to logout?</p>
+      <button onClick={() => logoutUser(true)}>Yes</button>
+      <button onClick={() => logoutUser(false)}>No</button>
+    </>
+  );
 
-            </div>
-            ) : 
-            (<div className="main-navbar-links">
-                <div>
-                    <Link to="/login">Login</Link>
-                </div>
-                <div>
-                    <Link to="/signup">Sign Up</Link>
-                </div>
-            </div>)
-            }
-        </nav>
-    )
-}
+  return (
+    <>
+      <nav className="main-navbar">
+        <div>instaHarvest Logo</div>
+        {checkAuth() ? (
+          <div className="main-navbar-links">
+            <div>{loadJSON("app_data").first_name}</div>
+            <a onClick={() => showModal(confirmLogout)}>Logout</a>
+            {/* {modal} */}
+          </div>
+        ) : (
+          <div className="main-navbar-links">
+            <a onClick={() => showModal(<AuthModal />)}>Sign In</a>
+            {/* {modal} */}
+          </div>
+        )}
+      </nav>
+      {modal}
+    </>
+  );
+};
 
-export default MainNavbar; 
+export default MainNavbar;

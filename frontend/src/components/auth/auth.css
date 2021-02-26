@@ -9,6 +9,19 @@
   border-color: green;
 }
 
+.auth-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.auth-inputs input,
+select {
+  margin: 3px 0;
+  width: 80%;
+  box-sizing: border-box;
+}
+
 /* .auth {
   height: 400px;
   width: 400px;
