@@ -1,17 +1,19 @@
+import { useContext, useEffect } from "react"; 
 import validation from '../form_validation/validation';
 import { useRequest, useForm } from '../hooks/hooks'; 
 import { useHistory } from "react-router-dom"; 
+import { ModalMsgContext } from '../context/ModalMsgContext'; 
 import MainNavbar from './MainNavbar';
 import Spinner from "./UI/Spinner"; 
 
 const AddProduct = () => {
 
     const history = useHistory(); 
+    const [ isLoading, data, error, errorNum, sendRequest ] = useRequest(); 
+    const [, setModalMsgState] = useContext(ModalMsgContext); 
 
     const onSubmit = () => {
-        sendRequest('/api/products/add-product', "post", formData, true)
-        history.push("/profile")
-        
+        sendRequest('/api/products/add-product', "post", formData, true);
     }; 
 
     const [ setFormData, handleSubmit, handleInputChange, formData, formErrors ] = useForm({
@@ -21,10 +23,27 @@ const AddProduct = () => {
         price: 0, 
         status: "", 
         description: ""
-    }, onSubmit, validation)
-    const [ isLoading, data, error, errorNum, sendRequest ] = useRequest(); 
-    
+    }, onSubmit, validation);
 
+    useEffect(() => {
+        if (error) {
+          setModalMsgState({
+            open: true,
+            msg: error,
+            classes: "mdl-error",
+          });
+        }
+        else if(data) {
+          setModalMsgState({
+            open: true,
+            msg: "Product has been added!",
+            classes: "mdl-ok",
+          });
+          history.push("/profile");
+
+        }
+      }, [data, error, errorNum]);
+    
     return(
         <div>
             <MainNavbar />
