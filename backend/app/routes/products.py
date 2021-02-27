@@ -17,7 +17,7 @@ def create_product():
     print(user_id)
     product = Product(user_id=user_id, name=data['name'],
                       product_type=data['product_type'], image_urls=data['image_urls'],
-                      price=data['price'], status=data['status'], description=data['description'])
+                      price=data['price'], status="available", description=data['description'])
     db.session.add(product)
     db.session.commit()
     return {'msg': "Product created"}, 200
