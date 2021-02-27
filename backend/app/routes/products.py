@@ -62,7 +62,9 @@ def product_location_info(userId):
 @bp.route("/delete_product", methods=["DELETE"])
 @jwt_required
 def delete_product():
-    product_id = request.json.get('product_id')
+    data = request.get_json()
+    product_id = data["product_id"]
+    # print(data)
     product = Product.query.filter_by(id=product_id).first()
     db.session.delete(product)
     db.session.commit()

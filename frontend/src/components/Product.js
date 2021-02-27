@@ -1,5 +1,6 @@
 import { useHistory } from "react-router-dom"; 
 import {useRequest} from "../hooks/hooks"; 
+import { useEffect } from "react"; 
 
 const Product = ({products}) => {
 
@@ -17,20 +18,27 @@ const Product = ({products}) => {
     }
 
     const handleDelete = (product_id) => {
-        sendRequest("/api/products/deleteproduct", "delete", product_id, true)
-        history.push('/user-products')
+        console.log(product_id)
+        sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
+        // history.push('/user-products')
     }
+
+    useEffect(() => {
+        
+    })
 
     return (
         <>
             {products.map((product, key) => {
             return (
+                <>
                 <div onClick={() => handleClick(product)} style={divStyle} className="product" key={key}>
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>{product.price}</p>
-                <button onClick={handleDelete}>Delete Product</button>
                 </div>
+                <button onClick={()=>handleDelete(product.product_id)}>Delete Product</button>
+                </>
             )      
         })}
         </>
