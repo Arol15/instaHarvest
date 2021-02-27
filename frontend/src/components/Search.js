@@ -4,16 +4,6 @@ const Search = ({products}) => {
     console.log(products)
 
     const [searchData, setSearchData] = useState(""); 
-    // const [products, setProducts] = useState([]); 
-
-    // useEffect(() => {
-    //     fetch('/api/products/get-all')
-    //     .then((res) => {
-    //     // console.log(res)
-    //     return res.json()
-    //     })
-    //     .then(data => setProducts(data.products))
-    // }, [])
 
     return(
         <div>

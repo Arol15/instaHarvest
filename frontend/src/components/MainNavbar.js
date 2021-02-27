@@ -32,7 +32,9 @@ const MainNavbar = () => {
   return (
     <>
       <nav className="main-navbar">
-        <div>instaHarvest Logo</div>
+        <div>
+          <Link to="/">instaHarvest</Link>
+        </div>
         <div>
           <Link to="/add-product">Share your Product</Link>
         </div>
