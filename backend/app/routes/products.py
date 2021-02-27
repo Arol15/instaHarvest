@@ -12,7 +12,6 @@ bp = Blueprint("products", __name__, url_prefix='/api/products')
 @jwt_required
 def create_product():
     data = request.get_json()
-    # what does it return???
     user_id = get_jwt_identity()
     # print(user_id)
     product = Product(user_id=user_id, name=data['name'],
@@ -26,19 +25,13 @@ def create_product():
 @bp.route('/products-per-user', methods=["POST"])
 @jwt_required
 def get_products_per_user():
-    # product = Product.query.filter_by(id=1).first()
-    # print(product.name)
-    # user = product.user
-    # print(user.email)
     user_id = get_jwt_identity()
     # print(user_id)
     user = User.query.filter_by(id=user_id).first_or_404()
-    user_products = user.products.all()
-    # user_products = Product.query.filter_by(id=user_id).all()
+    user_products = user.products.order_by(Product.created_at.desc()).all()
     products = [product.to_dict() for product in user_products]
     # print(products)
     return {'user_products': products}
-    # return {}
 
 
 @bp.route('/get-all', methods=["POST"])
