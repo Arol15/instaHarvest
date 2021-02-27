@@ -68,6 +68,6 @@ def delete_product():
     product = Product.query.filter_by(id=product_id).first()
     db.session.delete(product)
     db.session.commit()
-    return {}, 200
+    return {"msg": "deleted"}, 200
 
 

@@ -4,31 +4,45 @@ import Spinner from './UI/Spinner';
 import MainNavbar from "./MainNavbar"; 
 import Product from './Product'; 
 
-
 const UserProducts = () => {
 
     const [userProducts, setUserProducts] = useState([]);
-
     const [isLoading, data, error, errorNum, sendRequest] = useRequest(); 
 
-    useEffect(() => {
+    const getProducts = () => {
         sendRequest("/api/products/products-per-user", "post", null, true)
-    }, [])
-    // console.log(data)
+    }
 
     useEffect(() => {
-        if(data) {
+        getProducts();
+    }, [])
+
+    useEffect(() => {
+        if (data && data.msg === "deleted"){
+            getProducts();
+        }
+        else if(data) {
             setUserProducts(data.user_products)
         }
     }, [data])
 
-    // console.log(userProducts)
+    const handleDelete = (product_id) => {
+        sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
+    }
+
+    console.log(userProducts)
     return(
         <div>
             <MainNavbar />
             <h2>All your products are here! </h2>
             {isLoading && <Spinner />}
-            <Product products={userProducts}/>
+            {userProducts && userProducts.map((product) => {
+                return(
+                    <div key={product.product_id}>
+                        <Product product={product} onDelete={handleDelete}/>
+                    </div>
+                )
+            })}
         </div>
     )
 }

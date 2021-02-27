@@ -1,13 +1,13 @@
 import { useHistory } from "react-router-dom"; 
-import {useRequest} from "../hooks/hooks"; 
-import { useEffect } from "react"; 
+// import {useRequest} from "../hooks/hooks"; 
+// import { useEffect } from "react"; 
 
-const Product = ({products}) => {
+const Product = ({product, onDelete}, ) => {
 
-    const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+    // const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
     const history = useHistory(); 
-    console.log(products)
+    // console.log(product)
     const divStyle = {
         border: "1px solid black", 
         margin: "5px"
@@ -17,30 +17,18 @@ const Product = ({products}) => {
         history.push("/product-info", [product])
     }
 
-    const handleDelete = (product_id) => {
-        console.log(product_id)
-        sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
-        // history.push('/user-products')
-    }
-
-    useEffect(() => {
-        
-    })
+//    const deleteProduct = () => {
+//        onDelete(product.product_id)
+//    }
 
     return (
         <>
-            {products.map((product, key) => {
-            return (
-                <>
-                <div onClick={() => handleClick(product)} style={divStyle} className="product" key={key}>
-                <p>{product.name}</p>
-                <p>{product.description}</p>
-                <p>{product.price}</p>
-                </div>
-                <button onClick={()=>handleDelete(product.product_id)}>Delete Product</button>
-                </>
-            )      
-        })}
+            <div onClick={() => handleClick(product)} style={divStyle} className="product">
+            <p>{product.name}</p>
+            <p>{product.description}</p>
+            <p>{product.price}</p>
+            </div>
+            <button onClick={() => onDelete(product.product_id)}>Delete Product</button>
         </>
     )
 }
