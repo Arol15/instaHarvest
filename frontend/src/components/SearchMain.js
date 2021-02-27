@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import { useForm } from "react-hook-form";
 import useRequest from "../hooks/useRequest"; 
-// import Search from './Search'
 import Product from './Product'
 
 const SearchMain = () => {
@@ -15,12 +14,11 @@ const SearchMain = () => {
     }; 
 
     useEffect(() => {
-       if(data) {
+       if (data) {
            setProducts(data)
-       }
+       } 
     }, [data])
 
-    console.log(products.products)
     return(
         <>
         {error && <h1>Error: {error}</h1>}
@@ -29,7 +27,7 @@ const SearchMain = () => {
         (<form onSubmit={handleSubmit(onSubmit)}>
             <input type="text" placeholder="Enter your location" name="search_term" ref={register}/>
             <button type="submit">Find</button>
-        </form>) : ( 
+        </form>) : (
             <Product products={products.products}/>)
         }   
         </>

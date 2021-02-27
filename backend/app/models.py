@@ -95,7 +95,9 @@ class Product(db.Model):
             "image_urls": self.image_urls,
             "price": self.price,
             "description": self.description,
-            "status": self.status,
+            "status": self.status, 
+            "user_id": self.user_id, 
+            "product_id": self.id
         }
 
 

@@ -10,10 +10,10 @@ const ShareProducts = () => {
     const handleSellProducts = () => {
         const accessToken = localStorage.getItem("access_token");
         if (!accessToken){
-            history.push("/signup");
+            history.push("/login");
         }
         else {
-            history.push('/profile')
+            history.push('/add-product')
         }
     }
 

@@ -12,31 +12,26 @@ bp = Blueprint("products", __name__, url_prefix='/api/products')
 @jwt_required
 def create_product():
     data = request.get_json()
-    # what does it return???
     user_id = get_jwt_identity()
-    print(user_id)
+    # print(user_id)
     product = Product(user_id=user_id, name=data['name'],
                       product_type=data['product_type'], image_urls=data['image_urls'],
-                      price=data['price'], status=data['status'], description=data['description'])
+                      price=data['price'], status="available", description=data['description'])
     db.session.add(product)
     db.session.commit()
     return {'msg': "Product created"}, 200
 
 
-@bp.route('/products-per-user')
-# @jwt_required
+@bp.route('/products-per-user', methods=["POST"])
+@jwt_required
 def get_products_per_user():
-    # product = Product.query.filter_by(id=1).first()
-    # print(product.name)
-    # user = product.user
-    # print(user.email)
     user_id = get_jwt_identity()
+    # print(user_id)
     user = User.query.filter_by(id=user_id).first_or_404()
-    user_products = user.products.all()
-    user_products = Product.query.filter_by(id=user_id).all()
+    user_products = user.products.order_by(Product.created_at.desc()).all()
     products = [product.to_dict() for product in user_products]
-    return {'user-products': products}
-    # return {}
+    # print(products)
+    return {'user_products': products}
 
 
 @bp.route('/get-all', methods=["POST"])
@@ -50,5 +45,29 @@ def get_all_products():
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
     return {'products': user_products}
-   
+
+
+@bp.route('/product-location-info/<int:userId>')
+def product_location_info(userId):
+    # print(userId)
+    user = User.query.filter_by(id=userId).first_or_404()
+    lat = user.lat
+    lgt = user.lgt
+    # lgt = User.query.filter_by(id=userId).lgt.first()
+    # print(lat)
+    # print(lgt)
+    return {"lat": lat, "lgt": lgt}
+
+
+@bp.route("/delete_product", methods=["DELETE"])
+@jwt_required
+def delete_product():
+    data = request.get_json()
+    product_id = data["product_id"]
+    # print(data)
+    product = Product.query.filter_by(id=product_id).first()
+    db.session.delete(product)
+    db.session.commit()
+    return {"msg": "deleted"}, 200
+
 

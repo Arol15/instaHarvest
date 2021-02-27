@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useHistory, Link, Redirect } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
 import useModal from "../../hooks/useModal";
