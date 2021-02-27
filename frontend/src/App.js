@@ -12,6 +12,7 @@ import UserChatsPage from "./components/chat/UserChatsPage";
 import Chat from "./components/chat/Chat";
 import AddProduct from "./components/AddProduct"; 
 import UserProducts from './components/UserProducts'; 
+import ProductDetails from "./components/ProductDetails"; 
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/profile" component={Profile} exact />
           <Route path="/add-product" component={AddProduct} exact />
           <Route path="/user-products" component={UserProducts}/>
+          <Route path="/product-info" component={ProductDetails} />
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />

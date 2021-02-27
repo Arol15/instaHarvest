@@ -1,6 +1,9 @@
 import { useHistory } from "react-router-dom"; 
+import {useRequest} from "../hooks/hooks"; 
 
 const Product = ({products}) => {
+
+    const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
     const history = useHistory(); 
     console.log(products)
@@ -12,6 +15,12 @@ const Product = ({products}) => {
     const handleClick = (product) => {
         history.push("/product-info", [product])
     }
+
+    const handleDelete = (product_id) => {
+        sendRequest("/api/products/deleteproduct", "delete", product_id, true)
+        history.push('/user-products')
+    }
+
     return (
         <>
             {products.map((product, key) => {
@@ -20,6 +29,7 @@ const Product = ({products}) => {
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>{product.price}</p>
+                <button onClick={handleDelete}>Delete Product</button>
                 </div>
             )      
         })}

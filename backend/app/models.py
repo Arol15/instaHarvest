@@ -96,7 +96,8 @@ class Product(db.Model):
             "price": self.price,
             "description": self.description,
             "status": self.status, 
-            "user_id": self.user_id
+            "user_id": self.user_id, 
+            "product_id": self.id
         }
 
 
