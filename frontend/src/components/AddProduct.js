@@ -39,7 +39,7 @@ const AddProduct = () => {
             msg: "Product has been added!",
             classes: "mdl-ok",
           });
-          history.push("/profile");
+          history.push("/user-products");
 
         }
       }, [data, error, errorNum]);
