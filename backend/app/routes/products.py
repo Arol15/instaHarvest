@@ -58,8 +58,14 @@ def product_location_info(userId):
     # print(lgt)
     return {"lat": lat, "lgt": lgt}
 
+
 @bp.route("/delete_product", methods=["DELETE"])
 @jwt_required
 def delete_product():
-    
+    product_id = request.json.get('product_id')
+    product = Product.query.filter_by(id=product_id).first()
+    db.session.delete(product)
+    db.session.commit()
+    return {}, 200
+
 
