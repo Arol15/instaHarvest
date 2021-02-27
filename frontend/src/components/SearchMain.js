@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import { useForm } from "react-hook-form";
 import useRequest from "../hooks/useRequest"; 
-// import Search from './Search'
 import Product from './Product'
 
 const SearchMain = () => {
@@ -12,18 +11,14 @@ const SearchMain = () => {
 
     const onSubmit = (searchTerm) => {
         sendRequest("/api/products/get-all", "post", searchTerm); 
-        // console.log(data)
     }; 
 
     useEffect(() => {
        if (data) {
-        //    console.log(data)
            setProducts(data)
        } 
     }, [data])
 
-    // console.log(products)
-    // console.log(typeof(products))
     return(
         <>
         {error && <h1>Error: {error}</h1>}

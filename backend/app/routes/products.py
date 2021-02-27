@@ -58,3 +58,8 @@ def product_location_info(userId):
     # print(lgt)
     return {"lat": lat, "lgt": lgt}
 
+@bp.route("/delete_product", methods=["DELETE"])
+@jwt_required
+def delete_product():
+    
+
