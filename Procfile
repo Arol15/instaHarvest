@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn instharvest:app
+web: gunicorn instharvest:app
