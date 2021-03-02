@@ -6,6 +6,7 @@ import { ModalMsgContext } from '../context/ModalMsgContext';
 import MainNavbar from './MainNavbar';
 import Spinner from "./UI/Spinner"; 
 
+
 const AddProduct = () => {
 
     const history = useHistory(); 

@@ -1,5 +1,5 @@
 const config = {
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://instaharvest.herokuapp.com/",
 }
 
 export default config; 
