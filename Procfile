@@ -1,1 +1,1 @@
-web: gunicorn instaHarvest:app
+web: gunicorn instaHarvest:app; npm start
