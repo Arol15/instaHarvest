@@ -1,1 +1,1 @@
-web: gunicorn instaharvest:app
+web: gunicorn instaHarvest:app
