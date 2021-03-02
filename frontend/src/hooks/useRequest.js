@@ -2,7 +2,6 @@ import axios from "axios";
 import { useReducer, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { checkAuth } from "../utils/localStorage";
-import config from '../config'; 
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -47,9 +46,7 @@ const useRequest = () => {
 
   const history = useHistory();
 
-
-  const sendRequest = useCallback(async (link, method, body, isJwt = false) => {
-    const url = `${config.baseUrl}${link}`;
+  const sendRequest = useCallback(async (url, method, body, isJwt = false) => {
     if (isJwt) {
       if (!checkAuth()) {
         history.push("/login");
