@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
@@ -39,6 +39,12 @@ migrate = Migrate(app, db)
 jwt = JWTManager(app)
 mail = Mail(app)
 
+
+@app.route('/', defaults={'path': ''})
+def serve(path):
+    return send_from_directory(app.static_folder, "index.html")
+
+
 from app.routes import users, auth, account, chat, products
 
 app.register_blueprint(users.bp)
@@ -46,3 +52,4 @@ app.register_blueprint(auth.bp)
 app.register_blueprint(account.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(chat.bp)
+

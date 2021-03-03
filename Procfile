@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn instaHarvest:app
+web: gunicorn instaHarvest:app
