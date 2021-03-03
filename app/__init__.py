@@ -31,7 +31,7 @@ dictConfig({
     }
 })
 
-app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
+app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 app.config.from_object(Config)
 db = SQLAlchemy()
 db.init_app(app)
