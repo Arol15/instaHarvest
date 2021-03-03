@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "engines": {
-    "node": "15.6.0" 
+    "node": "15.6.0"
   },
   "private": true,
   "dependencies": {
