@@ -19,7 +19,7 @@ function App() {
     <ModalMsgContextProvider>
       <Router>
         <Switch>
-          <Route exact path="instaharvest.herokuapp.com/" component={Home} />
+          <Route exact path="/" component={Home} />
           <Route path="/login">
             <Auth view="login" />
           </Route>
