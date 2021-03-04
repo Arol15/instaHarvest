@@ -42,7 +42,7 @@ mail = Mail(app)
 
 @app.route('/', defaults={'path': ''})
 def serve(path):
-    return app.static_folder('index.html')
+    return app.send_from_directory('index.html')
 
 
 @app.errorhandler(404)
