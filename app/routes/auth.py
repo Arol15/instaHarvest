@@ -67,7 +67,6 @@ def signup():
 @bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    print(f"{Config.BASE_URL}/login")
     login = data['login']
     if '@' in login:
         user = User.query.filter_by(email=login).first()

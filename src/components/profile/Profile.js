@@ -61,7 +61,7 @@ const Profile = (props) => {
       setMsgState({
         open: true,
         msg: dataEmailReq.msg,
-        classes: "mdl-error",
+        classes: "mdl-ok",
       });
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
