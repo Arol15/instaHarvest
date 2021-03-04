@@ -42,12 +42,12 @@ mail = Mail(app)
 
 @app.route('/', defaults={'path': ''})
 def serve(path):
-    return app.send_from_directory('index.html')
+    return send_from_directory(app.static_folder, "index.html")
 
 
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return send_from_directory(app.static_folder, "index.html")
 
 
 from app.routes import users, auth, account, chat, products
