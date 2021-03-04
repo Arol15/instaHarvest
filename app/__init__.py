@@ -40,9 +40,9 @@ jwt = JWTManager(app)
 mail = Mail(app)
 
 
-@app.route('/')
+@app.route('/', defaults={'path': ''})
 def serve(path):
-    return app.send_static_file('index.html')
+    return app.static_folder('index.html')
 
 
 @app.errorhandler(404)
