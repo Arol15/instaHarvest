@@ -11,7 +11,7 @@ from app import jwt, db
 from app.models import User
 from app.utils.security import ts, admin_required
 from app.utils.email_support import send_email
-from app.Config import Config
+from app.config import Config
 
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
@@ -67,6 +67,7 @@ def signup():
 @bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
+    print(f"{Config.BASE_URL}/login")
     login = data['login']
     if '@' in login:
         user = User.query.filter_by(email=login).first()

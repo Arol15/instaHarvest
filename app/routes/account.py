@@ -8,7 +8,7 @@ from app import db
 from app.models import User
 from app.utils.security import ts, admin_required
 from app.utils.email_support import send_email
-from app.Config import Config
+from app.config import Config
 
 bp = Blueprint('account', __name__, url_prefix='/api/account')
 
