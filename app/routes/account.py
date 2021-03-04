@@ -8,6 +8,7 @@ from app import db
 from app.models import User
 from app.utils.security import ts, admin_required
 from app.utils.email_support import send_email
+from app.Config import Config
 
 bp = Blueprint('account', __name__, url_prefix='/api/account')
 
@@ -123,13 +124,13 @@ def change_email(token):
         new_email, old_email = ts.loads(
             token, salt="email-change", max_age=86400)
     except:
-        return redirect("http://localhost:3000/404", code=302)
+        return redirect(f"{Config.BASE_URL}/404", code=302)
 
     user = User.query.filter_by(email=old_email).first()
     if not user:
-        redirect("http://localhost:3000/404", code=302)
+        redirect(f"{Config.BASE_URL}/404", code=302)
     user.email = new_email
     db.session.add(user)
     db.session.commit()
 
-    return redirect("http://localhost:3000/profile", code=302)
+    return redirect(f"{Config.BASE_URL}/profile", code=302)

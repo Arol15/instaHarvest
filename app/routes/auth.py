@@ -11,6 +11,7 @@ from app import jwt, db
 from app.models import User
 from app.utils.security import ts, admin_required
 from app.utils.email_support import send_email
+from app.Config import Config
 
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
@@ -116,7 +117,7 @@ def reset_password():
     if not user:
         return {'error': f'The user with email {email} does not exist'}, 401
     email_token = ts.dumps(email, salt='pass-reset')
-    confirm_url = f'http://localhost:3000/reset_password_confirm/{email_token}'
+    confirm_url = f'{Config.BASE_URL}/reset_password_confirm/{email_token}'
     subject = "InstaHarvest - Password Reset"
     send_email(email, subject, 'reset_password',
                user=user, confirm_url=confirm_url)
@@ -128,15 +129,15 @@ def confirm_email(token):
     try:
         email = ts.loads(token, salt="email-confirm", max_age=86400)
     except:
-        redirect("http://localhost:3000/404", code=302)
+        redirect(f"{Config.BASE_URL}/404", code=302)
 
     user = User.query.filter_by(email=email).first()
     if not user:
-        redirect("http://localhost:3000/404", code=302)
+        redirect(f"{Config.BASE_URL}/404", code=302)
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return redirect("http://localhost:3000/login", code=302)
+    return redirect(f"{Config.BASE_URL}/login", code=302)
 
 
 @bp.route('/reset_password_confirm', methods=['POST'])
