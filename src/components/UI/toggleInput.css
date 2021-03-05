@@ -1,0 +1,80 @@
+.switch {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 90px;
+  height: 34px;
+  background-color: blue;
+  border-radius: 34px;
+  margin: 10px;
+}
+
+.switch-click {
+  z-index: 100;
+  position: absolute;
+  margin: 4px;
+  height: 26px;
+  width: 40px;
+  cursor: pointer;
+  left: 0;
+}
+.switch-click-left {
+  width: 90px;
+}
+
+.slider {
+  position: absolute;
+  margin: 4px;
+  height: 26px;
+  width: 40px;
+  border-radius: 34px;
+  background-color: white;
+  transition: 0.5s;
+  left: 0;
+}
+.slider-right {
+  left: 43px;
+}
+
+.switch-input {
+  z-index: 30;
+  position: absolute;
+  opacity: 1;
+  outline: none;
+  text-align: center;
+  border: none;
+  margin: 4px;
+  height: 24px;
+  width: 36px;
+  border-radius: 34px;
+  background-color: white;
+  transition: 0.5s;
+  left: 43px;
+}
+
+.switch input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.switch-input-hide {
+  opacity: 0;
+  left: 0px;
+  transition: 0.5s;
+}
+
+.switch-text {
+  z-index: 20;
+  position: absolute;
+  opacity: 1;
+  text-align: center;
+  margin: 8px;
+  transition: 0.5s;
+  left: 0px;
+}
+
+.switch-text-right {
+  opacity: 0;
+  left: 43px;
+}
