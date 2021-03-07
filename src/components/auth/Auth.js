@@ -229,13 +229,16 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       )}
       <p></p>
       {view === "login" && (
-        <a
-          onClick={() => {
-            history.push("/reset_password");
-          }}
-        >
-          Forgot your password?
-        </a>
+        <>
+          <a
+            onClick={() => {
+              history.push("/reset_password");
+            }}
+          >
+            Forgot your password?
+          </a>
+          <p></p>
+        </>
       )}
     </div>
   );
