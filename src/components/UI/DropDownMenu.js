@@ -39,7 +39,7 @@ const DropDownMenu = ({
         ref={refer}
         className={classnames(classes.clMenu, { [classes.clActive]: open })}
       >
-        {children}
+        <div className="menu-elements">{children}</div>
       </nav>
     </div>
   );

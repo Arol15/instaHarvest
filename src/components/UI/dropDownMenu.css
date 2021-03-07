@@ -6,8 +6,8 @@
   background: #929292;
   border-radius: 5px;
   position: absolute;
-  top: 20px;
-  left: 0;
+  top: 15px;
+  right: 20px;
   padding: 0 5px;
   width: max-content;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
@@ -21,4 +21,14 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+
+.menu-elements {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.menu-elements > a {
+  padding: 10px 0;
 }

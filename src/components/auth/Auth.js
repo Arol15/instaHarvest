@@ -67,7 +67,10 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
-      saveJSON("app_data", { first_name: data.first_name });
+      saveJSON("app_data", {
+        first_name: data.first_name,
+        image_url: data.image_url,
+      });
       if (afterConfirm) {
         afterConfirm();
       }
