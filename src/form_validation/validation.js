@@ -1,4 +1,5 @@
 const validation = (data) => {
+  console.log(data)
   const errors = {};
   if (data.password && data.confirm_pass) {
     if (data.password !== data.confirm_pass) {
@@ -56,6 +57,13 @@ const validation = (data) => {
     if (key === "body") {
       if (!value) {
         errors.body = "Please enter something";
+      }
+    }
+    if (key === "search_term") {
+      if (!value) {
+        errors.search_term = "Please enter location"; 
+      } else if (value.length < 2) {
+        errors.search_term = "Your location is too short"
       }
     }
   });
