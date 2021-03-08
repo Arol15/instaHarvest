@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react'; 
 import { useRequest } from '../hooks/hooks'; 
 import Product from './Product'; 
+import { useLocation } from "react-router-dom"; 
 
 const Products = () => {
+    // console.log(products)
 
-    const [products, setProducts] = useState([]);
-    const [isLoading, data, error, errorNum, sendRequest] = useRequest(); 
+    // const [products, setProducts] = useState([]);
+    // const [isLoading, data, error, errorNum, sendRequest] = useRequest(); 
 
-    useEffect(() => {
-        sendRequest("/api/products/get-all", 'post', null); 
-    }, []); 
+    // useEffect(() => {
+    //     sendRequest("/api/products/get-all", 'post', null); 
+    // }, []); 
 
-    useEffect(() => {
-        if(data) {
-            setProducts(data.products)
-        }
-    }, [data])
+    // useEffect(() => {
+    //     if(data) {
+    //         setProducts(data.products)
+    //     }
+    // }, [data])
+    const location = useLocation(); 
+    let products = location.state; 
 
     return (
         <>

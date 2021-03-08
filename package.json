@@ -4,6 +4,7 @@
   "engines": {
     "node": "15.6.0"
   },
+  "proxy": "http://localhost:5000", 
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
