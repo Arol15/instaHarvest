@@ -33,7 +33,7 @@ const UserProducts = () => {
     console.log(userProducts)
     return(
         <div>
-            <MainNavbar />
+            {/* <MainNavbar /> */}
             <h2>All your products are here! </h2>
             {isLoading && <Spinner />}
             {userProducts && userProducts.map((product) => {

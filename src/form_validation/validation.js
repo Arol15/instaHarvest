@@ -1,5 +1,4 @@
 const validation = (data) => {
-  console.log(data)
   const errors = {};
   if (data.password && data.confirm_pass) {
     if (data.password !== data.confirm_pass) {

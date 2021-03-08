@@ -1,13 +1,11 @@
-import { useHistory } from "react-router-dom"; 
-// import {useRequest} from "../hooks/hooks"; 
-// import { useEffect } from "react"; 
+import { useHistory, useLocation } from "react-router-dom"; 
 
 const Product = ({product, onDelete}, ) => {
 
-    // const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-
     const history = useHistory(); 
-    // console.log(product)
+    const location = useLocation(); 
+    const prevPath = location.pathname;
+    console.log(prevPath)
     const divStyle = {
         border: "1px solid black", 
         margin: "5px"
@@ -17,10 +15,6 @@ const Product = ({product, onDelete}, ) => {
         history.push("/product-info", [product])
     }
 
-//    const deleteProduct = () => {
-//        onDelete(product.product_id)
-//    }
-
     return (
         <>
             <div onClick={() => handleClick(product)} style={divStyle} className="product">
@@ -28,7 +22,8 @@ const Product = ({product, onDelete}, ) => {
             <p>{product.description}</p>
             <p>{product.price}</p>
             </div>
-            <button onClick={() => onDelete(product.product_id)}>Delete Product</button>
+            {prevPath === "/search-results" ? null : 
+            (<button onClick={() => onDelete(product.product_id)}>Delete Product</button>)}
         </>
     )
 }
