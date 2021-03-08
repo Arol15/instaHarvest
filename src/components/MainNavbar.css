@@ -1,11 +1,35 @@
 .main-navbar {
-    display: flex; 
-    justify-content: space-between; 
-    margin: 10px; 
-    background-color: aquamarine;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
+  /* padding: 0 30px; */
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  background-color: aquamarine;
 }
 
-.main-navbar-links {
-    display: flex; 
-    justify-content: space-between;
+.main-navbar > div {
+  padding: 0 30px;
+}
+
+/* .main-navbar-links {
+  display: flex;
+
+  justify-content: flex-end;
+} */
+
+.main-navbar-logo {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.main-navbar-profile {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
 }
