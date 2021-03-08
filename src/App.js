@@ -33,7 +33,7 @@ function App() {
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
-          <Route path="/all-products" component={Products} />
+          <Route path="/search-results" component={Products} />
           <Route path="/reset_password">
             <ResetPassword reset={true} />
           </Route>

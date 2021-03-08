@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from 'react'; 
-import { useRequest } from '../hooks/hooks'; 
 import Product from './Product'; 
-import { useLocation } from "react-router-dom"; 
+import { useLocation, Link } from "react-router-dom"; 
 
 const Products = () => {
-    // console.log(products)
-
-    // const [products, setProducts] = useState([]);
-    // const [isLoading, data, error, errorNum, sendRequest] = useRequest(); 
-
-    // useEffect(() => {
-    //     sendRequest("/api/products/get-all", 'post', null); 
-    // }, []); 
-
-    // useEffect(() => {
-    //     if(data) {
-    //         setProducts(data.products)
-    //     }
-    // }, [data])
+   
     const location = useLocation(); 
-    let products = location.state; 
+    const products = location.state; 
 
     return (
-        <>
-        {products.map((product) => {
+        <> 
+        {products.length !== 0 ? (products.map((product) => {
             return (
                 <div key={product.product_id}>
                     <Product product = {product}/>
                 </div>
             )
-        })}
+        })) : (
+            <>
+        <h1>Sorry, No results for this location...</h1>
+        <Link to="/">Try Again</Link>
+        </>
+        )}
        </>
     )
 }

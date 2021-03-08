@@ -15,9 +15,9 @@ const SearchMain = () => {
     }; 
 
     useEffect(() => {
-       if (data) {
+        if (data) {
            history.push({
-               pathname: "/all-products",
+               pathname: "/search-results",
                state: data.products,
             }); 
        }
