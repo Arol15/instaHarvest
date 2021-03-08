@@ -47,7 +47,7 @@ const AddProduct = () => {
     
     return(
         <div>
-            <MainNavbar />
+            {/* <MainNavbar /> */}
             <h2>Add your product</h2>
             {isLoading && <Spinner />}
             <form onSubmit={handleSubmit}>
