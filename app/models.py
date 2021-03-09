@@ -71,6 +71,18 @@ class User(db.Model):
             "city": self.city
         }
 
+    def to_dict_location_user_info(self):
+        return {
+            "first_name": self.first_name,
+            "image_url": self.image_url,
+            # "email_verified": self.email_verified,
+            # "joined": self.created_at.strftime("%b %Y"),
+            "state": self.state,
+            "city": self.city, 
+            "lat": self.lat, 
+            "lgt": self.lgt   
+        }
+
 
 class Product(db.Model):
     __tablename__ = "products"

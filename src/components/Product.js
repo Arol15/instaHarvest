@@ -12,7 +12,7 @@ const Product = ({product, onDelete}, ) => {
     }
 
     const handleClick = (product) => {
-        history.push("/product-info", [product])
+        history.push("/product-info", product)
     }
 
     return (
@@ -20,7 +20,7 @@ const Product = ({product, onDelete}, ) => {
             <div onClick={() => handleClick(product)} style={divStyle} className="product">
             <p>{product.name}</p>
             <p>{product.description}</p>
-            <p>{product.price}</p>
+            <p>${product.price}</p>
             </div>
             {prevPath === "/search-results" ? null : 
             (<button onClick={() => onDelete(product.product_id)}>Delete Product</button>)}

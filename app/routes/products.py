@@ -50,13 +50,16 @@ def get_all_products():
 @bp.route('/product-location-info/<int:userId>')
 def product_location_info(userId):
     # print(userId)
+    product_details = {}
     user = User.query.filter_by(id=userId).first_or_404()
-    lat = user.lat
-    lgt = user.lgt
-    # lgt = User.query.filter_by(id=userId).lgt.first()
-    # print(lat)
-    # print(lgt)
-    return {"lat": lat, "lgt": lgt}
+    product_details["lat"] = user.lat
+    product_details["lgt"] = user.lgt
+    product_details["image_url"] = user.image_url
+    product_details["first_name"] = user.first_name
+    product_details["state"] = user.state
+    product_details["city"] = user.city
+    # print(product_details)
+    return {"product_details": product_details}, 200
 
 
 @bp.route("/delete_product", methods=["DELETE"])
@@ -69,5 +72,3 @@ def delete_product():
     db.session.delete(product)
     db.session.commit()
     return {"msg": "deleted"}, 200
-
-

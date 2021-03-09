@@ -10,7 +10,7 @@ import Spinner from "./UI/Spinner";
 const SearchMain = () => {
 
     const onSubmit = () => {
-        console.log(formData.search_term) 
+        // console.log(formData.search_term) 
         sendRequest("/api/products/get-all", "post", formData); 
     }; 
 
@@ -27,6 +27,7 @@ const SearchMain = () => {
     const [, setModalMsgState] = useContext(ModalMsgContext);
 
     const history = useHistory(); 
+    console.log(data)
 
     useEffect(() => {
         if (data && data.products.length === 0) {
