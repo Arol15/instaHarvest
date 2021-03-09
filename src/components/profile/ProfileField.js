@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import Auth from "../auth/Auth";
@@ -108,13 +109,13 @@ const ProfileFild = (props) => {
       ) : (
         <>
           {props.value ? props.children : <p>Empty</p>}
-          <a
+          <Link
             onClick={() => {
               setEditState(true);
             }}
           >
             Edit
-          </a>
+          </Link>
         </>
       )}
 
