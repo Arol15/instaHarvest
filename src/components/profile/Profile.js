@@ -1,11 +1,10 @@
 import { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
-import MainNavbar from "../MainNavbar";
 import "./profile.css";
 
 const Profile = (props) => {
@@ -122,13 +121,9 @@ const Profile = (props) => {
                 value={profileData.profile_addr}
               >
                 <p>
-                  <a
-                    onClick={() => {
-                      history.push(`/profile/${profileData.profile_addr}`);
-                    }}
-                  >
+                  <Link to={`/profile/${profileData.profile_addr}`}>
                     https://instaharvest.com/{profileData.profile_addr}
-                  </a>
+                  </Link>
                 </p>
               </ProfileField>
             </div>
@@ -156,7 +151,9 @@ const Profile = (props) => {
               </ProfileField>
               {!profileData.email_verified && (
                 <div>
-                  <a onClick={resendConfirmEmail}>Resend confirmation email</a>
+                  <Link onClick={resendConfirmEmail}>
+                    Resend confirmation email
+                  </Link>
                 </div>
               )}
             </div>

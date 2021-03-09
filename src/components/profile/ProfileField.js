@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import { useForm } from "react-hook-form";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import Auth from "../auth/Auth";
@@ -116,13 +115,6 @@ const ProfileFild = (props) => {
           >
             Edit
           </a>
-          {/* <button
-            onClick={() => {
-              setEditState(true);
-            }}
-          >
-            Edit
-          </button> */}
         </>
       )}
 

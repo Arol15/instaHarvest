@@ -23,6 +23,7 @@ const MainNavbar = () => {
       history.push("/");
     }
     closeModal();
+    setShowProfileMenu(false);
   };
 
   const confirmLogout = (
@@ -34,7 +35,6 @@ const MainNavbar = () => {
   );
 
   const onClickProfile = () => {
-    console.log("CLICK");
     setShowProfileMenu(!showProfileMenu);
   };
 
@@ -62,28 +62,25 @@ const MainNavbar = () => {
               }
               onClick={onClickProfile}
             >
-              <a
-                onClick={() => {
-                  history.push("/profile");
-                  onClickProfile();
-                }}
-              >
+              <Link onClick={onClickProfile} to="/profile">
                 Profile
-              </a>
-              <a
+              </Link>
+              <Link
                 onClick={() => {
                   showModal(confirmLogout);
                 }}
               >
                 Logout
-              </a>
+              </Link>
             </DropDownMenu>
           </>
         ) : (
-          // <a onClick={() => showModal(confirmLogout)}>Logout</a>
-
           <div className="main-navbar-links">
-            <a onClick={() => showModal(<AuthModal closeModal={closeModal}/>)}>Sign In</a>
+            <Link
+              onClick={() => showModal(<AuthModal closeModal={closeModal} />)}
+            >
+              Sign In
+            </Link>
           </div>
         )}
       </nav>
