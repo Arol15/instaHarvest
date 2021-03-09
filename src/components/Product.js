@@ -5,7 +5,7 @@ const Product = ({product, onDelete}, ) => {
     const history = useHistory(); 
     const location = useLocation(); 
     const prevPath = location.pathname;
-    console.log(prevPath)
+    // console.log(prevPath)
     const divStyle = {
         border: "1px solid black", 
         margin: "5px"

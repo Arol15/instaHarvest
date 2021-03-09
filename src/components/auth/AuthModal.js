@@ -4,7 +4,7 @@ import "./auth.css";
 import classnames from "classnames";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 
-const AuthModal = () => {
+const AuthModal = ({closeModal}) => {
   const [view, setView] = useState("login");
 
   const switchComponents = () => {
@@ -40,9 +40,9 @@ const AuthModal = () => {
           classNames="fade"
         >
           {view === "signup" ? (
-            <Auth view={view} inModal={true} />
+            <Auth view={view} inModal={true} closeModal={closeModal}/>
           ) : (
-            <Auth view={view} inModal={true} />
+            <Auth view={view} inModal={true} closeModal={closeModal}/>
           )}
         </CSSTransition>
       </SwitchTransition>

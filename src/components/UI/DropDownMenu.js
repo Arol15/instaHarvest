@@ -32,6 +32,8 @@ const DropDownMenu = ({
     }
   }, [open]);
 
+console.log(open)
+
   return (
     <div className={classes.clContainer}>
       {button}

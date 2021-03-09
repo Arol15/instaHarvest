@@ -19,7 +19,7 @@ function App() {
   return (
     <ModalMsgContextProvider>
       <Router>
-        <MainNavbar />
+      <MainNavbar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login">
@@ -45,6 +45,7 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
+        
       </Router>
       <ModalMsg />
     </ModalMsgContextProvider>
