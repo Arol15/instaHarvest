@@ -1,35 +1,70 @@
-import { useState, useEffect } from 'react'; 
-import { useForm } from "react-hook-form";
+import { useContext, useEffect } from 'react'; 
+import { useHistory } from "react-router-dom"; 
+import useForm from "../hooks/useForm"; 
 import useRequest from "../hooks/useRequest"; 
-import Product from './Product'
+import { ModalMsgContext } from "../context/ModalMsgContext"; 
+import validation from "../form_validation/validation"; 
+import Spinner from "./UI/Spinner"; 
+
 
 const SearchMain = () => {
 
-    const { register, handleSubmit, setValue } = useForm();
-    const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-    const [products, setProducts] = useState([]); 
-
-    const onSubmit = (searchTerm) => {
-        sendRequest("/api/products/get-all", "post", searchTerm); 
+    const onSubmit = () => {
+        console.log(formData.search_term) 
+        sendRequest("/api/products/get-all", "post", formData); 
     }; 
 
+    const [
+        setFormData,
+        handleSubmit,
+        handleInputChange,
+        formData,
+        formErrors,
+      ] = useForm({"search_term": ""}, onSubmit, validation);
+
+
+    const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+    const [, setModalMsgState] = useContext(ModalMsgContext);
+
+    const history = useHistory(); 
+
     useEffect(() => {
-       if (data) {
-           setProducts(data)
-       } 
-    }, [data])
+        if (data && data.products.length === 0) {
+            setModalMsgState({
+                open: true, 
+                msg: "No results per this location", 
+                classes: "mdl-error"
+            })
+        } else if (data) {
+           history.push({
+               pathname: "/search-results",
+               state: data.products,
+            });    
+       } else if (error) {
+           setModalMsgState({
+               open: true, 
+               msg: error, 
+               classes: "mdl-error"
+           }); 
+       }
+    }, [data, error]);
 
     return(
         <>
-        {error && <h1>Error: {error}</h1>}
-        {isLoading && <h1>Is Loading</h1>}
-        { products.length === 0 ? 
-        (<form onSubmit={handleSubmit(onSubmit)}>
-            <input type="text" placeholder="Enter your location" name="search_term" ref={register}/>
-            <button type="submit">Find</button>
-        </form>) : (
-            <Product products={products.products}/>)
-        }   
+        {isLoading && <Spinner />}
+        <form>
+            <input 
+            type="text" 
+            placeholder="Enter your location" 
+            name="search_term" 
+            onChange={handleInputChange}
+            value={formData.search_term}
+            />
+            <div className="form-danger">
+                {formErrors.search_term && formErrors.search_term}
+            </div>
+            <button onClick={handleSubmit}>Find</button>
+        </form>
         </>
     )
 }

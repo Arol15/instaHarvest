@@ -13,11 +13,13 @@ import Chat from "./components/chat/Chat";
 import AddProduct from "./components/AddProduct";
 import UserProducts from "./components/UserProducts";
 import ProductDetails from "./components/ProductDetails";
+import MainNavbar from "./components/MainNavbar";
 
 function App() {
   return (
     <ModalMsgContextProvider>
       <Router>
+      <MainNavbar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login">
@@ -33,7 +35,7 @@ function App() {
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
-          <Route path="/buy" component={Products} />
+          <Route path="/search-results" component={Products} />
           <Route path="/reset_password">
             <ResetPassword reset={true} />
           </Route>
@@ -43,6 +45,7 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
+        
       </Router>
       <ModalMsg />
     </ModalMsgContextProvider>

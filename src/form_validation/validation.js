@@ -58,6 +58,13 @@ const validation = (data) => {
         errors.body = "Please enter something";
       }
     }
+    if (key === "search_term") {
+      if (!value) {
+        errors.search_term = "Please enter location"; 
+      } else if (value.length < 2) {
+        errors.search_term = "Your location is too short"
+      }
+    }
   });
 
   return errors;

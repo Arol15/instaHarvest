@@ -8,7 +8,7 @@ const Home = () => {
   
     return(
     <div>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
       <h1>Welcome to instaHarvest</h1>
       <SearchMain />
       <ShareProducts />

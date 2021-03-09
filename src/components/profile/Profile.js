@@ -84,7 +84,7 @@ const Profile = (props) => {
 
   return (
     <>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
       {isLoading && <Spinner />}
 
       {profileData && (

@@ -75,9 +75,11 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         afterConfirm();
       }
       if (closeModal) {
+        history.push("/profile");
         closeModal();
       } else {
         history.push("/profile");
+        // closeModal()
       }
     }
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
