@@ -11,7 +11,7 @@ const ProductDetails = () => {
     const location = useLocation(); 
     const user_id = location.state.user_id; 
     const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-    const [info, setInfo] = useState({})
+    const [info, setInfo] = useState({}); 
 
     const [modal, showModal, closeModal] = useModal({
         withBackdrop: true,
@@ -30,15 +30,20 @@ const ProductDetails = () => {
       });
     };
 
+    const handleAfterConfirm = () => { 
+        openChat(location.state.user_id, info.first_name, info.image_url)
+        window.location.reload();
+    }; 
+
     useEffect(() => {
         sendRequest(`/api/products/product-location-info/${user_id}`, "get"); 
-    }, [])
+    }, []); 
 
     useEffect(() => {
         if(data) {
             setInfo(data.product_details)
         }
-    }, [data])
+    }, [data]); 
 
     return (
         <>
@@ -57,7 +62,7 @@ const ProductDetails = () => {
                     info.first_name, 
                     info.image_url,
                 )}>Connect with seller</button>) : (
-                    <button onClick={() => showModal(<AuthModal />)}>Connect with Seller</button>
+                    <button onClick={() => showModal(<AuthModal afterConfirm={handleAfterConfirm}/>)}>Connect with Seller</button>
                 )
             }
         </div>
