@@ -3,22 +3,22 @@ import { useEffect, useState } from "react";
 import useRequest from "../hooks/useRequest"; 
 
 const ProductDetails = () => {
-    // const history = useHistory(); 
+    const history = useHistory(); 
     const location = useLocation(); 
     const user_id = location.state.user_id; 
     const [isLoading, data, error, errorNum, sendRequest] = useRequest();
     const [info, setInfo] = useState({})
 
-    // const openChat = (recipientId, recipientName, recipientImg) => {
-    //   history.push({
-    //     pathname: `/chats/${recipientName}`,
-    //     state: {
-    //       recipientId: recipientId,
-    //       recipientName: recipientName,
-    //       recipientImg: recipientImg,
-    //     },
-    //   });
-    // };
+    const openChat = (recipientId, recipientName, recipientImg) => {
+      history.push({
+        pathname: `/chats/${recipientName}`,
+        state: {
+          recipientId: recipientId,
+          recipientName: recipientName,
+          recipientImg: recipientImg,
+        },
+      });
+    };
 
     useEffect(() => {
         sendRequest(`/api/products/product-location-info/${user_id}`, "get"); 
@@ -30,17 +30,20 @@ const ProductDetails = () => {
         }
     }, [data])
 
-    // console.log(info)
     return (
         <div>
             <div>
-                {location.state.name}
+                Product: {location.state.name}
             </div>
-            <p>{location.state.description}</p>
+            <p>About this product: {location.state.description}</p>
             <div>
                 Location for map: {info.lat} and {info.lgt}
             </div>
-            <button>Connect with seller</button>
+            <button onClick={() => openChat(
+                location.state.user_id, 
+                info.first_name, 
+                info.image_url,
+            )}>Connect with seller</button>
         </div>
 
     )
