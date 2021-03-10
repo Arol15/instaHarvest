@@ -1,12 +1,10 @@
 import { useHistory, useLocation } from "react-router-dom"; 
-import { checkAuth } from "../utils/localStorage";
 
 const Product = ({product, onDelete, user_id}, ) => {
 
     const history = useHistory(); 
     const location = useLocation(); 
     const prevPath = location.pathname;
-    // console.log(prevPath)
     const divStyle = {
         border: "1px solid black", 
         margin: "5px"
@@ -24,8 +22,7 @@ const Product = ({product, onDelete, user_id}, ) => {
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>${product.price}</p>
-                <button onClick={() => onDelete(product.product_id)}>Delete Product</button>
-                <button>Edit Product</button>
+                <button onClick={() => history.push("/edit-product")}>Edit Product</button>
                 </div>
         ) : (
             <div onClick={() => handleClick(product)} style={divStyle} className="product">

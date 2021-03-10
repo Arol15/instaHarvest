@@ -1,7 +1,6 @@
 import { useRequest } from "../hooks/hooks";
 import { useEffect, useState } from "react"; 
 import Spinner from './UI/Spinner';
-import MainNavbar from "./MainNavbar"; 
 import Product from './Product'; 
 
 const UserProducts = () => {
