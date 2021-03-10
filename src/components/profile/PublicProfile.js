@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import { useRequest, useModal } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
-import statesList from "../../data/states.json";
+import statesList from "../../assets/data/states.json";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import "./profile.css";
 

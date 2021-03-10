@@ -4,7 +4,7 @@ import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
 import useModal from "../../hooks/useModal";
 import useForm from "../../hooks/useForm";
-import statesList from "../../data/states.json";
+import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
 import { checkAuth } from "../../utils/localStorage";
 import { saveJSON } from "../../utils/localStorage";

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import Auth from "../auth/Auth";
-import statesList from "../../data/states.json";
+import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
 import "./profile.css";
 
