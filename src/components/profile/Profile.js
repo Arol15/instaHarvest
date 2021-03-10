@@ -6,6 +6,7 @@ import ProfileField from "./ProfileField";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
 import prfBack from "../../assets/images/prf-background.jpg";
+import config from "../../config";
 import "./profile.css";
 
 const Profile = (props) => {
@@ -126,6 +127,7 @@ const Profile = (props) => {
                       </Link>
                     </div>
                   )}
+                  <hr />
                 </div>
 
                 <div className="prf-field">
@@ -141,6 +143,7 @@ const Profile = (props) => {
                   >
                     <p>{profileData.username}</p>
                   </ProfileField>
+                  <hr />
                 </div>
 
                 <div className="prf-field">
@@ -155,6 +158,7 @@ const Profile = (props) => {
                   >
                     <p>{profileData.last_name}</p>
                   </ProfileField>
+                  <hr />
                 </div>
               </div>
             </div>
@@ -176,6 +180,7 @@ const Profile = (props) => {
                   >
                     <p>{profileData.first_name}</p>
                   </ProfileField>
+                  <hr />
                 </div>
 
                 <div className="prf-field">
@@ -190,10 +195,12 @@ const Profile = (props) => {
                   >
                     <p>
                       <Link to={`/profile/${profileData.profile_addr}`}>
-                        https://instaharvest.com/{profileData.profile_addr}
+                        {config.baseUrl}
+                        {profileData.profile_addr}
                       </Link>
                     </p>
                   </ProfileField>
+                  <hr />
                 </div>
               </div>
             </div>
@@ -213,7 +220,9 @@ const Profile = (props) => {
                 >
                   <p>{profileData.address}</p>
                 </ProfileField>
+                <hr />
               </div>
+
               <div className="prf-field">
                 <ProfileField
                   name="city"
@@ -226,7 +235,9 @@ const Profile = (props) => {
                 >
                   <p>{profileData.city}</p>
                 </ProfileField>
+                <hr />
               </div>
+
               <div className="prf-field">
                 <ProfileField
                   name="state"
@@ -240,7 +251,9 @@ const Profile = (props) => {
                 >
                   <p>{profileData.state}</p>
                 </ProfileField>
+                <hr />
               </div>
+
               <div className="prf-field">
                 <ProfileField
                   name="zip_code"
@@ -253,6 +266,7 @@ const Profile = (props) => {
                 >
                   <p>{profileData.zip_code}</p>
                 </ProfileField>
+                <hr />
               </div>
             </div>
             <div className="prf-block-col"></div>
