@@ -14,6 +14,7 @@ import AddProduct from "./components/AddProduct";
 import UserProducts from "./components/UserProducts";
 import ProductDetails from "./components/ProductDetails";
 import MainNavbar from "./components/MainNavbar";
+import EditProduct from "./components/EditProduct"; 
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/profile" component={Profile} exact />
           <Route path="/add-product" component={AddProduct} exact />
           <Route path="/user-products" component={UserProducts} />
+          <Route path="/edit-product" component={EditProduct}/>
           <Route path="/product-info" component={ProductDetails} />
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />
