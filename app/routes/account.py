@@ -24,7 +24,9 @@ def get_profile():
 
 @bp.route('/<string:addr>')
 def get_profile_public(addr):
-    user = User.query.filter_by(profile_addr=addr).first_or_404()
+    user = User.query.filter_by(profile_addr=addr).first()
+    if not user:
+        return {}, 404
     res = user.to_dict_public()
     return res, 200
 

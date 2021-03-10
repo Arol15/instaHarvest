@@ -3,9 +3,10 @@ import { useHistory, Link } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
+import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
-import prfBack from "../../assets/images/prf-background.jpg";
+
 import config from "../../config";
 import "./profile.css";
 
@@ -89,10 +90,7 @@ const Profile = (props) => {
 
       {profileData && (
         <>
-          <div className="prf-block-top">
-            <img className="prf-back-img" src={prfBack} />
-          </div>
-
+          <ProfileHeader imageBack={profileData.image_back_url} edit={true} />
           <div className="prf-block">
             <div className="prf-block-col">
               <div className="">
@@ -122,9 +120,9 @@ const Profile = (props) => {
                   </ProfileField>
                   {!profileData.email_verified && (
                     <div>
-                      <Link onClick={resendConfirmEmail}>
+                      <a onClick={resendConfirmEmail}>
                         Resend confirmation email
-                      </Link>
+                      </a>
                     </div>
                   )}
                   <hr />

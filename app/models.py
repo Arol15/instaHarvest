@@ -15,6 +15,7 @@ class User(db.Model):
     email_verified = db.Column(db.Boolean)
     user_role = db.Column(db.String(16), nullable=False, default='user')
     image_url = db.Column(db.String)
+    image_back_url = db.Column(db.String)
     hashed_password = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(100))
     lgt = db.Column(db.Float, server_default="0.0")
@@ -52,6 +53,7 @@ class User(db.Model):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "image_url": self.image_url,
+            "image_back_url": self.image_back_url,
             "email": self.email,
             "profile_addr": self.profile_addr,
             "email_verified": self.email_verified,
@@ -65,6 +67,7 @@ class User(db.Model):
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
+            "image_back_url": self.image_back_url,
             "email_verified": self.email_verified,
             "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
@@ -95,8 +98,8 @@ class Product(db.Model):
             "image_urls": self.image_urls,
             "price": self.price,
             "description": self.description,
-            "status": self.status, 
-            "user_id": self.user_id, 
+            "status": self.status,
+            "user_id": self.user_id,
             "product_id": self.id
         }
 

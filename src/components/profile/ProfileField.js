@@ -109,13 +109,13 @@ const ProfileFild = (props) => {
       ) : (
         <>
           {props.value ? props.children : <p>Empty</p>}
-          <Link
+          <a
             onClick={() => {
               setEditState(true);
             }}
           >
             Edit
-          </Link>
+          </a>
         </>
       )}
 
