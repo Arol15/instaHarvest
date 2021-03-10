@@ -5,13 +5,17 @@ import useRequest from "../hooks/useRequest";
 import { ModalMsgContext } from "../context/ModalMsgContext"; 
 import validation from "../form_validation/validation"; 
 import Spinner from "./UI/Spinner"; 
+import { checkAuth } from '../utils/localStorage';
 
 
 const SearchMain = () => {
 
     const onSubmit = () => {
-        // console.log(formData.search_term) 
-        sendRequest("/api/products/get-all", "post", formData); 
+        if (checkAuth()) {
+            sendRequest("/api/products/get-all-protected", "post", formData, true); 
+        } else {
+            sendRequest("/api/products/get-all", "post", formData)
+        }
     }; 
 
     const [
@@ -27,7 +31,7 @@ const SearchMain = () => {
     const [, setModalMsgState] = useContext(ModalMsgContext);
 
     const history = useHistory(); 
-    console.log(data)
+    // console.log(data)
 
     useEffect(() => {
         if (data && data.products.length === 0) {
@@ -39,7 +43,7 @@ const SearchMain = () => {
         } else if (data) {
            history.push({
                pathname: "/search-results",
-               state: data.products,
+               state: data,
             });    
        } else if (error) {
            setModalMsgState({

@@ -47,6 +47,21 @@ def get_all_products():
     return {'products': user_products}
 
 
+@bp.route('/get-all-protected', methods=["POST"])
+@jwt_required
+def get_all_products_protected():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    # print(data)
+    searchCity = data["search_term"]
+    # print(searchCity)
+    prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
+    # print(prods)
+    user_products = [product.to_dict() for product in prods]
+    # print(user_products)
+    return {'products': user_products, "user_id": user_id}
+
+
 @bp.route('/product-location-info/<int:userId>')
 def product_location_info(userId):
     # print(userId)

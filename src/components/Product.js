@@ -1,6 +1,7 @@
 import { useHistory, useLocation } from "react-router-dom"; 
+import { checkAuth } from "../utils/localStorage";
 
-const Product = ({product, onDelete}, ) => {
+const Product = ({product, onDelete, user_id}, ) => {
 
     const history = useHistory(); 
     const location = useLocation(); 
@@ -17,11 +18,22 @@ const Product = ({product, onDelete}, ) => {
 
     return (
         <>
+        {user_id === product.user_id ? (
+            <div style={divStyle}>
+                <h1>Your product</h1>
+                <p>{product.name}</p>
+                <p>{product.description}</p>
+                <p>${product.price}</p>
+                <button onClick={() => onDelete(product.product_id)}>Delete Product</button>
+                <button>Edit Product</button>
+                </div>
+        ) : (
             <div onClick={() => handleClick(product)} style={divStyle} className="product">
             <p>{product.name}</p>
             <p>{product.description}</p>
             <p>${product.price}</p>
-            </div>
+            </div>)
+        }
             {prevPath === "/search-results" ? null : 
             (<button onClick={() => onDelete(product.product_id)}>Delete Product</button>)}
         </>

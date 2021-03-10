@@ -62,7 +62,8 @@ def signup():
     return {'access_token': access_token,
             'refresh_token': refresh_token,
             'first_name': user.first_name,
-            'image_url': user.image_url}, 201
+            'image_url': user.image_url, 
+            'user_id': user.id}, 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -87,7 +88,8 @@ def login():
     return {'access_token': access_token,
             'refresh_token': refresh_token,
             'first_name': user.first_name,
-            'image_url': user.image_url}, 200
+            'image_url': user.image_url, 
+            'user_id': user.id}, 200
 
 
 @bp.route('/resend_email', methods=['POST'])
