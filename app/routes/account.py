@@ -17,14 +17,18 @@ bp = Blueprint('account', __name__, url_prefix='/api/account')
 @jwt_required
 def get_profile():
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     res = user.to_dict_private()
     return res, 200
 
 
 @bp.route('/<string:addr>')
 def get_profile_public(addr):
-    user = User.query.filter_by(profile_addr=addr).first_or_404()
+    user = User.query.filter_by(profile_addr=addr).first()
+    if not user:
+        return {}, 404
     res = user.to_dict_public()
     return res, 200
 
@@ -34,7 +38,9 @@ def get_profile_public(addr):
 def change_pass():
     data = request.get_json()
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     user.change_password(data['password'])
     db.session.add(user)
     db.session.commit()
@@ -51,7 +57,9 @@ def edit_profile():
     """
     data = request.get_json()
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     for key, value in data.items():
         setattr(user, key, value)
     db.session.add(user)
@@ -64,7 +72,9 @@ def edit_profile():
 def edit_username():
     data = request.get_json()
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     username = data['username']
     if User.query.filter_by(username=username).first():
         return {'error': f'The user with username {username} already exists'}, 409
@@ -79,7 +89,9 @@ def edit_username():
 def edit_profile_address():
     data = request.get_json()
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     new_profile_addr = data['profile_addr']
     if User.query.filter_by(profile_addr=new_profile_addr).first():
         return {'error': f'This address already exists'}, 409
@@ -94,8 +106,9 @@ def edit_profile_address():
 def edit_email():
     data = request.get_json()
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
-
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     now = datetime.now(tz=tz.tzlocal())
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:

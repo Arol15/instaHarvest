@@ -60,9 +60,14 @@ const validation = (data) => {
     }
     if (key === "search_term") {
       if (!value) {
-        errors.search_term = "Please enter location"; 
+        errors.search_term = "Please enter location";
       } else if (value.length < 2) {
-        errors.search_term = "Your location is too short"
+        errors.search_term = "Your location is too short";
+      }
+    }
+    if (key === "profile_addr") {
+      if (!value) {
+        errors.profile_addr = "Field cannot be empty";
       }
     }
   });

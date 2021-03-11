@@ -27,7 +27,9 @@ def create_product():
 def get_products_per_user():
     user_id = get_jwt_identity()
     # print(user_id)
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     user_products = user.products.order_by(Product.created_at.desc()).all()
     products = [product.to_dict() for product in user_products]
     # print(products)
@@ -40,7 +42,8 @@ def get_all_products():
     # print(data)
     searchCity = data["search_term"]
     # print(searchCity)
-    prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
+    prods = Product.query.join(Product.user).filter(
+        User.city == searchCity).all()
     # print(prods)
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
@@ -50,7 +53,9 @@ def get_all_products():
 @bp.route('/product-location-info/<int:userId>')
 def product_location_info(userId):
     # print(userId)
-    user = User.query.filter_by(id=userId).first_or_404()
+    user = User.query.filter_by(id=userId).first()
+    if not user:
+        return {}, 404
     lat = user.lat
     lgt = user.lgt
     # lgt = User.query.filter_by(id=userId).lgt.first()
@@ -69,5 +74,3 @@ def delete_product():
     db.session.delete(product)
     db.session.commit()
     return {"msg": "deleted"}, 200
-
-

@@ -1,8 +1,9 @@
 import { useEffect, useContext } from "react";
 import { useRequest, useModal } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
-import statesList from "../../data/states.json";
+import statesList from "../../assets/data/states.json";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
+import ProfileHeader from "./ProfileHeader";
 import "./profile.css";
 
 const PublicProfile = (props) => {
@@ -15,20 +16,26 @@ const PublicProfile = (props) => {
   return (
     <>
       {isLoading && <Spinner />}
-      <h1></h1>
       {error && <h1>Profile Not Found</h1>}
       {data && (
-        <div className="">
-          <img className="prf-img" src={data.image_url} />
-          <EmailConfirmIcon verified={data.email_verified}>
-            <h2 className="inline-block">{data.first_name}</h2>
-          </EmailConfirmIcon>
-          <p>
-            {data.city},{" "}
-            {statesList.find((elem) => elem.name === data.state).abbreviation}
-          </p>
-          <p>Joined: {data.joined}</p>
-        </div>
+        <>
+          <ProfileHeader
+            image={data.image_url}
+            imageBack={data.image_back_url}
+            edit={false}
+          />
+          <div className="prf-pbl-top">
+            <EmailConfirmIcon verified={data.email_verified}>
+              <h2 className="inline-block">{data.first_name}</h2>
+            </EmailConfirmIcon>
+
+            <p>
+              {data.city},{" "}
+              {statesList.find((elem) => elem.name === data.state).abbreviation}
+            </p>
+            <p>Joined: {data.joined}</p>
+          </div>
+        </>
       )}
     </>
   );
