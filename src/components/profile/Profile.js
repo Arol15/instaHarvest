@@ -90,15 +90,14 @@ const Profile = (props) => {
 
       {profileData && (
         <>
-          <ProfileHeader imageBack={profileData.image_back_url} edit={true} />
+          <ProfileHeader
+            image={profileData.image_url}
+            imageBack={profileData.image_back_url}
+            edit={true}
+          />
           <div className="prf-block">
             <div className="prf-block-col">
               <div className="">
-                <div className="prf-img-block">
-                  <img src={profileData.image_url} />
-                  <div></div>
-                  <a>Edit</a>
-                </div>
                 <h2>Private information</h2>
                 <div className="prf-field">
                   <ProfileField

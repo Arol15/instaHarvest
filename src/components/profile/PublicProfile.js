@@ -12,7 +12,6 @@ const PublicProfile = (props) => {
   useEffect(() => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});
   }, []);
-  console.log(error, errorNum);
 
   return (
     <>
@@ -20,12 +19,16 @@ const PublicProfile = (props) => {
       {error && <h1>Profile Not Found</h1>}
       {data && (
         <>
-          <ProfileHeader imageBack={data.image_back_url} edit={false} />
-          <div className="">
-            {/* <img className="prf-img" src={data.image_url} /> */}
+          <ProfileHeader
+            image={data.image_url}
+            imageBack={data.image_back_url}
+            edit={false}
+          />
+          <div className="prf-pbl-top">
             <EmailConfirmIcon verified={data.email_verified}>
               <h2 className="inline-block">{data.first_name}</h2>
             </EmailConfirmIcon>
+
             <p>
               {data.city},{" "}
               {statesList.find((elem) => elem.name === data.state).abbreviation}
