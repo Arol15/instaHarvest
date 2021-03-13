@@ -3,8 +3,8 @@ import validation from '../form_validation/validation';
 import { useRequest, useForm } from '../hooks/hooks'; 
 import { useHistory } from "react-router-dom"; 
 import { ModalMsgContext } from '../context/ModalMsgContext'; 
-import MainNavbar from './MainNavbar';
 import Spinner from "./UI/Spinner"; 
+import "./AddProduct.css"; 
 
 
 const AddProduct = () => {
@@ -46,7 +46,7 @@ const AddProduct = () => {
       }, [data, error, errorNum]);
     
     return(
-        <div>
+        <div className="add-product">
             {/* <MainNavbar /> */}
             <h2>Add your product</h2>
             {isLoading && <Spinner />}

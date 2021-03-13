@@ -65,6 +65,7 @@ class User(db.Model):
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
+            "profile_addr": self.profile_addr,
             "email_verified": self.email_verified,
             "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,

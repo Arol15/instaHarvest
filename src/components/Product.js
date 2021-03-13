@@ -14,6 +14,10 @@ const Product = ({product, onDelete, user_id}, ) => {
         history.push("/product-info", product)
     }
 
+    const handleClickEdit = (product) => {
+        history.push("edit-product", product)
+    }
+
     return (
         <>
         {user_id === product.user_id ? (
@@ -22,7 +26,7 @@ const Product = ({product, onDelete, user_id}, ) => {
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>${product.price}</p>
-                <button onClick={() => history.push("/edit-product")}>Edit Product</button>
+                <button onClick={() => handleClickEdit(product)}>Edit Product</button>
                 </div>
         ) : (
             <div onClick={() => handleClick(product)} style={divStyle} className="product">

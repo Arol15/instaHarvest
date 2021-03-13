@@ -59,7 +59,7 @@ const SearchMain = () => {
         {isLoading && <Spinner />}
         <form>
             <input 
-            type="text" 
+            type="search" 
             placeholder="Enter your location" 
             name="search_term" 
             onChange={handleInputChange}
