@@ -17,12 +17,13 @@ const Product = ({product, onDelete, user_id}, ) => {
     const handleClickEdit = (product) => {
         history.push("edit-product", product)
     }
+    console.log(prevPath)
 
     return (
         <>
-        {user_id === product.user_id ? (
+        {(user_id === product.user_id || prevPath === '/user-products') ? (
             <div style={divStyle}>
-                <h1>Your product</h1>
+                {/* <h1>Your product</h1> */}
                 <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>${product.price}</p>
