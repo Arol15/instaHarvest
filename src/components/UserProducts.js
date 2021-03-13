@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Spinner from './UI/Spinner';
 import Product from './Product'; 
 
+
 const UserProducts = () => {
 
     const [userProducts, setUserProducts] = useState([]);
@@ -12,9 +13,10 @@ const UserProducts = () => {
         sendRequest("/api/products/products-per-user", "post", null, true)
     }
 
+
     useEffect(() => {
         getProducts();
-    }, [])
+    }, []); 
 
     useEffect(() => {
         if (data && data.msg === "deleted"){
@@ -25,8 +27,16 @@ const UserProducts = () => {
         }
     }, [data])
 
+    // const confirmDelete = (
+    //     <>
+    //         <h3>Are you sure to delete?</h3>
+    //         <button onClick={() => handleDelete()}>Yes</button>
+    //         <button onClick={() => closeModal()}>No</button>
+    //     </>
+    // );
+
     const handleDelete = (product_id) => {
-        sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
+            sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
     }
 
     console.log(userProducts)

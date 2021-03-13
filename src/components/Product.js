@@ -1,4 +1,6 @@
 import { useHistory, useLocation } from "react-router-dom"; 
+import { useModal } from "../hooks/hooks";
+
 
 const Product = ({product, onDelete, user_id}, ) => {
 
@@ -10,6 +12,12 @@ const Product = ({product, onDelete, user_id}, ) => {
         margin: "5px"
     }
 
+    const [modal, showModal, closeModal] = useModal({
+        withBackdrop: true,
+        useTimer: false,
+        inPlace: false,
+      });
+
     const handleClick = (product) => {
         history.push("/product-info", product)
     }
@@ -17,7 +25,14 @@ const Product = ({product, onDelete, user_id}, ) => {
     const handleClickEdit = (product) => {
         history.push("edit-product", product)
     }
-    console.log(prevPath)
+
+     const confirmDelete = (
+        <>
+            <h3>Are you sure to delete?</h3>
+            <button onClick={() => onDelete(product.product_id)}>Yes</button>
+            <button onClick={() => closeModal()}>No</button>
+        </>
+    );
 
     return (
         <>
@@ -37,7 +52,11 @@ const Product = ({product, onDelete, user_id}, ) => {
             </div>)
         }
             {prevPath === "/search-results" ? null : 
-            (<button onClick={() => onDelete(product.product_id)}>Delete Product</button>)}
+            (<button onClick={() => {
+                showModal(confirmDelete)
+                }
+                }>Delete Product</button>)}
+            {modal}
         </>
     )
 }

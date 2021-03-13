@@ -1,4 +1,4 @@
-import {useLocation, useHistory} from "react-router-dom"; 
+import {useLocation, useHistory, Link} from "react-router-dom"; 
 import {useEffect, useContext} from "react"; 
 import { useRequest, useForm } from '../hooks/hooks'; 
 import { ModalMsgContext } from '../context/ModalMsgContext'; 
@@ -96,10 +96,10 @@ const EditProduct = () => {
                 value={formData.description}
                 />
                 <button>Save Changes</button>
-                <button>Cancel</button>
+                <button>
+                    <Link to="/user-products">Cancel</Link>
+                </button>
             </form>
-              
-            <button>Delete</button>
         </div>
     )
 }
