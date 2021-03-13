@@ -27,14 +27,6 @@ const UserProducts = () => {
         }
     }, [data])
 
-    // const confirmDelete = (
-    //     <>
-    //         <h3>Are you sure to delete?</h3>
-    //         <button onClick={() => handleDelete()}>Yes</button>
-    //         <button onClick={() => closeModal()}>No</button>
-    //     </>
-    // );
-
     const handleDelete = (product_id) => {
             sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
     }
@@ -42,7 +34,6 @@ const UserProducts = () => {
     console.log(userProducts)
     return(
         <div>
-            {/* <MainNavbar /> */}
             <h2>All your products are here! </h2>
             {isLoading && <Spinner />}
             {userProducts && userProducts.map((product) => {
