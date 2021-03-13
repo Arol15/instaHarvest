@@ -5,6 +5,9 @@ import { useHistory } from "react-router-dom";
 import { ModalMsgContext } from '../context/ModalMsgContext'; 
 import Spinner from "./UI/Spinner"; 
 import "./AddProduct.css"; 
+import AuthModal from '../components/auth/AuthModal'; 
+import {useModal} from '../hooks/hooks'; 
+import { checkAuth } from "../utils/localStorage";
 
 
 const AddProduct = () => {
@@ -12,6 +15,12 @@ const AddProduct = () => {
     const history = useHistory(); 
     const [ isLoading, data, error, errorNum, sendRequest ] = useRequest(); 
     const [, setModalMsgState] = useContext(ModalMsgContext); 
+
+    const [modal, showModal, closeModal] = useModal({
+      withBackdrop: true,
+      useTimer: false,
+      inPlace: false,
+    });
 
     const onSubmit = () => {
         sendRequest('/api/products/add-product', "post", formData, true);
@@ -25,6 +34,17 @@ const AddProduct = () => {
         status: "", 
         description: ""
     }, onSubmit, validation);
+
+    const handleAfterConfirm = () => { 
+      closeModal()
+      window.location.reload();
+    }; 
+
+    useEffect(() => {
+      if (!checkAuth()) {
+        showModal(<AuthModal afterConfirm={handleAfterConfirm}/>)
+      }
+    }, [])
 
     useEffect(() => {
         if (error) {
@@ -46,10 +66,10 @@ const AddProduct = () => {
       }, [data, error, errorNum]);
     
     return(
-        <div className="add-product">
-            {/* <MainNavbar /> */}
-            <h2>Add your product</h2>
+      <>
             {isLoading && <Spinner />}
+        <div className="add-product">
+            <h2>Share Your Product</h2>
             <form onSubmit={handleSubmit}>
                 <label>Name of your product</label>
                 <input 
@@ -97,6 +117,8 @@ const AddProduct = () => {
                 <button>Add Product</button>
             </form>
         </div>
+        {modal}
+      </>
     )
 }
 
