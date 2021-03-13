@@ -79,6 +79,9 @@ const AddProduct = () => {
                 onChange={handleInputChange}
                 value={formData.name}
                 />
+                <div className="form-danger">
+                  {formErrors.name && formErrors.name}
+                </div>
                 <label>Product Type:</label>
                 <select 
                 name="product_type" 
@@ -91,6 +94,9 @@ const AddProduct = () => {
                 <option>Herb</option>
                 <option>Other</option>
                 </select>
+                <div className="form-danger">
+                  {formErrors.product_type && formErrors.product_type}
+                </div>
                 <label>Pictures</label>
                 <input 
                 type="file" 
@@ -114,6 +120,9 @@ const AddProduct = () => {
                 onChange={handleInputChange}
                 value={formData.description}
                 />
+                <div className="form-danger">
+                  {formErrors.description && formErrors.description}
+                </div>
                 <button>Add Product</button>
             </form>
         </div>
