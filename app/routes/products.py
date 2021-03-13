@@ -77,6 +77,19 @@ def product_location_info(userId):
     return {"product_details": product_details}, 200
 
 
+@bp.route('/edit-product/<int:productId>', methods=["PATCH"]) 
+@jwt_required
+def edit_product(productId): 
+    data = request.get_json()
+    print(data)
+    product = Product.query.filter_by(id=productId).first()
+    for key, value in data.items():
+        setattr(product, key, value)
+    db.session.add(product)
+    db.session.commit()
+    return {'msg': 'Product updated'}, 200
+
+
 @bp.route("/delete_product", methods=["DELETE"])
 @jwt_required
 def delete_product():

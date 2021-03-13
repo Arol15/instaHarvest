@@ -1,0 +1,30 @@
+.edit-product {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .edit-product label {
+    text-align: left;
+    display: block;
+  }
+  .edit-product h2 {
+    font-size: 30px;
+    color: orangered;
+    margin-bottom: 30px;
+  }
+  .edit-product input, .edit-product textarea, .edit-product select {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
+  }
+  .edit-product button {
+    background: orangered;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
