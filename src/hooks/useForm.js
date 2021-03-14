@@ -22,7 +22,6 @@ const useForm = (formData, onSubmit, formValidation) => {
 
   const handleInputChange = (event) => {
     // event.persist();
-
     setFormState({ ...formState, [event.target.name]: event.target.value });
   };
 
