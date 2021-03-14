@@ -70,6 +70,21 @@ const validation = (data) => {
         errors.profile_addr = "Field cannot be empty";
       }
     }
+    if (key === "name") {
+      if (!value) {
+        errors.name = "Please enter name";
+      }
+    }
+    if (key === "product_type") {
+      if (!value) {
+        errors.product_type = "Please select product type";
+      }
+    }
+    if (key === "description") {
+      if (!value) {
+        errors.description = "Please describe your product";
+      }
+    }
   });
 
   return errors;

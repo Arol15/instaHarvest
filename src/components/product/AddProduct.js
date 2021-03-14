@@ -1,10 +1,13 @@
 import { useContext, useEffect } from "react"; 
-import validation from '../form_validation/validation';
-import { useRequest, useForm } from '../hooks/hooks'; 
+import validation from '../../form_validation/validation';
+import { useRequest, useForm } from '../../hooks/hooks'; 
 import { useHistory } from "react-router-dom"; 
-import { ModalMsgContext } from '../context/ModalMsgContext'; 
-import MainNavbar from './MainNavbar';
-import Spinner from "./UI/Spinner"; 
+import { ModalMsgContext } from '../../context/ModalMsgContext'; 
+import Spinner from "../UI/Spinner"; 
+import "./AddProduct.css"; 
+import AuthModal from '../auth/AuthModal'; 
+import {useModal} from '../../hooks/hooks'; 
+import { checkAuth } from "../../utils/localStorage";
 
 
 const AddProduct = () => {
@@ -12,6 +15,12 @@ const AddProduct = () => {
     const history = useHistory(); 
     const [ isLoading, data, error, errorNum, sendRequest ] = useRequest(); 
     const [, setModalMsgState] = useContext(ModalMsgContext); 
+
+    const [modal, showModal, closeModal] = useModal({
+      withBackdrop: true,
+      useTimer: false,
+      inPlace: false,
+    });
 
     const onSubmit = () => {
         sendRequest('/api/products/add-product', "post", formData, true);
@@ -25,6 +34,17 @@ const AddProduct = () => {
         status: "", 
         description: ""
     }, onSubmit, validation);
+
+    const handleAfterConfirm = () => { 
+      closeModal()
+      window.location.reload();
+    }; 
+
+    useEffect(() => {
+      if (!checkAuth()) {
+        showModal(<AuthModal afterConfirm={handleAfterConfirm}/>)
+      }
+    }, [])
 
     useEffect(() => {
         if (error) {
@@ -46,10 +66,10 @@ const AddProduct = () => {
       }, [data, error, errorNum]);
     
     return(
-        <div>
-            {/* <MainNavbar /> */}
-            <h2>Add your product</h2>
+      <>
             {isLoading && <Spinner />}
+        <div className="add-product">
+            <h2>Share Your Product</h2>
             <form onSubmit={handleSubmit}>
                 <label>Name of your product</label>
                 <input 
@@ -59,6 +79,9 @@ const AddProduct = () => {
                 onChange={handleInputChange}
                 value={formData.name}
                 />
+                <div className="form-danger">
+                  {formErrors.name && formErrors.name}
+                </div>
                 <label>Product Type:</label>
                 <select 
                 name="product_type" 
@@ -71,6 +94,9 @@ const AddProduct = () => {
                 <option>Herb</option>
                 <option>Other</option>
                 </select>
+                <div className="form-danger">
+                  {formErrors.product_type && formErrors.product_type}
+                </div>
                 <label>Pictures</label>
                 <input 
                 type="file" 
@@ -94,9 +120,14 @@ const AddProduct = () => {
                 onChange={handleInputChange}
                 value={formData.description}
                 />
+                <div className="form-danger">
+                  {formErrors.description && formErrors.description}
+                </div>
                 <button>Add Product</button>
             </form>
         </div>
+        {modal}
+      </>
     )
 }
 

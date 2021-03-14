@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Profile from "./components/profile/Profile";
-import Products from "./components/Products";
+import Products from "./components/product/Products";
 import Auth from "./components/auth/Auth";
 import NotFoundPage from "./components/NotFoundPage";
 import PublicProfile from "./components/profile/PublicProfile";
@@ -10,10 +10,11 @@ import { ModalMsgContextProvider } from "./context/ModalMsgContext";
 import ModalMsg from "./components/UI/ModalMsg";
 import UserChatsPage from "./components/chat/UserChatsPage";
 import Chat from "./components/chat/Chat";
-import AddProduct from "./components/AddProduct";
-import UserProducts from "./components/UserProducts";
-import ProductDetails from "./components/ProductDetails";
+import AddProduct from "./components/product/AddProduct";
+import UserProducts from "./components/product/UserProducts";
+import ProductDetails from "./components/product/ProductDetails";
 import MainNavbar from "./components/MainNavbar";
+import EditProduct from "./components/product/EditProduct"; 
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/profile" component={Profile} exact />
           <Route path="/add-product" component={AddProduct} exact />
           <Route path="/user-products" component={UserProducts} />
+          <Route path="/edit-product" component={EditProduct}/>
           <Route path="/product-info" component={ProductDetails} />
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />

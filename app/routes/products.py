@@ -50,18 +50,46 @@ def get_all_products():
     return {'products': user_products}
 
 
+@bp.route('/get-all-protected', methods=["POST"])
+@jwt_required
+def get_all_products_protected():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    # print(data)
+    searchCity = data["search_term"]
+    # print(searchCity)
+    prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
+    # print(prods)
+    user_products = [product.to_dict() for product in prods]
+    # print(user_products)
+    return {'products': user_products, "user_id": user_id}
+
+
 @bp.route('/product-location-info/<int:userId>')
 def product_location_info(userId):
     # print(userId)
-    user = User.query.filter_by(id=userId).first()
-    if not user:
-        return {}, 404
-    lat = user.lat
-    lgt = user.lgt
-    # lgt = User.query.filter_by(id=userId).lgt.first()
-    # print(lat)
-    # print(lgt)
-    return {"lat": lat, "lgt": lgt}
+    product_details = {}
+    user = User.query.filter_by(id=userId).first_or_404()
+    product_details["lat"] = user.lat
+    product_details["lgt"] = user.lgt
+    product_details["image_url"] = user.image_url
+    product_details["first_name"] = user.first_name
+    product_details["state"] = user.state
+    product_details["city"] = user.city
+    # print(product_details)
+    return {"product_details": product_details}, 200
+
+
+@bp.route('/edit-product/<int:productId>', methods=["PATCH"]) 
+@jwt_required
+def edit_product(productId): 
+    data = request.get_json()
+    product = Product.query.filter_by(id=productId).first()
+    for key, value in data.items():
+        setattr(product, key, value)
+    db.session.add(product)
+    db.session.commit()
+    return {'msg': 'Product updated'}, 200
 
 
 @bp.route("/delete_product", methods=["DELETE"])

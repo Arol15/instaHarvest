@@ -67,11 +67,24 @@ class User(db.Model):
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
+            "profile_addr": self.profile_addr,
             "image_back_url": self.image_back_url,
             "email_verified": self.email_verified,
             "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
             "city": self.city
+        }
+
+    def to_dict_location_user_info(self):
+        return {
+            "first_name": self.first_name,
+            "image_url": self.image_url,
+            # "email_verified": self.email_verified,
+            # "joined": self.created_at.strftime("%b %Y"),
+            "state": self.state,
+            "city": self.city, 
+            "lat": self.lat, 
+            "lgt": self.lgt   
         }
 
 

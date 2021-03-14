@@ -19,6 +19,7 @@ const MainNavbar = () => {
 
   const logoutUser = (val) => {
     if (val) {
+      
       logout();
       history.push("/");
     }
@@ -65,6 +66,7 @@ const MainNavbar = () => {
               <Link onClick={onClickProfile} to="/profile">
                 Profile
               </Link>
+
               <a
                 onClick={() => {
                   showModal(confirmLogout);

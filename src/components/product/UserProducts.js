@@ -1,8 +1,8 @@
-import { useRequest } from "../hooks/hooks";
+import { useRequest } from "../../hooks/hooks";
 import { useEffect, useState } from "react"; 
-import Spinner from './UI/Spinner';
-import MainNavbar from "./MainNavbar"; 
+import Spinner from '../UI/Spinner';
 import Product from './Product'; 
+
 
 const UserProducts = () => {
 
@@ -15,7 +15,7 @@ const UserProducts = () => {
 
     useEffect(() => {
         getProducts();
-    }, [])
+    }, []); 
 
     useEffect(() => {
         if (data && data.msg === "deleted"){
@@ -27,13 +27,12 @@ const UserProducts = () => {
     }, [data])
 
     const handleDelete = (product_id) => {
-        sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
+            sendRequest("/api/products/delete_product", "delete", {product_id: product_id}, true)
     }
 
     console.log(userProducts)
     return(
         <div>
-            {/* <MainNavbar /> */}
             <h2>All your products are here! </h2>
             {isLoading && <Spinner />}
             {userProducts && userProducts.map((product) => {
