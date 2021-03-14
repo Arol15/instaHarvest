@@ -1,9 +1,9 @@
 import {useLocation, useHistory, Link} from "react-router-dom"; 
 import {useEffect, useContext} from "react"; 
-import { useRequest, useForm } from '../hooks/hooks'; 
-import { ModalMsgContext } from '../context/ModalMsgContext'; 
+import { useRequest, useForm } from '../../hooks/hooks'; 
+import { ModalMsgContext } from '../../context/ModalMsgContext'; 
 
-import validation from '../form_validation/validation';
+import validation from '../../form_validation/validation';
 import './EditProduct.css'; 
 
 

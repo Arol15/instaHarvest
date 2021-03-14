@@ -1,5 +1,5 @@
 import { useHistory, useLocation } from "react-router-dom"; 
-import { useModal } from "../hooks/hooks";
+import { useModal } from "../../hooks/hooks";
 
 
 const Product = ({product, onDelete, user_id}, ) => {

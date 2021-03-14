@@ -1,10 +1,10 @@
 import { useLocation, useHistory } from "react-router-dom"; 
 import { useEffect, useState } from "react"; 
-import useRequest from "../hooks/useRequest"; 
-import Spinner from './UI/Spinner'; 
-import { checkAuth } from "../utils/localStorage";
-import AuthModal from '../components/auth/AuthModal'; 
-import {useModal} from '../hooks/hooks'
+import useRequest from "../../hooks/useRequest"; 
+import Spinner from '../UI/Spinner'; 
+import { checkAuth } from "../../utils/localStorage";
+import AuthModal from '../auth/AuthModal'; 
+import {useModal} from '../../hooks/hooks'
 
 const ProductDetails = () => {
     const history = useHistory(); 

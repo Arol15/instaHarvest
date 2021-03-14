@@ -1,10 +1,9 @@
-import { useEffect, useContext } from "react";
-import { useRequest, useModal } from "../../hooks/hooks";
+import { useEffect } from "react";
+import { useRequest } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import statesList from "../../data/states.json";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import "./profile.css";
-import UserProducts from "../UserProducts";
 
 const PublicProfile = (props) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -31,7 +30,6 @@ const PublicProfile = (props) => {
           <p>Joined: {data.joined}</p>
         </div>
       )}
-      {/* <UserProducts /> */}
     </>
   );
 };

@@ -1,13 +1,13 @@
 import { useContext, useEffect } from "react"; 
-import validation from '../form_validation/validation';
-import { useRequest, useForm } from '../hooks/hooks'; 
+import validation from '../../form_validation/validation';
+import { useRequest, useForm } from '../../hooks/hooks'; 
 import { useHistory } from "react-router-dom"; 
-import { ModalMsgContext } from '../context/ModalMsgContext'; 
-import Spinner from "./UI/Spinner"; 
+import { ModalMsgContext } from '../../context/ModalMsgContext'; 
+import Spinner from "../UI/Spinner"; 
 import "./AddProduct.css"; 
-import AuthModal from '../components/auth/AuthModal'; 
-import {useModal} from '../hooks/hooks'; 
-import { checkAuth } from "../utils/localStorage";
+import AuthModal from '../auth/AuthModal'; 
+import {useModal} from '../../hooks/hooks'; 
+import { checkAuth } from "../../utils/localStorage";
 
 
 const AddProduct = () => {
