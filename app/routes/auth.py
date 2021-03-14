@@ -96,7 +96,9 @@ def login():
 @jwt_required
 def resend_email():
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     now = datetime.now(tz=tz.tzlocal())
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:

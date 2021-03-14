@@ -27,7 +27,9 @@ def create_product():
 def get_products_per_user():
     user_id = get_jwt_identity()
     # print(user_id)
-    user = User.query.filter_by(id=user_id).first_or_404()
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return {}, 404
     user_products = user.products.order_by(Product.created_at.desc()).all()
     products = [product.to_dict() for product in user_products]
     # print(products)
@@ -40,7 +42,8 @@ def get_all_products():
     # print(data)
     searchCity = data["search_term"]
     # print(searchCity)
-    prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
+    prods = Product.query.join(Product.user).filter(
+        User.city == searchCity).all()
     # print(prods)
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
@@ -81,7 +84,6 @@ def product_location_info(userId):
 @jwt_required
 def edit_product(productId): 
     data = request.get_json()
-    print(data)
     product = Product.query.filter_by(id=productId).first()
     for key, value in data.items():
         setattr(product, key, value)

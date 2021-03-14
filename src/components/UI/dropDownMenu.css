@@ -3,7 +3,7 @@
 }
 
 .menu {
-  background: #929292;
+  background: #929292be;
   border-radius: 5px;
   position: absolute;
   top: 15px;
@@ -31,4 +31,5 @@
 
 .menu-elements > a {
   padding: 10px 0;
+  color: white;
 }

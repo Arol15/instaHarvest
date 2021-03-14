@@ -63,9 +63,10 @@ const MainNavbar = () => {
               }
               onClick={onClickProfile}
             >
-              <a onClick={onClickProfile} to="/profile">
+              <Link onClick={onClickProfile} to="/profile">
                 Profile
-              </a>
+              </Link>
+
               <a
                 onClick={() => {
                   showModal(confirmLogout);
@@ -77,9 +78,7 @@ const MainNavbar = () => {
           </>
         ) : (
           <div className="main-navbar-links">
-            <a
-              onClick={() => showModal(<AuthModal closeModal={closeModal} />)}
-            >
+            <a onClick={() => showModal(<AuthModal closeModal={closeModal} />)}>
               Sign In
             </a>
           </div>

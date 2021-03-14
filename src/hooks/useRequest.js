@@ -73,7 +73,7 @@ const useRequest = () => {
       (res) => res,
       (err) => err.response
     );
-
+    // console.log(resp);
     if (!resp) {
       dispatchFetch({
         type: "ERROR",
@@ -84,7 +84,6 @@ const useRequest = () => {
     }
 
     if (isJwt && resp.status === 401) {
-      console.log("useRequest: refresh_token");
       const refrResp = await axios({
         method: "post",
         url: "/api/auth/refresh",
