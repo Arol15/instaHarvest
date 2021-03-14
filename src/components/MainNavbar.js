@@ -19,7 +19,6 @@ const MainNavbar = () => {
 
   const logoutUser = (val) => {
     if (val) {
-      
       logout();
       history.push("/");
     }
@@ -58,6 +57,7 @@ const MainNavbar = () => {
                     className="main-navbar-profile"
                     src={loadJSON("app_data").image_url}
                     onClick={onClickProfile}
+                    alt=""
                   />
                 </div>
               }
