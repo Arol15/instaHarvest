@@ -1,16 +1,16 @@
 .switch {
   position: relative;
-  display: flex;
-  flex-direction: row;
+  display: block;
+  
   width: 90px;
   height: 34px;
-  background-color: blue;
+  background-color: orangered;
   border-radius: 34px;
-  margin: 10px;
+  margin: auto;
 }
 
 .switch-click {
-  z-index: 100;
+
   position: absolute;
   margin: 4px;
   height: 26px;
@@ -37,7 +37,7 @@
 }
 
 .switch-input {
-  z-index: 30;
+  z-index: 2;
   position: absolute;
   opacity: 1;
   outline: none;
@@ -65,7 +65,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .switch-text {
-  z-index: 20;
+  z-index: 1;
   position: absolute;
   opacity: 1;
   text-align: center;
@@ -77,4 +77,16 @@ input[type="number"]::-webkit-outer-spin-button {
 .switch-text-right {
   opacity: 0;
   left: 43px;
+}
+
+.input-label {
+  display: inline-block;
+  position: relative;
+  transform: translate(85px, 8px);
+  font-size: 0.8rem;
+  transition: 0.5s ease-in-out;
+}
+
+.input-label-hide {
+  opacity: 0;
 }

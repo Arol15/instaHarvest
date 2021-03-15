@@ -65,18 +65,16 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
   useEffect(() => {
     if (data) {
-      console.log(data)
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       saveJSON("app_data", {
         first_name: data.first_name,
         image_url: data.image_url,
-        user_id: data.user_id
+        user_id: data.user_id,
       });
       if (afterConfirm) {
         afterConfirm();
-      }
-      else if (closeModal) {
+      } else if (closeModal) {
         history.push("/profile");
         closeModal();
       } else {

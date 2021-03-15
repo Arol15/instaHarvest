@@ -38,10 +38,16 @@ const ToggleInput = ({
       <input
         className={classnames("switch-input", { "switch-input-hide": posLeft })}
         type="number"
+        name={name}
         placeholder={"$"}
         onChange={handleInputChange}
         value={inputValue}
       ></input>
+      <span
+        className={classnames("input-label", { "input-label-hide": posLeft })}
+      >
+        Enter price
+      </span>
     </div>
   );
 };

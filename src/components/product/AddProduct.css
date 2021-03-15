@@ -12,7 +12,7 @@
     color: orangered;
     margin-bottom: 30px;
   }
-  .add-product input, .add-product textarea, .add-product select {
+  .add-product-input, .add-product textarea, .add-product select {
     width: 100%;
     padding: 6px 10px;
     margin: 10px 0;

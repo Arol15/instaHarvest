@@ -58,7 +58,8 @@ def get_all_products_protected():
     # print(data)
     searchCity = data["search_term"]
     # print(searchCity)
-    prods = Product.query.join(Product.user).filter(User.city==searchCity).all()
+    prods = Product.query.join(Product.user).filter(
+        User.city == searchCity).all()
     # print(prods)
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
@@ -80,9 +81,9 @@ def product_location_info(userId):
     return {"product_details": product_details}, 200
 
 
-@bp.route('/edit-product/<int:productId>', methods=["PATCH"]) 
+@bp.route('/edit-product/<int:productId>', methods=["PATCH"])
 @jwt_required
-def edit_product(productId): 
+def edit_product(productId):
     data = request.get_json()
     product = Product.query.filter_by(id=productId).first()
     for key, value in data.items():
