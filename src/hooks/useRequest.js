@@ -73,7 +73,6 @@ const useRequest = () => {
       (res) => res,
       (err) => err.response
     );
-    // console.log(resp);
     if (!resp) {
       dispatchFetch({
         type: "ERROR",

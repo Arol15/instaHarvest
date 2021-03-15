@@ -71,7 +71,7 @@ const AddProduct = () => {
       history.push("/user-products");
     }
   }, [data, error, errorNum]);
-  console.log(formData);
+
   return (
     <>
       {isLoading && <Spinner />}
@@ -119,6 +119,7 @@ const AddProduct = () => {
             handleInputChange={handleInputChange}
             inputValue={formData.price || ""}
             setFormData={setFormData}
+            formData={formData}
           />
           <label>Description: </label>
           <textarea
