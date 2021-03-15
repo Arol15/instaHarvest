@@ -6,7 +6,6 @@ const useWidth = (breakpoint = 600) => {
 
   useEffect(() => {
     const handleResize = () => {
-      console.log("RES");
       setWidth(window.innerWidth);
     };
     window.addEventListener("resize", handleResize);

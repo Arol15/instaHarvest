@@ -6,13 +6,17 @@ import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
+import ProfileMenu from "./ProfileMenu";
+import ProfileTab from "./ProfileTab";
+import PublicProfileInfo from "./PublicProfileInfo";
 
 import config from "../../config";
 import "./profile.css";
 
 const Profile = (props) => {
   const [profileData, setProfileData] = useState(null);
-  const [currTab, setCurrTab] = useState("private");
+  const [currTab, setCurrTab] = useState("public");
+  const [editProfile, setEditProfile] = useState(false);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const isDesktop = useWidth();
   const [
@@ -94,6 +98,21 @@ const Profile = (props) => {
             imageBack={profileData.image_back_url}
             edit={true}
           />
+          {editProfile ? (
+            <div className="profile-edit">
+              <ProfileMenu isDesktop={isDesktop} setCurrTab={setCurrTab} />
+              {}
+            </div>
+          ) : (
+            <PublicProfileInfo
+              firstName={data.first_name}
+              emailVerified={data.email_verified}
+              city={data.city}
+              state={data.state}
+              joined={data.joined}
+            />
+          )}
+
           <div className="prf-block">
             <div className="prf-block-col">
               <div className="">

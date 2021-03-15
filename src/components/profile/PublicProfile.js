@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useRequest } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
-import statesList from "../../assets/data/states.json";
-import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileHeader from "./ProfileHeader";
+import PublicProfileInfo from "./PublicProfileInfo";
 import "./profile.css";
 
 const PublicProfile = (props) => {
@@ -24,17 +23,13 @@ const PublicProfile = (props) => {
             imageBack={data.image_back_url}
             edit={false}
           />
-          <div className="prf-pbl-top">
-            <EmailConfirmIcon verified={data.email_verified}>
-              <h2 className="inline-block">{data.first_name}</h2>
-            </EmailConfirmIcon>
-
-            <p>
-              {data.city},{" "}
-              {statesList.find((elem) => elem.name === data.state).abbreviation}
-            </p>
-            <p>Joined: {data.joined}</p>
-          </div>
+          <PublicProfileInfo
+            firstName={data.first_name}
+            emailVerified={data.email_verified}
+            city={data.city}
+            state={data.state}
+            joined={data.joined}
+          />
         </>
       )}
     </>

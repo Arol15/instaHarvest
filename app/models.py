@@ -60,7 +60,8 @@ class User(db.Model):
             "state": self.state,
             "city": self.city,
             "zip_code": self.zip_code,
-            "address": self.address
+            "address": self.address,
+            "joined": self.created_at.strftime("%b %Y")
         }
 
     def to_dict_public(self):
@@ -82,9 +83,9 @@ class User(db.Model):
             # "email_verified": self.email_verified,
             # "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
-            "city": self.city, 
-            "lat": self.lat, 
-            "lgt": self.lgt   
+            "city": self.city,
+            "lat": self.lat,
+            "lgt": self.lgt
         }
 
 
