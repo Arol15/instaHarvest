@@ -12,7 +12,6 @@ bp = Blueprint("products", __name__, url_prefix='/api/products')
 @jwt_required
 def create_product():
     data = request.get_json()
-    print(data)
     user_id = get_jwt_identity()
     # print(user_id)
     product = Product(user_id=user_id, name=data['name'],

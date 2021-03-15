@@ -266,7 +266,6 @@ const Profile = (props) => {
                 <hr />
               </div>
             </div>
-            <div className="prf-block-col"></div>
           </div>
         </>
       )}

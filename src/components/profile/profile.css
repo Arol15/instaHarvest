@@ -11,12 +11,15 @@
 
 .prf-block-col {
   width: 350px;
-  margin: 0 20px;
+  margin: 20px 20px;
   text-align: center;
+  background-color: rgb(255, 240, 227);
+  border-radius: 34px;
 }
 
 .prf-field {
   padding: 10px;
+  word-break: break-all;
 }
 
 .prf-field > hr {
