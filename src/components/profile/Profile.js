@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
-import useRequest from "../../hooks/useRequest";
+import { useRequest, useWidth } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
@@ -12,8 +12,9 @@ import "./profile.css";
 
 const Profile = (props) => {
   const [profileData, setProfileData] = useState(null);
-  const [updateProfile, setUpdateProfile] = useState(false);
+  const [currTab, setCurrTab] = useState("private");
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const isDesktop = useWidth();
   const [
     ,
     dataEmailReq,
@@ -26,31 +27,33 @@ const Profile = (props) => {
 
   const history = useHistory();
 
-  useEffect(() => {
+  const updateProfileData = () => {
     sendRequest("/api/account/get_profile_private", "POST", {}, true);
-  }, [updateProfile]);
+  };
+
+  useEffect(() => {
+    updateProfileData();
+  }, []);
 
   useEffect(() => {
     if (data) {
       setProfileData({ ...data });
+      if (data.msg) {
+        setMsgState({
+          open: true,
+          msg: data.msg,
+          classes: "mdl-ok",
+        });
+      }
     }
-  }, [data]);
-
-  useEffect(() => {
     if (error) {
       setMsgState({
         open: true,
         msg: error,
         classes: "mdl-error",
       });
-    } else if (data && data.msg) {
-      setMsgState({
-        open: true,
-        msg: data.msg,
-        classes: "mdl-ok",
-      });
     }
-  }, [error, errorNum, data]);
+  }, [data, error, errorNum]);
 
   useEffect(() => {
     if (errorEmailReq) {
@@ -67,10 +70,6 @@ const Profile = (props) => {
       });
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
-
-  const updateProfileData = () => {
-    sendRequest("/api/account/get_profile_private", "POST", {}, true);
-  };
 
   const sendMessage = (msg, classes) => {
     setMsgState({

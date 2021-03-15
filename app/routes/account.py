@@ -165,9 +165,11 @@ def files():
 def edit_image():
     user_id = get_jwt_identity()
     file = request.files['file']
+    file.filename = f'{user_id}_image_url.{file.filename.split(".")[-1]}'
+    print(file.filename)
     s3_resource = boto3.resource('s3')
     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
-    my_bucket.Object(file.name).put(Body=file, ACL='public-read')
+    my_bucket.Object(file.filename).put(Body=file, ACL='public-read')
     user = User.query.filter(User.id == user_id).first()
     if user is None:
         return {}, 404

@@ -21,7 +21,7 @@ const Home = () => {
     event.preventDefault();
     setImage(event.target.files[0]);
   };
-
+  console.log(image);
   return (
     <div>
       <h1>Welcome to instaHarvest</h1>

@@ -15,13 +15,14 @@ const fetchReducer = (currState, action) => {
       };
     case "RESPONSE":
       return {
-        ...currState,
         isLoading: false,
         data: action.responseData,
+        errorNum: null,
+        error: null,
       };
     case "ERROR":
       return {
-        ...currState,
+        data: null,
         isLoading: false,
         error: action.errorMessage,
         errorNum: action.errorNum,
