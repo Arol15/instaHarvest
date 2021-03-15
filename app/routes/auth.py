@@ -62,7 +62,7 @@ def signup():
     return {'access_token': access_token,
             'refresh_token': refresh_token,
             'first_name': user.first_name,
-            'image_url': user.image_url, 
+            'image_url': user.image_url,
             'user_id': user.id}, 201
 
 
@@ -72,11 +72,11 @@ def login():
     login = data['login']
     if '@' in login:
         user = User.query.filter_by(email=login).first()
-        if not user:
+        if user is None:
             return {'error': f'The user with email {login} does not exist'}, 401
     else:
         user = User.query.filter_by(username=login).first()
-        if not user:
+        if user is None:
             return {'error': f'The user with username {login} does not exist'}, 401
     if user.check_password(data['password']):
         claims = {'roles': user.user_role}
@@ -88,7 +88,7 @@ def login():
     return {'access_token': access_token,
             'refresh_token': refresh_token,
             'first_name': user.first_name,
-            'image_url': user.image_url, 
+            'image_url': user.image_url,
             'user_id': user.id}, 200
 
 
@@ -97,7 +97,7 @@ def login():
 def resend_email():
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     now = datetime.now(tz=tz.tzlocal())
     time_diff = now - user.confirm_email_sent
@@ -120,7 +120,7 @@ def resend_email():
 def reset_password():
     email = request.json.get('email')
     user = User.query.filter_by(email=email).first()
-    if not user:
+    if user is None:
         return {'error': f'The user with email {email} does not exist'}, 401
     email_token = ts.dumps(email, salt='pass-reset')
     confirm_url = f'{Config.BASE_URL}/reset_password_confirm/{email_token}'
@@ -138,7 +138,7 @@ def confirm_email(token):
         redirect(f"{Config.BASE_URL}/404", code=302)
 
     user = User.query.filter_by(email=email).first()
-    if not user:
+    if user is None:
         redirect(f"{Config.BASE_URL}/404", code=302)
     user.email_verified = True
     db.session.add(user)
@@ -155,7 +155,7 @@ def reset_password_confirm():
         return {'error': 'Token is not valid or expired'}, 406
 
     user = User.query.filter_by(email=email).first()
-    if not user:
+    if user is None:
         return {'error': 'Can not find user'}, 404
     user.change_password(data['password'])
     db.session.add(user)

@@ -19,7 +19,7 @@ bp = Blueprint('account', __name__, url_prefix='/api/account')
 def get_profile():
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     res = user.to_dict_private()
     return res, 200
@@ -28,7 +28,7 @@ def get_profile():
 @bp.route('/<string:addr>')
 def get_profile_public(addr):
     user = User.query.filter_by(profile_addr=addr).first()
-    if not user:
+    if user is None:
         return {}, 404
     res = user.to_dict_public()
     return res, 200
@@ -40,7 +40,7 @@ def change_pass():
     data = request.get_json()
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     user.change_password(data['password'])
     db.session.add(user)
@@ -59,7 +59,7 @@ def edit_profile():
     data = request.get_json()
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     for key, value in data.items():
         setattr(user, key, value)
@@ -74,7 +74,7 @@ def edit_username():
     data = request.get_json()
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     username = data['username']
     if User.query.filter_by(username=username).first():
@@ -91,7 +91,7 @@ def edit_profile_address():
     data = request.get_json()
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     new_profile_addr = data['profile_addr']
     if User.query.filter_by(profile_addr=new_profile_addr).first():
@@ -108,7 +108,7 @@ def edit_email():
     data = request.get_json()
     user_id = get_jwt_identity()
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     now = datetime.now(tz=tz.tzlocal())
     time_diff = now - user.confirm_email_sent
@@ -141,7 +141,7 @@ def change_email(token):
         return redirect(f"{Config.BASE_URL}/404", code=302)
 
     user = User.query.filter_by(email=old_email).first()
-    if not user:
+    if user is None:
         redirect(f"{Config.BASE_URL}/404", code=302)
     user.email = new_email
     db.session.add(user)
@@ -160,20 +160,19 @@ def files():
     return {"message": "bucket printed successfully"}, 200
 
 
-# make changes to an existing user's image
-@bp.route('/image', methods=['POST'])
+@bp.route('/update_profile_image', methods=['POST'])
 @jwt_required
 def edit_image():
-    # print(request.files)
     user_id = get_jwt_identity()
-    file = request.files['image_url']
-    print(file)
+    file = request.files['file']
     s3_resource = boto3.resource('s3')
     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
     my_bucket.Object(file.name).put(Body=file, ACL='public-read')
-    user = User.query.filter(User.id == user_id).one()
-    if user:
-        user.image = f'https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}'
-        db.session.commit()
-        return {'user': user.to_dict_public()}
-    return {'message': 'uploaded'}, 200
+    user = User.query.filter(User.id == user_id).first()
+    if user is None:
+        return {}, 404
+    user.image_url = f'https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}'
+    db.session.add(user)
+    db.session.commit()
+    return {'message': 'uploaded',
+            'user': user.to_dict_public()}, 200

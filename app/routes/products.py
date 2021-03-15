@@ -28,7 +28,7 @@ def get_products_per_user():
     user_id = get_jwt_identity()
     # print(user_id)
     user = User.query.filter_by(id=user_id).first()
-    if not user:
+    if user is None:
         return {}, 404
     user_products = user.products.order_by(Product.created_at.desc()).all()
     products = [product.to_dict() for product in user_products]

@@ -46,7 +46,7 @@ const Message = ({ msgId, onDeleteMsg, body, createdAt, sender, image }) => {
           }
           onClick={onClick}
         >
-          <p onClick={deleteMsg}>Delete</p>
+          <a onClick={deleteMsg}>Delete</a>
         </DropDownMenu>
       )}
     </div>
