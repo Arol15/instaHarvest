@@ -13,3 +13,6 @@ class Config(object):
     MAIL_USE_TLS = True
     SEND_CONFIRM_EMAIL = True
     BASE_URL = 'https://instaharvest.herokuapp.com'
+    S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")

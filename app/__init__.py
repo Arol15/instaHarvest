@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from app.config import Config
 from logging.config import dictConfig
+import boto3
 
 dictConfig({
     'version': 1,
@@ -30,6 +31,14 @@ dictConfig({
         'handlers': ['toFile']
     }
 })
+
+
+s3_resource = boto3.resource(
+    "s3", 
+    aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY
+)
+
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config.from_object(Config)

@@ -9,6 +9,7 @@ from app.models import User
 from app.utils.security import ts, admin_required
 from app.utils.email_support import send_email
 from app.config import Config
+import boto3
 
 bp = Blueprint('account', __name__, url_prefix='/api/account')
 
@@ -147,3 +148,32 @@ def change_email(token):
     db.session.commit()
 
     return redirect(f"{Config.BASE_URL}/profile", code=302)
+
+
+@bp.route('/files')
+def files():
+    s3_resource = boto3.resource('s3')
+    my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+    summaries = my_bucket.objects.all()
+    for o in summaries:
+        print(o.key)
+    return {"message": "bucket printed successfully"}, 200
+
+
+# make changes to an existing user's image
+@bp.route('/image', methods=['POST'])
+@jwt_required
+def edit_image():
+    # print(request.files)
+    user_id = get_jwt_identity()
+    file = request.files['image_url']
+    print(file)
+    s3_resource = boto3.resource('s3')
+    my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+    my_bucket.Object(file.name).put(Body=file, ACL='public-read')
+    user = User.query.filter(User.id == user_id).one()
+    if user:
+        user.image = f'https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}'
+        db.session.commit()
+        return {'user': user.to_dict_public()}
+    return {'message': 'uploaded'}, 200
