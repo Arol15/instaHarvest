@@ -14,13 +14,14 @@ import AddProduct from "./components/product/AddProduct";
 import UserProducts from "./components/product/UserProducts";
 import ProductDetails from "./components/product/ProductDetails";
 import MainNavbar from "./components/MainNavbar";
-import EditProduct from "./components/product/EditProduct"; 
+import EditProduct from "./components/product/EditProduct";
+import EditProfile from "./components/profile/EditProfile";
 
 function App() {
   return (
     <ModalMsgContextProvider>
       <Router>
-      <MainNavbar />
+        <MainNavbar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login">
@@ -30,9 +31,14 @@ function App() {
             <Auth view="signup" />
           </Route>
           <Route path="/profile" component={Profile} exact />
+          <Route path="/profile/chats" exact>
+            <Profile tab="chats" />
+          </Route>
+          <Route path="/profile/edit" component={EditProfile} exact />
+
           <Route path="/add-product" component={AddProduct} exact />
           <Route path="/user-products" component={UserProducts} />
-          <Route path="/edit-product" component={EditProduct}/>
+          <Route path="/edit-product" component={EditProduct} />
           <Route path="/product-info" component={ProductDetails} />
           <Route path="/chats" component={UserChatsPage} exact />
           <Route path="/chats/:name" component={Chat} />
@@ -47,7 +53,6 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
-        
       </Router>
       <ModalMsg />
     </ModalMsgContextProvider>

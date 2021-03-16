@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRequest } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import ProfileHeader from "./ProfileHeader";
@@ -18,11 +18,7 @@ const PublicProfile = (props) => {
       {error && <h1>Profile Not Found</h1>}
       {data && (
         <>
-          <ProfileHeader
-            image={data.image_url}
-            imageBack={data.image_back_url}
-            edit={false}
-          />
+          <ProfileHeader edit={false} />
           <PublicProfileInfo
             firstName={data.first_name}
             emailVerified={data.email_verified}

@@ -20,11 +20,11 @@
     box-sizing: border-box;
     display: block;
   }
-  .edit-product button {
+  /* .edit-product button {
     background: orangered;
     color: #fff;
     border: 0;
     padding: 8px;
     border-radius: 8px;
     cursor: pointer;
-  }
+  } */

@@ -1,4 +1,4 @@
-const ProfileMenu = ({ isDesktop, setCurrTab }) => {
+const ProfileSideMenu = ({ isDesktop, setCurrTab }) => {
   return (
     <div className="profile-menu">
       <ul>
@@ -11,4 +11,4 @@ const ProfileMenu = ({ isDesktop, setCurrTab }) => {
   );
 };
 
-export default ProfileMenu;
+export default ProfileSideMenu;

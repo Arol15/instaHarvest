@@ -21,6 +21,16 @@ a {
   cursor: pointer;
 }
 
+button {
+  background: orangered;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
 /* .inline {
   margin-bottom: 0;
   white-space: nowrap;
@@ -94,3 +104,4 @@ a {
   /* transition-delay: 150ms; */
   transition-duration: 500ms;
 }
+

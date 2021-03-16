@@ -47,6 +47,19 @@ class User(db.Model):
     def __repr__(self):
         return f"User with {self.username} and {self.password}"
 
+    def to_dict_auth(self, access_token, refresh_token):
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "first_name": self.first_name,
+            "image_url": self.image_url,
+            "user_id": self.id,
+            "city": self.city,
+            "state": self.state,
+            "email_verified": self.email_verified,
+            "joined": self.created_at.strftime("%b %Y")
+        }
+
     def to_dict_private(self):
         return {
             "username": self.username,

@@ -9,5 +9,12 @@ export const logout = () => {
   localStorage.removeItem("app_data");
 };
 
-export const checkAuth = () =>
-  localStorage.getItem("access_token") && localStorage.getItem("refresh_token");
+export const checkAuth = () => {
+  if (
+    localStorage.getItem("access_token") &&
+    localStorage.getItem("refresh_token")
+  ) {
+    return true;
+  }
+  return false;
+};

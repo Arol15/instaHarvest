@@ -56,13 +56,6 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     }
   }, [view]);
 
-  // useEffect(() => {
-  //   const access_token = localStorage.getItem("access_token");
-  //   if (access_token && !inModal) {
-  //     history.push("/profile");
-  //   }
-  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   useEffect(() => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
@@ -70,7 +63,11 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       saveJSON("app_data", {
         first_name: data.first_name,
         image_url: data.image_url,
-        user_id: data.user_id,
+        image_back_url: data.image_back_url,
+        email_verified: data.email_verified,
+        city: data.city,
+        state: data.state,
+        joined: data.joined,
       });
       if (afterConfirm) {
         afterConfirm();

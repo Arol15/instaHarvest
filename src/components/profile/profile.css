@@ -1,3 +1,8 @@
+.profile {
+  text-align: center;
+}
+
+
 .prf-block-top {
   padding-bottom: 52px;
 }
@@ -78,3 +83,43 @@
   margin-top: 20px;
   text-align: center;
 }
+
+.prf-main-menu{
+  margin-top: 20px;
+}
+
+.prf-main-menu-tabs{
+  display: flex;
+  /* height: 30px; */
+  width: 80%;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px auto;
+}
+
+.prf-main-menu div {
+  /* margin: auto 30px; */
+  padding: 0 20px;
+  color: rgb(85, 85, 85);
+  cursor: pointer;
+  
+}
+
+.prf-main-menu-active {
+  font-weight: bold;
+  
+  
+}
+
+.prf-main-menu hr{
+  width: 80%;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+}
+
