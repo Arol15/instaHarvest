@@ -34,7 +34,7 @@ dictConfig({
 
 
 s3_resource = boto3.resource(
-    "s3", 
+    "s3",
     aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
     aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY
 )
@@ -59,10 +59,11 @@ def not_found(e):
     return send_from_directory(app.static_folder, "index.html")
 
 
-from app.routes import users, auth, account, chat, products
+from app.routes import users, auth, account, chat, products, cert
 
 app.register_blueprint(users.bp)
 app.register_blueprint(auth.bp)
 app.register_blueprint(account.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(chat.bp)
+app.register_blueprint(cert.bp)
