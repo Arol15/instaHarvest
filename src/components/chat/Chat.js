@@ -5,6 +5,7 @@ import validation from "../../form_validation/validation";
 import Spinner from "../UI/Spinner";
 import { ModalMsgContext } from "../../context/ModalMsgContext";
 import Message from "./Message";
+import { IoReload, IoArrowBack } from "react-icons/io5";
 
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -20,7 +21,7 @@ const Chat = () => {
   const location = useLocation();
   const history = useHistory();
   if (!location.state) {
-    history.push("/profile/chats");
+    history.push("/chats");
   }
   const { recipientId, recipientName, recipientImg } = location.state;
   const onSubmit = (e) => {
@@ -50,6 +51,18 @@ const Chat = () => {
     );
   }, []);
 
+  const getMessages = (e) => {
+    e && e.preventDefault();
+    sendRequest(
+      "/api/chat/get_chat_messages",
+      "POST",
+      {
+        chat_id: data.chat_id,
+      },
+      true
+    );
+  };
+
   useEffect(() => {
     if (error) {
       setNotifState({
@@ -71,14 +84,7 @@ const Chat = () => {
         classes: "mdl-error",
       });
     } else if (dataMsg) {
-      sendRequest(
-        "/api/chat/get_chat_messages",
-        "POST",
-        {
-          chat_id: data.chat_id,
-        },
-        true
-      );
+      getMessages();
       setFormData({ ...formData, body: "" });
     }
   }, [dataMsg, errorMsg, errorNumMsg]);
@@ -88,9 +94,19 @@ const Chat = () => {
   }, [chatMsgs]);
 
   return (
-    <>
+    <div className="chat">
       {isLoading && <Spinner />}
-      <h1>Chat with {recipientName}</h1>
+      <div className="chat-header">
+        <h1>Chat with {recipientName}</h1>
+        <button
+          onClick={() => {
+            history.goBack();
+          }}
+          className="chat-back-button"
+        >
+          <IoArrowBack />
+        </button>
+      </div>
       <div className="chat-scroll">
         {chatMsgs &&
           chatMsgs.map((msg, i) => {
@@ -113,21 +129,26 @@ const Chat = () => {
           })}
       </div>
       {
-        <form>
-          <textarea
-            rows={3}
-            type="text"
-            name="body"
-            onChange={handleInputChange}
-            value={formData.body || ""}
-          ></textarea>
-          <div className="form-danger">
-            {formErrors.body && formErrors.body}
-          </div>
-          <button onClick={handleSubmit}>Send</button>
-        </form>
+        <div className="chat-footer">
+          <form>
+            <textarea
+              rows={3}
+              type="text"
+              name="body"
+              onChange={handleInputChange}
+              value={formData.body || ""}
+            ></textarea>
+            <div className="form-danger">
+              {formErrors.body && formErrors.body}
+            </div>
+            <button onClick={handleSubmit}>Send</button>
+            <button onClick={getMessages}>
+              <IoReload />
+            </button>
+          </form>
+        </div>
       }
-    </>
+    </div>
   );
 };
 

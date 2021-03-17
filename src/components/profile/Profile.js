@@ -3,6 +3,8 @@ import { useHistory, Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import { loadJSON, logout, checkAuth } from "../../utils/localStorage";
 import PublicProfileInfo from "./PublicProfileInfo";
+import UserChatsPage from "../chat/UserChatsPage";
+import UserProducts from "../product/UserProducts";
 import classnames from "classnames";
 import "./profile.css";
 
@@ -53,7 +55,7 @@ const Profile = ({ tab }) => {
               </div>
               <div
                 onClick={() => {
-                  history.push("/profile/chats");
+                  history.push("/chats");
                   setCurrTab("chats");
                 }}
                 className={classnames({
@@ -64,6 +66,10 @@ const Profile = ({ tab }) => {
               </div>
             </div>
             <hr className="hr-bottom" />
+          </div>
+          <div className="prf-body">
+            {currTab === "chats" && <UserChatsPage />}
+            {currTab === "products" && <UserProducts />}
           </div>
         </div>
       )}

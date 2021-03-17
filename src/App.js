@@ -31,8 +31,8 @@ function App() {
             <Auth view="signup" />
           </Route>
           <Route path="/profile" component={Profile} exact />
-          <Route path="/profile/chats" exact>
-            <Profile tab="chats" />
+          <Route path="/chats" exact>
+            <Profile tab="chats" exact />
           </Route>
           <Route path="/profile/edit" component={EditProfile} exact />
 
@@ -40,7 +40,7 @@ function App() {
           <Route path="/user-products" component={UserProducts} />
           <Route path="/edit-product" component={EditProduct} />
           <Route path="/product-info" component={ProductDetails} />
-          <Route path="/chats" component={UserChatsPage} exact />
+          {/* <Route path="/chats" component={UserChatsPage} exact /> */}
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
           <Route path="/search-results" component={Products} />
