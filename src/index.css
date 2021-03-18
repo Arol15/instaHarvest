@@ -97,3 +97,13 @@ button {
   /* transition-delay: 150ms; */
   transition-duration: 500ms;
 }
+
+footer {
+  margin-top: 40px;
+  height: 80px;
+  width: 100%;
+  background-color: rgb(242, 255, 127);
+  position: relative;
+  bottom: 0;
+  left: 0;
+}

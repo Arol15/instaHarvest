@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRequest, useForm } from "../../hooks/hooks";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import validation from "../../form_validation/validation";
 import Spinner from "../UI/Spinner";
 import "./uploadImage.css";
@@ -14,13 +14,22 @@ const UploadImage = ({
   const [method, setMethod] = useState(null);
   const [image, setImage] = useState();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [modal, showModal] = useModal({
+    withBackdrop: false,
+    useTimer: true,
+    inPlace: true,
+  });
 
   const onSubmit = (e) => {
     e && e.preventDefault();
     if (method === "upload") {
-      const imageData = new FormData();
-      imageData.append("file", image);
-      sendRequest(uploadFileAPI, "POST", imageData, true);
+      if (image.size > 1000000) {
+        showModal("Image size should be less then 1mb", "mdl-error");
+      } else {
+        const imageData = new FormData();
+        imageData.append("file", image);
+        sendRequest(uploadFileAPI, "POST", imageData, true);
+      }
     }
   };
 
@@ -48,7 +57,10 @@ const UploadImage = ({
 
   useEffect(() => {
     if (data && data.message) {
+      showModal(data.message, "mdl-ok");
       resetMethod();
+    } else if (error) {
+      showModal(error, "mdl-error");
     }
   }, [data, error]);
 
@@ -125,18 +137,17 @@ const UploadImage = ({
       {method === "delete-confirmed" && <p>Image is deleting...</p>}
 
       {data && (
-        <>
-          <p>{data.message && data.message}</p>
-          <button
-            onClick={() => {
-              closeModal();
-              window.location.reload();
-            }}
-          >
-            Close
-          </button>
-        </>
+        <button
+          onClick={() => {
+            closeModal();
+            window.location.reload();
+          }}
+        >
+          Close
+        </button>
       )}
+
+      {modal}
     </div>
   );
 };

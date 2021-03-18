@@ -45,6 +45,7 @@
 }
 
 .prf-back-block {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
   height: 152px;
@@ -81,6 +82,8 @@
   position: relative;
   align-items: center;
   padding-top: 58px;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .prf-img-block > div {

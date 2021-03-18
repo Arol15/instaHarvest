@@ -35,7 +35,21 @@ const ProfileHeader = ({ edit }) => {
             />
             {edit && (
               <div>
-                <a>Edit</a>
+                <a
+                  onClick={() => {
+                    showModal(
+                      <UploadImage
+                        title="Set profile background image"
+                        closeModal={closeModal}
+                        uploadFileAPI="/api/account/update_back_image_file"
+                        imageUrlAPI="/api/account/update_back_image_url"
+                        deleteImageAPI="/api/account/delete_back_image"
+                      />
+                    );
+                  }}
+                >
+                  Edit
+                </a>
               </div>
             )}
           </div>

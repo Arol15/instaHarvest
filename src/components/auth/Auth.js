@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
-import useModal from "../../hooks/useModal";
-import useForm from "../../hooks/useForm";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
-import { saveJSON } from "../../utils/localStorage";
+import { checkAuth, saveJSON } from "../../utils/localStorage";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();

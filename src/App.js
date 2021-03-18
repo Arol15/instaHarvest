@@ -16,6 +16,7 @@ import ProductDetails from "./components/product/ProductDetails";
 import MainNavbar from "./components/MainNavbar";
 import EditProduct from "./components/product/EditProduct";
 import EditProfile from "./components/profile/EditProfile";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
+        <Footer />
       </Router>
       <ModalMsg />
     </ModalMsgContextProvider>
