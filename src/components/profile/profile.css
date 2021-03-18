@@ -2,7 +2,6 @@
   text-align: center;
 }
 
-
 .prf-block-top {
   padding-bottom: 52px;
 }
@@ -39,12 +38,40 @@
   );
 }
 
+.prf-header {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.prf-back-block {
+  display: flex;
+  justify-content: flex-end;
+  height: 152px;
+  position: absolute;
+}
+
+.prf-back-block div {
+  position: absolute;
+  margin: 112px 10px;
+  border-radius: 10px;
+  height: 30px;
+  width: 80px;
+
+  background-color: rgba(0, 0, 0, 0.37);
+}
+
+.prf-back-block a {
+  position: absolute;
+  margin: 6px 27px;
+  color: white;
+}
+
 .prf-back-img {
   position: relative;
   width: 100%;
   height: 152px;
   object-fit: cover;
-  margin-bottom: -100px;
 }
 
 .prf-img-block {
@@ -53,7 +80,7 @@
   justify-content: center;
   position: relative;
   align-items: center;
-  justify-content: center;
+  padding-top: 58px;
 }
 
 .prf-img-block > div {
@@ -84,11 +111,11 @@
   text-align: center;
 }
 
-.prf-main-menu{
+.prf-main-menu {
   margin-top: 20px;
 }
 
-.prf-main-menu-tabs{
+.prf-main-menu-tabs {
   display: flex;
   /* height: 30px; */
   width: 80%;
@@ -102,16 +129,13 @@
   padding: 0 20px;
   color: rgb(85, 85, 85);
   cursor: pointer;
-  
 }
 
 .prf-main-menu-active {
   font-weight: bold;
-  
-  
 }
 
-.prf-main-menu hr{
+.prf-main-menu hr {
   width: 80%;
   border: 0;
   height: 1px;
@@ -121,12 +145,9 @@
     rgba(0, 0, 0, 0.75),
     rgba(0, 0, 0, 0)
   );
-
-
 }
 
-.prf-body{
+.prf-body {
   width: 80%;
   margin: 0 auto;
 }
-
