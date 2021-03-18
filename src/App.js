@@ -36,7 +36,12 @@ function App() {
             <Profile tab="chats" exact />
           </Route>
           <Route path="/profile/edit" component={EditProfile} exact />
-
+          <Route path="/profile/edit/private">
+            <EditProfile tab="private" />
+          </Route>
+          <Route path="/profile/edit/address">
+            <EditProfile tab="address" />
+          </Route>
           <Route path="/add-product" component={AddProduct} exact />
           <Route path="/user-products" component={UserProducts} />
           <Route path="/edit-product" component={EditProduct} />
@@ -54,6 +59,7 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
+        <div className="filler"></div>
         <Footer />
       </Router>
       <ModalMsg />

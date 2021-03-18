@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 const Home = () => {
   return (
-    <div>
+    <div className="home">
       <h1>Welcome to instaHarvest</h1>
       <SearchMain />
       <ShareProducts />

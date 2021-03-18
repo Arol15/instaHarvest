@@ -3,10 +3,11 @@
   border-radius: 5px;
   outline: none;
   transition: all 300ms;
+  background: rgb(255, 135, 92);
 }
 
 .active {
-  border-color: green;
+  background: orangered;
 }
 
 .auth-inputs {

@@ -14,14 +14,13 @@
   margin: 10px auto;
   text-align: center;
   word-wrap: break-word;
-  border-radius: 5px;
   width: 100%;
 }
 
-.upload-image input[type="file"] {
+/* .upload-image input[type="file"] {
   border: 1px solid rgb(194, 191, 191);
   padding: 5px;
-}
+} */
 
 .upload-image ::-webkit-file-upload-button {
   background: orangered;

@@ -2,20 +2,62 @@
   text-align: center;
 }
 
+.prf-edit {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.prf-side-menu {
+  text-align: left;
+  background-color: rgb(242, 255, 127);
+  width: fit-content;
+  padding-right: 20px;
+  border-radius: 0 15px 15px 0;
+}
+.prf-side-menu ul {
+  list-style-type: none;
+  padding-left: 20px;
+  width: fit-content;
+}
+
+.prf-side-menu li {
+  margin: 20px 0;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.prf-li-active {
+  font-weight: bold;
+}
+
+.prf-side-menu span {
+  margin-right: 5px;
+}
+
 .prf-block-top {
   padding-bottom: 52px;
 }
 
-.prf-block {
+/* .prf-block {
   display: flex;
   flex-flow: row wrap;
   margin: 0 20px;
   justify-content: center;
+} */
+
+.prf-return-button {
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 20px;
 }
 
-.prf-block-col {
-  width: 350px;
-  margin: 20px 20px;
+.prf-block {
+  width: fit-content;
+  min-width: 50vh;
+  margin: 0 auto;
+  padding: 5px 20px;
   text-align: center;
   background-color: rgb(255, 240, 227);
   border-radius: 34px;
@@ -41,7 +83,7 @@
 .prf-header {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 220px;
 }
 
 .prf-back-block {
