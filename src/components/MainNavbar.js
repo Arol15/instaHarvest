@@ -16,6 +16,7 @@ const MainNavbar = () => {
   });
 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [storage] = useState(loadJSON("app_data"));
 
   const logoutUser = (val) => {
     if (val) {
@@ -55,7 +56,7 @@ const MainNavbar = () => {
                 <div>
                   <img
                     className="main-navbar-profile"
-                    src={loadJSON("app_data").image_url}
+                    src={storage && storage.image_url}
                     onClick={onClickProfile}
                     alt=""
                   />

@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import useRequest from "../../hooks/useRequest";
 import Spinner from "../UI/Spinner";
-import useModal from "../../hooks/useModal";
-import useForm from "../../hooks/useForm";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
-import { saveJSON } from "../../utils/localStorage";
+import { checkAuth, saveJSON } from "../../utils/localStorage";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -56,13 +53,6 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     }
   }, [view]);
 
-  // useEffect(() => {
-  //   const access_token = localStorage.getItem("access_token");
-  //   if (access_token && !inModal) {
-  //     history.push("/profile");
-  //   }
-  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   useEffect(() => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
@@ -70,7 +60,11 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       saveJSON("app_data", {
         first_name: data.first_name,
         image_url: data.image_url,
-        user_id: data.user_id,
+        image_back_url: data.image_back_url,
+        email_verified: data.email_verified,
+        city: data.city,
+        state: data.state,
+        joined: data.joined,
       });
       if (afterConfirm) {
         afterConfirm();

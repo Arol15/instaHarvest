@@ -47,6 +47,19 @@ class User(db.Model):
     def __repr__(self):
         return f"User with {self.username} and {self.password}"
 
+    def to_dict_auth(self, access_token, refresh_token):
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "first_name": self.first_name,
+            "image_url": self.image_url,
+            "user_id": self.id,
+            "city": self.city,
+            "state": self.state,
+            "email_verified": self.email_verified,
+            "joined": self.created_at.strftime("%b %Y")
+        }
+
     def to_dict_private(self):
         return {
             "username": self.username,
@@ -60,7 +73,8 @@ class User(db.Model):
             "state": self.state,
             "city": self.city,
             "zip_code": self.zip_code,
-            "address": self.address
+            "address": self.address,
+            "joined": self.created_at.strftime("%b %Y")
         }
 
     def to_dict_public(self):
@@ -82,9 +96,9 @@ class User(db.Model):
             # "email_verified": self.email_verified,
             # "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
-            "city": self.city, 
-            "lat": self.lat, 
-            "lgt": self.lgt   
+            "city": self.city,
+            "lat": self.lat,
+            "lgt": self.lgt
         }
 
 
@@ -132,12 +146,16 @@ class Chat(db.Model):
     def to_dict(self, user_id):
         recipient_id = self.user2_id if self.user1_id == user_id else self.user1_id
         recipient = User.query.filter_by(id=recipient_id).first()
+        last_message = self.messages.order_by(
+            Message.created_at).all()[-1]
         return {
             "chat_id": self.id,
             "created_at": self.created_at,
             "recipient_id": recipient_id,
             "recipient_img": recipient.image_url,
-            "recipient_name": recipient.first_name
+            "recipient_name": recipient.first_name,
+            "last_message": last_message.body,
+            "last_date": last_message.created_at.strftime("%d %b, %H:%M:%S")
         }
 
 

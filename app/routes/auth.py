@@ -25,7 +25,7 @@ def signup():
     #         data[key] = None
     email = data['email']
     username = request.json.get('username', None)
-    image_url = 'https://w7.pngwing.com/pngs/748/359/png-transparent-orange-fruit-cartoon-orange-food-photography-orange.png'
+    image_url = Config.PROFILE_IMAGE
     if User.query.filter_by(email=email).first():
         return {'error': f'The user with email {email} already exists'}, 409
     if username and User.query.filter_by(username=username).first():
@@ -59,11 +59,7 @@ def signup():
     subject = "InstaHarvest - Confirm your account"
     send_email(email, subject, 'confirmation_email',
                user=user, confirm_url=confirm_url)
-    return {'access_token': access_token,
-            'refresh_token': refresh_token,
-            'first_name': user.first_name,
-            'image_url': user.image_url,
-            'user_id': user.id}, 201
+    return user.to_dict_auth(access_token, refresh_token), 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -85,11 +81,7 @@ def login():
         refresh_token = create_refresh_token(user.id, user_claims=claims)
     else:
         return {'error': 'Wrong password'}, 401
-    return {'access_token': access_token,
-            'refresh_token': refresh_token,
-            'first_name': user.first_name,
-            'image_url': user.image_url,
-            'user_id': user.id}, 200
+    return user.to_dict_auth(access_token, refresh_token), 200
 
 
 @bp.route('/resend_email', methods=['POST'])

@@ -85,6 +85,11 @@ const validation = (data) => {
         errors.description = "Please describe your product";
       }
     }
+    if (key === "url") {
+      if (!value) {
+        errors.url = "Please enter image url";
+      }
+    }
   });
 
   return errors;

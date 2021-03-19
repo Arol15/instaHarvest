@@ -160,19 +160,102 @@ def files():
     return {"message": "bucket printed successfully"}, 200
 
 
-@bp.route('/update_profile_image', methods=['POST'])
+@bp.route('/update_profile_image_file', methods=['POST'])
 @jwt_required
-def edit_image():
+def edit_profile_image_file():
     user_id = get_jwt_identity()
     file = request.files['file']
+
+    file.filename = f'{user_id}_image_url.{file.filename.split(".")[-1]}'
     s3_resource = boto3.resource('s3')
     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
-    my_bucket.Object(file.name).put(Body=file, ACL='public-read')
+    my_bucket.Object(file.filename).put(Body=file, ACL='public-read')
     user = User.query.filter(User.id == user_id).first()
     if user is None:
         return {}, 404
     user.image_url = f'https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}'
     db.session.add(user)
     db.session.commit()
-    return {'message': 'uploaded',
-            'user': user.to_dict_public()}, 200
+    return {'message': 'Image uploaded',
+            'image_url': user.image_url}, 200
+
+
+@bp.route('/update_profile_image_url', methods=['POST'])
+@jwt_required
+def edit_profile_image_url():
+    user_id = get_jwt_identity()
+    image_url = request.json.get('url')
+    user = User.query.filter(User.id == user_id).first()
+    if user is None:
+        return {}, 404
+    user.image_url = image_url
+    db.session.add(user)
+    db.session.commit()
+    return {'message': 'Image url saved',
+            'image_url': user.image_url}, 200
+
+
+@bp.route('/delete_profile_image', methods=['POST'])
+@jwt_required
+def delete_profile_image():
+    user_id = get_jwt_identity()
+    user = User.query.filter(User.id == user_id).first()
+    if user is None:
+        return {}, 404
+
+    user.image_url = Config.PROFILE_IMAGE
+    db.session.add(user)
+    db.session.commit()
+
+    return {'message': 'Image deleted',
+            'image_url': user.image_url}, 200
+
+
+@bp.route('/update_back_image_file', methods=['POST'])
+@jwt_required
+def edit_back_image_file():
+    user_id = get_jwt_identity()
+    file = request.files['file']
+    file.filename = f'{user_id}_image_back_url.{file.filename.split(".")[-1]}'
+    s3_resource = boto3.resource('s3')
+    my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+    my_bucket.Object(file.filename).put(Body=file, ACL='public-read')
+    user = User.query.filter(User.id == user_id).first()
+    if user is None:
+        return {}, 404
+    user.image_back_url = f'https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}'
+    db.session.add(user)
+    db.session.commit()
+    return {'message': 'Image uploaded',
+            'image_back_url': user.image_back_url}, 200
+
+
+@bp.route('/update_back_image_url', methods=['POST'])
+@jwt_required
+def edit_back_image_url():
+    user_id = get_jwt_identity()
+    image_back_url = request.json.get('url')
+    user = User.query.filter(User.id == user_id).first()
+    if user is None:
+        return {}, 404
+    user.image_back_url = image_back_url
+    db.session.add(user)
+    db.session.commit()
+    return {'message': 'Image url saved',
+            'image_back_url': user.image_back_url}, 200
+
+
+@bp.route('/delete_back_image', methods=['POST'])
+@jwt_required
+def delete_back_image():
+    user_id = get_jwt_identity()
+    user = User.query.filter(User.id == user_id).first()
+    if user is None:
+        return {}, 404
+
+    user.image_back_url = None
+    db.session.add(user)
+    db.session.commit()
+
+    return {'message': 'Image deleted',
+            'image_back_url': user.image_back_url}, 200
