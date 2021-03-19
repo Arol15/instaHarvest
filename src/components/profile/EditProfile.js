@@ -21,7 +21,7 @@ const Profile = ({ tab }) => {
   const [profileData, setProfileData] = useState(null);
   const [currTab, setCurrTab] = useState(tab);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const isDesktop = useWidth();
+  const [showMenu, setShowMenu] = useState(false);
   const [
     ,
     dataEmailReq,
@@ -118,12 +118,8 @@ const Profile = ({ tab }) => {
 
       {profileData && (
         <div className="prf-edit">
-          <ProfileSideMenu
-            isDesktop={isDesktop}
-            currTab={currTab}
-            setCurrTab={setCurrTab}
-          />
-
+          <ProfileSideMenu currTab={currTab} />
+          <div className="prf-col"></div>
           {!currTab && (
             <div className="prf-block">
               <h2>Public Information</h2>
@@ -297,6 +293,7 @@ const Profile = ({ tab }) => {
               </div>
             </div>
           )}
+          <div className="prf-col"></div>
         </div>
       )}
     </>

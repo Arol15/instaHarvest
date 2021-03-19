@@ -1,5 +1,5 @@
 const config = {
-    baseUrl: "https://instaharvest.herokuapp.com/",
-}
+  baseUrl: "http://www.instaharvest.net/",
+};
 
-export default config; 
+export default config;
