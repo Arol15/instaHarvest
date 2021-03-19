@@ -1,15 +1,16 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useRequest, useForm } from "../../hooks/hooks";
 import validation from "../../form_validation/validation";
 import { useHistory } from "react-router-dom";
 import Spinner from "../UI/Spinner";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
+import { useDispatch } from "react-redux";
+import { showMsg } from "../../store/modalSlice";
 
 const ResetPassword = (props) => {
   const history = useHistory();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
-  const [, setMsgState] = useContext(ModalMsgContext);
+  const dispatch = useDispatch();
 
   const onSubmit = () => {
     if (props.reset) {
@@ -32,17 +33,21 @@ const ResetPassword = (props) => {
 
   useEffect(() => {
     if (error) {
-      setMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     } else if (data && data.msg) {
-      setMsgState({
-        open: true,
-        msg: data.msg,
-        classes: "mdl-ok",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: data.msg,
+          classes: "mdl-ok",
+        })
+      );
       if (props.reset) {
         history.push("/login");
       } else {

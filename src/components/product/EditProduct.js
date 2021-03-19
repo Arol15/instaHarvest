@@ -1,7 +1,8 @@
 import { useLocation, useHistory, Link } from "react-router-dom";
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useRequest, useForm } from "../../hooks/hooks";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
+import { useDispatch } from "react-redux";
+import { showMsg } from "../../store/modalSlice";
 
 import validation from "../../form_validation/validation";
 import "./EditProduct.css";
@@ -20,8 +21,8 @@ const EditProduct = () => {
     );
   };
 
-  const [, setModalMsgState] = useContext(ModalMsgContext);
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const dispatch = useDispatch();
+  const [, data, error, errorNum, sendRequest] = useRequest();
   const [
     setFormData,
     handleSubmit,
@@ -43,17 +44,21 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (error) {
-      setModalMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     } else if (data) {
-      setModalMsgState({
-        open: true,
-        msg: "Product has been added!",
-        classes: "mdl-ok",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: "Product has been added!",
+          classes: "mdl-ok",
+        })
+      );
       history.push("/user-products");
     }
   }, [data, error, errorNum]);

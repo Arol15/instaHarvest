@@ -1,12 +1,13 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useRequest, useWidth } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
 import ProfileSideMenu from "./ProfileSideMenu";
+import { useDispatch } from "react-redux";
+import { showMsg } from "../../store/modalSlice";
 import ProfileTab from "./ProfileEditTab";
 import PublicProfileInfo from "./PublicProfileInfo";
 import UserProducts from "../product/UserProducts";
@@ -30,10 +31,8 @@ const Profile = ({ tab }) => {
     sendEmailRequest,
   ] = useRequest();
 
-  const [, setMsgState] = useContext(ModalMsgContext);
-
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const updateProfileData = () => {
     sendRequest("/api/account/get_profile_private", "POST", {}, true);
   };
@@ -59,44 +58,48 @@ const Profile = ({ tab }) => {
         joined: data.joined,
       });
       if (data.msg) {
-        setMsgState({
-          open: true,
-          msg: data.msg,
-          classes: "mdl-ok",
-        });
+        dispatch(showMsg({ open: true, msg: data.msg, classes: "mdl-ok" }));
       }
     }
     if (error) {
-      setMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     }
   }, [data, error, errorNum]);
 
   useEffect(() => {
     if (errorEmailReq) {
-      setMsgState({
-        open: true,
-        msg: errorEmailReq,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: errorEmailReq,
+          classes: "mdl-error",
+        })
+      );
     } else if (dataEmailReq && dataEmailReq.msg) {
-      setMsgState({
-        open: true,
-        msg: dataEmailReq.msg,
-        classes: "mdl-ok",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: dataEmailReq.msg,
+          classes: "mdl-ok",
+        })
+      );
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
 
   const sendMessage = (msg, classes) => {
-    setMsgState({
-      open: true,
-      msg: msg,
-      classes: classes,
-    });
+    dispatch(
+      showMsg({
+        open: true,
+        msg: msg,
+        classes: classes,
+      })
+    );
   };
 
   const resendConfirmEmail = () => {

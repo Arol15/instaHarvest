@@ -6,7 +6,6 @@ import Auth from "./components/auth/Auth";
 import NotFoundPage from "./components/NotFoundPage";
 import PublicProfile from "./components/profile/PublicProfile";
 import ResetPassword from "./components/auth/ResetPassword";
-import { ModalMsgContextProvider } from "./context/ModalMsgContext";
 import ModalMsg from "./components/UI/ModalMsg";
 import UserChatsPage from "./components/chat/UserChatsPage";
 import Chat from "./components/chat/Chat";
@@ -20,7 +19,7 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <ModalMsgContextProvider>
+    <>
       <Router>
         <MainNavbar />
         <Switch>
@@ -60,10 +59,10 @@ function App() {
           <Route path="*" component={NotFoundPage} />
         </Switch>
         <div className="filler"></div>
-        <Footer />
       </Router>
       <ModalMsg />
-    </ModalMsgContextProvider>
+      <Footer />
+    </>
   );
 }
 

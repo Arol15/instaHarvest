@@ -1,11 +1,12 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { useRequest, useForm } from "../../hooks/hooks";
 import validation from "../../form_validation/validation";
 import Spinner from "../UI/Spinner";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
 import Message from "./Message";
 import { IoReload, IoArrowBack } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { showMsg } from "../../store/modalSlice";
 
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -19,11 +20,11 @@ const Chat = () => {
   const [chatMsgs, setChatMsgs] = useState(null);
   const bottom = useRef();
   const location = useLocation();
-  const [chatState, setShatState] = useState(
+  const [chatState, setChatState] = useState(
     location.state ? { ...location.state } : null
   );
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const onSubmit = (e) => {
     processMsg("/api/chat/send_message", "POST", formData, true);
   };
@@ -38,7 +39,6 @@ const Chat = () => {
     onSubmit,
     validation
   );
-  const [, setNotifState] = useContext(ModalMsgContext);
 
   const onDeleteMsg = (msgId) => {
     processMsg("/api/chat/delete_message", "DELETE", { msg_id: msgId }, true);
@@ -72,11 +72,13 @@ const Chat = () => {
 
   useEffect(() => {
     if (error) {
-      setNotifState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     } else if (data) {
       setFormData({ ...formData, chat_id: data.chat_id });
       setChatMsgs([...data.msgs]);
@@ -85,11 +87,13 @@ const Chat = () => {
 
   useEffect(() => {
     if (errorMsg) {
-      setNotifState({
-        open: true,
-        msg: errorMsg,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: errorMsg,
+          classes: "mdl-error",
+        })
+      );
     } else if (dataMsg) {
       getMessages();
       setFormData({ ...formData, body: "" });

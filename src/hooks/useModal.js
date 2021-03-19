@@ -1,8 +1,9 @@
-import { useRef, useEffect, useReducer, useContext } from "react";
+import { useRef, useEffect, useReducer } from "react";
 import Portal from "../components/UI/Portal";
 import classnames from "classnames";
 import "./useModal.css";
-import { ModalMsgContext } from "../context/ModalMsgContext";
+import { showMsg } from "../store/modalSlice";
+import { useDispatch } from "react-redux";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -47,6 +48,7 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
     modal: null,
   });
   const backdrop = useRef(null);
+  const dispatch = useDispatch();
   const showModal = (children, classes) => {
     dispatchFetch({ type: "setOpen", isOpen: true });
     dispatchFetch({
@@ -59,7 +61,6 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
   const closeModal = () => {
     dispatchFetch({ type: "setOpen", isOpen: false });
   };
-  const [, setMsgState] = useContext(ModalMsgContext);
 
   useEffect(() => {
     if (withBackdrop === true) {
@@ -88,11 +89,13 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
 
   useEffect(() => {
     if (fetchState.isOpen && !withBackdrop && !inPlace) {
-      setMsgState({
-        open: true,
-        msg: fetchState.children,
-        classes: fetchState.classes,
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: fetchState.children,
+          classes: fetchState.classes,
+        })
+      );
     } else if (fetchState.isOpen) {
       window.setTimeout(() => {
         document.activeElement.blur();
