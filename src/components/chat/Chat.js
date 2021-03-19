@@ -19,11 +19,11 @@ const Chat = () => {
   const [chatMsgs, setChatMsgs] = useState(null);
   const bottom = useRef();
   const location = useLocation();
+  const [chatState, setShatState] = useState(
+    location.state ? { ...location.state } : null
+  );
   const history = useHistory();
-  if (!location.state) {
-    history.push("/chats");
-  }
-  const { recipientId, recipientName, recipientImg } = location.state;
+
   const onSubmit = (e) => {
     processMsg("/api/chat/send_message", "POST", formData, true);
   };
@@ -33,7 +33,11 @@ const Chat = () => {
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({ body: "", recipient_id: recipientId }, onSubmit, validation);
+  ] = useForm(
+    { body: "", recipient_id: chatState && chatState.recipientId },
+    onSubmit,
+    validation
+  );
   const [, setNotifState] = useContext(ModalMsgContext);
 
   const onDeleteMsg = (msgId) => {
@@ -41,11 +45,14 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    if (!chatState) {
+      history.push("/chats");
+    }
     sendRequest(
       "/api/chat/get_chat_between_users",
       "POST",
       {
-        recipient_id: recipientId,
+        recipient_id: chatState && chatState.recipientId,
       },
       true
     );
@@ -94,61 +101,64 @@ const Chat = () => {
   }, [chatMsgs]);
 
   return (
-    <div className="chat">
-      {isLoading && <Spinner />}
-      <div className="chat-header">
-        <h1>Chat with {recipientName}</h1>
-        <button
-          onClick={() => {
-            history.goBack();
-          }}
-          className="chat-back-button"
-        >
-          <IoArrowBack />
-        </button>
-      </div>
-      <div className="chat-scroll">
-        {chatMsgs &&
-          chatMsgs.map((msg, i) => {
-            const sender =
-              parseInt(msg.sender_id) === parseInt(recipientId)
-                ? recipientName
-                : "Me";
-            return (
-              <div key={i} ref={i === chatMsgs.length - 1 ? bottom : null}>
-                <Message
-                  msgId={msg.msg_id}
-                  onDeleteMsg={onDeleteMsg}
-                  createdAt={msg.created_at_str}
-                  sender={sender}
-                  body={msg.body}
-                  image={msg.sender_img}
-                />
-              </div>
-            );
-          })}
-      </div>
-      {
-        <div className="chat-footer">
-          <form>
-            <textarea
-              rows={3}
-              type="text"
-              name="body"
-              onChange={handleInputChange}
-              value={formData.body || ""}
-            ></textarea>
-            <div className="form-danger">
-              {formErrors.body && formErrors.body}
-            </div>
-            <button onClick={handleSubmit}>Send</button>
-            <button onClick={getMessages}>
-              <IoReload />
-            </button>
-          </form>
+    chatState && (
+      <div className="chat">
+        {isLoading && <Spinner />}
+        <div className="chat-header">
+          <h1>Chat with {chatState && chatState.recipientName}</h1>
+          <button
+            onClick={() => {
+              history.goBack();
+            }}
+            className="chat-back-button"
+          >
+            <IoArrowBack />
+          </button>
         </div>
-      }
-    </div>
+        <div className="chat-scroll">
+          {chatMsgs &&
+            chatMsgs.map((msg, i) => {
+              const sender =
+                parseInt(msg.sender_id) ===
+                parseInt(chatState && chatState.recipientId)
+                  ? chatState && chatState.recipientName
+                  : "Me";
+              return (
+                <div key={i} ref={i === chatMsgs.length - 1 ? bottom : null}>
+                  <Message
+                    msgId={msg.msg_id}
+                    onDeleteMsg={onDeleteMsg}
+                    createdAt={msg.created_at_str}
+                    sender={sender}
+                    body={msg.body}
+                    image={msg.sender_img}
+                  />
+                </div>
+              );
+            })}
+        </div>
+        {
+          <div className="chat-footer">
+            <form>
+              <textarea
+                rows={3}
+                type="text"
+                name="body"
+                onChange={handleInputChange}
+                value={formData.body || ""}
+              ></textarea>
+              <div className="form-danger">
+                {formErrors.body && formErrors.body}
+              </div>
+              <button onClick={handleSubmit}>Send</button>
+              <button onClick={getMessages}>
+                <IoReload />
+              </button>
+            </form>
+          </div>
+        }
+      </div>
+    )
   );
 };
 
