@@ -54,13 +54,11 @@ const UserChatsPage = () => {
             >
               <img className="chat-img" src={chat.recipient_img} />
               <div className="chat-last-msg">
-                <div className="chat-last-msg-left">
-                  <b>{chat.recipient_name}</b>
-                  <p>
-                    <i>{chat.last_message}</i>
-                  </p>
-                </div>
-                <p className="chat-msg-date">{chat.last_date}</p>
+                <b>{chat.recipient_name}</b>
+                <p>
+                  <i>{chat.last_message}</i>
+                </p>
+                <p>{chat.last_date}</p>
               </div>
             </div>
           );

@@ -17,6 +17,7 @@ const MainNavbar = () => {
 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [storage] = useState(loadJSON("app_data"));
+  console.log(storage);
 
   const logoutUser = (val) => {
     if (val) {

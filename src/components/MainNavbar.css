@@ -1,5 +1,6 @@
 .main-navbar {
   position: sticky;
+  /* padding: 0 20px; */
   z-index: 50;
   top: 0;
   left: 0;
@@ -12,22 +13,14 @@
   background-color: rgb(242, 255, 127);
 }
 
-.main-navbar > div {
-  padding: 0 30px;
-}
-
-/* .main-navbar-links {
-  display: flex;
-
-  justify-content: flex-end;
-} */
-
 .main-navbar-logo {
-  margin-left: 0;
+  /* margin-left: 20px; */
+  padding: 0 20px;
   margin-right: auto;
 }
 
 .main-navbar-profile {
+  padding: 0 20px;
   width: 35px;
   height: 35px;
   object-fit: cover;
