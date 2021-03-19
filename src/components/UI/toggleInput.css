@@ -1,7 +1,7 @@
 .switch {
   position: relative;
   display: block;
-  
+
   width: 90px;
   height: 34px;
   background-color: orangered;
@@ -10,7 +10,6 @@
 }
 
 .switch-click {
-
   position: absolute;
   margin: 4px;
   height: 26px;
@@ -44,8 +43,8 @@
   text-align: center;
   border: none;
   margin: 4px;
-  height: 24px;
-  width: 36px;
+  height: 7px;
+  width: 18px;
   border-radius: 34px;
   background-color: white;
   transition: 0.5s;
@@ -62,6 +61,7 @@ input[type="number"]::-webkit-outer-spin-button {
   opacity: 0;
   left: 0px;
   transition: 0.5s;
+  visibility: hidden;
 }
 
 .switch-text {
