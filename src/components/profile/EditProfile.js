@@ -6,23 +6,25 @@ import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
-import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
 import ProfileTab from "./ProfileEditTab";
 import PublicProfileInfo from "./PublicProfileInfo";
 import UserProducts from "../product/UserProducts";
 
 import PublicProfile from "./PublicProfile";
-import { saveJSON } from "../../utils/localStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile, selectProfile } from "../../store/profileSlice";
 
 import config from "../../config";
 import "./profile.css";
 
 const Profile = ({ tab }) => {
-  const [profileData, setProfileData] = useState(null);
+  // const [profileData, setProfileData] = useState(null);
+  const profileData = useSelector(selectProfile);
+  const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [showMenu, setShowMenu] = useState(false);
+  // const [showMenu, setShowMenu] = useState(false);
   const [
     ,
     dataEmailReq,
@@ -30,9 +32,7 @@ const Profile = ({ tab }) => {
     errorNumEmailReq,
     sendEmailRequest,
   ] = useRequest();
-
   const history = useHistory();
-  const dispatch = useDispatch();
   const updateProfileData = () => {
     sendRequest("/api/account/get_profile_private", "POST", {}, true);
   };
@@ -46,20 +46,10 @@ const Profile = ({ tab }) => {
   }, [tab]);
 
   useEffect(() => {
-    if (data) {
-      setProfileData({ ...data });
-      saveJSON("app_data", {
-        first_name: data.first_name,
-        image_url: data.image_url,
-        image_back_url: data.image_back_url,
-        email_verified: data.email_verified,
-        city: data.city,
-        state: data.state,
-        joined: data.joined,
-      });
-      if (data.msg) {
-        dispatch(showMsg({ open: true, msg: data.msg, classes: "mdl-ok" }));
-      }
+    if (data && data.msg) {
+      dispatch(showMsg({ open: true, msg: data.msg, classes: "mdl-ok" }));
+    } else if (data) {
+      dispatch(updateProfile({ ...data }));
     }
     if (error) {
       dispatch(
@@ -266,16 +256,16 @@ const Profile = ({ tab }) => {
 
               <div className="prf-field">
                 <ProfileField
-                  name="state"
+                  name="us_state"
                   title="State"
                   api="/edit_profile"
                   method="PATCH"
                   type="state"
                   update={updateProfileData}
                   sendMsg={sendMessage}
-                  value={profileData.state}
+                  value={profileData.us_state}
                 >
-                  <p>{profileData.state}</p>
+                  <p>{profileData.us_state}</p>
                 </ProfileField>
                 <hr />
               </div>

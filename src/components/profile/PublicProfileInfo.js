@@ -6,7 +6,7 @@ const PublicProfileInfo = ({
   firstName,
   emailVerified,
   city,
-  state,
+  usState,
   joined,
 }) => {
   return (
@@ -16,7 +16,7 @@ const PublicProfileInfo = ({
       </EmailConfirmIcon>
 
       <p>
-        {city}, {statesList.find((elem) => elem.name === state).abbreviation}
+        {city}, {statesList.find((elem) => elem.name === usState).abbreviation}
       </p>
       <p>Joined: {joined}</p>
     </div>

@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import "./MainNavbar.css";
-import { checkAuth, loadJSON, logout } from "../utils/localStorage";
+import { checkAuth, logout } from "../utils/localStorage";
 import { useModal } from "../hooks/hooks";
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
+import { useSelector } from "react-redux";
+import { selectProfile } from "../store/profileSlice";
 
 const MainNavbar = () => {
   const history = useHistory();
-
+  const { image_url } = useSelector(selectProfile);
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -16,8 +18,6 @@ const MainNavbar = () => {
   });
 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [storage] = useState(loadJSON("app_data"));
-  console.log(storage);
 
   const logoutUser = (val) => {
     if (val) {
@@ -57,7 +57,7 @@ const MainNavbar = () => {
                 <div>
                   <img
                     className="main-navbar-profile"
-                    src={storage && storage.image_url}
+                    src={image_url}
                     onClick={onClickProfile}
                     alt=""
                   />
