@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import useRequest from "../hooks/useRequest";
 import validation from "../form_validation/validation";
-import Spinner from "./UI/Spinner";
 import { checkAuth } from "../utils/localStorage";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../store/modalSlice";
@@ -56,7 +55,6 @@ const SearchMain = () => {
 
   return (
     <>
-      {isLoading && <Spinner />}
       <form>
         <input
           type="search"

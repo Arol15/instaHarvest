@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
-import Spinner from "../UI/Spinner";
 import Auth from "../auth/Auth";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
@@ -55,7 +53,6 @@ const ProfileFild = (props) => {
   return (
     <>
       {modalLogin}
-      {isLoading && <Spinner />}
       <b>{props.title}:</b>
       {editState ? (
         <div>

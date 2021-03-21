@@ -1,23 +1,23 @@
 import json
 from datetime import datetime
 from dateutil import tz
-from flask import Blueprint, request, url_for
-from flask_jwt_extended import (fresh_jwt_required, get_jwt_identity,
-                                jwt_required)
+from flask import Blueprint, request, url_for, session
 from app import db
 from app.models import User
-from app.utils.security import ts, admin_required
+from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.config import Config
+from app.utils.security import auth_required
+
 import boto3
 
 bp = Blueprint('account', __name__, url_prefix='/api/account')
 
 
 @bp.route('/get_profile_private', methods=['POST'])
-@jwt_required
+@auth_required
 def get_profile():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -35,10 +35,11 @@ def get_profile_public(addr):
 
 
 @bp.route('/change_pass', methods=['PATCH'])
-@fresh_jwt_required
+# @fresh_jwt_required
+@auth_required
 def change_pass():
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -49,7 +50,7 @@ def change_pass():
 
 
 @bp.route('/edit_profile', methods=['PATCH'])
-@jwt_required
+@auth_required
 def edit_profile():
     """
     Can update only `first_name`, `last_name`, `image_url`, `address`,
@@ -57,7 +58,7 @@ def edit_profile():
 
     """
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -69,10 +70,11 @@ def edit_profile():
 
 
 @bp.route('/edit_username', methods=['PATCH'])
-@fresh_jwt_required
+# @fresh_jwt_required
+@auth_required
 def edit_username():
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -86,10 +88,10 @@ def edit_username():
 
 
 @bp.route('/edit_profile_address', methods=['PATCH'])
-@jwt_required
+@auth_required
 def edit_profile_address():
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -103,10 +105,11 @@ def edit_profile_address():
 
 
 @bp.route('/request_change_email', methods=['POST'])
-@fresh_jwt_required
+# @fresh_jwt_required
+@auth_required
 def edit_email():
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -150,20 +153,20 @@ def change_email(token):
     return redirect(f"{Config.BASE_URL}/profile", code=302)
 
 
-@bp.route('/files')
-def files():
-    s3_resource = boto3.resource('s3')
-    my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
-    summaries = my_bucket.objects.all()
-    for o in summaries:
-        print(o.key)
-    return {"message": "bucket printed successfully"}, 200
+# @bp.route('/files')
+# def files():
+#     s3_resource = boto3.resource('s3')
+#     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+#     summaries = my_bucket.objects.all()
+#     for o in summaries:
+#         print(o.key)
+#     return {"message": "bucket printed successfully"}, 200
 
 
 @bp.route('/update_profile_image_file', methods=['POST'])
-@jwt_required
+@auth_required
 def edit_profile_image_file():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     file = request.files['file']
 
     file.filename = f'{user_id}_image_url.{file.filename.split(".")[-1]}'
@@ -181,9 +184,9 @@ def edit_profile_image_file():
 
 
 @bp.route('/update_profile_image_url', methods=['POST'])
-@jwt_required
+@auth_required
 def edit_profile_image_url():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     image_url = request.json.get('url')
     user = User.query.filter(User.id == user_id).first()
     if user is None:
@@ -196,9 +199,9 @@ def edit_profile_image_url():
 
 
 @bp.route('/delete_profile_image', methods=['POST'])
-@jwt_required
+@auth_required
 def delete_profile_image():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter(User.id == user_id).first()
     if user is None:
         return {}, 404
@@ -212,9 +215,9 @@ def delete_profile_image():
 
 
 @bp.route('/update_back_image_file', methods=['POST'])
-@jwt_required
+@auth_required
 def edit_back_image_file():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     file = request.files['file']
     file.filename = f'{user_id}_image_back_url.{file.filename.split(".")[-1]}'
     s3_resource = boto3.resource('s3')
@@ -231,9 +234,9 @@ def edit_back_image_file():
 
 
 @bp.route('/update_back_image_url', methods=['POST'])
-@jwt_required
+@auth_required
 def edit_back_image_url():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     image_back_url = request.json.get('url')
     user = User.query.filter(User.id == user_id).first()
     if user is None:
@@ -246,9 +249,9 @@ def edit_back_image_url():
 
 
 @bp.route('/delete_back_image', methods=['POST'])
-@jwt_required
+@auth_required
 def delete_back_image():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter(User.id == user_id).first()
     if user is None:
         return {}, 404

@@ -1,11 +1,13 @@
 import axios from "axios";
-import { useReducer, useCallback } from "react";
+import { useReducer, useCallback, useDebugValue } from "react";
 import { useHistory } from "react-router-dom";
-import { checkAuth } from "../utils/localStorage";
+import { useDispatch } from "react-redux";
+import { showSpinner, hideSpinner } from "../store/spinnerSlice";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
     case "SEND":
+      action.spinner();
       return {
         ...currState,
         isLoading: true,
@@ -14,6 +16,7 @@ const fetchReducer = (currState, action) => {
         data: null,
       };
     case "RESPONSE":
+      action.spinner();
       return {
         isLoading: false,
         data: action.responseData,
@@ -21,11 +24,20 @@ const fetchReducer = (currState, action) => {
         error: null,
       };
     case "ERROR":
+      action.spinner();
       return {
         data: null,
         isLoading: false,
         error: action.errorMessage,
         errorNum: action.errorNum,
+      };
+    case "LOGOUT":
+      action.spinner();
+      return {
+        isLoading: false,
+        errorNum: null,
+        error: null,
+        data: null,
       };
     default:
       return;
@@ -46,27 +58,20 @@ const useRequest = () => {
   });
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const sendRequest = useCallback(async (url, method, body, isJwt = false) => {
-    if (isJwt) {
-      if (!checkAuth()) {
-        history.push("/login");
-        return;
-      }
-    }
-
-    let headers = {};
-    if (isJwt) {
-      headers.Authorization = "Bearer " + localStorage.getItem("access_token");
-    }
-
-    dispatchFetch({ type: "SEND" });
+  const sendRequest = useCallback(async (url, method, body) => {
+    dispatchFetch({
+      type: "SEND",
+      spinner: () => {
+        dispatch(showSpinner());
+      },
+    });
 
     const config = {
       method: method,
       url: url,
       data: body,
-      headers: headers,
       timeout: 5000,
     };
 
@@ -79,86 +84,67 @@ const useRequest = () => {
         type: "ERROR",
         errorMessage: "Something went wrong",
         errorNum: 500,
+        spinner: () => {
+          dispatch(hideSpinner());
+        },
       });
       return;
     }
 
-    if (isJwt && resp.status === 401) {
-      const refrResp = await axios({
-        method: "post",
-        url: "/api/auth/refresh",
-        data: {},
-        timeout: 5000,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("refresh_token"),
+    if (resp.status === 401 && resp.data.error === "unauthorized") {
+      localStorage.removeItem("status");
+      localStorage.removeItem("app_data");
+      dispatchFetch({
+        type: "LOGOUT",
+        spinner: () => {
+          dispatch(hideSpinner());
         },
-      }).then(
-        (res) => res,
-        (err) => err.response
-      );
-
-      if (!refrResp) {
-        dispatchFetch({
-          type: "ERROR",
-          errorMessage: "Something went wrong",
-          errorNum: 500,
-        });
-        return;
-      }
-
-      if (refrResp.status >= 200 && refrResp.status < 300) {
-        localStorage.setItem("access_token", refrResp.data.access_token);
-
-        const newConfig = {
-          ...config,
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        };
-        resp = await axios(newConfig).then(
-          (res) => res,
-          (err) => err.response
-        );
-        if (!resp) {
-          dispatchFetch({
-            type: "ERROR",
-            errorMessage: "Something went wrong",
-            errorNum: 500,
-          });
-          return;
-        }
-      } else {
-        resp = refrResp;
-      }
+      });
+      history.push("/");
     }
     if (resp.status >= 200 && resp.status < 300) {
       dispatchFetch({
         type: "RESPONSE",
         responseData: resp.data,
+        spinner: () => {
+          dispatch(hideSpinner());
+        },
       });
     } else if (resp.data.error) {
       dispatchFetch({
         type: "ERROR",
         errorMessage: resp.data.error,
         errorNum: resp.status,
+        spinner: () => {
+          dispatch(hideSpinner());
+        },
       });
     } else if (resp.status === 401) {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Authorization denied. Please sign in or sign up",
         errorNum: 401,
+        spinner: () => {
+          dispatch(hideSpinner());
+        },
       });
     } else if (resp.status === 403) {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Not enough privileges",
         errorNum: 403,
+        spinner: () => {
+          dispatch(hideSpinner());
+        },
       });
     } else {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Something went wrong",
         errorNum: resp.status,
+        spinner: () => {
+          dispatch(hideSpinner());
+        },
       });
     }
   }, []);

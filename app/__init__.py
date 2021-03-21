@@ -1,7 +1,7 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, session
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
+from flask_session import Session
 from flask_mail import Mail
 from app.config import Config
 from logging.config import dictConfig
@@ -41,12 +41,13 @@ s3_resource = boto3.resource(
 
 
 app = Flask(__name__, static_folder='../build', static_url_path='/')
-app.config.from_object(Config)
 db = SQLAlchemy()
+app.config.from_object(Config)
+app.secret_eky = Config.SECRET_KEY
 db.init_app(app)
 migrate = Migrate(app, db)
-jwt = JWTManager(app)
 mail = Mail(app)
+session = Session(app)
 
 
 @app.route('/', defaults={'path': ''})

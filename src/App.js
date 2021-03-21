@@ -16,6 +16,7 @@ import MainNavbar from "./components/MainNavbar";
 import EditProduct from "./components/product/EditProduct";
 import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
+import Spinner from "./components/UI/Spinner";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
         </Switch>
         <div className="filler"></div>
       </Router>
+      <Spinner />
       <ModalMsg />
       <Footer />
     </>

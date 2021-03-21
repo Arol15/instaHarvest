@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useRequest, useWidth } from "../../hooks/hooks";
-import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
@@ -23,7 +22,7 @@ const Profile = ({ tab }) => {
   const profileData = useSelector(selectProfile);
   const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [, data, error, errorNum, sendRequest] = useRequest();
   // const [showMenu, setShowMenu] = useState(false);
   const [
     ,
@@ -98,7 +97,6 @@ const Profile = ({ tab }) => {
 
   return (
     <>
-      {isLoading && <Spinner />}
       <ProfileHeader edit={true} />
       <button
         className="prf-return-button"

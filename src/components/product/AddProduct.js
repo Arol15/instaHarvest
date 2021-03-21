@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import validation from "../../form_validation/validation";
 import { useRequest, useForm } from "../../hooks/hooks";
 import { useHistory } from "react-router-dom";
-import Spinner from "../UI/Spinner";
 import "./AddProduct.css";
 import AuthModal from "../auth/AuthModal";
 import { useModal } from "../../hooks/hooks";
@@ -13,7 +12,7 @@ import { useDispatch } from "react-redux";
 
 const AddProduct = () => {
   const history = useHistory();
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
@@ -78,7 +77,6 @@ const AddProduct = () => {
 
   return (
     <>
-      {isLoading && <Spinner />}
       <div className="add-product">
         <h2>Share Your Product</h2>
         <form onSubmit={handleSubmit}>

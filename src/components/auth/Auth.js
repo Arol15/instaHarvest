@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import Spinner from "../UI/Spinner";
 import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
@@ -58,8 +57,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("refresh_token", data.refresh_token);
+      localStorage.setItem("status", "loggedIn");
       dispatch(updateProfile({ ...data }));
       if (afterConfirm) {
         afterConfirm();
@@ -84,7 +82,6 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   return (
     <div>
       {modal}
-      {isLoading && <Spinner />}
       {view === "login" && <h1>Log In</h1>}
       {view === "signup" && <h1>Sign Up</h1>}
       {view === "confirm" && <h1>Confirm identity</h1>}

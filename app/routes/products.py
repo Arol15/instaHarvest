@@ -1,18 +1,17 @@
-from flask import Blueprint, request
-from flask_jwt_extended import (fresh_jwt_required, get_jwt_identity,
-                                jwt_required)
+from flask import Blueprint, request, session
 import json
 from app import db
 from app.models import Product, User
+from app.utils.security import auth_required
 
 bp = Blueprint("products", __name__, url_prefix='/api/products')
 
 
 @bp.route('/add-product', methods=['POST'])
-@jwt_required
+@auth_required
 def create_product():
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = session['id']
     # print(user_id)
     product = Product(user_id=user_id, name=data['name'],
                       product_type=data['product_type'], image_urls=data['image_urls'],
@@ -23,9 +22,9 @@ def create_product():
 
 
 @bp.route('/products-per-user', methods=["POST"])
-@jwt_required
+@auth_required
 def get_products_per_user():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     # print(user_id)
     user = User.query.filter_by(id=user_id).first()
     if user is None:
@@ -51,9 +50,9 @@ def get_all_products():
 
 
 @bp.route('/get-all-protected', methods=["POST"])
-@jwt_required
+@auth_required
 def get_all_products_protected():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     data = request.get_json()
     # print(data)
     searchCity = data["search_term"]
@@ -82,7 +81,7 @@ def product_location_info(userId):
 
 
 @bp.route('/edit-product/<int:productId>', methods=["PATCH"])
-@jwt_required
+@auth_required
 def edit_product(productId):
     data = request.get_json()
     product = Product.query.filter_by(id=productId).first()
@@ -94,7 +93,7 @@ def edit_product(productId):
 
 
 @bp.route("/delete_product", methods=["DELETE"])
-@jwt_required
+@auth_required
 def delete_product():
     data = request.get_json()
     product_id = data["product_id"]

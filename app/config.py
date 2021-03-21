@@ -1,11 +1,11 @@
 import os
+from datetime import datetime, timedelta
 
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JWT_ACCESS_TOKEN_EXPIRES = 900
     MAIL_PASSWORD = os.environ.get('GMAIL_PASS')
     MAIL_USERNAME = os.environ.get('GMAIL_USERNAME')
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -17,3 +17,8 @@ class Config(object):
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
     PROFILE_IMAGE = 'https://w7.pngwing.com/pngs/748/359/png-transparent-orange-fruit-cartoon-orange-food-photography-orange.png'
+    SESSION_TYPE = 'sqlalchemy'
+    SESSION_PERMANENT = True
+    SESSION_USE_SIGNER = True
+    SESSION_SQLALCHEMY_TABLE = 'sessions'
+    PERMANENT_SESSION_LIFETIME = 604800
