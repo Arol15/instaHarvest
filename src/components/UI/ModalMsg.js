@@ -1,48 +1,47 @@
-import { useContext, useState, useEffect } from "react";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
+import { useState, useEffect } from "react";
 import Portal from "./Portal";
 import classnames from "classnames";
+import { clearMsg, selectModal } from "../../store/modalSlice";
+import { useSelector, useDispatch } from "react-redux";
+import "../../index.css";
 
-const ModalMsg = (props) => {
-  const [state, setState] = useContext(ModalMsgContext);
+const ModalMsg = () => {
+  const { open, msg, timeOut, classes } = useSelector(selectModal);
+  const dispatch = useDispatch();
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (state.open) {
+    if (open) {
       window.setTimeout(() => {
         document.activeElement.blur();
-        setActive(state.open);
+        setActive(open);
       }, 10);
     }
-  }, [state]);
+  }, [open]);
 
   useEffect(() => {
     let id;
-    if (state.open) {
+    if (open) {
       id = setTimeout(
         () => {
-          setState({
-            open: false,
-            msg: null,
-            classes: null,
-          });
+          dispatch(clearMsg());
         },
-        state.timeOut ? state.timeOut : 7000
+        timeOut ? timeOut : 7000
       );
     }
     return () => {
       clearTimeout(id);
     };
-  }, [state]);
+  }, [open]);
 
   useEffect(() => {
     let id;
-    if (state.open) {
+    if (open) {
       id = setTimeout(
         () => {
           setActive(false);
         },
-        state.timeOut ? state.timeOut - 1000 : 6000
+        timeOut ? timeOut - 1000 : 6000
       );
     }
     return () => {
@@ -52,14 +51,14 @@ const ModalMsg = (props) => {
 
   return (
     <>
-      {(state.open || active) && (
+      {(open || active) && (
         <Portal>
           <div
-            className={classnames("mdl-msg", state.classes, {
+            className={classnames("mdl-msg", classes, {
               "mdl-msg-active": active,
             })}
           >
-            {state.msg}
+            {msg}
           </div>
         </Portal>
       )}

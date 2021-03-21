@@ -55,7 +55,7 @@ class User(db.Model):
             "image_url": self.image_url,
             "user_id": self.id,
             "city": self.city,
-            "state": self.state,
+            "us_state": self.state,
             "email_verified": self.email_verified,
             "joined": self.created_at.strftime("%b %Y")
         }
@@ -70,7 +70,7 @@ class User(db.Model):
             "email": self.email,
             "profile_addr": self.profile_addr,
             "email_verified": self.email_verified,
-            "state": self.state,
+            "us_state": self.state,
             "city": self.city,
             "zip_code": self.zip_code,
             "address": self.address,
@@ -85,7 +85,7 @@ class User(db.Model):
             "image_back_url": self.image_back_url,
             "email_verified": self.email_verified,
             "joined": self.created_at.strftime("%b %Y"),
-            "state": self.state,
+            "us_state": self.state,
             "city": self.city
         }
 

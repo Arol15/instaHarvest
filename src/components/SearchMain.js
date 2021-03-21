@@ -1,11 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import useRequest from "../hooks/useRequest";
-import { ModalMsgContext } from "../context/ModalMsgContext";
 import validation from "../form_validation/validation";
 import Spinner from "./UI/Spinner";
 import { checkAuth } from "../utils/localStorage";
+import { useDispatch } from "react-redux";
+import { showMsg } from "../store/modalSlice";
 
 const SearchMain = () => {
   const onSubmit = () => {
@@ -25,28 +26,31 @@ const SearchMain = () => {
   ] = useForm({ search_term: "" }, onSubmit, validation);
 
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [, setModalMsgState] = useContext(ModalMsgContext);
-
+  const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     if (data && data.products.length === 0) {
-      setModalMsgState({
-        open: true,
-        msg: "No results per this location",
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: "No results per this location",
+          classes: "mdl-error",
+        })
+      );
     } else if (data) {
       history.push({
         pathname: "/search-results",
         state: data,
       });
     } else if (error) {
-      setModalMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     }
   }, [data, error]);
 

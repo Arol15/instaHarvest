@@ -4,11 +4,14 @@ import Spinner from "../UI/Spinner";
 import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
-import { checkAuth, saveJSON } from "../../utils/localStorage";
+import { checkAuth } from "../../utils/localStorage";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../store/profileSlice";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [modal, showModal] = useModal({
     withBackdrop: false,
     useTimer: true,
@@ -57,15 +60,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     if (data) {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
-      saveJSON("app_data", {
-        first_name: data.first_name,
-        image_url: data.image_url,
-        image_back_url: data.image_back_url,
-        email_verified: data.email_verified,
-        city: data.city,
-        state: data.state,
-        joined: data.joined,
-      });
+      dispatch(updateProfile({ ...data }));
       if (afterConfirm) {
         afterConfirm();
       } else if (closeModal) {

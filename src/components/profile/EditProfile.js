@@ -1,27 +1,30 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useRequest, useWidth } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
 import ProfileSideMenu from "./ProfileSideMenu";
+import { showMsg } from "../../store/modalSlice";
 import ProfileTab from "./ProfileEditTab";
 import PublicProfileInfo from "./PublicProfileInfo";
 import UserProducts from "../product/UserProducts";
 
 import PublicProfile from "./PublicProfile";
-import { saveJSON } from "../../utils/localStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile, selectProfile } from "../../store/profileSlice";
 
 import config from "../../config";
 import "./profile.css";
 
 const Profile = ({ tab }) => {
-  const [profileData, setProfileData] = useState(null);
+  // const [profileData, setProfileData] = useState(null);
+  const profileData = useSelector(selectProfile);
+  const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [showMenu, setShowMenu] = useState(false);
+  // const [showMenu, setShowMenu] = useState(false);
   const [
     ,
     dataEmailReq,
@@ -29,11 +32,7 @@ const Profile = ({ tab }) => {
     errorNumEmailReq,
     sendEmailRequest,
   ] = useRequest();
-
-  const [, setMsgState] = useContext(ModalMsgContext);
-
   const history = useHistory();
-
   const updateProfileData = () => {
     sendRequest("/api/account/get_profile_private", "POST", {}, true);
   };
@@ -47,56 +46,50 @@ const Profile = ({ tab }) => {
   }, [tab]);
 
   useEffect(() => {
-    if (data) {
-      setProfileData({ ...data });
-      saveJSON("app_data", {
-        first_name: data.first_name,
-        image_url: data.image_url,
-        image_back_url: data.image_back_url,
-        email_verified: data.email_verified,
-        city: data.city,
-        state: data.state,
-        joined: data.joined,
-      });
-      if (data.msg) {
-        setMsgState({
-          open: true,
-          msg: data.msg,
-          classes: "mdl-ok",
-        });
-      }
+    if (data && data.msg) {
+      dispatch(showMsg({ open: true, msg: data.msg, classes: "mdl-ok" }));
+    } else if (data) {
+      dispatch(updateProfile({ ...data }));
     }
     if (error) {
-      setMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     }
   }, [data, error, errorNum]);
 
   useEffect(() => {
     if (errorEmailReq) {
-      setMsgState({
-        open: true,
-        msg: errorEmailReq,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: errorEmailReq,
+          classes: "mdl-error",
+        })
+      );
     } else if (dataEmailReq && dataEmailReq.msg) {
-      setMsgState({
-        open: true,
-        msg: dataEmailReq.msg,
-        classes: "mdl-ok",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: dataEmailReq.msg,
+          classes: "mdl-ok",
+        })
+      );
     }
   }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
 
   const sendMessage = (msg, classes) => {
-    setMsgState({
-      open: true,
-      msg: msg,
-      classes: classes,
-    });
+    dispatch(
+      showMsg({
+        open: true,
+        msg: msg,
+        classes: classes,
+      })
+    );
   };
 
   const resendConfirmEmail = () => {
@@ -263,16 +256,16 @@ const Profile = ({ tab }) => {
 
               <div className="prf-field">
                 <ProfileField
-                  name="state"
+                  name="us_state"
                   title="State"
                   api="/edit_profile"
                   method="PATCH"
                   type="state"
                   update={updateProfileData}
                   sendMsg={sendMessage}
-                  value={profileData.state}
+                  value={profileData.us_state}
                 >
-                  <p>{profileData.state}</p>
+                  <p>{profileData.us_state}</p>
                 </ProfileField>
                 <hr />
               </div>

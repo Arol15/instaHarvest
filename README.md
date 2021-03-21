@@ -1,25 +1,25 @@
 # InstaHarvest
 
- 🟡In progress...
+🟡In progress...
 
 Find and share local homegrown fruits and vegetables
 
 ### Demo
 
-[InstaHarvest](https://instaharvest.herokuapp.com/)
+[InstaHarvest](http://www.instaharvest.net/)
 
-***
+---
 
 ## Technologies
 
 **Database:**
 
-* PostgreSQL
+- PostgreSQL
 
 **Back-end:**
 
-* Flask
+- Flask
 
 **Front-end:**
 
-* React with hooks
+- React with hooks, Redux

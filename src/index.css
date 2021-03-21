@@ -98,11 +98,11 @@ select {
 }
 
 .mdl-error {
-  background-color: rgba(230, 30, 20, 0.3);
+  background-color: rgba(230, 31, 20, 0.808);
 }
 
 .mdl-ok {
-  background-color: rgba(74, 202, 35, 0.3);
+  background-color: rgba(74, 202, 35, 0.8);
 }
 
 .mdl-msg-active {

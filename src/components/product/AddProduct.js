@@ -1,20 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import validation from "../../form_validation/validation";
 import { useRequest, useForm } from "../../hooks/hooks";
 import { useHistory } from "react-router-dom";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
 import Spinner from "../UI/Spinner";
 import "./AddProduct.css";
 import AuthModal from "../auth/AuthModal";
 import { useModal } from "../../hooks/hooks";
 import { checkAuth } from "../../utils/localStorage";
 import ToggleInput from "../UI/ToggleInput";
+import { showMsg } from "../../store/modalSlice";
+import { useDispatch } from "react-redux";
 
 const AddProduct = () => {
   const history = useHistory();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [, setModalMsgState] = useContext(ModalMsgContext);
-
+  const dispatch = useDispatch();
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -57,17 +57,21 @@ const AddProduct = () => {
 
   useEffect(() => {
     if (error) {
-      setModalMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     } else if (data) {
-      setModalMsgState({
-        open: true,
-        msg: "Product has been added!",
-        classes: "mdl-ok",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: "Product has been added!",
+          classes: "mdl-ok",
+        })
+      );
       history.push("/user-products");
     }
   }, [data, error, errorNum]);

@@ -59,11 +59,11 @@ def not_found(e):
     return send_from_directory(app.static_folder, "index.html")
 
 
-from app.routes import users, auth, account, chat, products, cert
+from app.routes import users, auth, account, chat, products
 
 app.register_blueprint(users.bp)
 app.register_blueprint(auth.bp)
 app.register_blueprint(account.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(chat.bp)
-app.register_blueprint(cert.bp)
+# app.register_blueprint(cert.bp)

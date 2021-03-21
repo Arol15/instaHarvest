@@ -29,7 +29,7 @@ const Profile = ({ tab }) => {
             firstName={data.first_name}
             emailVerified={data.email_verified}
             city={data.city}
-            state={data.state}
+            usState={data.us_state}
             joined={data.joined}
           />
           <button

@@ -4,18 +4,14 @@ import { loadJSON, logout } from "../../utils/localStorage";
 import { useHistory } from "react-router-dom";
 import { useModal } from "../../hooks/hooks";
 import UploadImage from "../UI/UploadImage";
+import { useSelector } from "react-redux";
+import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";
 
 const ProfileHeader = ({ edit }) => {
-  const [data] = useState(loadJSON("app_data"));
+  // const [data] = useState(loadJSON("app_data"));
+  const data = useSelector(selectProfile);
   const history = useHistory();
-
-  useEffect(() => {
-    if (!data) {
-      logout();
-      history.push("/login");
-    }
-  }, []);
 
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,

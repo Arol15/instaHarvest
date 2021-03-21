@@ -1,14 +1,14 @@
-import { useEffect, useContext, useState } from "react";
+import { useEffect } from "react";
 import { useRequest } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
-import { ModalMsgContext } from "../../context/ModalMsgContext";
 import { useHistory } from "react-router-dom";
 import "./chat.css";
+import { useDispatch } from "react-redux";
+import { showMsg } from "../../store/modalSlice";
 
 const UserChatsPage = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [, setModalMsgState] = useContext(ModalMsgContext);
-
+  const dispatch = useDispatch();
   const history = useHistory();
   const openChat = (recipientId, recipientName, recipientImg) => {
     history.push({
@@ -27,11 +27,13 @@ const UserChatsPage = () => {
 
   useEffect(() => {
     if (error) {
-      setModalMsgState({
-        open: true,
-        msg: error,
-        classes: "mdl-error",
-      });
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
     }
   }, [data, error, errorNum]);
 
@@ -54,13 +56,11 @@ const UserChatsPage = () => {
             >
               <img className="chat-img" src={chat.recipient_img} />
               <div className="chat-last-msg">
-                <div className="chat-last-msg-left">
-                  <b>{chat.recipient_name}</b>
-                  <p>
-                    <i>{chat.last_message}</i>
-                  </p>
-                </div>
-                <p className="chat-msg-date">{chat.last_date}</p>
+                <b>{chat.recipient_name}</b>
+                <p>
+                  <i>{chat.last_message}</i>
+                </p>
+                <p>{chat.last_date}</p>
               </div>
             </div>
           );
