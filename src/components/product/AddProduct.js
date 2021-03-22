@@ -18,6 +18,7 @@ const AddProduct = () => {
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
+    disableClose: true,
   });
 
   const onSubmit = () => {
