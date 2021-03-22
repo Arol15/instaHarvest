@@ -62,6 +62,11 @@
   transition-duration: 350ms;
 }
 
+.mdl-close-button {
+  margin-left: auto;
+  width: fit-content;
+}
+
 .bd-active {
   transition-duration: 250ms;
   transition-delay: 0ms;

@@ -47,13 +47,11 @@ class User(db.Model):
     def __repr__(self):
         return f"User with {self.username} and {self.password}"
 
-    def to_dict_auth(self, access_token, refresh_token):
+    def to_dict_auth(self):
         return {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
             "first_name": self.first_name,
             "image_url": self.image_url,
-            "user_id": self.id,
+            "image_back_url": self.image_back_url,
             "city": self.city,
             "us_state": self.state,
             "email_verified": self.email_verified,
@@ -178,3 +176,11 @@ class Message(db.Model):
             "sender_img": user.image_url,
             "body": self.body
         }
+
+
+class Session(db.Model):
+    __tablename__ = "sessions"
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.String(255), unique=True)
+    data = db.Column(db.LargeBinary)
+    expiry = db.Column(db.DateTime)

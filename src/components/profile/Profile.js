@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import { loadJSON, logout, checkAuth } from "../../utils/localStorage";
@@ -13,10 +13,13 @@ const Profile = ({ tab }) => {
   const [data] = useState(loadJSON("app_data"));
   const [currTab, setCurrTab] = useState(tab ? tab : "products");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (checkAuth() === false || !data) {
-      logout();
-      history.push("/login");
+      logout()
+        .then(() => {
+          history.push("/login");
+        })
+        .catch(() => {});
     }
   }, []);
 

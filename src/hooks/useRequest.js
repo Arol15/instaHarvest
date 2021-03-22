@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useReducer, useCallback } from "react";
+import { useReducer, useCallback, useDebugValue } from "react";
 import { useHistory } from "react-router-dom";
-import { checkAuth } from "../utils/localStorage";
+import { useDispatch } from "react-redux";
+import { logout } from "../utils/localStorage";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -27,6 +28,13 @@ const fetchReducer = (currState, action) => {
         error: action.errorMessage,
         errorNum: action.errorNum,
       };
+    case "LOGOUT":
+      return {
+        isLoading: false,
+        errorNum: null,
+        error: null,
+        data: null,
+      };
     default:
       return;
   }
@@ -46,27 +54,17 @@ const useRequest = () => {
   });
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const sendRequest = useCallback(async (url, method, body, isJwt = false) => {
-    if (isJwt) {
-      if (!checkAuth()) {
-        history.push("/login");
-        return;
-      }
-    }
-
-    let headers = {};
-    if (isJwt) {
-      headers.Authorization = "Bearer " + localStorage.getItem("access_token");
-    }
-
-    dispatchFetch({ type: "SEND" });
+  const sendRequest = useCallback(async (url, method, body) => {
+    dispatchFetch({
+      type: "SEND",
+    });
 
     const config = {
       method: method,
       url: url,
       data: body,
-      headers: headers,
       timeout: 5000,
     };
 
@@ -83,53 +81,21 @@ const useRequest = () => {
       return;
     }
 
-    if (isJwt && resp.status === 401) {
-      const refrResp = await axios({
-        method: "post",
-        url: "/api/auth/refresh",
-        data: {},
-        timeout: 5000,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("refresh_token"),
-        },
-      }).then(
-        (res) => res,
-        (err) => err.response
-      );
-
-      if (!refrResp) {
-        dispatchFetch({
-          type: "ERROR",
-          errorMessage: "Something went wrong",
-          errorNum: 500,
-        });
-        return;
-      }
-
-      if (refrResp.status >= 200 && refrResp.status < 300) {
-        localStorage.setItem("access_token", refrResp.data.access_token);
-
-        const newConfig = {
-          ...config,
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        };
-        resp = await axios(newConfig).then(
-          (res) => res,
-          (err) => err.response
-        );
-        if (!resp) {
+    if (resp.status === 401 && resp.data.error === "unauthorized") {
+      logout()
+        .then(() => {
+          dispatchFetch({
+            type: "LOGOUT",
+          });
+          history.push("/login");
+        })
+        .catch((error) => {
           dispatchFetch({
             type: "ERROR",
-            errorMessage: "Something went wrong",
-            errorNum: 500,
+            errorMessage: resp.data.error,
+            errorNum: resp.status,
           });
-          return;
-        }
-      } else {
-        resp = refrResp;
-      }
+        });
     }
     if (resp.status >= 200 && resp.status < 300) {
       dispatchFetch({

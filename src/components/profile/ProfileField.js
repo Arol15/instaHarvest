@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
-import Spinner from "../UI/Spinner";
 import Auth from "../auth/Auth";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
+import Spinner from "../UI/Spinner";
 import "./profile.css";
 
 const ProfileFild = (props) => {
@@ -27,9 +26,8 @@ const ProfileFild = (props) => {
     formData,
     formErrors,
   ] = useForm({ [props.name]: props.value }, onSubmit, validation);
-
   useEffect(() => {
-    if (error && errorNum !== 401) {
+    if (error && errorNum !== 403) {
       props.sendMsg(error, "mdl-error");
     } else if (data && data.msg) {
       props.sendMsg(data.msg, "mdl-ok");
@@ -39,7 +37,7 @@ const ProfileFild = (props) => {
   }, [data, error]);
 
   useEffect(() => {
-    if (errorNum === 401) {
+    if (errorNum === 403) {
       showModalLogin(
         <Auth
           view={"confirm"}

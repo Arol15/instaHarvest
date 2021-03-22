@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import Spinner from "../UI/Spinner";
 import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
 import { checkAuth } from "../../utils/localStorage";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "../../store/profileSlice";
+import Spinner from "../UI/Spinner";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -58,14 +58,15 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("refresh_token", data.refresh_token);
+      localStorage.setItem("status", "loggedIn");
       dispatch(updateProfile({ ...data }));
-      if (afterConfirm) {
+      if (afterConfirm && closeModal) {
+        closeModal();
+        afterConfirm();
+      } else if (afterConfirm) {
         afterConfirm();
       } else if (closeModal) {
-        history.push("/profile");
-        closeModal();
+        // history.push("/profile");
       } else {
         history.push("/profile");
         // closeModal()

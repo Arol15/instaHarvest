@@ -4,6 +4,7 @@ import classnames from "classnames";
 import "./useModal.css";
 import { showMsg } from "../store/modalSlice";
 import { useDispatch } from "react-redux";
+import { FiX } from "react-icons/fi";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -39,7 +40,13 @@ const fetchReducer = (currState, action) => {
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useModal
  */
 
-const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
+const useModal = ({
+  withBackdrop,
+  useTimer,
+  timeOut,
+  inPlace,
+  disableClose,
+}) => {
   const [fetchState, dispatchFetch] = useReducer(fetchReducer, {
     active: false,
     isOpen: false,
@@ -73,16 +80,23 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
 
       if (current) {
         current.addEventListener("transitionend", transitionEnd);
-        current.addEventListener("click", clickHandler);
-        window.addEventListener("keyup", keyHandler);
+
+        if (!disableClose) {
+          current.addEventListener("click", clickHandler);
+          window.addEventListener("keyup", keyHandler);
+        }
       }
 
       return () => {
         if (current) {
           current.removeEventListener("transitionend", transitionEnd);
-          current.removeEventListener("click", clickHandler);
+          if (!disableClose) {
+            current.removeEventListener("click", clickHandler);
+          }
         }
-        window.removeEventListener("keyup", keyHandler);
+        if (!disableClose) {
+          window.removeEventListener("keyup", keyHandler);
+        }
       };
     }
   }, [fetchState.isOpen, fetchState.modal]);
@@ -140,6 +154,11 @@ const useModal = ({ withBackdrop, useTimer, timeOut, inPlace }) => {
                       "mdl-active": fetchState.active && fetchState.isOpen,
                     })}
                   >
+                    {disableClose && (
+                      <div className="mdl-close-button" onClick={closeModal}>
+                        <FiX />
+                      </div>
+                    )}
                     {fetchState.children}
                   </div>
                 </div>

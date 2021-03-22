@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRequest } from "../../hooks/hooks";
-import Spinner from "../UI/Spinner";
 import ProfileHeader from "./ProfileHeader";
 import PublicProfileInfo from "./PublicProfileInfo";
+import Spinner from "../UI/Spinner";
 import "./profile.css";
 
 const PublicProfile = (props) => {

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import validation from "../../form_validation/validation";
 import { useRequest, useForm } from "../../hooks/hooks";
 import { useHistory } from "react-router-dom";
-import Spinner from "../UI/Spinner";
 import "./AddProduct.css";
 import AuthModal from "../auth/AuthModal";
 import { useModal } from "../../hooks/hooks";
@@ -10,6 +9,7 @@ import { checkAuth } from "../../utils/localStorage";
 import ToggleInput from "../UI/ToggleInput";
 import { showMsg } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
+import Spinner from "../UI/Spinner";
 
 const AddProduct = () => {
   const history = useHistory();
@@ -19,6 +19,7 @@ const AddProduct = () => {
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
+    disableClose: true,
   });
 
   const onSubmit = () => {

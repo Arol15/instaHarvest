@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useRequest } from "../../hooks/hooks";
-import Spinner from "../UI/Spinner";
 import { useHistory } from "react-router-dom";
 import "./chat.css";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
+import Spinner from "../UI/Spinner";
 
 const UserChatsPage = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();

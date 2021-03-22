@@ -2,14 +2,10 @@ import json
 from uuid import uuid4
 from datetime import datetime
 from dateutil import tz
-from flask import Blueprint, request, url_for, redirect
-from flask_jwt_extended import (create_access_token, create_refresh_token,
-                                jwt_required, fresh_jwt_required,
-                                jwt_refresh_token_required, get_jwt_identity,
-                                get_jwt_claims)
-from app import jwt, db
+from flask import Blueprint, request, url_for, redirect, session
+from app import db
 from app.models import User
-from app.utils.security import ts, admin_required
+from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.config import Config
 
@@ -47,11 +43,8 @@ def signup():
 
     db.session.add(user)
     db.session.commit()
-    claims = {'roles': user.user_role}
-    access_token = create_access_token(
-        identity=user.id, user_claims=claims, fresh=True)
-    refresh_token = create_refresh_token(user.id, user_claims=claims)
-
+    session['id'] = user.id
+    session['date'] = now
     # Send confirmation email
 
     email_token = ts.dumps(email, salt='email-confirm')
@@ -59,7 +52,7 @@ def signup():
     subject = "InstaHarvest - Confirm your account"
     send_email(email, subject, 'confirmation_email',
                user=user, confirm_url=confirm_url)
-    return user.to_dict_auth(access_token, refresh_token), 201
+    return user.to_dict_auth(), 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -75,19 +68,23 @@ def login():
         if user is None:
             return {'error': f'The user with username {login} does not exist'}, 401
     if user.check_password(data['password']):
-        claims = {'roles': user.user_role}
-        access_token = create_access_token(
-            identity=user.id, user_claims=claims, fresh=True)
-        refresh_token = create_refresh_token(user.id, user_claims=claims)
+        session['id'] = user.id
+        session['date'] = datetime.now(tz=tz.tzlocal())
     else:
         return {'error': 'Wrong password'}, 401
-    return user.to_dict_auth(access_token, refresh_token), 200
+    return user.to_dict_auth(), 200
+
+
+@bp.route('/logout', methods=['POST'])
+def logout():
+    session.pop('id', default=None)
+    return {}, 200
 
 
 @bp.route('/resend_email', methods=['POST'])
-@jwt_required
+@auth_required
 def resend_email():
-    user_id = get_jwt_identity()
+    user_id = session['id']
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -153,55 +150,3 @@ def reset_password_confirm():
     db.session.add(user)
     db.session.commit()
     return {'msg': 'New password saved'}, 200
-
-
-@ bp.route('/refresh', methods=['POST'])
-@ jwt_refresh_token_required
-def refresh():
-    """
-    Insures a valid refresh token is present and creates
-    a new access token marked as `non_fresh`
-    """
-    user_id = get_jwt_identity()
-    claims = get_jwt_claims()
-    new_token = create_access_token(
-        identity=user_id, user_claims=claims, fresh=False)
-    return {'access_token': new_token}, 200
-
-
-@bp.route('/protected', methods=['POST'])
-@jwt_required
-def protected():
-    return {'message': 'Hello'}
-
-
-@bp.route('/fresh-protected', methods=['POST'])
-@fresh_jwt_required
-def fresh_protected():
-    return {'message': 'Hello'}
-
-
-@bp.route('/admin', methods=['POST'])
-@admin_required
-def admin():
-    return {'message': 'Hello admin'}
-
-
-# @bp.route('/time/<id>', methods=['POST'])
-# def time(id):
-#     user = User.query.filter_by(id=id).first_or_404()
-#     cr = user.created_at
-#     print(cr)
-#     # print(cr.strftime("%B %d, %Y"))
-#     now = datetime.now(tz=tz.tzlocal())
-#     print(now)
-#     # print(cr.tzinfo)
-#     # user.confirm_email_sent = now
-#     # db.session.add(user)
-#     # db.session.commit()
-#     # print(user.confirm_email_sent)
-#     diff = now - cr
-#     print(type(diff.seconds))
-
-#     print(diff.seconds)
-#     return {}, 200
