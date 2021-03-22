@@ -15,8 +15,11 @@ const Profile = ({ tab }) => {
 
   useLayoutEffect(() => {
     if (checkAuth() === false || !data) {
-      logout();
-      history.push("/login");
+      logout()
+        .then(() => {
+          history.push("/login");
+        })
+        .catch(() => {});
     }
   }, []);
 

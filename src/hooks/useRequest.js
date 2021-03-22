@@ -2,6 +2,7 @@ import axios from "axios";
 import { useReducer, useCallback, useDebugValue } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { logout } from "../utils/localStorage";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -81,12 +82,20 @@ const useRequest = () => {
     }
 
     if (resp.status === 401 && resp.data.error === "unauthorized") {
-      localStorage.removeItem("status");
-      localStorage.removeItem("app_data");
-      dispatchFetch({
-        type: "LOGOUT",
-      });
-      history.push("/");
+      logout()
+        .then(() => {
+          dispatchFetch({
+            type: "LOGOUT",
+          });
+          history.push("/login");
+        })
+        .catch((error) => {
+          dispatchFetch({
+            type: "ERROR",
+            errorMessage: resp.data.error,
+            errorNum: resp.status,
+          });
+        });
     }
     if (resp.status >= 200 && resp.status < 300) {
       dispatchFetch({

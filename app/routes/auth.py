@@ -76,7 +76,6 @@ def login():
 
 
 @bp.route('/logout', methods=['POST'])
-@auth_required
 def logout():
     session.pop('id', default=None)
     return {}, 200
