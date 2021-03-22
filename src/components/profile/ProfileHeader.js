@@ -16,7 +16,6 @@ const ProfileHeader = ({ edit }) => {
     useTimer: false,
     inPlace: false,
   });
-  console.log(data);
   return (
     <>
       {modal}

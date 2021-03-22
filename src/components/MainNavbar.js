@@ -5,12 +5,14 @@ import { checkAuth, logout } from "../utils/localStorage";
 import { useModal } from "../hooks/hooks";
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { selectProfile } from "../store/profileSlice";
+import { showMsg } from "../store/modalSlice";
 
 const MainNavbar = () => {
   const history = useHistory();
   const { image_url } = useSelector(selectProfile, shallowEqual);
+  const dispatch = useDispatch();
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -21,8 +23,19 @@ const MainNavbar = () => {
 
   const logoutUser = (val) => {
     if (val) {
-      logout();
-      history.push("/");
+      logout()
+        .then(() => {
+          history.push("/");
+        })
+        .catch((error) => {
+          dispatch(
+            showMsg({
+              open: true,
+              msg: error,
+              classes: "mdl-error",
+            })
+          );
+        });
     }
     closeModal();
     setShowProfileMenu(false);

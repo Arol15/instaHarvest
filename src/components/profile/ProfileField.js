@@ -26,7 +26,6 @@ const ProfileFild = (props) => {
     formData,
     formErrors,
   ] = useForm({ [props.name]: props.value }, onSubmit, validation);
-  console.log(props);
   useEffect(() => {
     if (error && errorNum !== 403) {
       props.sendMsg(error, "mdl-error");

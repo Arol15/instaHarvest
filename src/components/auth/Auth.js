@@ -66,7 +66,6 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       } else if (afterConfirm) {
         afterConfirm();
       } else if (closeModal) {
-        console.log(closeModal);
         // history.push("/profile");
       } else {
         history.push("/profile");
