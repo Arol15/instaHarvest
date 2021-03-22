@@ -5,9 +5,8 @@ import { checkAuth, logout } from "../utils/localStorage";
 import { useModal } from "../hooks/hooks";
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectProfile } from "../store/profileSlice";
-import { selectSpinner } from "../store/spinnerSlice";
 
 const MainNavbar = () => {
   const history = useHistory();
@@ -81,7 +80,18 @@ const MainNavbar = () => {
           </>
         ) : (
           <div className="main-navbar-links">
-            <a onClick={() => showModal(<AuthModal closeModal={closeModal} />)}>
+            <a
+              onClick={() =>
+                showModal(
+                  <AuthModal
+                    afterConfirm={() => {
+                      closeModal();
+                      history.push("/profile");
+                    }}
+                  />
+                )
+              }
+            >
               Sign In
             </a>
           </div>
