@@ -11,7 +11,7 @@ import PublicProfileInfo from "./PublicProfileInfo";
 import UserProducts from "../product/UserProducts";
 
 import PublicProfile from "./PublicProfile";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
 
 import config from "../../config";
@@ -19,7 +19,7 @@ import "./profile.css";
 
 const Profile = ({ tab }) => {
   // const [profileData, setProfileData] = useState(null);
-  const profileData = useSelector(selectProfile);
+  const profileData = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
   const [, data, error, errorNum, sendRequest] = useRequest();

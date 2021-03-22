@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import Portal from "./Portal";
 import classnames from "classnames";
 import { clearMsg, selectModal } from "../../store/modalSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import "../../index.css";
 
 const ModalMsg = () => {
-  const { open, msg, timeOut, classes } = useSelector(selectModal);
+  const { open, msg, timeOut, classes } = useSelector(
+    selectModal,
+    shallowEqual
+  );
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
 

@@ -1,9 +1,10 @@
 import "./Spinner.css";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { selectSpinner } from "../../store/spinnerSlice";
 
 const Spinner = (props) => {
-  const show = useSelector(selectSpinner);
+  console.log("SPINNER");
+  const show = useSelector(selectSpinner, shallowEqual);
   const el = (
     <div className="center">
       <div className="indicator">

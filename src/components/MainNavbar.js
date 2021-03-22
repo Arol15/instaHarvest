@@ -5,12 +5,12 @@ import { checkAuth, logout } from "../utils/localStorage";
 import { useModal } from "../hooks/hooks";
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { selectProfile } from "../store/profileSlice";
 
 const MainNavbar = () => {
   const history = useHistory();
-  const { image_url } = useSelector(selectProfile);
+  const { image_url } = useSelector(selectProfile, shallowEqual);
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
