@@ -11,14 +11,18 @@ const PublicProfile = (props) => {
   useEffect(() => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});
   }, []);
-
+  console.log(data);
   return (
     <>
       {isLoading && <Spinner />}
       {error && <h1>Profile Not Found</h1>}
       {data && (
         <>
-          <ProfileHeader edit={false} />
+          <ProfileHeader
+            edit={false}
+            profileImg={data.image_url}
+            profileBackImg={data.image_back_url}
+          />
           <PublicProfileInfo
             firstName={data.first_name}
             emailVerified={data.email_verified}

@@ -7,7 +7,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";
 
-const ProfileHeader = ({ edit }) => {
+const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
   const data = useSelector(selectProfile, shallowEqual);
   const history = useHistory();
 
@@ -16,6 +16,7 @@ const ProfileHeader = ({ edit }) => {
     useTimer: false,
     inPlace: false,
   });
+
   return (
     <>
       {modal}
@@ -24,7 +25,13 @@ const ProfileHeader = ({ edit }) => {
           <div className="prf-back-block">
             <img
               className="prf-back-img"
-              src={data.image_back_url || prfBack}
+              src={
+                !data.image_back_url && !profileBackImg
+                  ? prfBack
+                  : profileBackImg
+                  ? profileBackImg
+                  : data.image_back_url
+              }
             />
             {edit && (
               <div>
@@ -47,7 +54,10 @@ const ProfileHeader = ({ edit }) => {
             )}
           </div>
           <div className="prf-img-block">
-            <img className="prf-img" src={data.image_url} />
+            <img
+              className="prf-img"
+              src={profileImg ? profileImg : data.image_url}
+            />
             {edit && <div></div>}
             {edit && (
               <a
