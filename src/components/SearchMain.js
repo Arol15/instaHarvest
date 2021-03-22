@@ -6,6 +6,7 @@ import validation from "../form_validation/validation";
 import { checkAuth } from "../utils/localStorage";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../store/modalSlice";
+import Spinner from "./UI/Spinner";
 
 const SearchMain = () => {
   const onSubmit = () => {
@@ -55,6 +56,7 @@ const SearchMain = () => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <form>
         <input
           type="search"

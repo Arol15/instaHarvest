@@ -3,6 +3,7 @@ import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Auth from "../auth/Auth";
 import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
+import Spinner from "../UI/Spinner";
 import "./profile.css";
 
 const ProfileFild = (props) => {
@@ -53,6 +54,7 @@ const ProfileFild = (props) => {
   return (
     <>
       {modalLogin}
+      {isLoading && <Spinner />}
       <b>{props.title}:</b>
       {editState ? (
         <div>

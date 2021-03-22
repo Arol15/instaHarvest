@@ -4,12 +4,13 @@ import useRequest from "../../hooks/useRequest";
 import { checkAuth } from "../../utils/localStorage";
 import AuthModal from "../auth/AuthModal";
 import { useModal } from "../../hooks/hooks";
+import Spinner from "../UI/Spinner";
 
 const ProductDetails = () => {
   const history = useHistory();
   const location = useLocation();
   const user_id = location.state.user_id;
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const [info, setInfo] = useState({});
 
   const [modal, showModal, closeModal] = useModal({
@@ -46,6 +47,7 @@ const ProductDetails = () => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <div>
         <div>Product: {location.state.name}</div>
         <p>About this product: {location.state.description}</p>

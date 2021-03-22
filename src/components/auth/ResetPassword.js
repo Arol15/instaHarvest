@@ -4,6 +4,7 @@ import validation from "../../form_validation/validation";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
+import Spinner from "../UI/Spinner";
 
 const ResetPassword = (props) => {
   const history = useHistory();
@@ -57,6 +58,7 @@ const ResetPassword = (props) => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <h1>Reset Password</h1>
       {props.reset ? (
         <>

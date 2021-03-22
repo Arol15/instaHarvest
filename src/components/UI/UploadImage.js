@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRequest, useForm, useModal } from "../../hooks/hooks";
 import validation from "../../form_validation/validation";
+import Spinner from "../UI/Spinner";
 import "./uploadImage.css";
 
 const UploadImage = ({
@@ -12,7 +13,7 @@ const UploadImage = ({
 }) => {
   const [method, setMethod] = useState(null);
   const [image, setImage] = useState();
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const [modal, showModal] = useModal({
     withBackdrop: false,
     useTimer: true,
@@ -65,6 +66,7 @@ const UploadImage = ({
 
   return (
     <div className="upload-image">
+      {isLoading && <Spinner />}
       {title && <h3>{title}</h3>}
       <a
         onClick={() => {

@@ -9,10 +9,11 @@ import { checkAuth } from "../../utils/localStorage";
 import ToggleInput from "../UI/ToggleInput";
 import { showMsg } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
+import Spinner from "../UI/Spinner";
 
 const AddProduct = () => {
   const history = useHistory();
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
@@ -78,6 +79,7 @@ const AddProduct = () => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <div className="add-product">
         <h2>Share Your Product</h2>
         <form onSubmit={handleSubmit}>

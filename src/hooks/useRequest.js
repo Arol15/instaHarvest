@@ -2,12 +2,10 @@ import axios from "axios";
 import { useReducer, useCallback, useDebugValue } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { showSpinner, hideSpinner } from "../store/spinnerSlice";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
     case "SEND":
-      action.spinner();
       return {
         ...currState,
         isLoading: true,
@@ -16,7 +14,6 @@ const fetchReducer = (currState, action) => {
         data: null,
       };
     case "RESPONSE":
-      action.spinner();
       return {
         isLoading: false,
         data: action.responseData,
@@ -24,7 +21,6 @@ const fetchReducer = (currState, action) => {
         error: null,
       };
     case "ERROR":
-      action.spinner();
       return {
         data: null,
         isLoading: false,
@@ -32,7 +28,6 @@ const fetchReducer = (currState, action) => {
         errorNum: action.errorNum,
       };
     case "LOGOUT":
-      action.spinner();
       return {
         isLoading: false,
         errorNum: null,
@@ -63,9 +58,6 @@ const useRequest = () => {
   const sendRequest = useCallback(async (url, method, body) => {
     dispatchFetch({
       type: "SEND",
-      spinner: () => {
-        dispatch(showSpinner());
-      },
     });
 
     const config = {
@@ -84,9 +76,6 @@ const useRequest = () => {
         type: "ERROR",
         errorMessage: "Something went wrong",
         errorNum: 500,
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
       return;
     }
@@ -96,9 +85,6 @@ const useRequest = () => {
       localStorage.removeItem("app_data");
       dispatchFetch({
         type: "LOGOUT",
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
       history.push("/");
     }
@@ -106,45 +92,30 @@ const useRequest = () => {
       dispatchFetch({
         type: "RESPONSE",
         responseData: resp.data,
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
     } else if (resp.data.error) {
       dispatchFetch({
         type: "ERROR",
         errorMessage: resp.data.error,
         errorNum: resp.status,
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
     } else if (resp.status === 401) {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Authorization denied. Please sign in or sign up",
         errorNum: 401,
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
     } else if (resp.status === 403) {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Not enough privileges",
         errorNum: 403,
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
     } else {
       dispatchFetch({
         type: "ERROR",
         errorMessage: "Something went wrong",
         errorNum: resp.status,
-        spinner: () => {
-          dispatch(hideSpinner());
-        },
       });
     }
   }, []);

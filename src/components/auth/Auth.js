@@ -6,6 +6,7 @@ import validation from "../../form_validation/validation";
 import { checkAuth } from "../../utils/localStorage";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "../../store/profileSlice";
+import Spinner from "../UI/Spinner";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -82,6 +83,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   return (
     <div>
       {modal}
+      {isLoading && <Spinner />}
       {view === "login" && <h1>Log In</h1>}
       {view === "signup" && <h1>Sign Up</h1>}
       {view === "confirm" && <h1>Confirm identity</h1>}

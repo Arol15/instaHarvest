@@ -13,16 +13,15 @@ import UserProducts from "../product/UserProducts";
 import PublicProfile from "./PublicProfile";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
-
+import Spinner from "../UI/Spinner";
 import config from "../../config";
 import "./profile.css";
 
 const Profile = ({ tab }) => {
-  // const [profileData, setProfileData] = useState(null);
   const profileData = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   // const [showMenu, setShowMenu] = useState(false);
   const [
     ,
@@ -97,6 +96,7 @@ const Profile = ({ tab }) => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <ProfileHeader edit={true} />
       <button
         className="prf-return-button"

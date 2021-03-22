@@ -3,12 +3,13 @@ import { useLocation, useHistory } from "react-router-dom";
 import { useRequest, useForm } from "../../hooks/hooks";
 import validation from "../../form_validation/validation";
 import Message from "./Message";
+import Spinner from "../UI/Spinner";
 import { IoReload, IoArrowBack } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
 
 const Chat = () => {
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const [
     isLoadingMsg,
     dataMsg,
@@ -106,6 +107,7 @@ const Chat = () => {
   return (
     chatState && (
       <div className="chat">
+        {isLoading && <Spinner />}
         <div className="chat-header">
           <h1>Chat with {chatState && chatState.recipientName}</h1>
           <button
