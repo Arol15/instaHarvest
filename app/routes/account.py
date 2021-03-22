@@ -7,7 +7,7 @@ from app.models import User
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.config import Config
-from app.utils.security import auth_required
+from app.utils.security import auth_required, reauth_required
 
 import boto3
 
@@ -35,8 +35,7 @@ def get_profile_public(addr):
 
 
 @bp.route('/change_pass', methods=['PATCH'])
-# @fresh_jwt_required
-@auth_required
+@reauth_required
 def change_pass():
     data = request.get_json()
     user_id = session['id']
@@ -70,8 +69,7 @@ def edit_profile():
 
 
 @bp.route('/edit_username', methods=['PATCH'])
-# @fresh_jwt_required
-@auth_required
+@reauth_required
 def edit_username():
     data = request.get_json()
     user_id = session['id']
@@ -105,8 +103,7 @@ def edit_profile_address():
 
 
 @bp.route('/request_change_email', methods=['POST'])
-# @fresh_jwt_required
-@auth_required
+@reauth_required
 def edit_email():
     data = request.get_json()
     user_id = session['id']

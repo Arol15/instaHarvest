@@ -60,11 +60,14 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     if (data) {
       localStorage.setItem("status", "loggedIn");
       dispatch(updateProfile({ ...data }));
-      if (afterConfirm) {
+      if (afterConfirm && closeModal) {
+        closeModal();
+        afterConfirm();
+      } else if (afterConfirm) {
         afterConfirm();
       } else if (closeModal) {
+        console.log(closeModal);
         // history.push("/profile");
-        closeModal();
       } else {
         history.push("/profile");
         // closeModal()

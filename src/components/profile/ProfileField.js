@@ -26,9 +26,9 @@ const ProfileFild = (props) => {
     formData,
     formErrors,
   ] = useForm({ [props.name]: props.value }, onSubmit, validation);
-
+  console.log(props);
   useEffect(() => {
-    if (error && errorNum !== 401) {
+    if (error && errorNum !== 403) {
       props.sendMsg(error, "mdl-error");
     } else if (data && data.msg) {
       props.sendMsg(data.msg, "mdl-ok");
@@ -38,7 +38,7 @@ const ProfileFild = (props) => {
   }, [data, error]);
 
   useEffect(() => {
-    if (errorNum === 401) {
+    if (errorNum === 403) {
       showModalLogin(
         <Auth
           view={"confirm"}
