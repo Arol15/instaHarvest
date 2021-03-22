@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import prfBack from "../../assets/images/prf-background.jpg";
-import { loadJSON, logout } from "../../utils/localStorage";
 import { useHistory } from "react-router-dom";
 import { useModal } from "../../hooks/hooks";
 import UploadImage from "../UI/UploadImage";
@@ -9,7 +8,6 @@ import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";
 
 const ProfileHeader = ({ edit }) => {
-  // const [data] = useState(loadJSON("app_data"));
   const data = useSelector(selectProfile, shallowEqual);
   const history = useHistory();
 
@@ -18,7 +16,7 @@ const ProfileHeader = ({ edit }) => {
     useTimer: false,
     inPlace: false,
   });
-
+  console.log(data);
   return (
     <>
       {modal}

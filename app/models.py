@@ -49,11 +49,9 @@ class User(db.Model):
 
     def to_dict_auth(self):
         return {
-            # "access_token": access_token,
-            # "refresh_token": refresh_token,
             "first_name": self.first_name,
             "image_url": self.image_url,
-            "user_id": self.id,
+            "image_back_url": self.image_back_url,
             "city": self.city,
             "us_state": self.state,
             "email_verified": self.email_verified,
