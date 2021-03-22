@@ -7,9 +7,15 @@ import { useWidth } from "../../hooks/hooks";
 const ProfileSideMenu = ({ currTab }) => {
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
-  const isDesktop = useWidth(900);
+  const isDesktop = useWidth(1300);
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const closeOnMobile = () => {
+    if (!isDesktop) {
+      setShowMenu(false);
+    }
   };
 
   useEffect(() => {
@@ -30,6 +36,7 @@ const ProfileSideMenu = ({ currTab }) => {
           className={classnames({ "prf-side-active": !currTab })}
           onClick={() => {
             currTab && history.push("/profile/edit");
+            closeOnMobile();
           }}
         >
           <span>
@@ -48,6 +55,7 @@ const ProfileSideMenu = ({ currTab }) => {
           className={classnames({ "prf-side-active": currTab === "private" })}
           onClick={() => {
             currTab !== "private" && history.push("/profile/edit/private");
+            closeOnMobile();
           }}
         >
           <span>
@@ -65,6 +73,7 @@ const ProfileSideMenu = ({ currTab }) => {
           className={classnames({ "prf-side-active": currTab === "address" })}
           onClick={() => {
             currTab !== "address" && history.push("/profile/edit/address");
+            closeOnMobile();
           }}
         >
           <span>

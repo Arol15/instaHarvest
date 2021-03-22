@@ -10,12 +10,13 @@
 }
 
 .prf-side-menu {
-  position: relative;
+  position: absolute;
   text-align: left;
   /* background-color: rgb(242, 255, 127); */
   /* width: fit-content; */
   width: 220px;
-  height: 400px;
+  height: 300px;
+
   /* padding: 20px; */
   /* padding-right: 20px; */
   /* border-radius: 0 15px 15px 0; */
@@ -24,7 +25,7 @@
 .prf-side-back {
   position: absolute;
   /* background-color: rgb(242, 255, 127); */
-  height: 400px;
+  height: 300px;
   /* width: 220px; */
   left: 0;
   /* border-radius: 0 15px 15px 0; */
@@ -34,8 +35,8 @@
 .prf-back-left,
 .prf-back-right {
   position: absolute;
-
-  height: 400px;
+  z-index: 2;
+  height: 300px;
   background: rgb(242, 255, 127);
 }
 .prf-back-left {
@@ -52,13 +53,14 @@
 }
 
 .prf-side-hamb {
+  width: fit-content;
   visibility: visible;
   transition: 0.25s ease-in-out;
   cursor: pointer;
 }
 
 .prf-side-content {
-  z-index: 1;
+  z-index: 3;
   margin-left: 15px;
   margin-top: 20px;
   position: absolute;
@@ -114,14 +116,6 @@
 }
 
 /* @media (width < 900px) {
-  .prf-side-menu {
-    position: absolute;
-  }
-  .prf-block {
-    margin-left: 40px !important;
-  }
-} */
-/* @media (width < 900px) {
   .prf-back-left {
     transform: scaleX(40);
     transform-origin: left;
@@ -162,6 +156,12 @@
   text-align: center;
   background-color: rgb(255, 240, 227);
   border-radius: 15px;
+}
+
+@media screen and (max-width: 440px) {
+  .prf-block {
+    margin-left: 40px;
+  }
 }
 
 .prf-col {
