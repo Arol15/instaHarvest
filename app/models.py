@@ -57,7 +57,8 @@ class User(db.Model):
             "city": self.city,
             "us_state": self.state,
             "email_verified": self.email_verified,
-            "joined": self.created_at.strftime("%b %Y")
+            "created_at": self.created_at.isoformat()
+
         }
 
     def to_dict_private(self):
@@ -74,7 +75,8 @@ class User(db.Model):
             "city": self.city,
             "zip_code": self.zip_code,
             "address": self.address,
-            "joined": self.created_at.strftime("%b %Y")
+            "created_at": self.created_at.isoformat()
+
         }
 
     def to_dict_public(self):
@@ -84,7 +86,7 @@ class User(db.Model):
             "profile_addr": self.profile_addr,
             "image_back_url": self.image_back_url,
             "email_verified": self.email_verified,
-            "joined": self.created_at.strftime("%b %Y"),
+            "created_at": self.created_at.isoformat(),
             "us_state": self.state,
             "city": self.city
         }
@@ -94,7 +96,6 @@ class User(db.Model):
             "first_name": self.first_name,
             "image_url": self.image_url,
             # "email_verified": self.email_verified,
-            # "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
             "city": self.city,
             "lat": self.lat,
@@ -155,7 +156,7 @@ class Chat(db.Model):
             "recipient_img": recipient.image_url,
             "recipient_name": recipient.first_name,
             "last_message": last_message.body,
-            "last_date": last_message.created_at.strftime("%d %b, %H:%M:%S")
+            "last_date": last_message.created_at.isoformat()
         }
 
 
@@ -172,8 +173,7 @@ class Message(db.Model):
         user = User.query.filter_by(id=self.sender_id).first()
         return {
             "msg_id": self.id,
-            "created_at": self.created_at.strftime("%d %b"),
-            "created_at_str": self.created_at.strftime("%d %b, %H:%M:%S"),
+            "created_at": self.created_at.isoformat(),
             "sender_id": self.sender_id,
             "sender_img": user.image_url,
             "body": self.body
