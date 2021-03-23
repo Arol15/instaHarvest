@@ -1,5 +1,6 @@
 from sqlalchemy.sql import func, expression
 from datetime import datetime
+from dateutil import tz
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
@@ -23,10 +24,11 @@ class User(db.Model):
     state = db.Column(db.String(12), nullable=False)
     city = db.Column(db.String(20), nullable=False)
     zip_code = db.Column(db.Integer, server_default="0")
-    confirm_email_sent = db.Column(db.DateTime(timezone=True))
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+    confirm_email_sent = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime,
+                           onupdate=datetime.utcnow)
 
     products = db.relationship("Product", backref="user", lazy="dynamic")
 
@@ -110,11 +112,11 @@ class Product(db.Model):
     price = db.Column(db.Float)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    deleted_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    deleted_at = db.Column(db.DateTime)
+    due_date = db.Column(db.DateTime)
 
     def to_dict(self):
         return {
@@ -132,8 +134,8 @@ class Product(db.Model):
 class Chat(db.Model):
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
     user1_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
@@ -163,8 +165,8 @@ class Message(db.Model):
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"), nullable=False)
     sender_id = db.Column(db.Integer, nullable=False)
     body = db.Column(db.String(2000))
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
 
     def to_dict(self):
         user = User.query.filter_by(id=self.sender_id).first()

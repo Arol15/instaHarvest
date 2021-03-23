@@ -29,7 +29,7 @@ def signup():
         return {'error': f'The user with username {username} already exists'}, 409
     email_verified = False
     profile_addr = str(uuid4())[:13]
-    now = datetime.now(tz=tz.tzlocal())
+    now = datetime.utcnow()
 
     user = User(username=username,
                 first_name=data['first_name'],
@@ -71,9 +71,10 @@ def login():
             return {'error': f'The user with username {login} does not exist'}, 401
     if user.check_password(data['password']):
         session['id'] = user.id
-        session['date'] = datetime.now(tz=tz.tzlocal())
+        session['date'] = datetime.utcnow()
     else:
         return {'error': 'Wrong password'}, 401
+
     return user.to_dict_auth(), 200
 
 
@@ -90,7 +91,7 @@ def resend_email():
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
-    now = datetime.now(tz=tz.tzlocal())
+    now = datetime.utcnow()
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:
         return {'error': f'Sorry, you can resend confirmation email in {(14400 - time_diff.seconds) // 60} minutes'}, 406
@@ -152,3 +153,19 @@ def reset_password_confirm():
     db.session.add(user)
     db.session.commit()
     return {'msg': 'New password saved'}, 200
+
+
+@bp.route('/time')
+def time():
+    utcnow = datetime.utcnow()
+    now = datetime.now()
+    print(datetime.utcnow())
+    print(datetime.now())
+    user = User.query.filter_by(id=1).first()
+    print(datetime.now(tz=tz.tzutc()))
+    print(datetime.now(tz=tz.UTC))
+    print(user.created_at)
+    print(user.created_at.strftime("%d %b, %H:%M:%S"),)
+    print(datetime.utcnow() - user.created_at)
+
+    return {'utcnow': utcnow, 'now': now}, 200

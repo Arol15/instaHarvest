@@ -110,7 +110,7 @@ def edit_email():
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
-    now = datetime.now(tz=tz.tzlocal())
+    now = datetime.utcnow()
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:
         return {'error': f'Sorry, you can resend request in {(14400 - time_diff.seconds) // 60} minutes'}, 406
