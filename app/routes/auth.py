@@ -153,19 +153,3 @@ def reset_password_confirm():
     db.session.add(user)
     db.session.commit()
     return {'msg': 'New password saved'}, 200
-
-
-@bp.route('/time')
-def time():
-    utcnow = datetime.utcnow()
-    now = datetime.now()
-    print(datetime.utcnow())
-    print(datetime.now())
-    user = User.query.filter_by(id=1).first()
-    print(datetime.now(tz=tz.tzutc()))
-    print(datetime.now(tz=tz.UTC))
-    print(user.created_at)
-    print(user.created_at.strftime("%d %b, %H:%M:%S"),)
-    print(datetime.utcnow() - user.created_at)
-
-    return {'utcnow': utcnow, 'now': now}, 200

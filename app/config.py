@@ -10,7 +10,7 @@ class Config(object):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    SEND_CONFIRM_EMAIL = False
+    SEND_CONFIRM_EMAIL = True
     BASE_URL = 'http://www.instaharvest.net'
     S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
