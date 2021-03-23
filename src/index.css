@@ -114,6 +114,7 @@ select {
 }
 
 .filler {
+  visibility: hidden;
   flex: 1;
 }
 
@@ -122,7 +123,7 @@ select {
 }
 
 footer {
-  margin-top: 40px;
+  margin-top: 80px;
   height: 80px;
   width: 100%;
   background-color: rgb(242, 255, 127);

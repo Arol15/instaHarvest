@@ -253,7 +253,7 @@ def delete_back_image():
     if user is None:
         return {}, 404
 
-    user.image_back_url = None
+    user.image_back_url = Config.PROFILE_BACK_IMAGE
     db.session.add(user)
     db.session.commit()
 

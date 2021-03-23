@@ -44,7 +44,6 @@ def reauth_required(fn):
         date = session.get('date', False)
         now = datetime.now(tz=tz.tzlocal())
         diff = now - date
-        print(diff)
         if diff.seconds > 15:
             return {'error': 'reauthorize'}, 403
         return fn(*args, **kwargs)

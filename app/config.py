@@ -16,7 +16,8 @@ class Config(object):
     S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    PROFILE_IMAGE = 'https://w7.pngwing.com/pngs/748/359/png-transparent-orange-fruit-cartoon-orange-food-photography-orange.png'
+    PROFILE_IMAGE = 'https://instaharvest.s3.us-east-2.amazonaws.com/profile_image.png'
+    PROFILE_BACK_IMAGE = 'https://instaharvest.s3.us-east-2.amazonaws.com/profile_back_image.jpg'
     SESSION_TYPE = 'sqlalchemy'
     SESSION_PERMANENT = True
     SESSION_USE_SIGNER = True

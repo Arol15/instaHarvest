@@ -11,7 +11,6 @@ const PublicProfile = (props) => {
   useEffect(() => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});
   }, []);
-  console.log(data);
   return (
     <>
       {isLoading && <Spinner />}

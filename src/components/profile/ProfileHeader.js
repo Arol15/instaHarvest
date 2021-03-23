@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import prfBack from "../../assets/images/prf-background.jpg";
 import { useHistory } from "react-router-dom";
 import { useModal } from "../../hooks/hooks";
 import UploadImage from "../UI/UploadImage";
@@ -25,13 +23,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
           <div className="prf-back-block">
             <img
               className="prf-back-img"
-              src={
-                !data.image_back_url && !profileBackImg
-                  ? prfBack
-                  : profileBackImg
-                  ? profileBackImg
-                  : data.image_back_url
-              }
+              src={profileBackImg ? profileBackImg : data.image_back_url}
             />
             {edit && (
               <div>

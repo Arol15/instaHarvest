@@ -22,6 +22,7 @@ def signup():
     email = data['email']
     username = request.json.get('username', None)
     image_url = Config.PROFILE_IMAGE
+    image_back_url = Config.PROFILE_BACK_IMAGE
     if User.query.filter_by(email=email).first():
         return {'error': f'The user with email {email} already exists'}, 409
     if username and User.query.filter_by(username=username).first():
@@ -36,6 +37,7 @@ def signup():
                 email=email,
                 email_verified=email_verified,
                 image_url=image_url,
+                image_back_url=image_back_url,
                 state=data['state'],
                 city=data['city'],
                 profile_addr=profile_addr,

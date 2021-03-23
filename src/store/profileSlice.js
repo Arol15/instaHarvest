@@ -3,8 +3,6 @@ import { loadJSON, saveJSON } from "../utils/localStorage";
 
 const storage = loadJSON("app_data");
 
-// console.log(storage);
-
 export const profileSlice = createSlice({
   name: "profile",
   initialState: {
