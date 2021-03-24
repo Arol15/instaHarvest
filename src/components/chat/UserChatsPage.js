@@ -22,7 +22,7 @@ const UserChatsPage = () => {
   };
 
   useEffect(() => {
-    sendRequest("/api/chat/get_user_chats", "POST", {}, true);
+    sendRequest("/api/chat/get_user_chats", "POST", {});
   }, []);
 
   useEffect(() => {

@@ -28,16 +28,16 @@ const UploadImage = ({
       } else {
         const imageData = new FormData();
         imageData.append("file", image);
-        sendRequest(uploadFileAPI, "POST", imageData, true);
+        sendRequest(uploadFileAPI, "POST", imageData);
       }
     }
   };
 
   const deleteImage = () => {
-    sendRequest(deleteImageAPI, "POST", {}, true);
+    sendRequest(deleteImageAPI, "POST", {});
   };
   const uploadImageUrl = () => {
-    sendRequest(imageUrlAPI, "POST", formData, true);
+    sendRequest(imageUrlAPI, "POST", formData);
   };
 
   const handleInputFileChange = (event) => {

@@ -33,7 +33,7 @@ const Profile = ({ tab }) => {
   ] = useRequest();
   const history = useHistory();
   const updateProfileData = () => {
-    sendRequest("/api/account/get_profile_private", "POST", {}, true);
+    sendRequest("/api/account/get_profile_private", "POST", {});
   };
 
   useEffect(() => {

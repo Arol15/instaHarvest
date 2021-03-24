@@ -23,7 +23,7 @@ const AddProduct = () => {
   });
 
   const onSubmit = () => {
-    sendRequest("/api/products/add-product", "post", formData, true);
+    sendRequest("/api/products/add-product", "post", formData);
   };
 
   const [

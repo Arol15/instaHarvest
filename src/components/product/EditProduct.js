@@ -16,8 +16,7 @@ const EditProduct = () => {
     sendRequest(
       `/api/products/edit-product/${product.product_id}`,
       "patch",
-      formData,
-      true
+      formData
     );
   };
 

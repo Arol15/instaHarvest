@@ -16,7 +16,7 @@ const ProfileFild = (props) => {
   });
 
   const onSubmit = () => {
-    sendRequest(`/api/account${props.api}`, props.method, formData, true);
+    sendRequest(`/api/account${props.api}`, props.method, formData);
   };
 
   const [

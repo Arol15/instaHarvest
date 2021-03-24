@@ -8,7 +8,7 @@ const UserProducts = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
   const getProducts = () => {
-    sendRequest("/api/products/products-per-user", "post", null, true);
+    sendRequest("/api/products/products-per-user", "post", null);
   };
 
   useEffect(() => {
@@ -24,12 +24,9 @@ const UserProducts = () => {
   }, [data]);
 
   const handleDelete = (product_id) => {
-    sendRequest(
-      "/api/products/delete_product",
-      "delete",
-      { product_id: product_id },
-      true
-    );
+    sendRequest("/api/products/delete_product", "delete", {
+      product_id: product_id,
+    });
   };
 
   return (
