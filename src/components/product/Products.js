@@ -1,5 +1,6 @@
 import Product from './Product'; 
 import { useLocation } from "react-router-dom"; 
+import Map from "../Map"
 
 const Products = () => {
    
@@ -22,6 +23,9 @@ const Products = () => {
             )
         }))
     }
+    <div>
+        <Map />
+    </div>
        </>
     )
 }
