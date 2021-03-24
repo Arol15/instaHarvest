@@ -132,7 +132,7 @@ const Chat = () => {
               );
             })}
         </div>
-        {
+        {chatMsgs && (
           <div className="chat-footer">
             <form>
               <textarea
@@ -151,7 +151,7 @@ const Chat = () => {
               </button>
             </form>
           </div>
-        }
+        )}
       </div>
     )
   );

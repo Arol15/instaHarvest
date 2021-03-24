@@ -5,6 +5,7 @@ import "./chat.css";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
 import Spinner from "../UI/Spinner";
+import { datetimeToLocal } from "../../utils/datetime";
 
 const UserChatsPage = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -60,7 +61,7 @@ const UserChatsPage = () => {
                 <p>
                   <i>{chat.last_message}</i>
                 </p>
-                <p>{chat.last_date}</p>
+                <p>{datetimeToLocal(chat.last_date)}</p>
               </div>
             </div>
           );
