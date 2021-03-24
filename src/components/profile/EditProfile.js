@@ -211,6 +211,22 @@ const Profile = ({ tab }) => {
                   </ProfileField>
                   <hr />
                 </div>
+
+                <div className="prf-field">
+                  <ProfileField
+                    name="password"
+                    user={profileData.email}
+                    title="Change password"
+                    api="/change_pass"
+                    method="PATCH"
+                    update={updateProfileData}
+                    sendMsg={sendMessage}
+                    value={profileData.password}
+                  >
+                    <p>{profileData.password}</p>
+                  </ProfileField>
+                  <hr />
+                </div>
               </div>
             </div>
           )}
@@ -254,7 +270,6 @@ const Profile = ({ tab }) => {
                   title="State"
                   api="/edit_profile"
                   method="PATCH"
-                  type="state"
                   update={updateProfileData}
                   sendMsg={sendMessage}
                   value={profileData.us_state}

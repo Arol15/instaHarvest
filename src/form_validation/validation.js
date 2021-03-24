@@ -43,9 +43,9 @@ const validation = (data) => {
         errors.first_name = "Please enter you name";
       }
     }
-    if (key === "state") {
+    if (key === "us_state") {
       if (!value) {
-        errors.state = "Please select state";
+        errors.us_state = "Please select state";
       }
     }
     if (key === "city") {

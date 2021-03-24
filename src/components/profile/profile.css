@@ -172,7 +172,7 @@
   word-break: break-all;
 }
 
-.prf-field > hr {
+.prf-field hr {
   margin-top: 15px;
   border: 0;
   height: 1px;
@@ -186,6 +186,11 @@
 
 .prf-field input {
   margin: 10px 0;
+  max-width: 400px;
+}
+
+.prf-change-pass p {
+  margin: 0;
 }
 
 .prf-header {
@@ -289,7 +294,6 @@
 
 .prf-main-menu-active {
   font-weight: bold;
-  color: hsl(201, 97%, 36%);
 }
 
 .prf-main-menu hr {
