@@ -6,16 +6,10 @@ import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
 import { showMsg } from "../../store/modalSlice";
-import ProfileTab from "./ProfileEditTab";
-import PublicProfileInfo from "./PublicProfileInfo";
-import UserProducts from "../product/UserProducts";
-
-import PublicProfile from "./PublicProfile";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
 import Spinner from "../UI/Spinner";
 import config from "../../config";
-import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
 
 const Profile = ({ tab }) => {
@@ -23,7 +17,6 @@ const Profile = ({ tab }) => {
   const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  // const [showMenu, setShowMenu] = useState(false);
   const [
     ,
     dataEmailReq,
@@ -33,11 +26,13 @@ const Profile = ({ tab }) => {
   ] = useRequest();
   const history = useHistory();
   const updateProfileData = () => {
-    sendRequest("/api/account/get_profile_private", "POST", {}, true);
+    sendRequest("/api/account/get_profile_private", "POST", {});
   };
 
   useEffect(() => {
-    updateProfileData();
+    if (!profileData.email) {
+      updateProfileData();
+    }
   }, []);
 
   useEffect(() => {

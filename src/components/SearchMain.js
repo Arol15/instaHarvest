@@ -11,7 +11,7 @@ import Spinner from "./UI/Spinner";
 const SearchMain = () => {
   const onSubmit = () => {
     if (checkAuth()) {
-      sendRequest("/api/products/get-all-protected", "post", formData, true);
+      sendRequest("/api/products/get-all-protected", "post", formData);
     } else {
       sendRequest("/api/products/get-all", "post", formData);
     }

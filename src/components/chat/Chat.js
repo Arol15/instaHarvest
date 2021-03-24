@@ -49,26 +49,16 @@ const Chat = () => {
     if (!chatState) {
       history.push("/chats");
     }
-    sendRequest(
-      "/api/chat/get_chat_between_users",
-      "POST",
-      {
-        recipient_id: chatState && chatState.recipientId,
-      },
-      true
-    );
+    sendRequest("/api/chat/get_chat_between_users", "POST", {
+      recipient_id: chatState && chatState.recipientId,
+    });
   }, []);
 
   const getMessages = (e) => {
     e && e.preventDefault();
-    sendRequest(
-      "/api/chat/get_chat_messages",
-      "POST",
-      {
-        chat_id: data.chat_id,
-      },
-      true
-    );
+    sendRequest("/api/chat/get_chat_messages", "POST", {
+      chat_id: data.chat_id,
+    });
   };
 
   useEffect(() => {
@@ -142,7 +132,7 @@ const Chat = () => {
               );
             })}
         </div>
-        {
+        {chatMsgs && (
           <div className="chat-footer">
             <form>
               <textarea
@@ -161,7 +151,7 @@ const Chat = () => {
               </button>
             </form>
           </div>
-        }
+        )}
       </div>
     )
   );

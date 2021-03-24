@@ -35,11 +35,12 @@
   width: 60vw;
   display: flex;
   margin: 0 auto;
+  margin-bottom: 20px;
   border-radius: 10px;
   flex-direction: row;
   padding: 10px;
   padding-bottom: 5px;
-  background-color: rgb(106, 145, 117);
+  background-color: rgb(255, 247, 173);
   cursor: pointer;
 }
 
@@ -81,12 +82,12 @@
 }
 
 .msg-body-reciv {
-  background: rgb(106, 145, 117);
+  background: rgb(253, 208, 165);
   border-top-left-radius: 0;
 }
 
 .msg-body-self {
-  background: rgb(106, 165, 123);
+  background: rgb(255, 198, 198);
   border-top-right-radius: 0;
 }
 
