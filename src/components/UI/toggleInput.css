@@ -4,7 +4,7 @@
 
   width: 90px;
   height: 34px;
-  background-color: orangered;
+  background-color: hsl(16, 100%, 50%);
   border-radius: 34px;
   margin: auto;
 }
@@ -72,6 +72,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 8px;
   transition: 0.5s;
   left: 0px;
+  font-size: 0.9rem;
 }
 
 .switch-text-right {

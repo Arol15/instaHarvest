@@ -7,7 +7,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: rgb(242, 255, 127);
+  background-color: hsl(66, 100%, 75%);
 }
 
 .main-navbar-logo {
