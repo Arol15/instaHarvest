@@ -147,16 +147,21 @@ class Chat(db.Model):
     def to_dict(self, user_id):
         recipient_id = self.user2_id if self.user1_id == user_id else self.user1_id
         recipient = User.query.filter_by(id=recipient_id).first()
-        last_message = self.messages.order_by(
-            Message.created_at).all()[-1]
+        messages = self.messages.order_by(
+            Message.created_at).all()
+        last_message = ""
+        last_date = ""
+        if messages:
+            last_message = messages[-1].body
+            last_date = messages[-1].created_at.isoformat()
         return {
             "chat_id": self.id,
             "created_at": self.created_at,
             "recipient_id": recipient_id,
             "recipient_img": recipient.image_url,
             "recipient_name": recipient.first_name,
-            "last_message": last_message.body,
-            "last_date": last_message.created_at.isoformat()
+            "last_message": last_message,
+            "last_date": last_date
         }
 
 
