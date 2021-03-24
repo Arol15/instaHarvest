@@ -68,7 +68,8 @@ select {
   border-radius: 6px;
   padding: 5px 10px;
   transition: all 500ms ease-in-out;
-  top: -10px;
+  top: -17px;
+  left: 10px;
   position: absolute;
   z-index: 1;
 }

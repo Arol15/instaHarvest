@@ -52,7 +52,7 @@
 .msg-container {
   position: relative;
   max-width: 400px;
-  width: 60vw;
+  /* width: 60vw; */
   padding: 10px 0;
   display: flex;
   flex-direction: row;
