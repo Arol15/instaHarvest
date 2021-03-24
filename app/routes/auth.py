@@ -29,7 +29,7 @@ def signup():
         return {'error': f'The user with username {username} already exists'}, 409
     email_verified = False
     profile_addr = str(uuid4())[:13]
-    now = datetime.now(tz=tz.tzlocal())
+    now = datetime.utcnow()
 
     user = User(username=username,
                 first_name=data['first_name'],
@@ -71,9 +71,10 @@ def login():
             return {'error': f'The user with username {login} does not exist'}, 401
     if user.check_password(data['password']):
         session['id'] = user.id
-        session['date'] = datetime.now(tz=tz.tzlocal())
+        session['date'] = datetime.utcnow()
     else:
         return {'error': 'Wrong password'}, 401
+
     return user.to_dict_auth(), 200
 
 
@@ -90,7 +91,7 @@ def resend_email():
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
-    now = datetime.now(tz=tz.tzlocal())
+    now = datetime.utcnow()
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:
         return {'error': f'Sorry, you can resend confirmation email in {(14400 - time_diff.seconds) // 60} minutes'}, 406

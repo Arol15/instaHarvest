@@ -42,7 +42,7 @@ def reauth_required(fn):
         if user_id is False:
             return {'error': 'unauthorized'}, 401
         date = session.get('date', False)
-        now = datetime.now(tz=tz.tzlocal())
+        now = datetime.utcnow()
         diff = now - date
         if diff.seconds > 15:
             return {'error': 'reauthorize'}, 403

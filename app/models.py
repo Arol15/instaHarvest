@@ -1,5 +1,6 @@
 from sqlalchemy.sql import func, expression
 from datetime import datetime
+from dateutil import tz
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
@@ -23,10 +24,11 @@ class User(db.Model):
     state = db.Column(db.String(12), nullable=False)
     city = db.Column(db.String(20), nullable=False)
     zip_code = db.Column(db.Integer, server_default="0")
-    confirm_email_sent = db.Column(db.DateTime(timezone=True))
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+    confirm_email_sent = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime,
+                           onupdate=datetime.utcnow)
 
     products = db.relationship("Product", backref="user", lazy="dynamic")
 
@@ -55,7 +57,8 @@ class User(db.Model):
             "city": self.city,
             "us_state": self.state,
             "email_verified": self.email_verified,
-            "joined": self.created_at.strftime("%b %Y")
+            "created_at": self.created_at.isoformat()
+
         }
 
     def to_dict_private(self):
@@ -72,7 +75,8 @@ class User(db.Model):
             "city": self.city,
             "zip_code": self.zip_code,
             "address": self.address,
-            "joined": self.created_at.strftime("%b %Y")
+            "created_at": self.created_at.isoformat()
+
         }
 
     def to_dict_public(self):
@@ -82,7 +86,7 @@ class User(db.Model):
             "profile_addr": self.profile_addr,
             "image_back_url": self.image_back_url,
             "email_verified": self.email_verified,
-            "joined": self.created_at.strftime("%b %Y"),
+            "created_at": self.created_at.isoformat(),
             "us_state": self.state,
             "city": self.city
         }
@@ -92,7 +96,6 @@ class User(db.Model):
             "first_name": self.first_name,
             "image_url": self.image_url,
             # "email_verified": self.email_verified,
-            # "joined": self.created_at.strftime("%b %Y"),
             "state": self.state,
             "city": self.city,
             "lat": self.lat,
@@ -110,11 +113,11 @@ class Product(db.Model):
     price = db.Column(db.Float)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    deleted_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    due_date = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    deleted_at = db.Column(db.DateTime)
+    due_date = db.Column(db.DateTime)
 
     def to_dict(self):
         return {
@@ -132,8 +135,8 @@ class Product(db.Model):
 class Chat(db.Model):
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
     user1_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user2_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
@@ -153,7 +156,7 @@ class Chat(db.Model):
             "recipient_img": recipient.image_url,
             "recipient_name": recipient.first_name,
             "last_message": last_message.body,
-            "last_date": last_message.created_at.strftime("%d %b, %H:%M:%S")
+            "last_date": last_message.created_at.isoformat()
         }
 
 
@@ -163,15 +166,14 @@ class Message(db.Model):
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"), nullable=False)
     sender_id = db.Column(db.Integer, nullable=False)
     body = db.Column(db.String(2000))
-    created_at = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
 
     def to_dict(self):
         user = User.query.filter_by(id=self.sender_id).first()
         return {
             "msg_id": self.id,
-            "created_at": self.created_at.strftime("%d %b"),
-            "created_at_str": self.created_at.strftime("%d %b, %H:%M:%S"),
+            "created_at": self.created_at.isoformat(),
             "sender_id": self.sender_id,
             "sender_img": user.image_url,
             "body": self.body

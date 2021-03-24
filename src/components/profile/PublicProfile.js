@@ -3,6 +3,7 @@ import { useRequest } from "../../hooks/hooks";
 import ProfileHeader from "./ProfileHeader";
 import PublicProfileInfo from "./PublicProfileInfo";
 import Spinner from "../UI/Spinner";
+import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
 
 const PublicProfile = (props) => {
@@ -27,7 +28,7 @@ const PublicProfile = (props) => {
             emailVerified={data.email_verified}
             city={data.city}
             usState={data.us_state}
-            joined={data.joined}
+            joined={datetimeToLocal(data.created_at, "month-year")}
           />
         </>
       )}

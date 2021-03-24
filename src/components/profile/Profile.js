@@ -6,6 +6,7 @@ import PublicProfileInfo from "./PublicProfileInfo";
 import UserChatsPage from "../chat/UserChatsPage";
 import UserProducts from "../product/UserProducts";
 import classnames from "classnames";
+import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
 
 const Profile = ({ tab }) => {
@@ -33,7 +34,7 @@ const Profile = ({ tab }) => {
             emailVerified={data.email_verified}
             city={data.city}
             usState={data.us_state}
-            joined={data.joined}
+            joined={datetimeToLocal(data.created_at, "month-year")}
           />
           <button
             onClick={() => {

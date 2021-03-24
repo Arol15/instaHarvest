@@ -7,6 +7,7 @@ import Spinner from "../UI/Spinner";
 import { IoReload, IoArrowBack } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
+import { datetimeToLocal } from "../../utils/datetime";
 
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -132,7 +133,7 @@ const Chat = () => {
                   <Message
                     msgId={msg.msg_id}
                     onDeleteMsg={onDeleteMsg}
-                    createdAt={msg.created_at_str}
+                    createdAt={datetimeToLocal(msg.created_at)}
                     sender={sender}
                     body={msg.body}
                     image={msg.sender_img}

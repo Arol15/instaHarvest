@@ -18,7 +18,7 @@ export const profileSlice = createSlice({
     email_verified: storage ? storage.email_verified : null,
     city: storage ? storage.city : null,
     us_state: storage ? storage.us_state : null,
-    joined: storage ? storage.joined : null,
+    created_at: storage ? storage.created_at : null,
   },
   reducers: {
     updateProfile: (state, actions) => {
@@ -35,7 +35,7 @@ export const profileSlice = createSlice({
         email_verified,
         city,
         us_state,
-        joined,
+        created_at,
       } = actions.payload;
 
       saveJSON("app_data", {
@@ -45,7 +45,7 @@ export const profileSlice = createSlice({
         email_verified: email_verified,
         city: city,
         us_state: us_state,
-        joined: joined,
+        created_at: created_at,
       });
 
       state.username = username;
@@ -60,7 +60,7 @@ export const profileSlice = createSlice({
       state.email_verified = email_verified;
       state.city = city;
       state.us_state = us_state;
-      state.joined = joined;
+      state.created_at = created_at;
     },
   },
 });
@@ -80,7 +80,7 @@ export const selectProfile = (state) => ({
   email_verified: state.profile.email_verified,
   city: state.profile.city,
   us_state: state.profile.us_state,
-  joined: state.profile.joined,
+  created_at: state.profile.created_at,
 });
 
 export default profileSlice.reducer;
