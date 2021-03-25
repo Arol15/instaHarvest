@@ -23,7 +23,7 @@
 } */
 
 .upload-image ::-webkit-file-upload-button {
-  background: orangered;
+  background: hsl(16, 100%, 50%);
   outline: none;
   color: #fff;
   border: 0;

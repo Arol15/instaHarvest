@@ -1,8 +1,9 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family: "Lora", serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
@@ -22,16 +23,16 @@ code {
 }
 
 a {
-  color: rgb(83, 145, 48);
+  color: hsl(201, 97%, 36%);
   text-decoration-line: underline;
   cursor: pointer;
 }
 
 button,
 input[type="submit"] {
-  background: orangered;
+  background: hsl(16, 100%, 50%);
   outline: none;
-  color: #fff;
+  color: hsl(0, 0%, 100%);
   border: 0;
   padding: 8px;
   margin: 5px;
@@ -41,7 +42,7 @@ input[type="submit"] {
 
 input,
 select {
-  border: 1px solid rgb(194, 191, 191);
+  border: 1px solid hsl(0, 2%, 75%);
   border-radius: 5px;
   padding: 10px;
 }
@@ -60,14 +61,15 @@ select {
   width: max-content;
   visibility: hidden;
   opacity: 0;
-  background-color: rgba(65, 146, 54, 0.288);
+  background-color: hsla(201, 97%, 36%, 0.3);
   color: black;
   font-size: 0.7rem;
   text-align: center;
   border-radius: 6px;
   padding: 5px 10px;
   transition: all 500ms ease-in-out;
-  top: -10px;
+  top: -17px;
+  left: 10px;
   position: absolute;
   z-index: 1;
 }
@@ -98,11 +100,11 @@ select {
 }
 
 .mdl-error {
-  background-color: rgba(230, 31, 20, 0.808);
+  background-color: hsla(3, 84%, 49%, 0.808);
 }
 
 .mdl-ok {
-  background-color: rgba(74, 202, 35, 0.8);
+  background-color: hsla(106, 70%, 46%, 0.8);
 }
 
 .mdl-msg-active {
@@ -126,7 +128,7 @@ footer {
   margin-top: 80px;
   height: 80px;
   width: 100%;
-  background-color: rgb(242, 255, 127);
+  background-color: hsl(66, 100%, 75%);
   position: relative;
   bottom: 0;
   left: 0;

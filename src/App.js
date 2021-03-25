@@ -45,7 +45,6 @@ function App() {
           <Route path="/user-products" component={UserProducts} />
           <Route path="/edit-product" component={EditProduct} />
           <Route path="/product-info" component={ProductDetails} />
-          {/* <Route path="/chats" component={UserChatsPage} exact /> */}
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
           <Route path="/search-results" component={Products} />
