@@ -105,7 +105,7 @@ def resend_email():
     user.confirm_email_sent = now
     db.session.add(user)
     db.session.commit()
-    return {"msg": "Confirmation email has been sent"}, 200
+    return {"msg": "A confirmation email has been sent"}, 200
 
 
 @bp.route("/reset_password", methods=["POST"])
@@ -119,7 +119,7 @@ def reset_password():
     subject = "InstaHarvest - Password Reset"
     send_email(email, subject, "reset_password",
                user=user, confirm_url=confirm_url)
-    return {"msg": "Reset password email has been sent"}, 200
+    return {"msg": "A reset password email has been sent"}, 200
 
 
 @bp.route("/confirm/<token>")
@@ -144,12 +144,12 @@ def reset_password_confirm():
     try:
         email = ts.loads(data["token"], salt="pass-reset", max_age=86400)
     except:
-        return {"error": "Token is not valid or expired"}, 406
+        return {"error": "The token is not valid or expired"}, 406
 
     user = User.query.filter_by(email=email).first()
     if user is None:
-        return {"error": "Can not find user"}, 404
+        return {"error": "Can not find the user"}, 404
     user.change_password(data["password"])
     db.session.add(user)
     db.session.commit()
-    return {"msg": "New password saved"}, 200
+    return {"msg": "A new password has been saved"}, 200
