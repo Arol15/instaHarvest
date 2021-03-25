@@ -13,6 +13,7 @@
   - [useRequest](#useRequest)
   - [useModal](#useModal)
   - [useForm](#useForm)
+  - [useWidth](#useWidth)
 
 - [Components](#Components)
   - [Spinner](#Spinner)
@@ -31,12 +32,6 @@ _[M] - mandatory; [D:] - default value_,
 
 **POST**
 
-**header**
-
-```
-Content-Type: application/json
-```
-
 **request body**
 
 ```json
@@ -46,14 +41,7 @@ Content-Type: application/json
   "password": "[M]",
   "state": "[M]",
   "city": "[M]",
-  "username": "",
-  "last_name": "",
-  "image_url": "[D: 'https://img.icons8.com/doodle/148/000000/test-account.png']",
-  "user_role": "[D: 'user']",
-  "address": "",
-  "lgt": "[D: 0]",
-  "lat": "[D: 0]",
-  "zip_code": "[D: 0]"
+  "username": ""
 }
 ```
 
@@ -62,13 +50,10 @@ Content-Type: application/json
 **201**
 
 ```json
-{
-  "access_token": "",
-  "refresh_token": ""
-}
+{}
 ```
 
-\***\*409\*\***
+**409**
 
 ```json
 {
@@ -87,12 +72,6 @@ Content-Type: application/json
 
 **POST**
 
-**header:**
-
-```
-Content-Type: application/json
-```
-
 **request body**
 
 ```json
@@ -107,10 +86,7 @@ Content-Type: application/json
 **200**
 
 ```json
-{
-  "access_token": "",
-  "refresh_token": ""
-}
+{}
 ```
 
 **401**
@@ -132,15 +108,9 @@ Content-Type: application/json
 
 ```
 
-#### /resend_email
+#### /logout
 
 **POST**
-
-**header:**
-
-```
-Authorization: Bearer [ACCESS_TOKEN]
-```
 
 **response:**
 
@@ -150,10 +120,64 @@ Authorization: Bearer [ACCESS_TOKEN]
 {}
 ```
 
+#### /resend_email
+
+**POST**
+
+**cookies:**
+
+```
+session
+```
+
+**response:**
+
+**200**
+
+```json
+{
+  "msg": "A confirmation email has been sent"
+}
+```
+
 **404**
 
 ```json
 {}
+```
+
+**406**
+
+```json
+{ "error": "Sorry, you can resend confirmation email in { ... } minutes" }
+```
+
+#### /reset_password
+
+**POST**
+
+**request body**
+
+```json
+{
+  "email": ""
+}
+```
+
+**200**
+
+```json
+{
+  "msg": "A reset password email has been sent"
+}
+```
+
+**401**
+
+```json
+{
+  "error": "The user with email {email} does not exist"
+}
 ```
 
 #### /confirm/<token>
@@ -176,23 +200,40 @@ Authorization: Bearer [ACCESS_TOKEN]
 {}
 ```
 
-#### /refresh
+#### /reset_password_confirm
 
 **POST**
 
-**header:**
+**request body**
 
+```json
+{
+  "token": "",
+  "password": ""
+}
 ```
-Authorization: Bearer [REFRESH_TOKEN]
-```
-
-**response:**
 
 **200**
 
 ```json
 {
-  "access_token": ""
+  "msg": "A new password has been saved"
+}
+```
+
+**404**
+
+```json
+{
+  "error": "Can not find the user"
+}
+```
+
+**406**
+
+```json
+{
+  "error": "The token is not valid or expired"
 }
 ```
 
@@ -206,11 +247,10 @@ Authorization: Bearer [REFRESH_TOKEN]
 
 **POST**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN]
+session
 ```
 
 **request body**
@@ -247,11 +287,10 @@ Authorization: Bearer [ACCESS_TOKEN]
 
 **PATCH**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN(FRESH)]
+session
 ```
 
 **request body**
@@ -294,11 +333,10 @@ Authorization: Bearer [ACCESS_TOKEN(FRESH)]
 
 **PATCH**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN]
+session
 ```
 
 **request body**
@@ -341,11 +379,10 @@ _Any of these fields:_
 
 **PATCH**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN(FRESH)]
+session
 ```
 
 **request body**
@@ -396,11 +433,10 @@ json {}
 
 **POST**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN(FRESH)]
+session
 ```
 
 **request body**
@@ -484,11 +520,10 @@ json {}
 
 **POST**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN]
+session
 ```
 
 **response:**
@@ -512,11 +547,10 @@ Authorization: Bearer [ACCESS_TOKEN]
 
 **POST**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN]
+session
 ```
 
 **request body:**
@@ -542,11 +576,10 @@ Authorization: Bearer [ACCESS_TOKEN]
 
 **POST**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN]
+session
 ```
 
 **request body:**
@@ -581,11 +614,10 @@ Authorization: Bearer [ACCESS_TOKEN]
 
 **POST**
 
-**header:**
+**cookies:**
 
 ```
-Content-Type: application/json
-Authorization: Bearer [ACCESS_TOKEN]
+session
 ```
 
 #### /all-products
@@ -602,21 +634,25 @@ Authorization: Bearer [ACCESS_TOKEN]
 const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 ```
 
-**isLoading** - is _true_ while waiting for a response from server
+#### Return:
 
-**data** - _(object)_, response from a server if request is successful
+**isLoading** - [bool] is _true_ while waiting for a response from server
 
-**error** - _(string)_, error message
+**data** - [object] - response from a server if request is successful
 
-**errorNum** - error status number
+**error** - [string] - error message
 
-**sendRequest** - function to send request
+**errorNum** - [int] - error status number
+
+**sendRequest** - [func] - function to send request
 
 ```js
-sendRequest(url, method, body, isJwt);
+sendRequest(url, method, body);
 ```
 
-**isJwt** - _bool_, default is `false`, if `true` tries to send request with token from local storage
+**url** - [string]
+**method** - [string]
+**body** - [object]
 
 #### example:
 
@@ -629,8 +665,6 @@ const onSubmit = (formData) => {
 
 useEffect(() => {
   if (data) {
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("refresh_token", data.refresh_token);
     history.push("/profile");
   }
 }, [data]);
@@ -640,20 +674,35 @@ useEffect(() => {
 
 ```js
 const [modal, showModal, closeModal, isOpen] = useModal({
-    withBackdrop: //bool,
-    useTimer: //bool,
-    inPlace: //bool,
-    timeOut: //int(milliseconds) for timer (default 5000 ms)
+    withBackdrop: ,
+    useTimer: ,
+    inPlace:,
+    timeOut: ,
+    disableClose: ,
   });
 ```
 
+#### Arguments:
+
+**withBackdrop** - [bool]
+
+**useTimer** - [bool]
+
+**inPlace** - [bool] - show modal inside the element
+
+**timeOut** - [int] (default: 5000 ms) if **useTimer** is `true` - how long the modal is shown on the screen
+
+**disableClose** - [bool] (default: `false`) - if `true`, modal can be closed only by clicking on 'x' button
+
+#### Return:
+
 **modal** - created react element
 
-**showModal** - function to show the modal
+**showModal** - [func] function to show the modal
 
-**closeModal** - function to close the modal
+**closeModal** - [func] function to close the modal
 
-**isOpen** - state of the modal, `true` if modal is open
+**isOpen** - [bool] state of the modal, `true` if modal is open
 
 ```js
 showModal(children, classes);
@@ -661,7 +710,7 @@ showModal(children, classes);
 
 **children** - element to add to modal
 
-**classes** - _(string)_ css classes
+**classes** - [string] css classes
 
 #### Example:
 
@@ -671,6 +720,7 @@ const [modal, showModal, closeModal, isOpen] = useModal({
   useTimer: true,
   timeOut: 10000,
   inPlace: false,
+  disableClose: true,
 });
 
 useEffect(() => {
@@ -696,21 +746,41 @@ const [
 ] = useForm(formData, onSubmit, formValidation);
 ```
 
-**setFormData** - function to update form fields state
+#### Arguments:
 
-**handleSubmit** - starting validation and sending request
+**setFormData** - [func] function to update form fields state
 
-**handleInputChange** - update form fields state
+**handleSubmit** - [func] starts validation and if validation passed, sends request
 
-**formData** - form fields state
+**handleInputChange** - [func] updates form fields state
 
-**formErrors** - form fields errors after validation
+**formData** - [object] form fields state
+
+**formErrors** - [object] if validation didn't pass, contains errors
+
+#### Return:
 
 **formData** - initial form fields
 
 **onSubmit** - function to execute after validation
 
 **formValidation** - function to validate form fields
+
+### useWidth
+
+\*Checks current width of the screen and returns **isDesktop** true if width is greater then **breakpoint\***
+
+```js
+const [isDesktop] = useWidth(breakpoint);
+```
+
+#### Argument:
+
+**breakpoint** - [int] (optional) - default is 600 px
+
+#### Return:
+
+**isDesktop** = [bool] - `true` if width of the screen greater then `breakpoint`
 
 ---
 

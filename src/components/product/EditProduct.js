@@ -1,4 +1,4 @@
-import { useLocation, useHistory, Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useRequest, useForm } from "../../hooks/hooks";
 import { useDispatch } from "react-redux";
@@ -110,8 +110,12 @@ const EditProduct = () => {
           value={formData.description}
         />
         <button>Save Changes</button>
-        <button>
-          <Link to="/user-products">Cancel</Link>
+        <button
+          onClick={() => {
+            history.push("/user-products");
+          }}
+        >
+          Cancel
         </button>
       </form>
     </div>

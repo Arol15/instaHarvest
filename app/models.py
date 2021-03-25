@@ -31,6 +31,8 @@ class User(db.Model):
                            onupdate=datetime.utcnow)
 
     products = db.relationship("Product", backref="user", lazy="dynamic")
+    liked_products = db.relationship(
+        "LikedProduct", backref="user", lazy="dynamic")
 
     @property
     def password(self):
@@ -119,7 +121,11 @@ class Product(db.Model):
     deleted_at = db.Column(db.DateTime)
     due_date = db.Column(db.DateTime)
 
+    likes = db.relationship(
+        "LikedProduct", backref="product", lazy="dynamic")
+
     def to_dict(self):
+        likes = self.likes.count()
         return {
             "name": self.name,
             "product_type": self.product_type,
@@ -128,7 +134,8 @@ class Product(db.Model):
             "description": self.description,
             "status": self.status,
             "user_id": self.user_id,
-            "product_id": self.id
+            "product_id": self.id,
+            "total_likes": likes,
         }
 
 
@@ -191,3 +198,11 @@ class Session(db.Model):
     session_id = db.Column(db.String(255), unique=True)
     data = db.Column(db.LargeBinary)
     expiry = db.Column(db.DateTime)
+
+
+class LikedProduct(db.Model):
+    __tablename__ = "liked_products"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey(
+        "products.id"), nullable=False)

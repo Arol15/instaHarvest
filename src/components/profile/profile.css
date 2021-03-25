@@ -37,7 +37,7 @@
   position: absolute;
   z-index: 2;
   height: 300px;
-  background: rgb(242, 255, 127);
+  background: hsl(66, 100%, 75%);
 }
 .prf-back-left {
   width: 1px;
@@ -50,6 +50,7 @@
   border-radius: 0 20px 20px 0;
   transform: translateX(204px);
   transition: 0.5s ease;
+  box-shadow: 5px 0 5px hsla(0, 0%, 0%, 0.164);
 }
 
 .prf-side-hamb {
@@ -57,6 +58,7 @@
   visibility: visible;
   transition: 0.25s ease-in-out;
   cursor: pointer;
+  color: hsl(0, 0%, 0%);
 }
 
 .prf-side-content {
@@ -64,22 +66,18 @@
   margin-left: 15px;
   margin-top: 20px;
   position: absolute;
+  color: hsl(0, 0%, 47%);
 }
 
 .prf-side-menu p {
   cursor: pointer;
   font-size: 1.1rem;
-  color: rgb(119, 119, 119);
+  /* color: hsl(0, 0%, 47%); */
 }
 
-.prf-side-menu span {
-  color: rgb(119, 119, 119);
-  /* transition: color 0.5s; */
-}
-
-.prf-side-active span {
+.prf-side-active {
   font-weight: bold;
-  color: rgb(0, 0, 0);
+  color: hsl(201, 97%, 36%);
 }
 
 .prf-side-menu span {
@@ -100,6 +98,7 @@
 
 .prf-back-right-closed {
   transform: translateX(39px);
+  box-shadow: none;
 }
 
 .prf-side-hamb-hide {
@@ -154,7 +153,7 @@
   margin: 0 auto;
   padding: 5px 20px;
   text-align: center;
-  background-color: rgb(255, 240, 227);
+  background-color: rgb(251, 255, 213);
   border-radius: 15px;
 }
 
@@ -173,7 +172,7 @@
   word-break: break-all;
 }
 
-.prf-field > hr {
+.prf-field hr {
   margin-top: 15px;
   border: 0;
   height: 1px;
@@ -183,6 +182,15 @@
     rgba(0, 0, 0, 0.75),
     rgba(0, 0, 0, 0)
   );
+}
+
+.prf-field input {
+  margin: 10px 0;
+  max-width: 400px;
+}
+
+.prf-change-pass p {
+  margin: 0;
 }
 
 .prf-header {
@@ -274,10 +282,13 @@
   margin: 10px auto;
 }
 
+.prf-main-menu {
+  color: hsl(0, 0%, 33%);
+}
+
 .prf-main-menu div {
   /* margin: auto 30px; */
   padding: 0 20px;
-  color: rgb(85, 85, 85);
   cursor: pointer;
 }
 

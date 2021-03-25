@@ -1,30 +1,30 @@
 from flask import Blueprint, request, session
 import json
 from app import db
-from app.models import Product, User
+from app.models import Product, User, LikedProduct
 from app.utils.security import auth_required
 
-bp = Blueprint("products", __name__, url_prefix='/api/products')
+bp = Blueprint("products", __name__, url_prefix="/api/products")
 
 
-@bp.route('/add-product', methods=['POST'])
+@bp.route("/add-product", methods=["POST"])
 @auth_required
 def create_product():
     data = request.get_json()
-    user_id = session['id']
+    user_id = session["id"]
     # print(user_id)
-    product = Product(user_id=user_id, name=data['name'],
-                      product_type=data['product_type'], image_urls=data['image_urls'],
-                      price=data['price'], status="available", description=data['description'])
+    product = Product(user_id=user_id, name=data["name"],
+                      product_type=data["product_type"], image_urls=data["image_urls"],
+                      price=data["price"], status="available", description=data["description"])
     db.session.add(product)
     db.session.commit()
-    return {'msg': "Product created"}, 200
+    return {"msg": "Product created"}, 200
 
 
-@bp.route('/products-per-user', methods=["POST"])
+@bp.route("/products-per-user", methods=["POST"])
 @auth_required
 def get_products_per_user():
-    user_id = session['id']
+    user_id = session["id"]
     # print(user_id)
     user = User.query.filter_by(id=user_id).first()
     if user is None:
@@ -32,10 +32,10 @@ def get_products_per_user():
     user_products = user.products.order_by(Product.created_at.desc()).all()
     products = [product.to_dict() for product in user_products]
     # print(products)
-    return {'user_products': products}
+    return {"user_products": products}
 
 
-@bp.route('/get-all', methods=["POST"])
+@bp.route("/get-all", methods=["POST"])
 def get_all_products():
     data = request.get_json()
     # print(data)
@@ -46,13 +46,13 @@ def get_all_products():
     # print(prods)
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
-    return {'products': user_products}
+    return {"products": user_products}
 
 
-@bp.route('/get-all-protected', methods=["POST"])
+@bp.route("/get-all-protected", methods=["POST"])
 @auth_required
 def get_all_products_protected():
-    user_id = session['id']
+    user_id = session["id"]
     data = request.get_json()
     # print(data)
     searchCity = data["search_term"]
@@ -62,10 +62,10 @@ def get_all_products_protected():
     # print(prods)
     user_products = [product.to_dict() for product in prods]
     # print(user_products)
-    return {'products': user_products, "user_id": user_id}
+    return {"products": user_products, "user_id": user_id}
 
 
-@bp.route('/product-location-info/<int:userId>')
+@bp.route("/product-location-info/<int:userId>")
 def product_location_info(userId):
     # print(userId)
     product_details = {}
@@ -80,7 +80,7 @@ def product_location_info(userId):
     return {"product_details": product_details}, 200
 
 
-@bp.route('/edit-product/<int:productId>', methods=["PATCH"])
+@bp.route("/edit-product/<int:productId>", methods=["PATCH"])
 @auth_required
 def edit_product(productId):
     data = request.get_json()
@@ -89,7 +89,7 @@ def edit_product(productId):
         setattr(product, key, value)
     db.session.add(product)
     db.session.commit()
-    return {'msg': 'Product updated'}, 200
+    return {"msg": "Product updated"}, 200
 
 
 @bp.route("/delete_product", methods=["DELETE"])
@@ -102,3 +102,20 @@ def delete_product():
     db.session.delete(product)
     db.session.commit()
     return {"msg": "deleted"}, 200
+
+
+@bp.route("/like/<int:product_id>", methods=["POST"])
+@auth_required
+def give_like(product_id):
+    product = Product.query.filter_by(id=product_id).first()
+    if product is None:
+        return {"error": "Product have not found"}, 404
+    like = product.likes.filter_by(user_id=session["id"]).first()
+    if like is None:
+        new_like = LikedProduct(user_id=session["id"], product_id=product.id)
+        db.session.add(new_like)
+        db.session.commit()
+    else:
+        db.session.delete(like)
+        db.session.commit()
+    return {}, 200

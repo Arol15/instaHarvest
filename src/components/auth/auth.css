@@ -3,11 +3,11 @@
   border-radius: 5px;
   outline: none;
   transition: all 300ms;
-  background: orangered;
+  background: hsl(16, 100%, 50%);
 }
 
 .active {
-  background: #fa8e66;
+  background: hsl(16, 70%, 70%);
 }
 
 .auth-inputs {

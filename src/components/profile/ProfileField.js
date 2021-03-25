@@ -58,26 +58,56 @@ const ProfileFild = (props) => {
       {editState ? (
         <div>
           <form onSubmit={handleSubmit}>
-            {props.type === "state" ? (
-              <select
-                key="6"
-                placeholder="State"
-                name="state"
-                onChange={handleInputChange}
-                value={formData.state || ""}
-              >
-                <option key="-" value="">
-                  Select state
-                </option>
-                {statesList.map((elem) => {
-                  return (
-                    <option key={elem.abbreviation} value={statesList.name}>
-                      {elem.name}
-                    </option>
-                  );
-                })}
-              </select>
-            ) : (
+            {props.name === "us_state" && (
+              <>
+                <select
+                  key="6"
+                  placeholder="State"
+                  name="us_state"
+                  onChange={handleInputChange}
+                  value={formData.us_state || ""}
+                >
+                  <option key="-" value="">
+                    Select state
+                  </option>
+                  {statesList.map((elem) => {
+                    return (
+                      <option key={elem.abbreviation} value={statesList.name}>
+                        {elem.name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <div className="form-danger">
+                  {formErrors.us_state && formErrors.us_state}
+                </div>
+              </>
+            )}
+
+            {props.name === "password" && (
+              <div className="prf-change-pass">
+                <input
+                  placeholder="New password"
+                  type="password"
+                  name={props.name}
+                  onChange={handleInputChange}
+                  value={formData[props.name] || ""}
+                ></input>
+                <p></p>
+                <input
+                  placeholder="Confirm new password"
+                  type="password"
+                  name="confirm_pass"
+                  onChange={handleInputChange}
+                  value={formData.confirm_pass || ""}
+                ></input>
+                <div className="form-danger">
+                  {formErrors.confirm_pass && formErrors.confirm_pass}
+                </div>
+              </div>
+            )}
+
+            {props.name !== "us_state" && props.name !== "password" && (
               <>
                 <input
                   placeholder={""}
@@ -97,6 +127,7 @@ const ProfileFild = (props) => {
               <button
                 onClick={() => {
                   setEditState(false);
+                  setFormData({ [props.name]: props.value });
                 }}
               >
                 Cancel
@@ -106,13 +137,19 @@ const ProfileFild = (props) => {
         </div>
       ) : (
         <>
-          {props.value ? props.children : <p>Empty</p>}
+          {props.name === "password" ? (
+            <p></p>
+          ) : props.value ? (
+            props.children
+          ) : (
+            <p>Empty</p>
+          )}
           <a
             onClick={() => {
               setEditState(true);
             }}
           >
-            Edit
+            {props.name === "password" ? "Change password" : "Edit"}
           </a>
         </>
       )}

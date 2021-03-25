@@ -40,7 +40,7 @@
   flex-direction: row;
   padding: 10px;
   padding-bottom: 5px;
-  background-color: rgb(255, 247, 173);
+  background-color: hsl(66, 100%, 85%);
   cursor: pointer;
 }
 
@@ -52,7 +52,7 @@
 .msg-container {
   position: relative;
   max-width: 400px;
-  width: 60vw;
+  /* width: 60vw; */
   padding: 10px 0;
   display: flex;
   flex-direction: row;
@@ -82,12 +82,12 @@
 }
 
 .msg-body-reciv {
-  background: rgb(253, 208, 165);
+  background: hsl(29, 95%, 70%);
   border-top-left-radius: 0;
 }
 
 .msg-body-self {
-  background: rgb(255, 198, 198);
+  background: hsl(29, 95%, 80%);
   border-top-right-radius: 0;
 }
 

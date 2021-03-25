@@ -128,6 +128,7 @@ const AddProduct = () => {
           />
           <label>Description: </label>
           <textarea
+            rows={3}
             placeholder="Describe your product"
             type="textarea"
             name="description"
