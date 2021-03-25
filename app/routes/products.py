@@ -1,7 +1,7 @@
 from flask import Blueprint, request, session
 import json
 from app import db
-from app.models import Product, User
+from app.models import Product, User, LikedProduct
 from app.utils.security import auth_required
 
 bp = Blueprint("products", __name__, url_prefix="/api/products")
@@ -102,3 +102,20 @@ def delete_product():
     db.session.delete(product)
     db.session.commit()
     return {"msg": "deleted"}, 200
+
+
+@bp.route("/like/<int:product_id>", methods=["POST"])
+@auth_required
+def give_like(product_id):
+    product = Product.query.filter_by(id=product_id).first()
+    if product is None:
+        return {"error": "Product have not found"}, 404
+    like = product.likes.filter_by(user_id=session["id"]).first()
+    if like is None:
+        new_like = LikedProduct(user_id=session["id"], product_id=product.id)
+        db.session.add(new_like)
+        db.session.commit()
+    else:
+        db.session.delete(like)
+        db.session.commit()
+    return {}, 200

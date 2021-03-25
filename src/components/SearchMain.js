@@ -54,6 +54,7 @@ const SearchMain = () => {
     }
   }, [data, error]);
 
+  console.log(data);
   return (
     <>
       {isLoading && <Spinner />}

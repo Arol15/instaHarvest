@@ -170,7 +170,7 @@ def edit_profile_image_file():
     user_id = session["id"]
     file = request.files["file"]
 
-    file.filename = f"{user_id}_image_url.{file.filename.split(".")[-1]}"
+    file.filename = f"{user_id}_image_url.{file.filename.split('.')[-1]}"
     s3_resource = boto3.resource("s3")
     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
     my_bucket.Object(file.filename).put(Body=file, ACL="public-read")
@@ -220,7 +220,7 @@ def delete_profile_image():
 def edit_back_image_file():
     user_id = session["id"]
     file = request.files["file"]
-    file.filename = f"{user_id}_image_back_url.{file.filename.split(".")[-1]}"
+    file.filename = f"{user_id}_image_back_url.{file.filename.split('.')[-1]}"
     s3_resource = boto3.resource("s3")
     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
     my_bucket.Object(file.filename).put(Body=file, ACL="public-read")
