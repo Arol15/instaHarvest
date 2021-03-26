@@ -1,17 +1,17 @@
-from flask import render_template
+from flask import render_template, current_app
 from flask_mail import Message
 from threading import Thread
 from app.config import Config
 from app import mail
-from app import app
 
 
 def send_async_email(app, msg, subject, to):
-    with app.app_context():
+    with current_app.app_context():
         try:
             mail.send(msg)
         except:
-            app.logger.info(f'Failed to send email <{subject}> to user <{to}>')
+            current_app.logger.info(
+                f'Failed to send email <{subject}> to user <{to}>')
 
 
 def send_email(to, subject, template, **kwargs):

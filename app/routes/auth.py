@@ -2,13 +2,12 @@ import json
 from uuid import uuid4
 from datetime import datetime
 from dateutil import tz
-from flask import Blueprint, request, url_for, redirect, session
+from flask import Blueprint, request, url_for, redirect, session, current_app
 from app import db
 from app.models import User
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.config import Config
-
 
 bp = Blueprint("auth", __name__)
 
@@ -57,7 +56,7 @@ def signup():
     return user.to_dict_auth(), 201
 
 
-@bp.route("/login", methods=["POST"])
+@bp.route("/api/auth/login", methods=["POST"])
 def login():
     data = request.get_json()
     login = data["login"]
@@ -78,7 +77,7 @@ def login():
     return user.to_dict_auth(), 200
 
 
-@bp.route("/logout", methods=["POST"])
+@bp.route("/api/auth/logout", methods=["POST"])
 def logout():
     session.pop("id", default=None)
     return {}, 200

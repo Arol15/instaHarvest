@@ -40,31 +40,37 @@ s3_resource = boto3.resource(
 )
 
 
-app = Flask(__name__, static_folder='../build', static_url_path='/')
 db = SQLAlchemy()
-app.config.from_object(Config)
-app.secret_eky = Config.SECRET_KEY
-db.init_app(app)
-migrate = Migrate(app, db)
-mail = Mail(app)
-session = Session(app)
+migrate = Migrate()
+mail = Mail()
+session = Session()
 
 
-@app.route('/')
-def index():
-    return app.send_static_file("index.html")
+def create_app(config_class=Config):
+    app = Flask(__name__, static_folder='../build', static_url_path='/')
+    app.config.from_object(config_class)
+    app.secret_key = Config.SECRET_KEY
+    db.init_app(app)
+    mail.init_app(app)
+    migrate.init_app(app, db)
+    session.init_app(app)
+
+    from app.routes import users, auth, account, chat, products
+    app.register_blueprint(users.bp, url_prefix='/api/users')
+    app.register_blueprint(auth.bp, url_prefix='/api/auth')
+    app.register_blueprint(account.bp, url_prefix='/api/account')
+    app.register_blueprint(products.bp, url_prefix='/api/products')
+    app.register_blueprint(chat.bp, url_prefix='/api/chat')
+
+    @app.route('/')
+    def index():
+        return app.send_static_file("index.html")
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return app.send_static_file("index.html")
+
+    return app
 
 
-@app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file("index.html")
-
-
-from app.routes import users, auth, account, chat, products
-
-app.register_blueprint(users.bp, url_prefix='/api/users')
-app.register_blueprint(auth.bp, url_prefix='/api/auth')
-app.register_blueprint(account.bp, url_prefix='/api/account')
-app.register_blueprint(products.bp, url_prefix='/api/products')
-app.register_blueprint(chat.bp, url_prefix='/api/chat')
 # app.register_blueprint(cert.bp)
