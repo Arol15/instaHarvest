@@ -4,7 +4,7 @@ from app import db
 from app.models import Product, User, LikedProduct
 from app.utils.security import auth_required
 
-bp = Blueprint("products", __name__, url_prefix="/api/products")
+bp = Blueprint("products", __name__)
 
 
 @bp.route("/add-product", methods=["POST"])

@@ -10,7 +10,7 @@ from app.utils.email_support import send_email
 from app.config import Config
 
 
-bp = Blueprint("auth", __name__, url_prefix="/api/auth")
+bp = Blueprint("auth", __name__)
 
 
 @bp.route("/signup", methods=["POST"])

@@ -11,7 +11,7 @@ from app.utils.security import auth_required, reauth_required
 
 import boto3
 
-bp = Blueprint("account", __name__, url_prefix="/api/account")
+bp = Blueprint("account", __name__)
 
 
 @bp.route("/get_profile_private", methods=["POST"])

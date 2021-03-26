@@ -6,7 +6,7 @@ from app import db
 from app.models import User, Chat, Message
 from app.utils.security import auth_required
 
-bp = Blueprint("chat", __name__, url_prefix="/api/chat")
+bp = Blueprint("chat", __name__)
 
 
 @bp.route("/get_user_chats", methods=["POST"])
