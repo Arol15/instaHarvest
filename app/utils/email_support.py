@@ -11,7 +11,8 @@ def send_async_email(app, msg, subject, to):
         try:
             mail.send(msg)
         except:
-            app.logger.info(f'Failed to send email <{subject}> to user <{to}>')
+            app.logger.info(
+                f'Failed to send email <{subject}> to user <{to}>')
 
 
 def send_email(to, subject, template, **kwargs):

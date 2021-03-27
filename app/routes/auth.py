@@ -9,8 +9,7 @@ from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.config import Config
 
-
-bp = Blueprint("auth", __name__, url_prefix="/api/auth")
+bp = Blueprint("auth", __name__)
 
 
 @bp.route("/signup", methods=["POST"])
@@ -135,7 +134,7 @@ def confirm_email(token):
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return redirect(f"{Config.BASE_URL}/login", code=302)
+    return redirect(f"{Config.BASE_URL}/profile", code=302)
 
 
 @bp.route("/reset_password_confirm", methods=["POST"])

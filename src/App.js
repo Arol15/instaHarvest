@@ -18,7 +18,6 @@ import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
 
 function App() {
-  console.log("test-app");
   return (
     <>
       <Router>

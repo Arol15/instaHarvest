@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, session
+from flask import Flask, session
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
@@ -43,28 +43,26 @@ s3_resource = boto3.resource(
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 db = SQLAlchemy()
 app.config.from_object(Config)
-app.secret_eky = Config.SECRET_KEY
+app.secret_key = Config.SECRET_KEY
 db.init_app(app)
 migrate = Migrate(app, db)
 mail = Mail(app)
 session = Session(app)
 
 
-@app.route('/', defaults={'path': ''})
-def serve(path):
-    return send_from_directory(app.static_folder, "index.html")
+@app.route('/')
+def index():
+    return app.send_static_file("index.html")
 
 
 @app.errorhandler(404)
 def not_found(e):
-    return send_from_directory(app.static_folder, "index.html")
+    return app.send_static_file("index.html")
 
 
 from app.routes import users, auth, account, chat, products
-
-app.register_blueprint(users.bp)
-app.register_blueprint(auth.bp)
-app.register_blueprint(account.bp)
-app.register_blueprint(products.bp)
-app.register_blueprint(chat.bp)
-# app.register_blueprint(cert.bp)
+app.register_blueprint(users.bp, url_prefix='/api/users')
+app.register_blueprint(auth.bp, url_prefix='/api/auth')
+app.register_blueprint(account.bp, url_prefix='/api/account')
+app.register_blueprint(products.bp, url_prefix='/api/products')
+app.register_blueprint(chat.bp, url_prefix='/api/chat')

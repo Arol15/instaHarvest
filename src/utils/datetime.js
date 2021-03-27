@@ -11,8 +11,6 @@ export const datetimeToLocal = (dateStr, format) => {
   const currentHours = dateObject.getHours();
   dateObject.setHours(currentHours + offset);
   const newDateString = dateObject.toISOString().replace("T", " ").slice(0, 16);
-  //   console.log(dateObject.toDateString());
-  //   console.log(dateObject.toString());
   if (format === "month-year") {
     const monthStr = dateObject.toDateString().slice(4, 7);
     const year = dateObject.toDateString().slice(11);
