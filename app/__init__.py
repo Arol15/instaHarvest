@@ -71,6 +71,3 @@ def create_app(config_class=Config):
         return app.send_static_file("index.html")
 
     return app
-
-
-# app.register_blueprint(cert.bp)

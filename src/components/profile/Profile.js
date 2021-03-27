@@ -21,7 +21,6 @@ const Profile = ({ tab }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
   useLayoutEffect(() => {
-    console.log("test-profile");
     if (checkAuth() === false) {
       logout()
         .then(() => {

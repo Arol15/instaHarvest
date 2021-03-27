@@ -56,7 +56,7 @@ def signup():
     return user.to_dict_auth(), 201
 
 
-@bp.route("/api/auth/login", methods=["POST"])
+@bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
     login = data["login"]
@@ -77,7 +77,7 @@ def login():
     return user.to_dict_auth(), 200
 
 
-@bp.route("/api/auth/logout", methods=["POST"])
+@bp.route("/logout", methods=["POST"])
 def logout():
     session.pop("id", default=None)
     return {}, 200
