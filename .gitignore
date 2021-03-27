@@ -19,6 +19,7 @@ Pipfile.lock
 
 # production
 # /build
+/deployment/letsencrypt/
 
 # misc
 .eslintcache
