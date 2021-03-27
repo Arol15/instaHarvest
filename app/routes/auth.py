@@ -2,7 +2,7 @@ import json
 from uuid import uuid4
 from datetime import datetime
 from dateutil import tz
-from flask import Blueprint, request, url_for, redirect, session, current_app
+from flask import Blueprint, request, url_for, redirect, session
 from app import db
 from app.models import User
 from app.utils.security import ts, auth_required
