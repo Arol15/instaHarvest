@@ -134,7 +134,7 @@ def confirm_email(token):
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return redirect(f"{Config.BASE_URL}/login", code=302)
+    return redirect(f"{Config.BASE_URL}/profile", code=302)
 
 
 @bp.route("/reset_password_confirm", methods=["POST"])
