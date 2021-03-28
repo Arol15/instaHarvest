@@ -97,6 +97,7 @@ const MainNavbar = () => {
               onClick={() =>
                 showModal(
                   <AuthModal
+                    closeModal={closeModal}
                     afterConfirm={() => {
                       closeModal();
                       history.push("/profile");
