@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import session
+from flask import session, current_app
 from itsdangerous import URLSafeTimedSerializer
 from app.config import Config
 from datetime import datetime

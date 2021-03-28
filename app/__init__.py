@@ -45,15 +45,15 @@ def create_app(config_class=Config):
 
     s3_resource = boto3.resource(
         "s3",
-        aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY
+        aws_access_key_id=app.config["AWS_ACCESS_KEY_ID"],
+        aws_secret_access_key=app.config["AWS_SECRET_ACCESS_KEY"]
     )
 
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
     session.init_app(app)
-    app.secret_key = Config.SECRET_KEY
+    app.secret_key = app.config["SECRET_KEY"]
 
     @app.route('/')
     def index():

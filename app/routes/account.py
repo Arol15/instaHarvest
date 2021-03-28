@@ -1,12 +1,11 @@
 import json
 from datetime import datetime
 from dateutil import tz
-from flask import Blueprint, request, url_for, session
+from flask import Blueprint, request, url_for, session, current_app
 from app import db
 from app.models import User
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
-from app.config import Config
 from app.utils.security import auth_required, reauth_required
 
 import boto3
@@ -142,22 +141,22 @@ def change_email(token):
         new_email, old_email = ts.loads(
             token, salt="email-change", max_age=86400)
     except:
-        return redirect(f"{Config.BASE_URL}/404", code=302)
+        return redirect(f"{current_app.config['BASE_URL']}/404", code=302)
 
     user = User.query.filter_by(email=old_email).first()
     if user is None:
-        redirect(f"{Config.BASE_URL}/404", code=302)
+        redirect(f"{current_app.config['BASE_URL']}/404", code=302)
     user.email = new_email
     db.session.add(user)
     db.session.commit()
 
-    return redirect(f"{Config.BASE_URL}/profile", code=302)
+    return redirect(f"{current_app.config['BASE_URL']}/profile", code=302)
 
 
 # @bp.route("/files")
 # def files():
 #     s3_resource = boto3.resource("s3")
-#     my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+#     my_bucket = s3_resource.Bucket(current_app.config['S3_BUCKET_NAME'])
 #     summaries = my_bucket.objects.all()
 #     for o in summaries:
 #         print(o.key)
@@ -172,7 +171,7 @@ def edit_profile_image_file():
 
     file.filename = f"{user_id}_image_url.{file.filename.split('.')[-1]}"
     s3_resource = boto3.resource("s3")
-    my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+    my_bucket = s3_resource.Bucket(current_app.config['S3_BUCKET_NAME'])
     my_bucket.Object(file.filename).put(Body=file, ACL="public-read")
     user = User.query.filter(User.id == user_id).first()
     if user is None:
@@ -207,7 +206,7 @@ def delete_profile_image():
     if user is None:
         return {}, 404
 
-    user.image_url = Config.PROFILE_IMAGE
+    user.image_url = current_app.config['PROFILE_IMAGE']
     db.session.add(user)
     db.session.commit()
 
@@ -222,7 +221,7 @@ def edit_back_image_file():
     file = request.files["file"]
     file.filename = f"{user_id}_image_back_url.{file.filename.split('.')[-1]}"
     s3_resource = boto3.resource("s3")
-    my_bucket = s3_resource.Bucket(Config.S3_BUCKET_NAME)
+    my_bucket = s3_resource.Bucket(current_app.config['S3_BUCKET_NAME'])
     my_bucket.Object(file.filename).put(Body=file, ACL="public-read")
     user = User.query.filter(User.id == user_id).first()
     if user is None:
@@ -257,7 +256,7 @@ def delete_back_image():
     if user is None:
         return {}, 404
 
-    user.image_back_url = Config.PROFILE_BACK_IMAGE
+    user.image_back_url = current_app.config['PROFILE_BACK_IMAGE']
     db.session.add(user)
     db.session.commit()
 

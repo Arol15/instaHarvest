@@ -1,7 +1,6 @@
 from flask import render_template, current_app
 from flask_mail import Message
 from threading import Thread
-from app.config import Config
 from app import mail
 
 
@@ -18,9 +17,9 @@ def send_email(to, subject, template, **kwargs):
     """
     Send email to the user
     """
-    if not Config.SEND_CONFIRM_EMAIL:
+    if not current_app.config['SEND_CONFIRM_EMAIL']:
         return
-    sender = f'InstaHarvest <{Config.MAIL_USERNAME}>'
+    sender = f'InstaHarvest <{current_app.config["MAIL_USERNAME"]}>'
     msg = Message(subject, sender=sender, recipients=[to])
     msg.body = render_template(template + '.txt', **kwargs)
     msg.html = render_template(template + '.html', **kwargs)
