@@ -26,6 +26,7 @@ def get_profile():
 
 @bp.route("/<string:addr>")
 def get_profile_public(addr):
+    print(addr)
     user = User.query.filter_by(profile_addr=addr).first()
     if user is None:
         return {}, 404
@@ -53,8 +54,8 @@ def change_pass():
 @auth_required
 def edit_profile():
     """
-    Can update only `first_name`, `last_name`, `image_url`, `address`,
-    `address`, `city`, `state`, `zip_code`
+    Can update only `first_name`, `last_name`, `image_url`, `image_back_url` `address`,
+    `city`, `state`, `zip_code`
 
     """
     data = request.get_json()
