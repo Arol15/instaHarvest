@@ -24,6 +24,8 @@ class UserModelCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+
+class PasswordCase(unittest.TestCase):
     def test_password_setter(self):
         u = User(password="abc")
         self.assertTrue(u.hashed_password is not None)
