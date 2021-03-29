@@ -1,8 +1,13 @@
 import os
+from dotenv import load_dotenv
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    DATABASE_TEST = os.environ.get('DATABASE_TEST')
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAIL_PASSWORD = os.environ.get('GMAIL_PASS')
@@ -11,7 +16,7 @@ class Config(object):
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     SEND_CONFIRM_EMAIL = True
-    BASE_URL = 'http://www.instaharvest.net'
+    BASE_URL = 'https://www.instaharvest.net'
     S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
@@ -22,3 +27,4 @@ class Config(object):
     SESSION_USE_SIGNER = True
     SESSION_SQLALCHEMY_TABLE = 'sessions'
     PERMANENT_SESSION_LIFETIME = 604800
+    TESTING = False
