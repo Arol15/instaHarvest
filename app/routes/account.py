@@ -161,7 +161,7 @@ def change_email(token):
 #     summaries = my_bucket.objects.all()
 #     for o in summaries:
 #         print(o.key)
-#     return {"message": "bucket printed successfully"}, 200
+#     return {"msg": "bucket printed successfully"}, 200
 
 
 @bp.route("/update_profile_image_file", methods=["POST"])
@@ -180,7 +180,7 @@ def edit_profile_image_file():
     user.image_url = f"https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}"
     db.session.add(user)
     db.session.commit()
-    return {"message": "Image uploaded",
+    return {"msg": "Image uploaded",
             "image_url": user.image_url}, 200
 
 
@@ -195,7 +195,7 @@ def edit_profile_image_url():
     user.image_url = image_url
     db.session.add(user)
     db.session.commit()
-    return {"message": "Image url saved",
+    return {"msg": "Image url saved",
             "image_url": user.image_url}, 200
 
 
@@ -211,7 +211,7 @@ def delete_profile_image():
     db.session.add(user)
     db.session.commit()
 
-    return {"message": "Image deleted",
+    return {"msg": "Image deleted",
             "image_url": user.image_url}, 200
 
 
@@ -230,7 +230,7 @@ def edit_back_image_file():
     user.image_back_url = f"https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}"
     db.session.add(user)
     db.session.commit()
-    return {"message": "Image uploaded",
+    return {"msg": "Image uploaded",
             "image_back_url": user.image_back_url}, 200
 
 
@@ -245,7 +245,7 @@ def edit_back_image_url():
     user.image_back_url = image_back_url
     db.session.add(user)
     db.session.commit()
-    return {"message": "Image url saved",
+    return {"msg": "Image url saved",
             "image_back_url": user.image_back_url}, 200
 
 
@@ -261,5 +261,5 @@ def delete_back_image():
     db.session.add(user)
     db.session.commit()
 
-    return {"message": "Image deleted",
+    return {"msg": "Image deleted",
             "image_back_url": user.image_back_url}, 200

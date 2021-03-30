@@ -56,8 +56,8 @@ const UploadImage = ({
   };
 
   useEffect(() => {
-    if (data && data.message) {
-      showModal(data.message, "mdl-ok");
+    if (data && data.msg) {
+      showModal(data.msg, "mdl-ok");
       resetMethod();
     } else if (error) {
       showModal(error, "mdl-error");
