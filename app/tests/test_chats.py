@@ -4,6 +4,7 @@ from app.models import User
 from flask import Flask, session, current_app
 from datetime import datetime, timedelta
 from .config import *
+import time
 
 
 def test_chats(client):
@@ -47,7 +48,28 @@ def test_chats(client):
     chats = rv.get_json()["chats"]
     assert len(chats) == 4
     for i, chat in enumerate(chats):
-        print(chat)
         assert chat["chat_id"] == 4 - i
         assert chat["recipient_id"] == 5 - i
         assert chat["last_message"] == f"msg2 from User{5 - i} to User1"
+
+        # User1 sends reply
+        rv = client.post("/api/chat/send_message",
+                         json={"recipient_id": 5 - i, "chat_id": 4 - i, "body": f"msg1 from User1 to User{5-i}"})
+        resp = rv.get_json()
+        assert int(rv.status[:3]) == 200
+        assert resp["body"] == f"msg1 from User1 to User{5-i}"
+        assert get_date() in resp["created_at"]
+        assert resp["sender_id"] == 1
+
+    # Check user2-5 chats
+    for i in range(2, 6):
+        login(client, f"user{i}", PASSWORD)
+        rv = client.post("/api/chat/get_chat_between_users",
+                         json={"recipient_id": 1})
+        resp = rv.get_json()
+        assert int(rv.status[:3]) == 200
+        assert resp["chat_id"] == i - 1
+        chats = resp["msgs"]
+        assert len(chats) == 3
+        assert chats[-1]["body"] == f"msg1 from User1 to User{i}"
+        assert chats[-1]["sender_id"] == 1

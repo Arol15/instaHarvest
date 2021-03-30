@@ -54,11 +54,12 @@ def chat_between_users():
     if recipient is None:
         return {"error": "User not found"}, 404
     msgs_dict = []
-    chat = Chat.query.filter_by(
-        user1_id=user_id, user2_id=recipient_id).first()
-    if not chat:
-        chat = Chat.query.filter_by(
-            user1_id=recipient_id, user2_id=user_id).first()
+
+    chat = Chat.query \
+        .filter(Chat.user1_id.in_([user_id, recipient_id])) \
+        .filter(Chat.user2_id.in_([user_id, recipient_id])) \
+        .first()
+
     if chat:
         messages = chat.messages.order_by(Message.created_at).all()
         msgs_dict = [message.to_dict() for message in messages]
