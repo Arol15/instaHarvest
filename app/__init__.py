@@ -6,11 +6,13 @@ from flask_mail import Mail
 from app.config import Config
 from logging.config import dictConfig
 import boto3
+from flask_socketio import SocketIO, send
 
 db = SQLAlchemy()
 migrate = Migrate()
 mail = Mail()
 session = Session()
+socketio = SocketIO()
 
 
 def create_app(config_class=Config):
@@ -53,6 +55,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     mail.init_app(app)
     session.init_app(app)
+    socketio.init_app(app, cors_allowed_origins="*")
     app.secret_key = app.config["SECRET_KEY"]
 
     @app.route('/')
@@ -62,6 +65,12 @@ def create_app(config_class=Config):
     @app.errorhandler(404)
     def not_found(e):
         return app.send_static_file("index.html")
+
+    @socketio.on('message')
+    def handleMessage(msg):
+        print(msg)
+        send(msg, broadcast=True)
+        return None
 
     from app.routes import users, auth, account, chat, products
     app.register_blueprint(users.bp, url_prefix='/api/users')
