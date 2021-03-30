@@ -15,6 +15,8 @@ USER1 = "test"
 EMAIL1 = "test@test.com"
 USER2 = "test2"
 EMAIL2 = "test2@test.com"
+USER3 = "test3"
+EMAIL3 = "test3@test.com"
 PASSWORD = "123456"
 
 
@@ -23,6 +25,7 @@ def client():
     app = create_app(TestConfig)
     app_context = app.app_context()
     app_context.push()
+    db.drop_all()
     db.create_all()
     user = User(username=USER1,
                 first_name="Name1",

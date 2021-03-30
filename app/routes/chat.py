@@ -25,12 +25,18 @@ def get_user_chats():
 def send_message():
     data = request.get_json()
     user_id = session["id"]
-    recipient_id = request.json.get("recipient_id", None)
-    chat_id = request.json.get("chat_id", None)
-    chat = Chat.query.filter_by(
-        id=chat_id).first()
+    try:
+        recipient_id = data["recipient_id"]
+        chat_id = data["chat_id"]
+        body = data["body"]
+    except:
+        return {}, 404
+    recipient = User.query.filter_by(id=recipient_id).first()
+    chat = Chat.query.filter_by(id=chat_id).first()
+    if user_id == recipient_id or recipient is None or chat is None:
+        return {}, 404
     message = Message(chat_id=chat.id, sender_id=user_id,
-                      body=data["body"])
+                      body=body)
     db.session.add(message)
     db.session.commit()
     return message.to_dict(), 200
@@ -39,9 +45,14 @@ def send_message():
 @bp.route("/get_chat_between_users", methods=["POST"])
 @auth_required
 def chat_between_users():
-    data = request.get_json()
     user_id = session["id"]
-    recipient_id = data["recipient_id"]
+    try:
+        recipient_id = request.json.get("recipient_id")
+    except:
+        return {"error": "Bad request"}, 404
+    recipient = User.query.filter_by(id=recipient_id).first()
+    if recipient is None:
+        return {"error": "User not found"}, 404
     msgs_dict = []
     chat = Chat.query.filter_by(
         user1_id=user_id, user2_id=recipient_id).first()
@@ -61,8 +72,11 @@ def chat_between_users():
 @bp.route("/get_chat_messages", methods=["POST"])
 @auth_required
 def get_chat_messages():
-    data = request.get_json()
-    chat = Chat.query.filter_by(id=data["chat_id"]).first()
+    try:
+        chat_id = request.json.get("chat_id")
+    except:
+        return {}, 404
+    chat = Chat.query.filter_by(id=chat_id).first()
     if chat is None:
         return {"chat_id": data["chat_id"], "msgs": []}, 200
     messages = chat.messages.order_by(Message.created_at).all()
@@ -73,8 +87,11 @@ def get_chat_messages():
 @bp.route("/delete_message", methods=["DELETE"])
 @auth_required
 def delete_msg():
-    msg_id = request.json.get("msg_id")
+    try:
+        msg_id = request.json.get("msg_id")
+    except:
+        return {"error": "Bad request"}, 404
     msg = Message.query.filter_by(id=msg_id).first()
     db.session.delete(msg)
     db.session.commit()
-    return {}, 200
+    return {"msg": "Message deleted"}, 200
