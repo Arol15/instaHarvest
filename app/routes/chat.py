@@ -102,11 +102,13 @@ def delete_msg():
 @socketio.on("join")
 def on_join(chat_id):
     join_room(chat_id)
+    print(f"user joined room {chat_id}")
 
 
 @socketio.on("leave")
 def on_leave(chat_id):
     join_room(chat_id)
+    print(f"user left room {chat_id}")
 
 
 @socketio.on("send_msg")
