@@ -15,13 +15,11 @@ const UserChatsPage = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
   const history = useHistory();
-  const openChat = (recipientId, recipientName, recipientImg) => {
+  const openChat = (chat) => {
     history.push({
-      pathname: `/chats/${recipientName}`,
+      pathname: `/chats/${chat.recipient_name}`,
       state: {
-        recipientId: recipientId,
-        recipientName: recipientName,
-        recipientImg: recipientImg,
+        ...chat,
       },
     });
   };
@@ -82,13 +80,7 @@ const UserChatsPage = () => {
             <div
               key={i}
               className="chat-user-chats"
-              onClick={() =>
-                openChat(
-                  chat.recipient_id,
-                  chat.recipient_name,
-                  chat.recipient_img
-                )
-              }
+              onClick={() => openChat(chat)}
             >
               <img className="chat-img" src={chat.recipient_img} />
               <div className="chat-last-msg">

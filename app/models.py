@@ -162,6 +162,7 @@ class Chat(db.Model):
             last_message = messages[-1].body
             last_date = messages[-1].created_at.isoformat()
         return {
+            "user_id": user_id,
             "chat_id": self.id,
             "created_at": self.created_at,
             "recipient_id": recipient_id,
