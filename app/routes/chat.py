@@ -2,9 +2,10 @@ import json
 from datetime import datetime
 from flask import Blueprint, request, session
 from sqlalchemy import or_
-from app import db
+from app import db, socketio
 from app.models import User, Chat, Message
 from app.utils.security import auth_required
+from flask_socketio import join_room, leave_room, send, emit
 
 bp = Blueprint("chat", __name__)
 
@@ -35,7 +36,7 @@ def send_message():
     chat = Chat.query.filter_by(id=chat_id).first()
     if user_id == recipient_id or recipient is None or chat is None:
         return {}, 404
-    message = Message(chat_id=chat.id, sender_id=user_id,
+    message = Message(chat_id=chat_id, sender_id=user_id,
                       body=body)
     db.session.add(message)
     db.session.commit()
@@ -79,10 +80,10 @@ def get_chat_messages():
         return {}, 404
     chat = Chat.query.filter_by(id=chat_id).first()
     if chat is None:
-        return {"chat_id": data["chat_id"], "msgs": []}, 200
+        return {"chat_id": chat_id, "msgs": []}, 200
     messages = chat.messages.order_by(Message.created_at).all()
     msgs_dict = [message.to_dict() for message in messages]
-    return {"chat_id": data["chat_id"], "msgs": msgs_dict}, 200
+    return {"chat_id": chat_id, "msgs": msgs_dict}, 200
 
 
 @bp.route("/delete_message", methods=["DELETE"])
@@ -96,3 +97,41 @@ def delete_msg():
     db.session.delete(msg)
     db.session.commit()
     return {"msg": "Message deleted"}, 200
+
+
+@socketio.on("join")
+def on_join(chat_id):
+    join_room(chat_id)
+    print(f"user joined room {chat_id}")
+
+
+@socketio.on("leave")
+def on_leave(chat_id):
+    join_room(chat_id)
+    print(f"user left room {chat_id}")
+
+
+@socketio.on("send_msg")
+def send_message(data):
+    chat_id = data["chat_id"]
+    msg = data["body"]
+    recipient_id = data["recipient_id"]
+    user_id = data["user_id"]
+
+    recipient = User.query.filter_by(id=recipient_id).first()
+    chat = Chat.query.filter_by(id=chat_id).first()
+    message = Message(chat_id=chat_id, sender_id=user_id,
+                      body=msg)
+    db.session.add(message)
+    db.session.commit()
+    emit("send_msg", message.to_dict(), room=chat_id)
+
+
+@socketio.on("delete_msg")
+def send_message(data):
+    msg_id = data["msg_id"]
+    chat_id = data["chat_id"]
+    msg = Message.query.filter_by(id=msg_id).first()
+    db.session.delete(msg)
+    db.session.commit()
+    emit("delete_msg", room=chat_id)

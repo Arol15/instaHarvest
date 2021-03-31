@@ -1,35 +1,49 @@
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import config from "../config";
-let socket;
+
+export let socket;
 
 export const connectSocket = (chat_id) => {
   socket = io(config.endPoint);
-  console.log("Connecting socket...");
   if (socket && chat_id) {
     socket.emit("join", chat_id);
   }
 };
 
-export const disconnectSocket = () => {
-  console.log("Disconnecting socket...");
+export const disconnectSocket = (chat_id) => {
   if (socket) {
     socket.emit("leave", chat_id);
     socket.disconnect();
   }
 };
 
-export const subscribeToChat = (cb) => {
+export const subscribeToChat = (cbSend, cbDelete) => {
   if (!socket) {
     return true;
   }
-  socket.on("chat", (msg) => {
-    console.log("Websocket event received!");
-    return cb(null, msg);
+  socket.on("send_msg", (data) => {
+    return cbSend(null, data);
+  });
+  socket.on("delete_msg", () => {
+    return cbDelete();
   });
 };
 
-export const sendMessage = (message, chat_id) => {
+export const sendMessage = (data, chat_id, user_id) => {
   if (socket) {
-    socket.emit("chat", { body: message, chat_id: chat_id });
+    socket.emit("send_msg", {
+      ...data,
+      chat_id,
+      user_id,
+    });
+  }
+};
+
+export const deleteMessage = (msg_id, chat_id) => {
+  if (socket) {
+    socket.emit("delete_msg", {
+      chat_id,
+      msg_id,
+    });
   }
 };
