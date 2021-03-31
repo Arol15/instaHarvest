@@ -18,49 +18,11 @@ import EditProduct from "./components/product/EditProduct";
 import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
 
-import io from "socket.io-client";
-
-const endPoint = "http://localhost:5000";
-const socket = io.connect(`${endPoint}`);
-
 function App() {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState(["Hello"]);
-
-  useEffect(() => {
-    getMessages();
-  }, [messages.length]);
-
-  const onClick = () => {
-    console.log(message);
-    socket.emit("message", message);
-    setMessage("");
-  };
-
-  const onChange = (e) => {
-    setMessage(e.target.value);
-  };
-
-  const getMessages = () => {
-    socket.on("message", (msg) => {
-      setMessages([...messages, msg]);
-    });
-  };
-
   return (
     <>
       <Router>
         <MainNavbar />
-
-        <h1>Messages</h1>
-        {messages.map((msg, i) => (
-          <div key={i}>
-            <p>{msg}</p>
-          </div>
-        ))}
-        <input value={message} name="message" onChange={(e) => onChange(e)} />
-        <button onClick={() => onClick()}>Send</button>
-
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login">

@@ -66,11 +66,19 @@ def create_app(config_class=Config):
     def not_found(e):
         return app.send_static_file("index.html")
 
-    @socketio.on('message')
-    def handleMessage(msg):
-        print(msg)
-        send(msg, broadcast=True)
-        return None
+    # @socketio.on('message')
+    # def handleMessage(msg):
+    #     print(msg)
+    #     send(msg, broadcast=True)
+    #     return None
+
+    # @socketio.on("connect")
+    # def test_connect():
+    #     print("Connected")
+
+    # @socketio.on("disconnect")
+    # def test_connect():
+    #     print("Disconnected")
 
     from app.routes import users, auth, account, chat, products
     app.register_blueprint(users.bp, url_prefix='/api/users')
