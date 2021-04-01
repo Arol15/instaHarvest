@@ -57,13 +57,7 @@ const Chat = () => {
     if (!chatState) {
       history.push("/chats");
     }
-    if (!location.chat_id) {
-      sendRequest("/api/chat/get_chat_between_users", "POST", {
-        recipient_id: chatState.recipient_id,
-      });
-    } else {
-      getMessages();
-    }
+    getMessages();
     connectSocket(chatState.chat_id);
     subscribeToChat(
       (err, msg) => {

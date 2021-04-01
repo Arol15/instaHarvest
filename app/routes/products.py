@@ -65,7 +65,7 @@ def get_all_products_protected():
     return {"products": user_products, "user_id": user_id}
 
 
-@bp.route("/product-location-info/<int:userId>")
+@bp.route("/product-location-info/<int:userId>", methods=["POST"])
 def product_location_info(userId):
     # print(userId)
     product_details = {}
