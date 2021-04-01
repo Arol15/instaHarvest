@@ -23,9 +23,9 @@ const ProductDetails = () => {
     history.push({
       pathname: `/chats/${recipientName}`,
       state: {
-        recipientId: recipientId,
-        recipientName: recipientName,
-        recipientImg: recipientImg,
+        recipient_id: recipientId,
+        recipient_name: recipientName,
+        recipient_img: recipientImg,
       },
     });
   };
