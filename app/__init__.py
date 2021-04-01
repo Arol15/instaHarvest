@@ -53,9 +53,9 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
-    mail.init_app(app, cors_allowed_origins=app.config["BASE_URL"])
+    mail.init_app(app)
     session.init_app(app)
-    socketio.init_app(app)
+    socketio.init_app(app, cors_allowed_origins=app.config["BASE_URL"])
     app.secret_key = app.config["SECRET_KEY"]
 
     @app.route('/')
