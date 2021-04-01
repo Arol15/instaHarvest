@@ -43,6 +43,28 @@ def send_message():
     return message.to_dict(), 200
 
 
+@bp.route("/find_create_chat", methods=["POST"])
+@auth_required
+def find_create_chat():
+    user_id = session["id"]
+    try:
+        recipient_id = request.json.get("recipient_id")
+    except:
+        return {"error": "Bad request"}, 404
+    recipient = User.query.filter_by(id=recipient_id).first()
+    if recipient is None:
+        return {"error": "User not found"}, 404
+    chat = Chat.query \
+        .filter(Chat.user1_id.in_([user_id, recipient_id])) \
+        .filter(Chat.user2_id.in_([user_id, recipient_id])) \
+        .first()
+    if chat is None:
+        chat = Chat(user1_id=user_id, user2_id=recipient_id)
+        db.session.add(chat)
+        db.session.commit()
+    return {"chat_id": chat.id, "user_id": user_id}, 200
+
+
 @bp.route("/get_chat_between_users", methods=["POST"])
 @auth_required
 def chat_between_users():
