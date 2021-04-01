@@ -1,6 +1,6 @@
 const config = {
   baseUrl: "https://www.instaharvest.net/",
-  endPoint: "http://www.instaharvest.net:5000",
+  endPoint: "https://www.instaharvest.net",
 };
 
 export default config;
