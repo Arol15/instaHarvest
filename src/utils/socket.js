@@ -4,7 +4,7 @@ import config from "../config";
 export let socket;
 
 export const connectSocket = (chat_id) => {
-  socket = io();
+  socket = io(config.endPoint);
   if (socket && chat_id) {
     socket.emit("join", chat_id);
   }
