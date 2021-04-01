@@ -26,7 +26,6 @@ def get_profile():
 
 @bp.route("/<string:addr>")
 def get_profile_public(addr):
-    print(addr)
     user = User.query.filter_by(profile_addr=addr).first()
     if user is None:
         return {}, 404

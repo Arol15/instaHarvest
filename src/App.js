@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Home from "./components/Home";
 import Profile from "./components/profile/Profile";
 import Products from "./components/product/Products";

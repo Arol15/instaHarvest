@@ -4,10 +4,17 @@ import { useRequest, useForm } from "../../hooks/hooks";
 import validation from "../../form_validation/validation";
 import Message from "./Message";
 import Spinner from "../UI/Spinner";
-import { IoReload, IoArrowBack } from "react-icons/io5";
+import { IoArrowBack } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../../store/modalSlice";
 import { datetimeToLocal } from "../../utils/datetime";
+import {
+  connectSocket,
+  disconnectSocket,
+  subscribeToChat,
+  sendMessage,
+  deleteMessage,
+} from "../../utils/socket";
 
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -18,7 +25,7 @@ const Chat = () => {
     errorNumMsg,
     processMsg,
   ] = useRequest();
-  const [chatMsgs, setChatMsgs] = useState(null);
+  const [chatMsgs, setChatMsgs] = useState();
   const bottom = useRef();
   const location = useLocation();
   const [chatState, setChatState] = useState(
@@ -26,8 +33,9 @@ const Chat = () => {
   );
   const history = useHistory();
   const dispatch = useDispatch();
-  const onSubmit = (e) => {
-    processMsg("/api/chat/send_message", "POST", formData, true);
+  const onSubmit = () => {
+    sendMessage(formData, chatState.chat_id, chatState.user_id);
+    setFormData({ ...formData, body: "" });
   };
   const [
     setFormData,
@@ -36,28 +44,41 @@ const Chat = () => {
     formData,
     formErrors,
   ] = useForm(
-    { body: "", recipient_id: chatState && chatState.recipientId },
+    { body: "", recipient_id: chatState && chatState.recipient_id },
     onSubmit,
     validation
   );
 
   const onDeleteMsg = (msgId) => {
-    processMsg("/api/chat/delete_message", "DELETE", { msg_id: msgId }, true);
+    deleteMessage(msgId, chatState.chat_id);
   };
 
   useEffect(() => {
     if (!chatState) {
       history.push("/chats");
     }
-    sendRequest("/api/chat/get_chat_between_users", "POST", {
-      recipient_id: chatState && chatState.recipientId,
-    });
+    getMessages();
+    connectSocket(chatState.chat_id);
+    subscribeToChat(
+      (err, msg) => {
+        if (err) {
+          return;
+        }
+        setChatMsgs((oldMsgs) => [...oldMsgs, msg]);
+      },
+      () => {
+        getMessages();
+      }
+    );
+
+    return () => {
+      disconnectSocket(chatState.chat_id);
+    };
   }, []);
 
-  const getMessages = (e) => {
-    e && e.preventDefault();
+  const getMessages = () => {
     sendRequest("/api/chat/get_chat_messages", "POST", {
-      chat_id: data.chat_id,
+      chat_id: chatState.chat_id,
     });
   };
 
@@ -71,7 +92,7 @@ const Chat = () => {
         })
       );
     } else if (data) {
-      setFormData({ ...formData, chat_id: data.chat_id });
+      setFormData({ ...formData, chat_id: chatState.chat_id });
       setChatMsgs([...data.msgs]);
     }
   }, [error, errorNum, data]);
@@ -98,9 +119,9 @@ const Chat = () => {
   return (
     chatState && (
       <div className="chat">
-        {isLoading && <Spinner />}
+        {(isLoading || isLoadingMsg) && <Spinner />}
         <div className="chat-header">
-          <h1>Chat with {chatState && chatState.recipientName}</h1>
+          <h1>Chat with {chatState && chatState.recipient_name}</h1>
           <button
             onClick={() => {
               history.goBack();
@@ -115,8 +136,8 @@ const Chat = () => {
             chatMsgs.map((msg, i) => {
               const sender =
                 parseInt(msg.sender_id) ===
-                parseInt(chatState && chatState.recipientId)
-                  ? chatState && chatState.recipientName
+                parseInt(chatState && chatState.recipient_id)
+                  ? chatState && chatState.recipient_name
                   : "Me";
               return (
                 <div key={i} ref={i === chatMsgs.length - 1 ? bottom : null}>
@@ -146,9 +167,6 @@ const Chat = () => {
                 {formErrors.body && formErrors.body}
               </div>
               <button onClick={handleSubmit}>Send</button>
-              <button onClick={getMessages}>
-                <IoReload />
-              </button>
             </form>
           </div>
         )}

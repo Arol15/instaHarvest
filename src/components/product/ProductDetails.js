@@ -19,27 +19,33 @@ const ProductDetails = () => {
     inPlace: false,
   });
 
-  const openChat = (recipientId, recipientName, recipientImg) => {
-    history.push({
-      pathname: `/chats/${recipientName}`,
-      state: {
-        recipientId: recipientId,
-        recipientName: recipientName,
-        recipientImg: recipientImg,
-      },
+  const getChat = () => {
+    sendRequest("/api/chat/find_create_chat", "POST", {
+      recipient_id: location.state.user_id,
     });
   };
 
-  const handleAfterConfirm = () => {
-    openChat(location.state.user_id, info.first_name, info.image_url);
-    window.location.reload();
+  const openChat = (data) => {
+    history.push({
+      pathname: `/chats/${info.first_name}`,
+      state: data,
+    });
   };
 
   useEffect(() => {
-    sendRequest(`/api/products/product-location-info/${user_id}`, "get");
+    sendRequest(`/api/products/product-location-info/${user_id}`, "POST");
   }, []);
 
   useEffect(() => {
+    if (data && data.chat_id) {
+      openChat({
+        recipient_id: location.state.user_id,
+        recipient_name: info.first_name,
+        recipient_img: info.image_url,
+        chat_id: data.chat_id,
+        user_id: data.user_id,
+      });
+    }
     if (data) {
       setInfo(data.product_details);
     }
@@ -56,17 +62,15 @@ const ProductDetails = () => {
         </div>
         {checkAuth() ? (
           <button
-            onClick={() =>
-              openChat(location.state.user_id, info.first_name, info.image_url)
-            }
+            onClick={() => {
+              getChat();
+            }}
           >
             Connect with seller
           </button>
         ) : (
           <button
-            onClick={() =>
-              showModal(<AuthModal afterConfirm={handleAfterConfirm} />)
-            }
+            onClick={() => showModal(<AuthModal afterConfirm={closeModal} />)}
           >
             Connect with Seller
           </button>
