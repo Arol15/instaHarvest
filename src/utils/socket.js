@@ -1,4 +1,4 @@
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import config from "../config";
 
 export let socket;
