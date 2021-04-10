@@ -138,6 +138,8 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.description && formErrors.description}
           </div>
+          {/* <label>Location: </label> */}
+
           <button>Add Product</button>
         </form>
       </div>
