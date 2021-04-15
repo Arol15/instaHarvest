@@ -43,9 +43,12 @@ input[type="submit"] {
 input,
 select,
 textarea {
+  font: inherit;
+  text-align: center;
   border: 1px solid hsl(0, 2%, 75%);
   border-radius: 5px;
   padding: 10px;
+  font-size: 1rem;
 }
 
 input:focus,

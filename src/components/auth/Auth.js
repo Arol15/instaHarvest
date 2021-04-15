@@ -7,9 +7,13 @@ import { checkAuth } from "../../utils/localStorage";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "../../store/profileSlice";
 import Spinner from "../UI/Spinner";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "../../mapboxGeocoder.css";
+import { parseLocation } from "../../utils/map";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [address, setAddress] = useRequest();
   const history = useHistory();
   const dispatch = useDispatch();
   const [modal, showModal] = useModal({
@@ -38,10 +42,33 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     formErrors,
   ] = useForm({}, onSubmit, validation);
 
+  // useEffect(() => {
+  //   const geocoder = new MapboxGeocoder({
+  //     accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+  //   });
+  //   console.log(geocoder);
+  //   geocoder.addTo("#geocoder-auth");
+  //   geocoder.setPlaceholder("Enter your location");
+  //   geocoder.on("result", parseLocation);
+
+  //   return () => {
+  //     console.log("delete");
+  //     geocoder.off("result", parseLocation);
+  //   };
+  // }, []);
+
   useEffect(() => {
+    const geocoder = new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+    });
     if (view === "login") {
       setFormData({ login: "", password: "" });
     } else if (view === "signup") {
+      console.log(geocoder);
+      geocoder.addTo("#geocoder-auth");
+      geocoder.setPlaceholder("Enter your location");
+      geocoder.on("result", parseLocation);
+
       setFormData({
         email: "",
         password: "",
@@ -50,9 +77,21 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         first_name: "",
         state: "",
         city: "",
+        zip_code: "",
+        country: "",
+        lat: "",
+        lgt: "",
+        address: "",
       });
     } else if (view === "confirm") {
       setFormData({ login: user, password: "" });
+    }
+
+    if (view === "signup") {
+      return () => {
+        console.log("delete");
+        geocoder.off("result", parseLocation);
+      };
     }
   }, [view]);
 
@@ -176,7 +215,8 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
               <div className="form-danger">
                 {formErrors.first_name && formErrors.first_name}
               </div>
-              <select
+              <div id="geocoder-auth" />
+              {/* <select
                 key="6"
                 placeholder="State"
                 name="state"
@@ -207,7 +247,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
               />
               <div className="form-danger">
                 {formErrors.city && formErrors.city}
-              </div>
+              </div> */}
             </>
           )}
         </div>

@@ -17,6 +17,7 @@ const MainNavbar = () => {
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
+    disableClose: true,
   });
 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
