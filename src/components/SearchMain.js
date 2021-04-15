@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import useForm from "../hooks/useForm";
 import useRequest from "../hooks/useRequest";
@@ -7,6 +7,8 @@ import { checkAuth } from "../utils/localStorage";
 import { useDispatch } from "react-redux";
 import { showMsg } from "../store/modalSlice";
 import Spinner from "./UI/Spinner";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const SearchMain = () => {
   const onSubmit = () => {
@@ -16,6 +18,8 @@ const SearchMain = () => {
       sendRequest("/api/products/get-all", "post", formData);
     }
   };
+
+  const [searchState, setSearchState] = useState({ error: null });
 
   const [
     setFormData,
@@ -28,6 +32,21 @@ const SearchMain = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    const geocoder = new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+    });
+    geocoder.addTo("#geocoder-container");
+    geocoder.setPlaceholder("Enter your location");
+    geocoder.on("result", (res) => {
+      console.log(res);
+    });
+
+    return () => {
+      geocoder.off("result", () => {});
+    };
+  }, []);
 
   useEffect(() => {
     if (data && data.products.length === 0) {
@@ -57,19 +76,11 @@ const SearchMain = () => {
   return (
     <>
       {isLoading && <Spinner />}
-      <form>
-        <input
-          type="search"
-          placeholder="Enter your location"
-          name="search_term"
-          onChange={handleInputChange}
-          value={formData.search_term}
-        />
-        <div className="form-danger">
-          {formErrors.search_term && formErrors.search_term}
-        </div>
-        <button onClick={handleSubmit}>Find</button>
-      </form>
+      <div id="geocoder-container" />
+      {searchState.error && (
+        <div className="form-danger">{searchState.error}</div>
+      )}
+      <button onClick={handleSubmit}>Find</button>
     </>
   );
 };

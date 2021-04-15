@@ -1,6 +1,5 @@
 import ShareProducts from "./ShareProducts";
 import SearchMain from "../components/SearchMain";
-import Footer from "../components/Footer";
 
 const Home = () => {
   return (
