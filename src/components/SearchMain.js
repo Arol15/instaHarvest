@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { showMsg } from "../store/modalSlice";
 import Spinner from "./UI/Spinner";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "../mapboxGeocoder.css";
 
 const SearchMain = () => {
   const onSubmit = () => {

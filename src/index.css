@@ -41,10 +41,18 @@ input[type="submit"] {
 }
 
 input,
-select {
+select,
+textarea {
   border: 1px solid hsl(0, 2%, 75%);
   border-radius: 5px;
   padding: 10px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 3pt 1pt hsl(0, 0%, 0%);
 }
 
 .inline-block {
