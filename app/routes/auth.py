@@ -38,6 +38,9 @@ def signup():
                 image_back_url=image_back_url,
                 state=data["state"],
                 city=data["city"],
+                country=data["country"],
+                lat=data["lat"],
+                lgt=data["lgt"],
                 profile_addr=profile_addr,
                 confirm_email_sent=now)
 

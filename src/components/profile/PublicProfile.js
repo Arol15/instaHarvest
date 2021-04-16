@@ -28,6 +28,7 @@ const PublicProfile = (props) => {
             emailVerified={data.email_verified}
             city={data.city}
             usState={data.us_state}
+            country={data.country}
             joined={datetimeToLocal(data.created_at, "month-year")}
           />
         </>

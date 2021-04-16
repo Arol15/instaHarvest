@@ -19,11 +19,12 @@ class User(db.Model):
     image_back_url = db.Column(db.String)
     hashed_password = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(100))
-    lgt = db.Column(db.Float, server_default="0.0")
-    lat = db.Column(db.Float, server_default="0.0")
-    state = db.Column(db.String(12), nullable=False)
-    city = db.Column(db.String(20), nullable=False)
-    zip_code = db.Column(db.Integer, server_default="0")
+    lgt = db.Column(db.Float, nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    state = db.Column(db.String(12))
+    city = db.Column(db.String(20))
+    zip_code = db.Column(db.Integer)
+    country = db.Column(db.String(20))
     confirm_email_sent = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime,
                            default=datetime.utcnow)
@@ -57,6 +58,7 @@ class User(db.Model):
             "image_url": self.image_url,
             "image_back_url": self.image_back_url,
             "city": self.city,
+            "country": self.country,
             "us_state": self.state,
             "email_verified": self.email_verified,
             "created_at": self.created_at.isoformat()
@@ -75,6 +77,7 @@ class User(db.Model):
             "email_verified": self.email_verified,
             "us_state": self.state,
             "city": self.city,
+            "country": self.country,
             "zip_code": self.zip_code,
             "address": self.address,
             "created_at": self.created_at.isoformat()
@@ -90,7 +93,8 @@ class User(db.Model):
             "email_verified": self.email_verified,
             "created_at": self.created_at.isoformat(),
             "us_state": self.state,
-            "city": self.city
+            "city": self.city,
+            "country": self.country
         }
 
     def to_dict_location_user_info(self):

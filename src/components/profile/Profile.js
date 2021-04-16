@@ -58,6 +58,7 @@ const Profile = ({ tab }) => {
             firstName={profileData.first_name}
             emailVerified={profileData.email_verified}
             city={profileData.city}
+            country={profileData.country}
             usState={profileData.us_state}
             joined={datetimeToLocal(profileData.created_at, "month-year")}
           />
