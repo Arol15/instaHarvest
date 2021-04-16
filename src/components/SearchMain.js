@@ -9,6 +9,7 @@ import { showMsg } from "../store/modalSlice";
 import Spinner from "./UI/Spinner";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "../mapboxGeocoder.css";
+import { parseLocation } from "../utils/map";
 
 const SearchMain = () => {
   const onSubmit = () => {
@@ -39,9 +40,7 @@ const SearchMain = () => {
     });
     geocoder.addTo("#geocoder-container");
     geocoder.setPlaceholder("Enter your location");
-    geocoder.on("result", (res) => {
-      console.log(res);
-    });
+    geocoder.on("result", (res) => {});
 
     return () => {
       geocoder.off("result", () => {});

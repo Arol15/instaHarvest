@@ -12,7 +12,7 @@ bp = Blueprint("products", __name__)
 def create_product():
     data = request.get_json()
     user_id = session["id"]
-    # print(user_id)
+    # address_id =
     product = Product(user_id=user_id, name=data["name"],
                       product_type=data["product_type"], image_urls=data["image_urls"],
                       price=data["price"], status="available", description=data["description"])
@@ -21,18 +21,18 @@ def create_product():
     return {"msg": "Product created"}, 200
 
 
-@bp.route("/products-per-user", methods=["POST"])
-@auth_required
-def get_products_per_user():
-    user_id = session["id"]
-    # print(user_id)
-    user = User.query.filter_by(id=user_id).first()
-    if user is None:
-        return {}, 404
-    user_products = user.products.order_by(Product.created_at.desc()).all()
-    products = [product.to_dict() for product in user_products]
-    # print(products)
-    return {"user_products": products}
+# @bp.route("/products-per-user", methods=["POST"])
+# @auth_required
+# def get_products_per_user():
+#     user_id = session["id"]
+#     # print(user_id)
+#     user = User.query.filter_by(id=user_id).first()
+#     if user is None:
+#         return {}, 404
+#     user_products = user.products.order_by(Product.created_at.desc()).all()
+#     products = [product.to_dict() for product in user_products]
+#     # print(products)
+#     return {"user_products": products}
 
 
 @bp.route("/get-all", methods=["POST"])

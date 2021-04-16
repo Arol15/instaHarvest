@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import validation from "../../form_validation/validation";
 import { useRequest, useForm } from "../../hooks/hooks";
 import { useHistory } from "react-router-dom";
@@ -138,7 +138,7 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.description && formErrors.description}
           </div>
-          {/* <label>Location: </label> */}
+          <label>Location: </label>
 
           <button>Add Product</button>
         </form>

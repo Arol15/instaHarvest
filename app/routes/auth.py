@@ -4,7 +4,7 @@ from datetime import datetime
 from dateutil import tz
 from flask import Blueprint, request, url_for, redirect, session, current_app
 from app import db
-from app.models import User
+from app.models import User, Address
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 
@@ -36,16 +36,23 @@ def signup():
                 email_verified=email_verified,
                 image_url=image_url,
                 image_back_url=image_back_url,
-                state=data["state"],
-                city=data["city"],
-                country=data["country"],
-                lat=data["lat"],
-                lgt=data["lgt"],
                 profile_addr=profile_addr,
                 confirm_email_sent=now)
-
     db.session.add(user)
     db.session.commit()
+
+    address = Address(user_id=user.id,
+                      primary_address=True,
+                      state=data["state"],
+                      city=data["city"],
+                      country=data["country"],
+                      lat=data["lat"],
+                      lgt=data["lgt"],
+                      address=data["address"],
+                      zip_code=data["zip_code"])
+    db.session.add(address)
+    db.session.commit()
+
     session["id"] = user.id
     session["date"] = now
     # Send confirmation email

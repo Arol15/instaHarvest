@@ -18,13 +18,6 @@ class User(db.Model):
     image_url = db.Column(db.String)
     image_back_url = db.Column(db.String)
     hashed_password = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(100))
-    lgt = db.Column(db.Float, nullable=False)
-    lat = db.Column(db.Float, nullable=False)
-    state = db.Column(db.String(12))
-    city = db.Column(db.String(20))
-    zip_code = db.Column(db.Integer)
-    country = db.Column(db.String(20))
     confirm_email_sent = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime,
                            default=datetime.utcnow)
@@ -34,6 +27,7 @@ class User(db.Model):
     products = db.relationship("Product", backref="user", lazy="dynamic")
     liked_products = db.relationship(
         "LikedProduct", backref="user", lazy="dynamic")
+    addresses = db.relationship("Address", backref="user", lazy="dynamic")
 
     @property
     def password(self):
@@ -53,19 +47,21 @@ class User(db.Model):
         return f"User with {self.username} and {self.password}"
 
     def to_dict_auth(self):
+        address = self.addresses.filter_by(primary_address=True).first()
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
             "image_back_url": self.image_back_url,
-            "city": self.city,
-            "country": self.country,
-            "us_state": self.state,
+            "city": address.city,
+            "country": address.country,
+            "us_state": address.state,
             "email_verified": self.email_verified,
             "created_at": self.created_at.isoformat()
 
         }
 
     def to_dict_private(self):
+        address = self.addresses.filter_by(primary_address=True).first()
         return {
             "username": self.username,
             "first_name": self.first_name,
@@ -75,16 +71,17 @@ class User(db.Model):
             "email": self.email,
             "profile_addr": self.profile_addr,
             "email_verified": self.email_verified,
-            "us_state": self.state,
-            "city": self.city,
-            "country": self.country,
-            "zip_code": self.zip_code,
-            "address": self.address,
+            "us_state": address.state,
+            "city": address.city,
+            "country": address.country,
+            "zip_code": address.zip_code,
+            "address": address.address,
             "created_at": self.created_at.isoformat()
 
         }
 
     def to_dict_public(self):
+        address = self.addresses.filter_by(primary_address=True).first()
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
@@ -92,20 +89,21 @@ class User(db.Model):
             "image_back_url": self.image_back_url,
             "email_verified": self.email_verified,
             "created_at": self.created_at.isoformat(),
-            "us_state": self.state,
-            "city": self.city,
-            "country": self.country
+            "us_state": address.state,
+            "city": address.city,
+            "country": address.country
         }
 
     def to_dict_location_user_info(self):
+        address = self.addresses.filter_by(primary_address=True).first()
         return {
             "first_name": self.first_name,
             "image_url": self.image_url,
             # "email_verified": self.email_verified,
-            "state": self.state,
-            "city": self.city,
-            "lat": self.lat,
-            "lgt": self.lgt
+            "state": address.state,
+            "city": address.city,
+            "lat": address.lat,
+            "lgt": address.lgt
         }
 
 
@@ -124,6 +122,8 @@ class Product(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     deleted_at = db.Column(db.DateTime)
     due_date = db.Column(db.DateTime)
+    address_id = db.Column(db.Integer, db.ForeignKey(
+        "addresses.id"), nullable=False)
 
     likes = db.relationship(
         "LikedProduct", backref="product", lazy="dynamic")
@@ -141,6 +141,23 @@ class Product(db.Model):
             "product_id": self.id,
             "total_likes": likes,
         }
+
+
+class Address(db.Model):
+    __tablename__ = "addresses"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    primary_address = db.Column(db.Boolean)
+    address = db.Column(db.String(100))
+    lgt = db.Column(db.Float, nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    state = db.Column(db.String(12))
+    city = db.Column(db.String(20))
+    zip_code = db.Column(db.Integer)
+    country = db.Column(db.String(20))
+
+    products = db.relationship(
+        "Product", backref="address", lazy="dynamic")
 
 
 class Chat(db.Model):

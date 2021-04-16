@@ -4,8 +4,6 @@ export const parseLocation = ({ result }) => {
   location.lat = result.geometry.coordinates[1];
   const placeType = result.place_type;
 
-  console.log(result);
-
   if (!result.context && placeType.includes("country")) {
     location.country = result.place_name_en;
     return location;
