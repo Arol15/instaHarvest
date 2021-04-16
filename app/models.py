@@ -159,6 +159,18 @@ class Address(db.Model):
     products = db.relationship(
         "Product", backref="address", lazy="dynamic")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "primary_address": self.primary_address,
+            "address": self.address,
+            "us_state": self.state,
+            "city": self.city,
+            "zip_code": self.zip_code,
+            "country": self.country
+
+        }
+
 
 class Chat(db.Model):
     __tablename__ = "chats"

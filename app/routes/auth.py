@@ -49,7 +49,7 @@ def signup():
                       lat=data["lat"],
                       lgt=data["lgt"],
                       address=data["address"],
-                      zip_code=data["zip_code"])
+                      zip_code=data["zip_code"] if data["zip_code"] else None)
     db.session.add(address)
     db.session.commit()
 

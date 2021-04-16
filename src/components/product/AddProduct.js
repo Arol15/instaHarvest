@@ -10,11 +10,16 @@ import ToggleInput from "../UI/ToggleInput";
 import { showMsg } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
 import Spinner from "../UI/Spinner";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "../../mapboxGeocoder.css";
+import { parseLocation } from "../../utils/map";
 
 const AddProduct = () => {
   const history = useHistory();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
+  const [addresses, setAddresses] = useState();
+  const [newAddress, setNewAddress] = useState(false);
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -40,6 +45,8 @@ const AddProduct = () => {
       price: 0,
       status: "",
       description: "",
+      location: "",
+      new_addr: "",
     },
     onSubmit,
     validation
@@ -50,9 +57,36 @@ const AddProduct = () => {
     window.location.reload();
   };
 
+  const handleInputChangeLocation = (event) => {
+    console.log(event.target.value);
+    if (event.target.value === "add") {
+      setNewAddress(true);
+    } else {
+      setNewAddress(false);
+    }
+
+    handleInputChange(event);
+  };
+
+  const getAddressFromGeoInput = (data) => {
+    const fields = {
+      state: "",
+      city: "",
+      zip_code: "",
+      country: "",
+      lat: "",
+      lgt: "",
+      address: "",
+    };
+    const location = parseLocation(data);
+    setFormData({ ...formData, location: { ...fields, ...location } });
+  };
+
   useEffect(() => {
     if (!checkAuth()) {
       showModal(<AuthModal afterConfirm={handleAfterConfirm} />);
+    } else {
+      sendRequest("/api/account/get_user_addresses", "POST");
     }
   }, []);
 
@@ -66,16 +100,38 @@ const AddProduct = () => {
         })
       );
     } else if (data) {
-      dispatch(
-        showMsg({
-          open: true,
-          msg: "Product has been added!",
-          classes: "mdl-ok",
-        })
-      );
-      history.push("/user-products");
+      if (data.msg === "addresses") {
+        setAddresses(data.list);
+      } else {
+        dispatch(
+          showMsg({
+            open: true,
+            msg: "Product has been added!",
+            classes: "mdl-ok",
+          })
+        );
+        history.push("/user-products");
+      }
     }
   }, [data, error, errorNum]);
+
+  useEffect(() => {
+    let geocoder;
+    if (formData.location == "add") {
+      geocoder = new MapboxGeocoder({
+        accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+      });
+      geocoder.addTo("#geocoder-add-loc");
+      geocoder.setPlaceholder("Enter new location");
+      geocoder.on("result", getAddressFromGeoInput);
+
+      return () => {
+        geocoder.off("result", getAddressFromGeoInput);
+      };
+    }
+  }, [formData]);
+
+  console.log(formData);
 
   return (
     <>
@@ -110,8 +166,9 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.product_type && formErrors.product_type}
           </div>
-          <label>Pictures</label>
+          <label>Picture</label>
           <input
+            disabled={true}
             className="add-product-input"
             type="file"
             name="image_urls"
@@ -139,7 +196,42 @@ const AddProduct = () => {
             {formErrors.description && formErrors.description}
           </div>
           <label>Location: </label>
+          {addresses && (
+            <>
+              <select
+                name="location"
+                onChange={handleInputChangeLocation}
+                value={formData.location || ""}
+              >
+                <option value="">Select location</option>
+                {addresses.map((addr, i) => {
+                  return (
+                    <option key={i} value={addr.id}>
+                      {addr.primary_address && "Primary address: "}
+                      {addr.address && `${addr.address}, `}
+                      {addr.city && `${addr.city}, `}
+                      {addr.us_state && `${addr.us_state}, `}
+                      {addr.country && `${addr.country}`}
+                    </option>
+                  );
+                })}
+                <option value="add">Add new location</option>
+              </select>
+              <div className="form-danger">
+                {formErrors.location && formErrors.location}
+              </div>
 
+              {newAddress && (
+                <>
+                  <div id="geocoder-add-loc" />
+
+                  <div className="form-danger">
+                    {formErrors.address && formErrors.address}
+                  </div>
+                </>
+              )}
+            </>
+          )}
           <button>Add Product</button>
         </form>
       </div>

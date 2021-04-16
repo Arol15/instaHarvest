@@ -24,6 +24,18 @@ def get_profile():
     return res, 200
 
 
+@bp.route("/get_user_addresses", methods=["POST"])
+@auth_required
+def get_user_addresses():
+    user_id = session["id"]
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        return {}, 404
+    addresses = user.addresses.all()
+    addr_list = [address.to_dict() for address in addresses]
+    return {"msg": "addresses",  "list": addr_list}, 200
+
+
 @bp.route("/<string:addr>")
 def get_profile_public(addr):
     user = User.query.filter_by(profile_addr=addr).first()

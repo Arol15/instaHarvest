@@ -1,8 +1,8 @@
-"""Add address model
+"""Add Address table
 
-Revision ID: e4f805160260
+Revision ID: cd41167561ac
 Revises: 
-Create Date: 2021-04-16 11:17:15.794344
+Create Date: 2021-04-16 15:42:57.964037
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e4f805160260'
+revision = 'cd41167561ac'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -89,8 +89,8 @@ def upgrade():
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('deleted_at', sa.DateTime(), nullable=True),
     sa.Column('due_date', sa.DateTime(), nullable=True),
-    sa.Column('address', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['address'], ['addresses.id'], ),
+    sa.Column('address_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['address_id'], ['addresses.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

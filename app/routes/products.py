@@ -1,7 +1,7 @@
 from flask import Blueprint, request, session
 import json
 from app import db
-from app.models import Product, User, LikedProduct
+from app.models import Product, User, LikedProduct, Address
 from app.utils.security import auth_required
 
 bp = Blueprint("products", __name__)
@@ -12,10 +12,34 @@ bp = Blueprint("products", __name__)
 def create_product():
     data = request.get_json()
     user_id = session["id"]
-    # address_id =
+    address_id = None
+    if type(data["location"]).__name__ == "str":
+        address_id = int(data["location"])
+    if address_id is None:
+        loc = data["location"]
+        user = User.query.filter_by(id=user_id).first()
+        address = user.addresses.filter_by(
+            lgt=loc["lgt"], lat=loc["lat"]).first()
+        if address:
+            return {"error": "Address already exists"}, 409
+
+        address = Address(user_id=user_id,
+                          primary_address=False,
+                          state=loc["state"],
+                          city=loc["city"],
+                          country=loc["country"],
+                          lat=loc["lat"],
+                          lgt=loc["lgt"],
+                          address=loc["address"],
+                          zip_code=loc["zip_code"] if loc["zip_code"] else None)
+        db.session.add(address)
+        db.session.commit()
+        address_id = address.id
+
     product = Product(user_id=user_id, name=data["name"],
                       product_type=data["product_type"], image_urls=data["image_urls"],
-                      price=data["price"], status="available", description=data["description"])
+                      price=data["price"], status="available", description=data["description"],
+                      address_id=address_id)
     db.session.add(product)
     db.session.commit()
     return {"msg": "Product created"}, 200

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useRequest, useForm, useModal } from "../../hooks/hooks";
-import statesList from "../../assets/data/states.json";
 import validation from "../../form_validation/validation";
 import { checkAuth } from "../../utils/localStorage";
 import { useDispatch } from "react-redux";

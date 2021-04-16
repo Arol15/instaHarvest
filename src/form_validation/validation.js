@@ -95,6 +95,11 @@ const validation = (data) => {
         errors.url = "Please enter image url";
       }
     }
+    if (key === "location") {
+      if (!value || value == "add") {
+        errors.location = "Please choose or add location";
+      }
+    }
   });
 
   return errors;
