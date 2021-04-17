@@ -128,11 +128,15 @@ class Product(db.Model):
     likes = db.relationship(
         "LikedProduct", backref="product", lazy="dynamic")
 
-    def to_dict(self):
+    def to_dict(self, user_id):
         likes = self.likes.count()
         address = Address.query.filter_by(id=self.address_id).first()
         address_dict = address.to_dict()
+        authorized = True if user_id else False
+        personal = True if user_id == self.user_id else False
         return {
+            "authorized": authorized,
+            "personal": personal,
             "name": self.name,
             "product_type": self.product_type,
             "image_urls": self.image_urls,
@@ -165,12 +169,15 @@ class Address(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "user_id": self.user_id,
             "primary_address": self.primary_address,
             "address": self.address,
             "us_state": self.state,
             "city": self.city,
             "zip_code": self.zip_code,
-            "country": self.country
+            "country": self.country,
+            "lgt": self.lgt,
+            "lat": self.lat,
 
         }
 

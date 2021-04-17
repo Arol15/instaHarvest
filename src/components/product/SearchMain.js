@@ -26,12 +26,7 @@ const SearchMain = () => {
   const history = useHistory();
 
   const onSubmit = () => {
-    if (checkAuth()) {
-      console.log(formData);
-      // sendRequest("/api/products/get-all-protected", "post", formData);
-    } else {
-      // sendRequest("/api/products/get-all", "post", formData);
-    }
+    sendRequest("/api/products/get_local_products", "POST", formData);
   };
 
   const [setFormData, handleSubmit, , formData, formErrors] = useForm(
@@ -82,23 +77,22 @@ const SearchMain = () => {
     if (data) {
       if (data.type && data.type === "FeatureCollection") {
         geocoder.setInput(data.features[0].place_name);
+      } else if (data.products.length > 0) {
+        history.push({
+          pathname: "/search-results",
+          state: data,
+        });
+        console.log(data);
+      } else {
+        dispatch(
+          showMsg({
+            open: true,
+            msg: "No results per this location",
+            classes: "mdl-error",
+          })
+        );
       }
-    }
-    // if (data && data.products.length === 0) {
-    //   dispatch(
-    //     showMsg({
-    //       open: true,
-    //       msg: "No results per this location",
-    //       classes: "mdl-error",
-    //     })
-    //   );
-    // } else if (data) {
-    //   history.push({
-    //     pathname: "/search-results",
-    //     state: data,
-    //   });
-    // }
-    else if (error) {
+    } else if (error) {
       dispatch(
         showMsg({
           open: true,

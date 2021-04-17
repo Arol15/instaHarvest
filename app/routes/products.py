@@ -1,5 +1,6 @@
 from flask import Blueprint, request, session
 import json
+from sqlalchemy.sql import func
 from app import db
 from app.models import Product, User, LikedProduct, Address
 from app.utils.security import auth_required
@@ -59,16 +60,18 @@ def get_products_per_user():
 
 @bp.route("/get_local_products", methods=["POST"])
 def get_all_products():
-    data = request.get_json()
-    # print(data)
-    searchCity = data["search_term"]
-    # print(searchCity)
-    prods = Product.query.join(Product.user).filter(
-        User.city == searchCity).all()
-    # print(prods)
-    user_products = [product.to_dict() for product in prods]
-    # print(user_products)
-    return {"products": user_products}
+    user_id = None
+    try:
+        user_id = session["id"]
+    except:
+        pass
+    # data = request.get_json()
+    lgt = request.json.get("lgt")
+    lat = request.json.get("lat")
+    products = Product.query.join(Product.address).filter(func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
+        func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lgt) - (func.radians(lgt)))) * 6371 <= 40).all()
+    products_dict = [product.to_dict(user_id) for product in products]
+    return {"products": products_dict}, 200
 
 
 @bp.route("/get-all-protected", methods=["POST"])
