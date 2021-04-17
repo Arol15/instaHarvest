@@ -58,7 +58,6 @@ const AddProduct = () => {
   };
 
   const handleInputChangeLocation = (event) => {
-    console.log(event.target.value);
     if (event.target.value === "add") {
       setNewAddress(true);
     } else {
@@ -68,8 +67,8 @@ const AddProduct = () => {
     handleInputChange(event);
   };
 
-  const getAddressFromGeoInput = (data) => {
-    const fields = {
+  const onResultGeocoder = (data) => {
+    const addressFields = {
       state: "",
       city: "",
       zip_code: "",
@@ -79,7 +78,11 @@ const AddProduct = () => {
       address: "",
     };
     const location = parseLocation(data);
-    setFormData({ ...formData, location: { ...fields, ...location } });
+    setFormData({ ...formData, location: { ...addressFields, ...location } });
+  };
+
+  const onClearGeocoder = () => {
+    setFormData({ ...formData, location: "add" });
   };
 
   useEffect(() => {
@@ -116,22 +119,21 @@ const AddProduct = () => {
   }, [data, error, errorNum]);
 
   useEffect(() => {
-    let geocoder;
-    if (formData.location == "add") {
-      geocoder = new MapboxGeocoder({
+    if (newAddress) {
+      const geocoder = new MapboxGeocoder({
         accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
       });
       geocoder.addTo("#geocoder-add-loc");
       geocoder.setPlaceholder("Enter new location");
-      geocoder.on("result", getAddressFromGeoInput);
+      geocoder.on("result", onResultGeocoder);
+      geocoder.on("clear", onClearGeocoder);
 
       return () => {
-        geocoder.off("result", getAddressFromGeoInput);
+        geocoder.off("result", onResultGeocoder);
+        geocoder.off("clear", onClearGeocoder);
       };
     }
-  }, [formData]);
-
-  console.log(formData);
+  }, [newAddress]);
 
   return (
     <>
@@ -217,19 +219,10 @@ const AddProduct = () => {
                 })}
                 <option value="add">Add new location</option>
               </select>
+              {newAddress && <div id="geocoder-add-loc" />}
               <div className="form-danger">
                 {formErrors.location && formErrors.location}
               </div>
-
-              {newAddress && (
-                <>
-                  <div id="geocoder-add-loc" />
-
-                  <div className="form-danger">
-                    {formErrors.address && formErrors.address}
-                  </div>
-                </>
-              )}
             </>
           )}
           <button>Add Product</button>

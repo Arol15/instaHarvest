@@ -13,57 +13,76 @@ import { parseLocation, getBrowserLocation } from "../utils/map";
 import { MdMyLocation } from "react-icons/md";
 
 const SearchMain = () => {
+  // const geocoder = new MapboxGeocoder({
+  //   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+  // });
   const onSubmit = () => {
-    console.log("SUBM");
     if (checkAuth()) {
-      sendRequest("/api/products/get-all-protected", "post", formData);
+      console.log(formData);
+      // sendRequest("/api/products/get-all-protected", "post", formData);
     } else {
-      sendRequest("/api/products/get-all", "post", formData);
+      // sendRequest("/api/products/get-all", "post", formData);
     }
   };
 
   const [searchState, setSearchState] = useState({ error: null });
-
+  const [geocoder] = useState(
+    new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+    })
+  );
   const [
     setFormData,
     handleSubmit,
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({ search_term: "" }, onSubmit, validation);
+  ] = useForm({ lat: "", lgt: "" }, onSubmit, validation);
 
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const onResultGeocoder = (data) => {
+    const location = parseLocation(data);
+    setFormData({ lat: location.lat, lgt: location.lgt });
+  };
+
+  const onClearGeocoder = () => {
+    setFormData({ lat: "", lgt: "" });
+  };
+
   useEffect(() => {
-    const geocoder = new MapboxGeocoder({
-      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
-    });
     geocoder.addTo("#geocoder-container");
     geocoder.setPlaceholder("Enter your location");
-    geocoder.on("result", (res) => {});
+    geocoder.on("result", onResultGeocoder);
+    geocoder.on("clear", onClearGeocoder);
 
     return () => {
-      geocoder.off("result", () => {});
+      geocoder.off("result", onResultGeocoder);
+      geocoder.off("clear", onClearGeocoder);
     };
   }, []);
 
   useEffect(() => {
-    if (data && data.products.length === 0) {
-      dispatch(
-        showMsg({
-          open: true,
-          msg: "No results per this location",
-          classes: "mdl-error",
-        })
-      );
-    } else if (data) {
-      history.push({
-        pathname: "/search-results",
-        state: data,
-      });
-    } else if (error) {
+    if (data && data.type && data.type === "FeatureCollection") {
+      geocoder.setInput(data.features[0].place_name);
+    }
+    // if (data && data.products.length === 0) {
+    //   dispatch(
+    //     showMsg({
+    //       open: true,
+    //       msg: "No results per this location",
+    //       classes: "mdl-error",
+    //     })
+    //   );
+    // } else if (data) {
+    //   history.push({
+    //     pathname: "/search-results",
+    //     state: data,
+    //   });
+    // }
+    else if (error) {
       dispatch(
         showMsg({
           open: true,
@@ -76,13 +95,21 @@ const SearchMain = () => {
 
   const successFn = (pos) => {
     const crd = pos.coords;
-    console.log(pos);
+    sendRequest(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${crd.longitude},${crd.latitude}.json?limit=1&access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
+    );
   };
 
   const errorFn = (err) => {
-    console.log(err.message);
+    dispatch(
+      showMsg({
+        open: true,
+        msg: err.message,
+        classes: "mdl-error",
+      })
+    );
   };
-  console.log(formErrors);
+
   return (
     <>
       {isLoading && <Spinner />}
