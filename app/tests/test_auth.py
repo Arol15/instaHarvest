@@ -11,12 +11,12 @@ def test_signup(client):
     rv = signup(client, USER2, EMAIL2, PASSWORD)
     resp = rv.get_json()
     assert get_date() in resp["created_at"]
-    assert resp["city"] == "Fremont"
+    assert resp["city"] == "Austin"
     assert resp["email_verified"] == False
     assert resp["first_name"] == "Name2"
     assert resp["image_back_url"] == current_app.config["PROFILE_BACK_IMAGE"]
     assert resp["image_url"] == current_app.config["PROFILE_IMAGE"]
-    assert resp["us_state"] == "California"
+    assert resp["us_state"] == "Texas"
 
     # Existing username
     rv = signup(client, USER2, "user3@test.com", PASSWORD)
@@ -54,12 +54,12 @@ def test_login_logout(client):
     resp = rv.get_json()
     assert int(rv.status[:3]) == 200
     assert get_date() in resp["created_at"]
-    assert resp["city"] == "Fremont"
+    assert resp["city"] == "Austin"
     assert resp["email_verified"] == False
     assert resp["first_name"] == "Name1"
     assert resp["image_back_url"] == current_app.config["PROFILE_BACK_IMAGE"]
     assert resp["image_url"] == current_app.config["PROFILE_IMAGE"]
-    assert resp["us_state"] == "California"
+    assert resp["us_state"] == "Texas"
     assert session["id"] == 1
 
     # Logout
@@ -72,12 +72,12 @@ def test_login_logout(client):
     resp = rv.get_json()
     assert int(rv.status[:3]) == 200
     assert get_date() in resp["created_at"]
-    assert resp["city"] == "Fremont"
+    assert resp["city"] == "Austin"
     assert resp["email_verified"] == False
     assert resp["first_name"] == "Name1"
     assert resp["image_back_url"] == current_app.config["PROFILE_BACK_IMAGE"]
     assert resp["image_url"] == current_app.config["PROFILE_IMAGE"]
-    assert resp["us_state"] == "California"
+    assert resp["us_state"] == "Texas"
     assert session["id"] == 1
 
 

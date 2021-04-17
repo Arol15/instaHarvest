@@ -18,10 +18,10 @@ def test_get_profile_private(client):
     assert resp["email"] == EMAIL1
     assert resp["profile_addr"] == "profile-address"
     assert resp["email_verified"] == False
-    assert resp["us_state"] == "California"
-    assert resp["city"] == "Fremont"
-    assert resp["zip_code"] == 0
-    assert resp["address"] == None
+    assert resp["us_state"] == "Texas"
+    assert resp["city"] == "Austin"
+    assert resp["zip_code"] == None
+    assert resp["address"] == ""
     assert get_date() in resp["created_at"]
 
 
@@ -34,8 +34,8 @@ def test_get_profile_public(client):
     assert resp["image_back_url"] == current_app.config["PROFILE_BACK_IMAGE"]
     assert resp["email_verified"] == False
     assert get_date() in resp["created_at"]
-    assert resp["us_state"] == "California"
-    assert resp["city"] == "Fremont"
+    assert resp["us_state"] == "Texas"
+    assert resp["city"] == "Austin"
 
 
 def test_change_pass(client):
@@ -70,11 +70,7 @@ def test_edit_profile(client):
         "first_name": "new-name",
         "last_name": "new-last-name",
         "image_url": "new-image-url",
-        "image_back_url": "new-image-back-url",
-        "address": "new-address",
-        "city": "new-city",
-        "us_state": "Texas",
-        "zip_code": 94555}
+        "image_back_url": "new-image-back-url"}
 
     for field, value in profile_fields.items():
         rv = client.patch("/api/account/edit_profile", json={field: value})
