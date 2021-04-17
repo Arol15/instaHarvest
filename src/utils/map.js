@@ -38,3 +38,13 @@ export const parseLocation = ({ result }) => {
 
   return location;
 };
+
+export const getBrowserLocation = (successFn, errorFn) => {
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0,
+  };
+
+  navigator.geolocation.getCurrentPosition(successFn, errorFn, options);
+};

@@ -9,10 +9,12 @@ import { showMsg } from "../store/modalSlice";
 import Spinner from "./UI/Spinner";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "../mapboxGeocoder.css";
-import { parseLocation } from "../utils/map";
+import { parseLocation, getBrowserLocation } from "../utils/map";
+import { MdMyLocation } from "react-icons/md";
 
 const SearchMain = () => {
   const onSubmit = () => {
+    console.log("SUBM");
     if (checkAuth()) {
       sendRequest("/api/products/get-all-protected", "post", formData);
     } else {
@@ -72,10 +74,27 @@ const SearchMain = () => {
     }
   }, [data, error]);
 
+  const successFn = (pos) => {
+    const crd = pos.coords;
+    console.log(pos);
+  };
+
+  const errorFn = (err) => {
+    console.log(err.message);
+  };
+  console.log(formErrors);
   return (
     <>
       {isLoading && <Spinner />}
-      <div id="geocoder-container" />
+      <div className="search-container">
+        <div id="geocoder-container" />
+        <div
+          className="geocoder-find-location"
+          onClick={() => getBrowserLocation(successFn, errorFn)}
+        >
+          <MdMyLocation size="30px" />
+        </div>
+      </div>
       {searchState.error && (
         <div className="form-danger">{searchState.error}</div>
       )}
