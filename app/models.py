@@ -130,6 +130,8 @@ class Product(db.Model):
 
     def to_dict(self):
         likes = self.likes.count()
+        address = Address.query.filter_by(id=self.address_id).first()
+        address_dict = address.to_dict()
         return {
             "name": self.name,
             "product_type": self.product_type,
@@ -140,6 +142,7 @@ class Product(db.Model):
             "user_id": self.user_id,
             "product_id": self.id,
             "total_likes": likes,
+            "address": address_dict
         }
 
 

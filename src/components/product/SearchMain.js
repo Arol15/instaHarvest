@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import useForm from "../hooks/useForm";
-import useRequest from "../hooks/useRequest";
-import validation from "../form_validation/validation";
-import { checkAuth } from "../utils/localStorage";
 import { useDispatch } from "react-redux";
-import { showMsg } from "../store/modalSlice";
-import Spinner from "./UI/Spinner";
+import { useForm, useRequest } from "../../hooks/hooks";
+
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "../mapboxGeocoder.css";
-import { parseLocation, getBrowserLocation } from "../utils/map";
+import Spinner from "../UI/Spinner";
+
 import { MdMyLocation } from "react-icons/md";
+import { validation } from "../../form_validation/validation";
+import { checkAuth } from "../../utils/localStorage";
+import { showMsg } from "../../store/modalSlice";
+import { parseLocation, getBrowserLocation } from "../../utils/map";
+
+import "../map/mapboxGeocoder.css";
 
 const SearchMain = () => {
-  // const geocoder = new MapboxGeocoder({
-  //   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
-  // });
+  const [geocoder] = useState(
+    new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+    })
+  );
+
+  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const onSubmit = () => {
     if (checkAuth()) {
       console.log(formData);
@@ -25,23 +34,11 @@ const SearchMain = () => {
     }
   };
 
-  const [searchState, setSearchState] = useState({ error: null });
-  const [geocoder] = useState(
-    new MapboxGeocoder({
-      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
-    })
+  const [setFormData, handleSubmit, , formData, formErrors] = useForm(
+    { lat: "", lgt: "" },
+    onSubmit,
+    validation
   );
-  const [
-    setFormData,
-    handleSubmit,
-    handleInputChange,
-    formData,
-    formErrors,
-  ] = useForm({ lat: "", lgt: "" }, onSubmit, validation);
-
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   const onResultGeocoder = (data) => {
     const location = parseLocation(data);
@@ -50,6 +47,23 @@ const SearchMain = () => {
 
   const onClearGeocoder = () => {
     setFormData({ lat: "", lgt: "" });
+  };
+
+  const successFn = (pos) => {
+    const crd = pos.coords;
+    sendRequest(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${crd.longitude},${crd.latitude}.json?limit=1&access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
+    );
+  };
+
+  const errorFn = (err) => {
+    dispatch(
+      showMsg({
+        open: true,
+        msg: err.message,
+        classes: "mdl-error",
+      })
+    );
   };
 
   useEffect(() => {
@@ -65,8 +79,10 @@ const SearchMain = () => {
   }, []);
 
   useEffect(() => {
-    if (data && data.type && data.type === "FeatureCollection") {
-      geocoder.setInput(data.features[0].place_name);
+    if (data) {
+      if (data.type && data.type === "FeatureCollection") {
+        geocoder.setInput(data.features[0].place_name);
+      }
     }
     // if (data && data.products.length === 0) {
     //   dispatch(
@@ -93,23 +109,6 @@ const SearchMain = () => {
     }
   }, [data, error]);
 
-  const successFn = (pos) => {
-    const crd = pos.coords;
-    sendRequest(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${crd.longitude},${crd.latitude}.json?limit=1&access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
-    );
-  };
-
-  const errorFn = (err) => {
-    dispatch(
-      showMsg({
-        open: true,
-        msg: err.message,
-        classes: "mdl-error",
-      })
-    );
-  };
-
   return (
     <>
       {isLoading && <Spinner />}
@@ -122,9 +121,10 @@ const SearchMain = () => {
           <MdMyLocation size="30px" />
         </div>
       </div>
-      {searchState.error && (
-        <div className="form-danger">{searchState.error}</div>
-      )}
+      <div className="form-danger">
+        {formErrors.address && formErrors.address}
+      </div>
+
       <button onClick={handleSubmit}>Find</button>
     </>
   );

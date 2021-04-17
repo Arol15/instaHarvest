@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRequest, useModal, useForm } from "../../hooks/hooks";
+
 import Auth from "../auth/Auth";
-import statesList from "../../assets/data/states.json";
-import validation from "../../form_validation/validation";
 import Spinner from "../UI/Spinner";
+
+import { validation } from "../../form_validation/validation";
+
+import statesList from "../../assets/data/states.json";
 import "./profile.css";
 
 const ProfileFild = (props) => {

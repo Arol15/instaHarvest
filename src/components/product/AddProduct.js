@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import validation from "../../form_validation/validation";
-import { useRequest, useForm } from "../../hooks/hooks";
 import { useHistory } from "react-router-dom";
-import "./AddProduct.css";
-import AuthModal from "../auth/AuthModal";
-import { useModal } from "../../hooks/hooks";
-import { checkAuth } from "../../utils/localStorage";
-import ToggleInput from "../UI/ToggleInput";
-import { showMsg } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
-import Spinner from "../UI/Spinner";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
+
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "../../mapboxGeocoder.css";
+import AuthModal from "../auth/AuthModal";
+import ToggleInput from "../UI/ToggleInput";
+import Spinner from "../UI/Spinner";
+
+import { validation } from "../../form_validation/validation";
 import { parseLocation } from "../../utils/map";
+import { checkAuth } from "../../utils/localStorage";
+import { showMsg } from "../../store/modalSlice";
+
+import "../map/mapboxGeocoder.css";
+import "./addProduct.css";
 
 const AddProduct = () => {
   const history = useHistory();
@@ -28,7 +30,7 @@ const AddProduct = () => {
   });
 
   const onSubmit = () => {
-    sendRequest("/api/products/add-product", "post", formData);
+    sendRequest("/api/products/add_product", "post", formData);
   };
 
   const [

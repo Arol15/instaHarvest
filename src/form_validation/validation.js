@@ -1,4 +1,4 @@
-const validation = (data) => {
+export const validation = (data) => {
   const errors = {};
   if (data.password && data.confirm_pass) {
     if (data.password !== data.confirm_pass) {
@@ -43,16 +43,6 @@ const validation = (data) => {
         errors.first_name = "Please enter you name";
       }
     }
-    // if (key === "us_state") {
-    //   if (!value) {
-    //     errors.us_state = "Please select state";
-    //   }
-    // }
-    // if (key === "city") {
-    //   if (!value) {
-    //     errors.city = "Please enter city";
-    //   }
-    // }
     if (key === "lat") {
       if (!value) {
         errors.address = "Please enter location";
@@ -104,5 +94,3 @@ const validation = (data) => {
 
   return errors;
 };
-
-export default validation;

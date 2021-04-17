@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { useRequest, useForm, useModal } from "../../hooks/hooks";
-import validation from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
 import { useDispatch } from "react-redux";
-import { updateProfile } from "../../store/profileSlice";
-import Spinner from "../UI/Spinner";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
+
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "../../mapboxGeocoder.css";
+import Spinner from "../UI/Spinner";
+
+import { validation } from "../../form_validation/validation";
+import { checkAuth } from "../../utils/localStorage";
+import { updateProfile } from "../../store/profileSlice";
 import { parseLocation } from "../../utils/map";
+
+import "../map/mapboxGeocoder.css";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -224,7 +227,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       <p></p>
       {view === "login" && (
         <>
-          <Link onClick={closeModal} to="/reset_password">
+          <Link onClick={closeModal} to="/reset-password">
             Forgot your password?
           </Link>
           <p></p>

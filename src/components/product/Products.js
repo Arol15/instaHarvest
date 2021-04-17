@@ -1,6 +1,7 @@
-import Product from "./Product";
 import { useLocation } from "react-router-dom";
-import Map from "../Map";
+
+import Product from "./Product";
+import Map from "../map/Map";
 
 const Products = () => {
   const location = useLocation();

@@ -7,7 +7,7 @@ from app.utils.security import auth_required
 bp = Blueprint("products", __name__)
 
 
-@bp.route("/add-product", methods=["POST"])
+@bp.route("/add_product", methods=["POST"])
 @auth_required
 def create_product():
     data = request.get_json()
@@ -45,21 +45,19 @@ def create_product():
     return {"msg": "Product created"}, 200
 
 
-# @bp.route("/products-per-user", methods=["POST"])
-# @auth_required
-# def get_products_per_user():
-#     user_id = session["id"]
-#     # print(user_id)
-#     user = User.query.filter_by(id=user_id).first()
-#     if user is None:
-#         return {}, 404
-#     user_products = user.products.order_by(Product.created_at.desc()).all()
-#     products = [product.to_dict() for product in user_products]
-#     # print(products)
-#     return {"user_products": products}
+@bp.route("/products_per_user", methods=["POST"])
+@auth_required
+def get_products_per_user():
+    user_id = session["id"]
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        return {}, 404
+    user_products = user.products.order_by(Product.created_at.desc()).all()
+    products = [product.to_dict() for product in user_products]
+    return {"user_products": products}
 
 
-@bp.route("/get-all", methods=["POST"])
+@bp.route("/get_local_products", methods=["POST"])
 def get_all_products():
     data = request.get_json()
     # print(data)

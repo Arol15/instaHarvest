@@ -123,7 +123,7 @@ def reset_password():
     if user is None:
         return {"error": f"The user with email {email} does not exist"}, 401
     email_token = ts.dumps(email, salt="pass-reset")
-    confirm_url = f"{current_app.config['BASE_URL']}/reset_password_confirm/{email_token}"
+    confirm_url = f"{current_app.config['BASE_URL']}/reset-password-confirm/{email_token}"
     subject = "InstaHarvest - Password Reset"
     send_email(email, subject, "reset_password",
                user=user, confirm_url=confirm_url)

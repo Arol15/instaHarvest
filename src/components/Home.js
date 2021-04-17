@@ -1,5 +1,5 @@
 import ShareProducts from "./ShareProducts";
-import SearchMain from "../components/SearchMain";
+import SearchMain from "./product/SearchMain";
 
 const Home = () => {
   return (
