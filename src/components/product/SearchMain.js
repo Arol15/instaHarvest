@@ -82,7 +82,6 @@ const SearchMain = () => {
           pathname: "/search-results",
           state: { products: data.products, location: formData },
         });
-        console.log(data);
       } else {
         dispatch(
           showMsg({

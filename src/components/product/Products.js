@@ -30,7 +30,7 @@ const Products = () => {
       </div>
 
       <div>
-        <Map location={state.location} products={state.products} />
+        <Map location={state.location} points={state.products} />
       </div>
     </>
   );

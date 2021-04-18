@@ -44,9 +44,9 @@ const Product = ({ product }) => {
         {/* <img className="prd-img" src={product.image_urls.length > 0 ? product.image_urls[0] : product.icon} /> */}
         <div className="prd-description">
           <p>
-            <b>{product.name}</b>
+            <b>{product.properties.name}</b>
           </p>
-          <p>${product.price}</p>
+          <p>${product.properties.price}</p>
         </div>
       </div>
     </div>

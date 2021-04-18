@@ -210,12 +210,14 @@ const AddProduct = () => {
                 <option value="">Select location</option>
                 {addresses.map((addr, i) => {
                   return (
-                    <option key={i} value={addr.id}>
-                      {addr.primary_address && "Primary address: "}
-                      {addr.address && `${addr.address}, `}
-                      {addr.city && `${addr.city}, `}
-                      {addr.us_state && `${addr.us_state}, `}
-                      {addr.country && `${addr.country}`}
+                    <option key={i} value={addr.properties.id}>
+                      {addr.properties.primary_address && "Primary address: "}
+                      {addr.properties.address &&
+                        `${addr.properties.address}, `}
+                      {addr.properties.city && `${addr.properties.city}, `}
+                      {addr.properties.us_state &&
+                        `${addr.properties.us_state}, `}
+                      {addr.properties.country && `${addr.properties.country}`}
                     </option>
                   );
                 })}

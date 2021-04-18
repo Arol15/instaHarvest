@@ -135,19 +135,22 @@ class Product(db.Model):
         authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
         return {
-            "authorized": authorized,
-            "personal": personal,
-            "name": self.name,
-            "product_type": self.product_type,
-            "product_icon": self.product_icon,
-            "image_urls": self.image_urls,
-            "price": self.price,
-            "description": self.description,
-            "status": self.status,
-            "user_id": self.user_id,
-            "product_id": self.id,
-            "total_likes": likes,
-            "address": address_dict
+            "type": "Feature",
+            "properties": {
+                "authorized": authorized,
+                "personal": personal,
+                "name": self.name,
+                "product_type": self.product_type,
+                "product_icon": self.product_icon,
+                "image_urls": self.image_urls,
+                "price": self.price,
+                "description": self.description,
+                "status": self.status,
+                "user_id": self.user_id,
+                "product_id": self.id,
+                "total_likes": likes,
+            },
+            "geometry": address_dict
         }
 
 
@@ -169,16 +172,18 @@ class Address(db.Model):
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "primary_address": self.primary_address,
-            "address": self.address,
-            "us_state": self.state,
-            "city": self.city,
-            "zip_code": self.zip_code,
-            "country": self.country,
-            "lgt": self.lgt,
-            "lat": self.lat,
+            "type": "Point",
+            "coordinates": [self.lgt, self.lat],
+            "properties": {
+                "id": self.id,
+                "user_id": self.user_id,
+                "primary_address": self.primary_address,
+                "address": self.address,
+                "us_state": self.state,
+                "city": self.city,
+                "zip_code": self.zip_code,
+                "country": self.country,
+            },
         }
 
 

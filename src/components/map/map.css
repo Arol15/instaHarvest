@@ -6,3 +6,18 @@
   border: 1px solid #ddd;
   border-radius: 25px;
 }
+
+.map-marker {
+  width: 30px;
+  height: 30px;
+}
+
+.map-cluster-marker {
+  color: hsl(0, 0%, 100%);
+  background: hsl(41, 78%, 44%);
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
