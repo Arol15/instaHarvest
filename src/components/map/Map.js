@@ -7,13 +7,13 @@ import mapboxgl from "mapbox-gl";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const Map = () => {
+const Map = ({ products, location }) => {
   const calculateWidth = () => {
     return `${window.innerWidth * 0.8}px`;
   };
   const [viewport, setViewport] = useState({
-    latitude: 26.0112,
-    longitude: -80.1495,
+    latitude: location.lat,
+    longitude: location.lgt,
     width: calculateWidth,
     height: "40vh",
     zoom: 11,

@@ -113,6 +113,7 @@ class Product(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
+    # product_icon = db.Column(db.String(20))
     image_urls = db.Column(db.ARRAY(db.String(255)))
     price = db.Column(db.Float)
     status = db.Column(db.String)
@@ -130,8 +131,7 @@ class Product(db.Model):
 
     def to_dict(self, user_id):
         likes = self.likes.count()
-        address = Address.query.filter_by(id=self.address_id).first()
-        address_dict = address.to_dict()
+        address_dict = self.address.to_dict()
         authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
         return {
@@ -139,6 +139,7 @@ class Product(db.Model):
             "personal": personal,
             "name": self.name,
             "product_type": self.product_type,
+            # "product_icon": self.product_icon,
             "image_urls": self.image_urls,
             "price": self.price,
             "description": self.description,
@@ -178,7 +179,6 @@ class Address(db.Model):
             "country": self.country,
             "lgt": self.lgt,
             "lat": self.lat,
-
         }
 
 

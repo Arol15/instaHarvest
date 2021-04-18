@@ -80,7 +80,7 @@ const SearchMain = () => {
       } else if (data.products.length > 0) {
         history.push({
           pathname: "/search-results",
-          state: data,
+          state: { products: data.products, location: formData },
         });
         console.log(data);
       } else {
