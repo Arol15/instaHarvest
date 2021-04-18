@@ -36,7 +36,7 @@ const Map = ({ products, location }) => {
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        mapStyle="mapbox://styles/akovalyo/cknc722s923lu17oqqd3cincn"
+        mapStyle="mapbox://styles/instaharvest/cknmmb38t13xq18lj1i8hgslq"
         onViewportChange={(viewport) => {
           setViewport(viewport);
         }}
