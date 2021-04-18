@@ -54,7 +54,7 @@ def get_products_per_user():
     if user is None:
         return {}, 404
     user_products = user.products.order_by(Product.created_at.desc()).all()
-    products = [product.to_dict() for product in user_products]
+    products = [product.to_dict(user_id) for product in user_products]
     return {"user_products": products}
 
 

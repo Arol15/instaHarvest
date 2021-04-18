@@ -62,7 +62,7 @@ const SearchMain = () => {
   };
 
   useEffect(() => {
-    geocoder.addTo("#geocoder-container");
+    geocoder.addTo("#geocoder-main");
     geocoder.setPlaceholder("Enter your location");
     geocoder.on("result", onResultGeocoder);
     geocoder.on("clear", onClearGeocoder);
@@ -107,7 +107,7 @@ const SearchMain = () => {
     <>
       {isLoading && <Spinner />}
       <div className="search-container">
-        <div id="geocoder-container" />
+        <div id="geocoder-main" />
         <div
           className="geocoder-find-location"
           onClick={() => getBrowserLocation(successFn, errorFn)}
