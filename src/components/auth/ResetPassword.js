@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import { useRequest, useForm } from "../../hooks/hooks";
-import validation from "../../form_validation/validation";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { showMsg } from "../../store/modalSlice";
+import { useRequest, useForm } from "../../hooks/hooks";
+
 import Spinner from "../UI/Spinner";
+
+import { validation } from "../../form_validation/validation";
+import { showMsg } from "../../store/modalSlice";
 
 const ResetPassword = (props) => {
   const history = useHistory();

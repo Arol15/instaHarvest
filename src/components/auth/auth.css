@@ -10,17 +10,15 @@
   background: hsl(16, 70%, 70%);
 }
 
-.auth-inputs {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.auth-inputs input,
+.auth-inputs > input,
 select {
   margin: 3px 0;
   width: 80%;
   box-sizing: border-box;
+}
+
+.auth-inputs .mapboxgl-ctrl-geocoder {
+  margin: 3px auto;
 }
 
 /* .auth {

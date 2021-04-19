@@ -6,9 +6,19 @@ const PublicProfileInfo = ({
   firstName,
   emailVerified,
   city,
+  country,
   usState,
   joined,
 }) => {
+  let location;
+  if (usState) {
+    location = `${
+      statesList.find((elem) => elem.name === usState).abbreviation
+    }, USA`;
+  } else {
+    location = country;
+  }
+
   return (
     <div className="prf-pbl-top">
       <EmailConfirmIcon verified={emailVerified}>
@@ -16,7 +26,7 @@ const PublicProfileInfo = ({
       </EmailConfirmIcon>
 
       <p>
-        {city}, {statesList.find((elem) => elem.name === usState).abbreviation}
+        {city}, {location}
       </p>
       <p>Joined: {joined}</p>
     </div>

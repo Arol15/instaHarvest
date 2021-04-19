@@ -1,15 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { useRequest, useForm, useModal } from "../../hooks/hooks";
-import statesList from "../../assets/data/states.json";
-import validation from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
 import { useDispatch } from "react-redux";
-import { updateProfile } from "../../store/profileSlice";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
+
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
+
+import { validation } from "../../form_validation/validation";
+import { checkAuth } from "../../utils/localStorage";
+import { updateProfile } from "../../store/profileSlice";
+import { parseLocation } from "../../utils/map";
+
+import "../map/mapboxGeocoder.css";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [address, setAddress] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
   const [modal, showModal] = useModal({
@@ -26,7 +32,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         ? "/api/auth/login"
         : "/api/auth/signup",
       "post",
-      formData
+      { ...formData }
     );
   };
 
@@ -38,7 +44,15 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     formErrors,
   ] = useForm({}, onSubmit, validation);
 
+  const getAddressFromGeoInput = (data) => {
+    const location = parseLocation(data);
+    setAddress({ ...location });
+  };
+
   useEffect(() => {
+    const geocoder = new MapboxGeocoder({
+      accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+    });
     if (view === "login") {
       setFormData({ login: "", password: "" });
     } else if (view === "signup") {
@@ -50,7 +64,19 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         first_name: "",
         state: "",
         city: "",
+        zip_code: "",
+        country: "",
+        lat: "",
+        lgt: "",
+        address: "",
       });
+      geocoder.addTo("#geocoder-auth");
+      geocoder.setPlaceholder("Enter your location");
+      geocoder.on("result", getAddressFromGeoInput);
+
+      return () => {
+        geocoder.off("result", getAddressFromGeoInput);
+      };
     } else if (view === "confirm") {
       setFormData({ login: user, password: "" });
     }
@@ -82,6 +108,13 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     }
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (address && view === "signup") {
+      setFormData({ ...formData, ...address });
+    }
+  }, [address]);
+
+  // console.log(formData);
   return (
     <div>
       {modal}
@@ -176,37 +209,9 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
               <div className="form-danger">
                 {formErrors.first_name && formErrors.first_name}
               </div>
-              <select
-                key="6"
-                placeholder="State"
-                name="state"
-                onChange={handleInputChange}
-                value={formData.state || ""}
-              >
-                <option key="-" value="">
-                  Select state
-                </option>
-                {statesList.map((elem) => {
-                  return (
-                    <option key={elem.abbreviation} value={statesList.name}>
-                      {elem.name}
-                    </option>
-                  );
-                })}
-              </select>
+              <div id="geocoder-auth" />
               <div className="form-danger">
-                {formErrors.state && formErrors.state}
-              </div>
-              <input
-                key="7"
-                type="text"
-                placeholder="City"
-                name="city"
-                onChange={handleInputChange}
-                value={formData.city || ""}
-              />
-              <div className="form-danger">
-                {formErrors.city && formErrors.city}
+                {formErrors.address && formErrors.address}
               </div>
             </>
           )}
@@ -222,7 +227,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       <p></p>
       {view === "login" && (
         <>
-          <Link onClick={closeModal} to="/reset_password">
+          <Link onClick={closeModal} to="/reset-password">
             Forgot your password?
           </Link>
           <p></p>

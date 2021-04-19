@@ -1,20 +1,27 @@
-import { useEffect } from "react";
-import validation from "../../form_validation/validation";
-import { useRequest, useForm } from "../../hooks/hooks";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import "./AddProduct.css";
-import AuthModal from "../auth/AuthModal";
-import { useModal } from "../../hooks/hooks";
-import { checkAuth } from "../../utils/localStorage";
-import ToggleInput from "../UI/ToggleInput";
-import { showMsg } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
+import { useRequest, useForm, useModal } from "../../hooks/hooks";
+
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import AuthModal from "../auth/AuthModal";
+import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
+
+import { validation } from "../../form_validation/validation";
+import { parseLocation } from "../../utils/map";
+import { checkAuth } from "../../utils/localStorage";
+import { showMsg } from "../../store/modalSlice";
+
+import "../map/mapboxGeocoder.css";
+import "./addProduct.css";
 
 const AddProduct = () => {
   const history = useHistory();
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
+  const [addresses, setAddresses] = useState();
+  const [newAddress, setNewAddress] = useState(false);
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -23,7 +30,7 @@ const AddProduct = () => {
   });
 
   const onSubmit = () => {
-    sendRequest("/api/products/add-product", "post", formData);
+    sendRequest("/api/products/add_product", "post", formData);
   };
 
   const [
@@ -40,6 +47,8 @@ const AddProduct = () => {
       price: 0,
       status: "",
       description: "",
+      location: "",
+      new_addr: "",
     },
     onSubmit,
     validation
@@ -50,9 +59,39 @@ const AddProduct = () => {
     window.location.reload();
   };
 
+  const handleInputChangeLocation = (event) => {
+    if (event.target.value === "add") {
+      setNewAddress(true);
+    } else {
+      setNewAddress(false);
+    }
+
+    handleInputChange(event);
+  };
+
+  const onResultGeocoder = (data) => {
+    const addressFields = {
+      state: "",
+      city: "",
+      zip_code: "",
+      country: "",
+      lat: "",
+      lgt: "",
+      address: "",
+    };
+    const location = parseLocation(data);
+    setFormData({ ...formData, location: { ...addressFields, ...location } });
+  };
+
+  const onClearGeocoder = () => {
+    setFormData({ ...formData, location: "add" });
+  };
+
   useEffect(() => {
     if (!checkAuth()) {
       showModal(<AuthModal afterConfirm={handleAfterConfirm} />);
+    } else {
+      sendRequest("/api/account/get_user_addresses", "POST");
     }
   }, []);
 
@@ -66,16 +105,37 @@ const AddProduct = () => {
         })
       );
     } else if (data) {
-      dispatch(
-        showMsg({
-          open: true,
-          msg: "Product has been added!",
-          classes: "mdl-ok",
-        })
-      );
-      history.push("/user-products");
+      if (data.msg === "addresses") {
+        setAddresses(data.list);
+      } else {
+        dispatch(
+          showMsg({
+            open: true,
+            msg: "Product has been added!",
+            classes: "mdl-ok",
+          })
+        );
+        history.push("/user-products");
+      }
     }
   }, [data, error, errorNum]);
+
+  useEffect(() => {
+    if (newAddress) {
+      const geocoder = new MapboxGeocoder({
+        accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
+      });
+      geocoder.addTo("#geocoder-add-loc");
+      geocoder.setPlaceholder("Enter new location");
+      geocoder.on("result", onResultGeocoder);
+      geocoder.on("clear", onClearGeocoder);
+
+      return () => {
+        geocoder.off("result", onResultGeocoder);
+        geocoder.off("clear", onClearGeocoder);
+      };
+    }
+  }, [newAddress]);
 
   return (
     <>
@@ -110,8 +170,9 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.product_type && formErrors.product_type}
           </div>
-          <label>Pictures</label>
+          <label>Picture</label>
           <input
+            disabled={true}
             className="add-product-input"
             type="file"
             name="image_urls"
@@ -138,8 +199,36 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.description && formErrors.description}
           </div>
-          {/* <label>Location: </label> */}
-
+          <label>Location: </label>
+          {addresses && (
+            <>
+              <select
+                name="location"
+                onChange={handleInputChangeLocation}
+                value={formData.location || ""}
+              >
+                <option value="">Select location</option>
+                {addresses.map((addr, i) => {
+                  return (
+                    <option key={i} value={addr.properties.id}>
+                      {addr.properties.primary_address && "Primary address: "}
+                      {addr.properties.address &&
+                        `${addr.properties.address}, `}
+                      {addr.properties.city && `${addr.properties.city}, `}
+                      {addr.properties.us_state &&
+                        `${addr.properties.us_state}, `}
+                      {addr.properties.country && `${addr.properties.country}`}
+                    </option>
+                  );
+                })}
+                <option value="add">Add new location</option>
+              </select>
+              {newAddress && <div id="geocoder-add-loc" />}
+              <div className="form-danger">
+                {formErrors.location && formErrors.location}
+              </div>
+            </>
+          )}
           <button>Add Product</button>
         </form>
       </div>

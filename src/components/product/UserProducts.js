@@ -1,5 +1,6 @@
-import { useRequest } from "../../hooks/hooks";
 import { useEffect, useState } from "react";
+import { useRequest } from "../../hooks/hooks";
+
 import Spinner from "../UI/Spinner";
 import Product from "./Product";
 
@@ -8,7 +9,7 @@ const UserProducts = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
   const getProducts = () => {
-    sendRequest("/api/products/products-per-user", "post", null);
+    sendRequest("/api/products/products_per_user", "POST", null);
   };
 
   useEffect(() => {

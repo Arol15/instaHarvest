@@ -1,3 +1,16 @@
+.search-container {
+  min-width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.geocoder-find-location {
+  margin: auto 0;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 .mapboxgl-ctrl-geocoder,
 .mapboxgl-ctrl-geocoder *,
 .mapboxgl-ctrl-geocoder *:after,
@@ -6,31 +19,35 @@
 }
 
 .mapboxgl-ctrl-geocoder {
-  font-size: 18px;
-  line-height: 24px;
-  font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  /* line-height: 24px; */
+  /* font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif; */
   position: relative;
   background-color: #fff;
-  width: 80%;
-  min-width: 240px;
+  width: 80vw;
+  max-width: 400px;
   z-index: 1;
   margin: 0 auto;
-  margin-bottom: 10px;
   border: 1px solid hsl(0, 2%, 75%);
   border-radius: 5px;
   transition: width 0.25s, min-width 0.25s;
+  font-size: 1rem;
+}
+
+#geocoder-auth > .mapboxgl-ctrl-geocoder {
+  width: 80%;
+  max-width: none;
 }
 
 .mapboxgl-ctrl-geocoder--input {
   font: inherit;
   width: 100%;
   border: 0;
-  background-color: transparent;
+  /* background-color: transparent; */
   margin: 0;
-  height: 50px;
+  /* height: 50px; */
   color: #404040; /* fallback */
   color: rgba(0, 0, 0, 0.75);
-  padding: 6px 45px;
+  /* padding: 0 10px; */
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -44,6 +61,7 @@
   color: #404040; /* fallback */
   color: rgba(0, 0, 0, 0.75);
   outline: none;
+  width: 100%;
   box-shadow: 0 0 3pt 1pt hsl(0, 0%, 0%);
 }
 
@@ -122,15 +140,16 @@
   vertical-align: middle;
   speak: none;
   fill: #757575;
-  top: 15px;
+  /* top: 15px; */
 }
 
 .mapboxgl-ctrl-geocoder--icon-search {
-  position: absolute;
-  top: 13px;
+  display: none;
+  /* position: absolute; */
+  /* top: 13px;
   left: 12px;
   width: 23px;
-  height: 23px;
+  height: 23px; */
 }
 
 .mapboxgl-ctrl-geocoder--button {
@@ -143,9 +162,9 @@
 }
 
 .mapboxgl-ctrl-geocoder--icon-close {
-  width: 20px;
-  height: 20px;
-  margin-top: 8px;
+  width: 16px;
+  height: 16px;
+  margin-top: 5px;
   margin-right: 3px;
 }
 
@@ -186,7 +205,7 @@
   }
 }
 
-/* Media queries*/
+/* Media queries
 @media screen and (min-width: 640px) {
   .mapboxgl-ctrl-geocoder.mapboxgl-ctrl-geocoder--collapsed {
     width: 36px;
@@ -238,4 +257,4 @@
     font-size: 16px;
     text-align: center;
   }
-}
+} */

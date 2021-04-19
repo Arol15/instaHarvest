@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, findNonSerializableValue } from "@reduxjs/toolkit";
 import { loadJSON, saveJSON } from "../utils/localStorage";
 
 const storage = loadJSON("app_data");
@@ -18,6 +18,7 @@ export const profileSlice = createSlice({
     email_verified: storage ? storage.email_verified : null,
     city: storage ? storage.city : null,
     us_state: storage ? storage.us_state : null,
+    country: storage ? storage.country : findNonSerializableValue,
     created_at: storage ? storage.created_at : null,
   },
   reducers: {
@@ -34,6 +35,7 @@ export const profileSlice = createSlice({
         image_back_url,
         email_verified,
         city,
+        country,
         us_state,
         created_at,
       } = actions.payload;
@@ -44,6 +46,7 @@ export const profileSlice = createSlice({
         image_back_url: image_back_url,
         email_verified: email_verified,
         city: city,
+        country: country,
         us_state: us_state,
         created_at: created_at,
       });
@@ -59,6 +62,7 @@ export const profileSlice = createSlice({
       state.image_back_url = image_back_url;
       state.email_verified = email_verified;
       state.city = city;
+      state.country = country;
       state.us_state = us_state;
       state.created_at = created_at;
     },
@@ -79,6 +83,7 @@ export const selectProfile = (state) => ({
   image_back_url: state.profile.image_back_url,
   email_verified: state.profile.email_verified,
   city: state.profile.city,
+  country: state.profile.country,
   us_state: state.profile.us_state,
   created_at: state.profile.created_at,
 });

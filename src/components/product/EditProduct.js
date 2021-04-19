@@ -1,11 +1,12 @@
-import { useLocation, useHistory } from "react-router-dom";
 import { useEffect } from "react";
-import { useRequest, useForm } from "../../hooks/hooks";
+import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { showMsg } from "../../store/modalSlice";
+import { useRequest, useForm } from "../../hooks/hooks";
 
-import validation from "../../form_validation/validation";
-import "./EditProduct.css";
+import { showMsg } from "../../store/modalSlice";
+import { validation } from "../../form_validation/validation";
+
+import "./editProduct.css";
 
 const EditProduct = () => {
   const location = useLocation();

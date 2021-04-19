@@ -1,7 +1,6 @@
 .switch {
   position: relative;
   display: block;
-
   width: 90px;
   height: 34px;
   background-color: hsl(16, 100%, 50%);
@@ -17,6 +16,7 @@
   cursor: pointer;
   left: 0;
 }
+
 .switch-click-left {
   width: 90px;
 }

@@ -1,7 +1,7 @@
 from app.config import Config
 import pytest
 from app import create_app, db
-from app.models import User
+from app.models import User, Address
 from datetime import datetime
 
 
@@ -34,11 +34,21 @@ def client():
                 email_verified=False,
                 image_url=app.config["PROFILE_IMAGE"],
                 image_back_url=app.config["PROFILE_BACK_IMAGE"],
-                state="California",
-                city="Fremont",
                 profile_addr="profile-address",
                 confirm_email_sent=datetime.utcnow())
     db.session.add(user)
+    db.session.commit()
+
+    address = Address(user_id=user.id,
+                      primary_address=True,
+                      state="Texas",
+                      city="Austin",
+                      country="United States",
+                      lat=30.2711,
+                      lgt=-97.7437,
+                      address="",
+                      zip_code=None)
+    db.session.add(address)
     db.session.commit()
 
     with app.test_client() as client:
@@ -62,8 +72,14 @@ def signup(client, username, email, password):
                                                  "password": password,
                                                  "username": username,
                                                  "first_name": "Name2",
-                                                 "state": "California",
-                                                 "city": "Fremont"})
+                                                 "state": "Texas",
+                                                 "city": "Austin",
+                                                 "country": "United States",
+                                                 "lgt": -97.7437,
+                                                 "lat": 30.2711,
+                                                 "zip_code": None,
+                                                 "address": "",
+                                                 })
 
 
 def get_date():

@@ -15,13 +15,13 @@ class Config(object):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    SEND_CONFIRM_EMAIL = True
+    SEND_CONFIRM_EMAIL = False
     BASE_URL = 'https://www.instaharvest.net'
     S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    PROFILE_IMAGE = 'https://instaharvest.s3.us-east-2.amazonaws.com/profile_image.png'
-    PROFILE_BACK_IMAGE = 'https://instaharvest.s3.us-east-2.amazonaws.com/profile_back_image.jpg'
+    PROFILE_IMAGE = 'https://instaharvest.net/assets/images/profile_image.png'
+    PROFILE_BACK_IMAGE = 'https://instaharvest.net/assets/images/profile_back_image.jpg'
     SESSION_TYPE = 'sqlalchemy'
     SESSION_PERMANENT = True
     SESSION_USE_SIGNER = True

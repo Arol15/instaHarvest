@@ -610,7 +610,7 @@ session
 
 **/api/products**
 
-#### /add-product
+#### /add_product
 
 **POST**
 

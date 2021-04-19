@@ -1,30 +1,36 @@
+import { useState, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+
 import Product from "./Product";
-import { useLocation } from "react-router-dom";
-import Map from "../Map";
+import Map from "../map/Map";
 
 const Products = () => {
   const location = useLocation();
-  const products = location.state.products;
+  const history = useHistory();
+  const [state, setState] = useState(
+    location.state ? { ...location.state } : null
+  );
+
+  useEffect(() => {
+    if (!state) {
+      history.push("/");
+    }
+  }, []);
 
   return (
     <>
-      {location.state.user_id
-        ? products.map((product) => {
-            return (
-              <div key={product.product_id}>
-                <Product product={product} user_id={location.state.user_id} />
-              </div>
-            );
-          })
-        : products.map((product) => {
-            return (
-              <div key={product.product_id}>
-                <Product product={product} />
-              </div>
-            );
-          })}
       <div>
-        <Map products={location.state.products} />
+        {state.products.map((product) => {
+          return (
+            <div key={product.product_id}>
+              <Product product={product} />
+            </div>
+          );
+        })}
+      </div>
+
+      <div>
+        <Map location={state.location} points={state.products} />
       </div>
     </>
   );

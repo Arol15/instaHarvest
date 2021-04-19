@@ -1,4 +1,4 @@
-const validation = (data) => {
+export const validation = (data) => {
   const errors = {};
   if (data.password && data.confirm_pass) {
     if (data.password !== data.confirm_pass) {
@@ -43,14 +43,9 @@ const validation = (data) => {
         errors.first_name = "Please enter you name";
       }
     }
-    if (key === "us_state") {
+    if (key === "lat") {
       if (!value) {
-        errors.us_state = "Please select state";
-      }
-    }
-    if (key === "city") {
-      if (!value) {
-        errors.city = "Please enter city";
+        errors.address = "Please enter location";
       }
     }
     if (key === "body") {
@@ -90,9 +85,12 @@ const validation = (data) => {
         errors.url = "Please enter image url";
       }
     }
+    if (key === "location") {
+      if (!value || value == "add") {
+        errors.location = "Please choose or add location";
+      }
+    }
   });
 
   return errors;
 };
-
-export default validation;

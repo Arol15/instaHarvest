@@ -49,11 +49,11 @@ function App() {
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />
           <Route path="/search-results" component={Products} />
-          <Route path="/reset_password">
+          <Route path="/reset-password">
             <ResetPassword reset={true} />
           </Route>
           <Route
-            path="/reset_password_confirm/:token"
+            path="/reset-password-confirm/:token"
             component={ResetPassword}
           />
           <Route path="*" component={NotFoundPage} />
