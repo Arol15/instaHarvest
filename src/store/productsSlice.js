@@ -4,7 +4,7 @@ export const productsSlice = createSlice({
   name: "products",
   initialState: {
     lat: null,
-    lng: null,
+    lgt: null,
     products: null,
   },
   reducers: {},
@@ -13,7 +13,7 @@ export const productsSlice = createSlice({
 export const {} = productsSlice.actions;
 
 export const selectProducts = (state) => ({
-  lng: state.products.lng,
+  lgt: state.products.lgt,
   lat: state.products.lat,
   products: state.products.products,
 });

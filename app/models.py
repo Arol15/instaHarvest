@@ -1,8 +1,10 @@
+from math import sin, cos, acos, pi
 from sqlalchemy.sql import func, expression
 from datetime import datetime
 from dateutil import tz
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
+from flask import current_app
 
 
 class User(db.Model):
@@ -129,9 +131,9 @@ class Product(db.Model):
     likes = db.relationship(
         "LikedProduct", backref="product", lazy="dynamic")
 
-    def to_dict(self, user_id):
+    def to_dict(self, user_id, lat=None, lgt=None):
         likes = self.likes.count()
-        address_dict = self.address.to_dict()
+        address_dict = self.address.to_dict(lat, lgt)
         authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
         return {
@@ -170,7 +172,15 @@ class Address(db.Model):
     products = db.relationship(
         "Product", backref="address", lazy="dynamic")
 
-    def to_dict(self):
+    def to_dict(self, lat=None, lgt=None):
+        distance = None
+        distance_mi = None
+        if lat is not None and lgt is not None:
+            distance = round(current_app.config["RADIUS"] * acos(sin(self.lat * pi / 180) * sin(lat * pi / 180) + cos(
+                self.lat * pi / 180) * cos(lat * pi / 180) * cos((self.lgt * pi / 180) - (lgt * pi / 180))), 1)
+
+            distance_mi = round(
+                distance * current_app.config['KM_TO_MI_FACTOR'], 1)
         return {
             "type": "Point",
             "coordinates": [self.lgt, self.lat],
@@ -183,6 +193,8 @@ class Address(db.Model):
                 "city": self.city,
                 "zip_code": self.zip_code,
                 "country": self.country,
+                "distance_km": distance,
+                "distance_mi": distance_mi
             },
         }
 
