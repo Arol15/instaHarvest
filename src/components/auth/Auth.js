@@ -67,7 +67,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
         zip_code: "",
         country: "",
         lat: "",
-        lgt: "",
+        lon: "",
         address: "",
       });
       geocoder.addTo("#geocoder-auth");

@@ -47,7 +47,7 @@ def signup():
                       city=data["city"],
                       country=data["country"],
                       lat=data["lat"],
-                      lgt=data["lgt"],
+                      lon=data["lon"],
                       address=data["address"],
                       zip_code=data["zip_code"] if data["zip_code"] else None)
     db.session.add(address)
@@ -143,7 +143,7 @@ def confirm_email(token):
     user.email_verified = True
     db.session.add(user)
     db.session.commit()
-    return redirect(f"{current_app.config['BASE_URL']}/profile", code=302)
+    return redirect(f"{current_app.config['BASE_URL']}", code=302)
 
 
 @bp.route("/reset_password_confirm", methods=["POST"])

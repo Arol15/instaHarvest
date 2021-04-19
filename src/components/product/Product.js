@@ -47,7 +47,9 @@ const Product = ({ product }) => {
             <b>{product.properties.name}</b>
           </p>
           <p>${product.properties.price}</p>
-          <p>{`${product.geometry.properties.distance_km} km away`}</p>
+          {product.geometry.properties.distance_km && (
+            <p>{product.geometry.properties.distance_km} km away</p>
+          )}
         </div>
       </div>
     </div>

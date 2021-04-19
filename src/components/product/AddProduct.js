@@ -76,7 +76,7 @@ const AddProduct = () => {
       zip_code: "",
       country: "",
       lat: "",
-      lgt: "",
+      lon: "",
       address: "",
     };
     const location = parseLocation(data);

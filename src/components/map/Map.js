@@ -19,14 +19,14 @@ const Map = ({ points, location }) => {
 
   const [viewport, setViewport] = useState({
     latitude: location.lat,
-    longitude: location.lgt,
+    longitude: location.lon,
     width: calculateWidth,
     height: "40vh",
     zoom: 12,
   });
 
-  // const goToMarker = (lat, lgt) => {
-  //   setViewport({...viewport, latitude: lat, longitude: lgt, zoom: 9})
+  // const goToMarker = (lat, lon) => {
+  //   setViewport({...viewport, latitude: lat, longitude: lon, zoom: 9})
   // }
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Map = ({ points, location }) => {
     options: { radius: 75, maxZoom: 20 },
   });
 
-  const renderOneMarker = (type, id, lgt, lat) => {
+  const renderOneMarker = (type, id, lon, lat) => {
     //tmp, `image` will be replaced with properties.product_icon
     let image = "https://instaharvest.net/assets/images/icons/fruits.png";
     if (type == "Vegetable") {
@@ -62,7 +62,7 @@ const Map = ({ points, location }) => {
     }
     //
     return (
-      <Marker key={`point-${id}`} longitude={lgt} latitude={lat}>
+      <Marker key={`point-${id}`} longitude={lon} latitude={lat}>
         <img className="map-marker" src={image} />
       </Marker>
     );
@@ -80,7 +80,7 @@ const Map = ({ points, location }) => {
         }}
       >
         {clusters.map((cluster) => {
-          const [lgt, lat] = cluster.geometry.coordinates;
+          const [lon, lat] = cluster.geometry.coordinates;
           const {
             cluster: isCluster,
             point_count: pointCount,
@@ -90,7 +90,7 @@ const Map = ({ points, location }) => {
               const children = supercluster.getLeaves(cluster.id);
 
               // if markers have same coordinates
-              const newMarkers = arrangeMarkers(children, lgt, lat);
+              const newMarkers = arrangeMarkers(children, lon, lat);
               return newMarkers.map((marker) => {
                 return renderOneMarker(
                   marker.properties.product_type,
@@ -105,7 +105,7 @@ const Map = ({ points, location }) => {
               <Marker
                 key={`cluster-${cluster.id}`}
                 latitude={lat}
-                longitude={lgt}
+                longitude={lon}
               >
                 <div
                   className="map-cluster-marker"
@@ -122,7 +122,7 @@ const Map = ({ points, location }) => {
                     setViewport({
                       ...viewport,
                       latitude: lat,
-                      longitude: lgt,
+                      longitude: lon,
                       zoom: expansionZoom,
                       transitionInterpolator: new FlyToInterpolator({
                         speed: 2,
@@ -139,7 +139,7 @@ const Map = ({ points, location }) => {
           return renderOneMarker(
             cluster.properties.product_type,
             cluster.properties.product_id,
-            lgt,
+            lon,
             lat
           );
         })}

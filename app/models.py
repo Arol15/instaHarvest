@@ -105,7 +105,7 @@ class User(db.Model):
             "state": address.state,
             "city": address.city,
             "lat": address.lat,
-            "lgt": address.lgt
+            "lon": address.lon
         }
 
 
@@ -131,9 +131,9 @@ class Product(db.Model):
     likes = db.relationship(
         "LikedProduct", backref="product", lazy="dynamic")
 
-    def to_dict(self, user_id, lat=None, lgt=None):
+    def to_dict(self, user_id, lat=None, lon=None):
         likes = self.likes.count()
-        address_dict = self.address.to_dict(lat, lgt)
+        address_dict = self.address.to_dict(lat, lon)
         authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
         return {
@@ -162,7 +162,7 @@ class Address(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     primary_address = db.Column(db.Boolean)
     address = db.Column(db.String(100))
-    lgt = db.Column(db.Float, nullable=False)
+    lon = db.Column(db.Float, nullable=False)
     lat = db.Column(db.Float, nullable=False)
     state = db.Column(db.String(12))
     city = db.Column(db.String(20))
@@ -172,18 +172,18 @@ class Address(db.Model):
     products = db.relationship(
         "Product", backref="address", lazy="dynamic")
 
-    def to_dict(self, lat=None, lgt=None):
+    def to_dict(self, lat=None, lon=None):
         distance = None
         distance_mi = None
-        if lat is not None and lgt is not None:
+        if lat is not None and lon is not None:
             distance = round(current_app.config["RADIUS"] * acos(sin(self.lat * pi / 180) * sin(lat * pi / 180) + cos(
-                self.lat * pi / 180) * cos(lat * pi / 180) * cos((self.lgt * pi / 180) - (lgt * pi / 180))), 1)
+                self.lat * pi / 180) * cos(lat * pi / 180) * cos((self.lon * pi / 180) - (lon * pi / 180))), 1)
 
             distance_mi = round(
                 distance * current_app.config['KM_TO_MI_FACTOR'], 1)
         return {
             "type": "Point",
-            "coordinates": [self.lgt, self.lat],
+            "coordinates": [self.lon, self.lat],
             "properties": {
                 "id": self.id,
                 "user_id": self.user_id,

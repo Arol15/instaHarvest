@@ -45,7 +45,7 @@ def client():
                       city="Austin",
                       country="United States",
                       lat=30.2711,
-                      lgt=-97.7437,
+                      lon=-97.7437,
                       address="",
                       zip_code=None)
     db.session.add(address)
@@ -75,7 +75,7 @@ def signup(client, username, email, password):
                                                  "state": "Texas",
                                                  "city": "Austin",
                                                  "country": "United States",
-                                                 "lgt": -97.7437,
+                                                 "lon": -97.7437,
                                                  "lat": 30.2711,
                                                  "zip_code": None,
                                                  "address": "",

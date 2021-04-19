@@ -1,6 +1,6 @@
 export const parseLocation = ({ result }) => {
   const location = {};
-  location.lgt = result.geometry.coordinates[0];
+  location.lon = result.geometry.coordinates[0];
   location.lat = result.geometry.coordinates[1];
   const placeType = result.place_type;
 
@@ -49,7 +49,7 @@ export const getBrowserLocation = (successFn, errorFn) => {
   navigator.geolocation.getCurrentPosition(successFn, errorFn, options);
 };
 
-export const arrangeMarkers = (markers, lgt, lat) => {
+export const arrangeMarkers = (markers, lon, lat) => {
   const count = markers.length;
   const twoPi = Math.PI * 2;
   const circleSpiralSwitch = 9;
@@ -63,7 +63,7 @@ export const arrangeMarkers = (markers, lgt, lat) => {
   const arrangedMarkers = markers.map((marker, ind) => {
     const angle = (ind + 1) * angleStep;
     const newLat = lat + radius * Math.cos(angle);
-    const newLng = lgt + radius * Math.sin(angle);
+    const newLng = lon + radius * Math.sin(angle);
     let newMarker = { ...marker };
     newMarker.geometry.coordinates = [newLng, newLat];
 

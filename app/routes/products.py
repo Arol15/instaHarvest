@@ -20,7 +20,7 @@ def create_product():
         loc = data["location"]
         user = User.query.filter_by(id=user_id).first()
         address = user.addresses.filter_by(
-            lgt=loc["lgt"], lat=loc["lat"]).first()
+            lon=loc["lon"], lat=loc["lat"]).first()
         if address:
             return {"error": "Address already exists"}, 409
 
@@ -30,7 +30,7 @@ def create_product():
                           city=loc["city"],
                           country=loc["country"],
                           lat=loc["lat"],
-                          lgt=loc["lgt"],
+                          lon=loc["lon"],
                           address=loc["address"],
                           zip_code=loc["zip_code"] if loc["zip_code"] else None)
         db.session.add(address)
@@ -66,11 +66,11 @@ def get_all_products():
     except:
         pass
     # data = request.get_json()
-    lgt = request.json.get("lgt")
+    lon = request.json.get("lon")
     lat = request.json.get("lat")
     products = Product.query.join(Product.address).filter(func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
-        func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lgt) - (func.radians(lgt)))) * current_app.config['RADIUS'] <= 40).all()
-    products_dict = [product.to_dict(user_id, lat, lgt)
+        func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lon) - (func.radians(lon)))) * current_app.config['RADIUS'] <= 40).all()
+    products_dict = [product.to_dict(user_id, lat, lon)
                      for product in products]
     return {"products": products_dict}, 200
 
@@ -97,7 +97,7 @@ def product_location_info(userId):
     product_details = {}
     user = User.query.filter_by(id=userId).first_or_404()
     product_details["lat"] = user.lat
-    product_details["lgt"] = user.lgt
+    product_details["lon"] = user.lon
     product_details["image_url"] = user.image_url
     product_details["first_name"] = user.first_name
     product_details["state"] = user.state

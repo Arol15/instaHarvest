@@ -30,18 +30,18 @@ const SearchMain = () => {
   };
 
   const [setFormData, handleSubmit, , formData, formErrors] = useForm(
-    { lat: "", lgt: "" },
+    { lat: "", lon: "" },
     onSubmit,
     validation
   );
 
   const onResultGeocoder = (data) => {
     const location = parseLocation(data);
-    setFormData({ lat: location.lat, lgt: location.lgt });
+    setFormData({ lat: location.lat, lon: location.lon });
   };
 
   const onClearGeocoder = () => {
-    setFormData({ lat: "", lgt: "" });
+    setFormData({ lat: "", lon: "" });
   };
 
   const successFn = (pos) => {

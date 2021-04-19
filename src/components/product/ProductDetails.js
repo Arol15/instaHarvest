@@ -58,7 +58,7 @@ const ProductDetails = () => {
         <div>Product: {location.state.name}</div>
         <p>About this product: {location.state.description}</p>
         <div>
-          Location for map: {info.lat} and {info.lgt}
+          Location for map: {info.lat} and {info.lon}
         </div>
         {checkAuth() ? (
           <button
