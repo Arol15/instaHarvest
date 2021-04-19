@@ -48,3 +48,26 @@ export const getBrowserLocation = (successFn, errorFn) => {
 
   navigator.geolocation.getCurrentPosition(successFn, errorFn, options);
 };
+
+export const arrangeMarkers = (markers, lng, lat) => {
+  const count = markers.length;
+  const twoPi = Math.PI * 2;
+  const circleSpiralSwitch = 9;
+  const circleSeparation = 25;
+  const spiralSeparation = 28;
+  const circle = circleSeparation * (2 + count);
+  const angleStep = twoPi / count;
+  const legLength = circle / twoPi;
+  const radius = 0.0005;
+
+  const arrangedMarkers = markers.map((marker, ind) => {
+    const angle = (ind + 1) * angleStep;
+    const newLat = lat + radius * Math.cos(angle);
+    const newLng = lng + radius * Math.sin(angle);
+    let newMarker = { ...marker };
+    newMarker.geometry.coordinates = [newLng, newLat];
+
+    return newMarker;
+  });
+  return arrangedMarkers;
+};

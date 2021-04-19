@@ -4,6 +4,7 @@ import useSupercluster from "use-supercluster";
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 
 import mapboxgl from "mapbox-gl";
+import { arrangeMarkers } from "../../utils/map";
 import "./map.css";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -40,49 +41,6 @@ const Map = ({ points, location }) => {
     };
   }, []);
 
-  // const points = useMemo(
-  //   () =>
-  //     products.map((prod) => {
-  //       console.log("render Marker");
-
-  //       //tmp
-  //       let image = "https://instaharvest.net/assets/images/icons/fruits.png";
-  //       if (prod.properties.product_type == "Vegetable") {
-  //         image = "https://instaharvest.net/assets/images/icons/vegetables.png";
-  //       } else if (prod.properties.product_type == "Herb") {
-  //         image = "https://instaharvest.net/assets/images/icons/herbs.png";
-  //       }
-  //       //
-  //       return (
-  //         <div key={prod.product_id}>
-  //           <Marker longitude={prod.address.lgt} latitude={prod.address.lat}>
-  //             <img className="map-marker" src={image} />
-  //           </Marker>
-  //         </div>
-  //       );
-  //     }),
-  //   [products]
-  // );
-
-  // const points = useMemo(
-  //   () =>
-  //     products.map((prod) => {
-  //       console.log("render Marker");
-
-  //       let image = "https://instaharvest.net/assets/images/icons/fruits.png";
-  //       if (prod.properties.product_type == "Vegetable") {
-  //         image = "https://instaharvest.net/assets/images/icons/vegetables.png";
-  //       } else if (prod.properties.product_type == "Herb") {
-  //         image = "https://instaharvest.net/assets/images/icons/herbs.png";
-  //       }
-  //       let data = {...prod};
-  //       data.properties.icon.iconUrl = image;
-
-  //       return data;
-  //     }),
-  //   [products]
-  // );
-
   const bounds = mapRef.current
     ? mapRef.current.getMap().getBounds().toArray().flat()
     : null;
@@ -93,6 +51,22 @@ const Map = ({ points, location }) => {
     zoom: viewport.zoom,
     options: { radius: 75, maxZoom: 20 },
   });
+
+  const renderOneMarker = (type, id, lng, lat) => {
+    //tmp, `image` will be replaced with properties.product_icon
+    let image = "https://instaharvest.net/assets/images/icons/fruits.png";
+    if (type == "Vegetable") {
+      image = "https://instaharvest.net/assets/images/icons/vegetables.png";
+    } else if (type == "Herb") {
+      image = "https://instaharvest.net/assets/images/icons/herbs.png";
+    }
+    //
+    return (
+      <Marker key={`point-${id}`} longitude={lng} latitude={lat}>
+        <img className="map-marker" src={image} />
+      </Marker>
+    );
+  };
 
   return (
     <div className="map">
@@ -112,6 +86,21 @@ const Map = ({ points, location }) => {
             point_count: pointCount,
           } = cluster.properties;
           if (isCluster) {
+            if (viewport.zoom >= 16) {
+              const children = supercluster.getLeaves(cluster.id);
+
+              // if markers have same coordinates
+              const newMarkers = arrangeMarkers(children, lng, lat);
+              return newMarkers.map((marker) => {
+                return renderOneMarker(
+                  marker.properties.product_type,
+                  marker.properties.product_id,
+                  marker.geometry.coordinates[0],
+                  marker.geometry.coordinates[1]
+                );
+              });
+              // return;
+            }
             return (
               <Marker
                 key={`cluster-${cluster.id}`}
@@ -127,7 +116,7 @@ const Map = ({ points, location }) => {
                   onClick={() => {
                     const expansionZoom = Math.min(
                       supercluster.getClusterExpansionZoom(cluster.id),
-                      20
+                      16
                     );
 
                     setViewport({
@@ -147,23 +136,11 @@ const Map = ({ points, location }) => {
               </Marker>
             );
           }
-          //tmp, `image` will be replaced with properties.product_icon
-          let image = "https://instaharvest.net/assets/images/icons/fruits.png";
-          if (cluster.properties.product_type == "Vegetable") {
-            image =
-              "https://instaharvest.net/assets/images/icons/vegetables.png";
-          } else if (cluster.properties.product_type == "Herb") {
-            image = "https://instaharvest.net/assets/images/icons/herbs.png";
-          }
-          //
-          return (
-            <Marker
-              key={`crime-${cluster.properties.product_id}`}
-              longitude={lng}
-              latitude={lat}
-            >
-              <img className="map-marker" src={image} />
-            </Marker>
+          return renderOneMarker(
+            cluster.properties.product_type,
+            cluster.properties.product_id,
+            lng,
+            lat
           );
         })}
       </ReactMapGL>
