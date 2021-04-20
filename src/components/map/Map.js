@@ -56,18 +56,10 @@ const Map = () => {
     options: { radius: 75, maxZoom: 20 },
   });
 
-  const renderOneMarker = (type, id, lon, lat) => {
-    //tmp, `image` will be replaced with properties.product_icon
-    let image = "https://instaharvest.net/assets/images/icons/fruits.png";
-    if (type == "Vegetable") {
-      image = "https://instaharvest.net/assets/images/icons/vegetables.png";
-    } else if (type == "Herb") {
-      image = "https://instaharvest.net/assets/images/icons/herbs.png";
-    }
-    //
+  const renderOneMarker = (icon, id, lon, lat) => {
     return (
       <Marker key={`point-${id}`} longitude={lon} latitude={lat}>
-        <img className="map-marker" src={image} />
+        <img className="map-marker" src={icon} />
       </Marker>
     );
   };
@@ -97,7 +89,7 @@ const Map = () => {
               const newMarkers = arrangeMarkers(children, lon, lat);
               return newMarkers.map((marker) => {
                 return renderOneMarker(
-                  marker.properties.product_type,
+                  marker.properties.product_icon,
                   marker.properties.product_id,
                   marker.geometry.coordinates[0],
                   marker.geometry.coordinates[1]
@@ -145,7 +137,7 @@ const Map = () => {
             );
           }
           return renderOneMarker(
-            cluster.properties.product_type,
+            cluster.properties.product_icon,
             cluster.properties.product_id,
             lon,
             lat
