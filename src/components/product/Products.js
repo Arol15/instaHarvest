@@ -16,23 +16,24 @@ const Products = () => {
       history.push("/");
     }
   }, []);
-
   return (
-    <>
-      <div>
-        {productsData.products.map((product) => {
-          return (
-            <div key={product.properties.product_id}>
-              <Product product={product} />
-            </div>
-          );
-        })}
-      </div>
+    productsData.products && (
+      <>
+        <div>
+          {productsData.products.map((product) => {
+            return (
+              <div key={product.properties.product_id}>
+                <Product product={product} />
+              </div>
+            );
+          })}
+        </div>
 
-      <div>
-        <Map />
-      </div>
-    </>
+        <div>
+          <Map />
+        </div>
+      </>
+    )
   );
 };
 

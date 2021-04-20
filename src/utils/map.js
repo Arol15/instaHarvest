@@ -5,32 +5,32 @@ export const parseLocation = ({ result }) => {
   const placeType = result.place_type;
 
   if (!result.context && placeType.includes("country")) {
-    location.country = result.place_name_en;
+    location.country = result.place_name;
     return location;
   }
 
   result.context.forEach((elem) => {
     if (elem.id.includes("country")) {
-      location.country = elem.text_en;
+      location.country = elem.text;
     } else if (elem.id.includes("region") && elem.short_code.includes("US")) {
-      location.state = elem.text_en;
+      location.state = elem.text;
     } else if (elem.id.includes("place")) {
-      location.city = elem.text_en;
+      location.city = elem.text;
     } else if (elem.id.includes("postcode")) {
-      location.zip_code = elem.text_en;
+      location.zip_code = elem.text;
     }
 
     if (!location.city) {
       if (placeType.includes("place")) {
-        location.city = result.text_en;
+        location.city = result.text;
       }
     }
 
     if (!location.address) {
       if (placeType.includes("address")) {
-        location.address = result.place_name_en.slice(
+        location.address = result.place_name.slice(
           0,
-          result.place_name_en.indexOf(",")
+          result.place_name.indexOf(",")
         );
       }
     }
@@ -63,10 +63,10 @@ export const arrangeMarkers = (markers, lon, lat) => {
   const arrangedMarkers = markers.map((marker, ind) => {
     const angle = (ind + 1) * angleStep;
     const newLat = lat + radius * Math.cos(angle);
-    const newLng = lon + radius * Math.sin(angle);
+    const newLon = lon + radius * Math.sin(angle);
     const newMarker = {
       ...marker,
-      geometry: { ...marker.geometry, coordinates: [newLng, newLat] },
+      geometry: { ...marker.geometry, coordinates: [newLon, newLat] },
     };
     return newMarker;
   });
