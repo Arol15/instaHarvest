@@ -144,7 +144,6 @@ const AddProduct = () => {
     }
   }, [newAddress]);
 
-  console.log(formData);
   return (
     <>
       {isLoading && <Spinner />}

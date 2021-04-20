@@ -115,7 +115,7 @@ class Product(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
-    product_icon = db.Column(db.String(20))
+    product_icon = db.Column(db.String(255))
     image_urls = db.Column(db.ARRAY(db.String(255)))
     price = db.Column(db.Float)
     status = db.Column(db.String)
