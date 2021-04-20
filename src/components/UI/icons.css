@@ -1,0 +1,16 @@
+.icons-grid {
+}
+
+.icons-grid img {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.icons-grid img:hover {
+  background-color: hsla(0, 0%, 0%, 0.116);
+
+  transition: 0.25s ease-in-out;
+}

@@ -1,0 +1,15 @@
+[
+    {
+        "name": "vegetables",
+        "url": "https://instaharvest.net/assets/images/icons/vegetables.png"
+    },
+    {
+        "name": "fruits",
+        "url": "https://instaharvest.net/assets/images/icons/fruits.png"
+    },
+    {
+        "name": "herbs",
+        "url": "https://instaharvest.net/assets/images/icons/herbs.png"
+    }
+
+]

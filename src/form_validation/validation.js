@@ -90,6 +90,11 @@ export const validation = (data) => {
         errors.location = "Please choose or add location";
       }
     }
+    if (key === "product_icon") {
+      if (!value) {
+        errors.product_icon = "Please choose an icon";
+      }
+    }
   });
 
   return errors;
