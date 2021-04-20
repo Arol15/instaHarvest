@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Product from "./Product";
 import Map from "../map/Map";
 
+import { selectProducts } from "../../store/productsSlice";
+
 const Products = () => {
-  const location = useLocation();
   const history = useHistory();
-  const [state, setState] = useState(
-    location.state ? { ...location.state } : null
-  );
+  const productsData = useSelector(selectProducts);
 
   useEffect(() => {
-    if (!state) {
+    if (!productsData.location) {
       history.push("/");
     }
   }, []);
@@ -20,9 +20,9 @@ const Products = () => {
   return (
     <>
       <div>
-        {state.products.map((product) => {
+        {productsData.products.map((product) => {
           return (
-            <div key={product.product_id}>
+            <div key={product.properties.product_id}>
               <Product product={product} />
             </div>
           );
@@ -30,7 +30,7 @@ const Products = () => {
       </div>
 
       <div>
-        <Map location={state.location} points={state.products} />
+        <Map />
       </div>
     </>
   );

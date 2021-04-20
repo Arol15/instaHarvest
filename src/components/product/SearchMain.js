@@ -8,8 +8,8 @@ import Spinner from "../UI/Spinner";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
 import { showMsg } from "../../store/modalSlice";
+import { updateProducts, updateLocation } from "../../store/productsSlice";
 import { parseLocation, getBrowserLocation } from "../../utils/map";
 
 import "../map/mapboxGeocoder.css";
@@ -23,6 +23,7 @@ const SearchMain = () => {
 
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
   const dispatch = useDispatch();
+
   const history = useHistory();
 
   const onSubmit = () => {
@@ -78,10 +79,9 @@ const SearchMain = () => {
       if (data.type && data.type === "FeatureCollection") {
         geocoder.setInput(data.features[0].place_name);
       } else if (data.products.length > 0) {
-        history.push({
-          pathname: "/search-results",
-          state: { products: data.products, location: formData },
-        });
+        dispatch(updateProducts(data.products));
+        dispatch(updateLocation(formData));
+        history.push("/search-results");
       } else {
         dispatch(
           showMsg({

@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import useSupercluster from "use-supercluster";
+import { useSelector } from "react-redux";
 
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 
+import { selectProducts } from "../../store/productsSlice";
 import mapboxgl from "mapbox-gl";
 import { arrangeMarkers } from "../../utils/map";
 import "./map.css";
@@ -10,7 +12,9 @@ import "./map.css";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const Map = ({ points, location }) => {
+const Map = () => {
+  const productsData = useSelector(selectProducts);
+
   const calculateWidth = () => {
     return `${window.innerWidth * 0.8}px`;
   };
@@ -18,8 +22,8 @@ const Map = ({ points, location }) => {
   const mapRef = useRef();
 
   const [viewport, setViewport] = useState({
-    latitude: location.lat,
-    longitude: location.lon,
+    latitude: productsData.location.lat,
+    longitude: productsData.location.lon,
     width: calculateWidth,
     height: "40vh",
     zoom: 12,
@@ -46,7 +50,7 @@ const Map = ({ points, location }) => {
     : null;
 
   const { clusters, supercluster } = useSupercluster({
-    points,
+    points: productsData.products,
     bounds,
     zoom: viewport.zoom,
     options: { radius: 75, maxZoom: 20 },
@@ -110,8 +114,12 @@ const Map = ({ points, location }) => {
                 <div
                   className="map-cluster-marker"
                   style={{
-                    width: `${10 + (pointCount / points.length) * 20}px`,
-                    height: `${10 + (pointCount / points.length) * 20}px`,
+                    width: `${
+                      10 + (pointCount / productsData.products.length) * 20
+                    }px`,
+                    height: `${
+                      10 + (pointCount / productsData.products.length) * 20
+                    }px`,
                   }}
                   onClick={() => {
                     const expansionZoom = Math.min(
