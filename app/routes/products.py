@@ -68,8 +68,10 @@ def get_all_products():
     # data = request.get_json()
     lon = request.json.get("lon")
     lat = request.json.get("lat")
-    products = Product.query.join(Product.address).filter(func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
-        func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lon) - (func.radians(lon)))) * current_app.config['RADIUS'] <= 40).all()
+    params = func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
+        func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lon) - (func.radians(lon)))) * current_app.config['RADIUS']
+    products = Product.query.join(Product.address).filter(
+        params <= 40).order_by(params).all()
     products_dict = [product.to_dict(user_id, lat, lon)
                      for product in products]
     return {"products": products_dict}, 200
