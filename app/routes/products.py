@@ -37,9 +37,14 @@ def create_product():
         db.session.commit()
         address_id = address.id
 
-    product = Product(user_id=user_id, name=data["name"],
-                      product_type=data["product_type"], image_urls=data["image_urls"],
-                      price=data["price"], status="available", description=data["description"],
+    product = Product(user_id=user_id,
+                      name=data["name"],
+                      product_type=data["product_type"],
+                      product_icon=data["product_icon"],
+                      image_urls=data["image_urls"],
+                      price=data["price"],
+                      status="available",
+                      description=data["description"],
                       address_id=address_id)
     db.session.add(product)
     db.session.commit()

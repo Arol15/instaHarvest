@@ -5,18 +5,6 @@ import classnames from "classnames";
 
 const Product = ({ product }) => {
   const history = useHistory();
-  // const location = useLocation();
-  // const prevPath = location.pathname;
-  // const divStyle = {
-  //     border: "1px solid black",
-  //     margin: "5px"
-  // }
-
-  // const [modal, showModal, closeModal] = useModal({
-  //     withBackdrop: true,
-  //     useTimer: false,
-  //     inPlace: false,
-  //   });
 
   const handleClick = (prod) => {
     history.push("/product-info", prod);

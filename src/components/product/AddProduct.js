@@ -7,6 +7,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
+import Icons from "../UI/Icons";
 
 import { validation } from "../../form_validation/validation";
 import { parseLocation } from "../../utils/map";
@@ -43,6 +44,7 @@ const AddProduct = () => {
     {
       name: "",
       product_type: "",
+      product_icon: "",
       image_urls: [],
       price: 0,
       status: "",
@@ -85,6 +87,11 @@ const AddProduct = () => {
 
   const onClearGeocoder = () => {
     setFormData({ ...formData, location: "add" });
+  };
+
+  const onChooseIcon = (url) => {
+    setFormData({ ...formData, product_icon: url });
+    closeModal();
   };
 
   useEffect(() => {
@@ -137,13 +144,14 @@ const AddProduct = () => {
     }
   }, [newAddress]);
 
+  console.log(formData);
   return (
     <>
       {isLoading && <Spinner />}
       <div className="add-product">
         <h2>Share Your Product</h2>
         <form onSubmit={handleSubmit}>
-          <label>Name of your product</label>
+          <label>Name of your product:</label>
           <input
             className="add-product-input"
             placeholder="Name"
@@ -170,7 +178,29 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.product_type && formErrors.product_type}
           </div>
-          <label>Picture</label>
+          <label>Icon:</label>
+          <img
+            className="add-product-icon"
+            src={
+              formData.product_icon
+                ? formData.product_icon
+                : "https://instaharvest.net/assets/images/icons/empty.png"
+            }
+          />
+
+          <p />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              showModal(<Icons onClick={onChooseIcon} />);
+            }}
+          >
+            Choose icon
+          </button>
+          <div className="form-danger">
+            {formErrors.product_icon && formErrors.product_icon}
+          </div>
+          <label>Picture:</label>
           <input
             disabled={true}
             className="add-product-input"
