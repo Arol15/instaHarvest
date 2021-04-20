@@ -64,9 +64,10 @@ export const arrangeMarkers = (markers, lon, lat) => {
     const angle = (ind + 1) * angleStep;
     const newLat = lat + radius * Math.cos(angle);
     const newLng = lon + radius * Math.sin(angle);
-    let newMarker = { ...marker };
-    newMarker.geometry.coordinates = [newLng, newLat];
-
+    const newMarker = {
+      ...marker,
+      geometry: { ...marker.geometry, coordinates: [newLng, newLat] },
+    };
     return newMarker;
   });
   return arrangedMarkers;

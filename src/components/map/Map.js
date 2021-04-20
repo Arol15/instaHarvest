@@ -84,7 +84,6 @@ const Map = () => {
           if (isCluster) {
             if (viewport.zoom >= 16) {
               const children = supercluster.getLeaves(cluster.id);
-
               // if markers have same coordinates
               const newMarkers = arrangeMarkers(children, lon, lat);
               return newMarkers.map((marker) => {
