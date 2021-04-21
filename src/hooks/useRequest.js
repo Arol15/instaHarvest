@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useReducer, useCallback, useDebugValue } from "react";
+import { useReducer, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { logout } from "../utils/localStorage";
 
 const fetchReducer = (currState, action) => {
@@ -54,7 +54,7 @@ const useRequest = () => {
   });
 
   const history = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const sendRequest = useCallback(async (url, method, body) => {
     dispatchFetch({
@@ -127,7 +127,7 @@ const useRequest = () => {
         errorNum: resp.status,
       });
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return [
     fetchState.isLoading,

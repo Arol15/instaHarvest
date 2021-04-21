@@ -35,7 +35,7 @@ const ModalMsg = () => {
     return () => {
       clearTimeout(id);
     };
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let id;
@@ -50,7 +50,7 @@ const ModalMsg = () => {
     return () => {
       clearTimeout(id);
     };
-  }, [active]);
+  }, [active]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

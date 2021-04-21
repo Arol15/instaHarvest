@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRequest } from "../../hooks/hooks";
 import { useHistory } from "react-router-dom";
-import "./chat.css";
 import { useDispatch } from "react-redux";
-import { showMsg } from "../../store/modalSlice";
-import Spinner from "../UI/Spinner";
-import { datetimeToLocal } from "../../utils/datetime";
 
+import Spinner from "../UI/Spinner";
+
+import { showMsg } from "../../store/modalSlice";
+import { datetimeToLocal } from "../../utils/datetime";
+import "./chat.css";
 // import io from "socket.io-client";
 
 // const socket = io.connect(`${endPoint}`);
@@ -26,7 +27,7 @@ const UserChatsPage = () => {
 
   useEffect(() => {
     sendRequest("/api/chat/get_user_chats", "POST", {});
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (error) {
@@ -38,7 +39,7 @@ const UserChatsPage = () => {
         })
       );
     }
-  }, [data, error, errorNum]);
+  }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -51,7 +52,7 @@ const UserChatsPage = () => {
               className="chat-user-chats"
               onClick={() => openChat(chat)}
             >
-              <img className="chat-img" src={chat.recipient_img} />
+              <img className="chat-img" src={chat.recipient_img} alt="" />
               <div className="chat-last-msg">
                 <b>{chat.recipient_name}</b>
                 <p>

@@ -15,7 +15,8 @@ const Products = () => {
     if (!productsData.location) {
       history.push("/");
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     productsData.products && (
       <>

@@ -86,7 +86,7 @@ export const validation = (data) => {
       }
     }
     if (key === "location") {
-      if (!value || value == "add") {
+      if (!value || value === "add") {
         errors.location = "Please choose or add location";
       }
     }

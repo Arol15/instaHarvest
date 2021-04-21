@@ -1,6 +1,8 @@
 import { memo, useState } from "react";
-import { MdMoreVert } from "react-icons/md";
+
 import DropDownMenu from "../UI/DropDownMenu";
+
+import { MdMoreVert } from "react-icons/md";
 import classnames from "classnames";
 import "./chat.css";
 
@@ -26,7 +28,7 @@ const Message = ({ msgId, onDeleteMsg, body, createdAt, sender, image }) => {
         sender === "Me" ? "msg-cnt-self" : "msg-cnt-reciv"
       )}
     >
-      {sender !== "Me" && <img className="chat-img" src={image} />}
+      {sender !== "Me" && <img className="chat-img" src={image} alt={sender} />}
       <div
         className={classnames(
           "msg-body",
@@ -46,7 +48,9 @@ const Message = ({ msgId, onDeleteMsg, body, createdAt, sender, image }) => {
           }
           onClick={onClick}
         >
-          <a onClick={deleteMsg}>Delete</a>
+          <button className="button-link" onClick={deleteMsg}>
+            Delete
+          </button>
         </DropDownMenu>
       )}
     </div>

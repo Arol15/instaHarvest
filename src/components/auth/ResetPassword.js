@@ -56,7 +56,7 @@ const ResetPassword = (props) => {
         history.push("/login");
       }
     }
-  }, [error, errorNum, data]);
+  }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

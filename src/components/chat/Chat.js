@@ -20,19 +20,11 @@ import {
 
 const Chat = () => {
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [
-    isLoadingMsg,
-    dataMsg,
-    errorMsg,
-    errorNumMsg,
-    processMsg,
-  ] = useRequest();
+  const [isLoadingMsg, dataMsg, errorMsg, errorNumMsg] = useRequest();
   const [chatMsgs, setChatMsgs] = useState();
   const bottom = useRef();
   const location = useLocation();
-  const [chatState, setChatState] = useState(
-    location.state ? { ...location.state } : null
-  );
+  const [chatState] = useState(location.state ? { ...location.state } : null);
   const history = useHistory();
   const dispatch = useDispatch();
   const onSubmit = () => {
@@ -76,7 +68,7 @@ const Chat = () => {
     return () => {
       disconnectSocket(chatState.chat_id);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getMessages = () => {
     sendRequest("/api/chat/get_chat_messages", "POST", {
@@ -97,7 +89,7 @@ const Chat = () => {
       setFormData({ ...formData, chat_id: chatState.chat_id });
       setChatMsgs([...data.msgs]);
     }
-  }, [error, errorNum, data]);
+  }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (errorMsg) {
@@ -112,7 +104,7 @@ const Chat = () => {
       getMessages();
       setFormData({ ...formData, body: "" });
     }
-  }, [dataMsg, errorMsg, errorNumMsg]);
+  }, [dataMsg, errorMsg, errorNumMsg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     bottom.current && bottom.current.scrollIntoView();

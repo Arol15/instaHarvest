@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRequest } from "../../hooks/hooks";
 import ProfileHeader from "./ProfileHeader";
 import PublicProfileInfo from "./PublicProfileInfo";
@@ -7,11 +7,12 @@ import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
 
 const PublicProfile = (props) => {
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, , sendRequest] = useRequest();
 
   useEffect(() => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       {isLoading && <Spinner />}

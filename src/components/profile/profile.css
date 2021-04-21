@@ -212,15 +212,15 @@
   margin: 112px 10px;
   border-radius: 10px;
   height: 30px;
-  width: 80px;
-
-  background-color: rgba(0, 0, 0, 0.37);
+  width: 50px;
+  /* text-align: center; */
+  background-color: hsla(0, 0%, 0%, 0.37);
 }
 
-.prf-back-block a {
+.prf-back-block .button-link {
   position: absolute;
-  margin: 6px 27px;
-  color: white;
+  padding-left: 14px;
+  color: hsl(0, 0%, 100%);
 }
 
 .prf-back-img {
@@ -252,7 +252,8 @@
   clip-path: circle(76px at 50% -25%);
 }
 
-.prf-img-block > a {
+.prf-img-block > .button-link {
+  font-size: 1.1rem;
   position: absolute;
   color: white;
   transform: translate(0, 45px);

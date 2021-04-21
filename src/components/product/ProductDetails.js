@@ -1,10 +1,11 @@
 import { useLocation, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useRequest from "../../hooks/useRequest";
-import { checkAuth } from "../../utils/localStorage";
+import { useRequest, useModal } from "../../hooks/hooks";
+
 import AuthModal from "../auth/AuthModal";
-import { useModal } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
+
+import { checkAuth } from "../../utils/localStorage";
 
 const ProductDetails = () => {
   const history = useHistory();
@@ -34,7 +35,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     sendRequest(`/api/products/product-location-info/${user_id}`, "POST");
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data && data.chat_id) {
@@ -49,7 +50,7 @@ const ProductDetails = () => {
     if (data) {
       setInfo(data.product_details);
     }
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

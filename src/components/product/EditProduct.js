@@ -23,13 +23,7 @@ const EditProduct = () => {
 
   const dispatch = useDispatch();
   const [, data, error, errorNum, sendRequest] = useRequest();
-  const [
-    setFormData,
-    handleSubmit,
-    handleInputChange,
-    formData,
-    formErrors,
-  ] = useForm(
+  const [, handleSubmit, handleInputChange, formData, ,] = useForm(
     {
       name: product.name,
       product_type: product.product_type,
@@ -61,7 +55,7 @@ const EditProduct = () => {
       );
       history.push("/user-products");
     }
-  }, [data, error, errorNum]);
+  }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="edit-product">

@@ -20,7 +20,7 @@ const useWidth = (breakpoint = 600) => {
     } else if (!isDesktop && width >= breakpoint) {
       setDesktop(true);
     }
-  }, [width]);
+  }, [width]); // eslint-disable-line react-hooks/exhaustive-deps
   return isDesktop;
 };
 

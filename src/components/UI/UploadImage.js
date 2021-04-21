@@ -16,7 +16,7 @@ const UploadImage = ({
 }) => {
   const [method, setMethod] = useState(null);
   const [image, setImage] = useState();
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, , sendRequest] = useRequest();
   const [modal, showModal] = useModal({
     withBackdrop: false,
     useTimer: true,
@@ -65,33 +65,36 @@ const UploadImage = ({
     } else if (error) {
       showModal(error, "mdl-error");
     }
-  }, [data, error]);
+  }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="upload-image">
       {isLoading && <Spinner />}
       {title && <h3>{title}</h3>}
-      <a
+      <button
+        className="button-link"
         onClick={() => {
           setMethod("url");
         }}
       >
         Save image url
-      </a>
-      <a
+      </button>
+      <button
+        className="button-link"
         onClick={() => {
           setMethod("upload");
         }}
       >
         Upload photo
-      </a>
-      <a
+      </button>
+      <button
+        className="button-link"
         onClick={() => {
           setMethod("delete");
         }}
       >
         Delete photo
-      </a>
+      </button>
 
       {method === "upload" && (
         <form encType="multipart/form-data">

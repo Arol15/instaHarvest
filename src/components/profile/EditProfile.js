@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import { useRequest, useWidth } from "../../hooks/hooks";
+import { useRequest } from "../../hooks/hooks";
 import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
@@ -33,11 +33,11 @@ const Profile = ({ tab }) => {
     if (!profileData.email) {
       updateProfileData();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setCurrTab(tab);
-  }, [tab]);
+  }, [tab]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data && data.msg) {
@@ -54,7 +54,7 @@ const Profile = ({ tab }) => {
         })
       );
     }
-  }, [data, error, errorNum]);
+  }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (errorEmailReq) {
@@ -74,7 +74,7 @@ const Profile = ({ tab }) => {
         })
       );
     }
-  }, [dataEmailReq, errorEmailReq, errorNumEmailReq]);
+  }, [dataEmailReq, errorEmailReq, errorNumEmailReq]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const sendMessage = (msg, classes) => {
     dispatch(
@@ -173,9 +173,12 @@ const Profile = ({ tab }) => {
                   </ProfileField>
                   {!profileData.email_verified && (
                     <div>
-                      <a onClick={resendConfirmEmail}>
+                      <button
+                        className="button-link"
+                        onClick={resendConfirmEmail}
+                      >
                         Resend confirmation email
-                      </a>
+                      </button>
                     </div>
                   )}
                   <hr />

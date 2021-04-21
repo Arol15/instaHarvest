@@ -37,7 +37,7 @@ const ProfileFild = (props) => {
       props.update();
       setEditState(false);
     }
-  }, [data, error]);
+  }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (errorNum === 403) {
@@ -51,7 +51,7 @@ const ProfileFild = (props) => {
         />
       );
     }
-  }, [errorNum]);
+  }, [errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -147,13 +147,14 @@ const ProfileFild = (props) => {
           ) : (
             <p>Empty</p>
           )}
-          <a
+          <button
+            className="button-link"
             onClick={() => {
               setEditState(true);
             }}
           >
             {props.name === "password" ? "Change password" : "Edit"}
-          </a>
+          </button>
         </>
       )}
 

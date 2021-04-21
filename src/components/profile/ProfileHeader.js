@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { useModal } from "../../hooks/hooks";
 import UploadImage from "../UI/UploadImage";
 import { shallowEqual, useSelector } from "react-redux";
@@ -7,7 +6,6 @@ import "./profile.css";
 
 const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
   const data = useSelector(selectProfile, shallowEqual);
-  const history = useHistory();
 
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
@@ -24,10 +22,12 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             <img
               className="prf-back-img"
               src={profileBackImg ? profileBackImg : data.image_back_url}
+              alt=""
             />
             {edit && (
               <div>
-                <a
+                <button
+                  className="button-link"
                   onClick={() => {
                     showModal(
                       <UploadImage
@@ -41,7 +41,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                   }}
                 >
                   Edit
-                </a>
+                </button>
               </div>
             )}
           </div>
@@ -49,10 +49,12 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             <img
               className="prf-img"
               src={profileImg ? profileImg : data.image_url}
+              alt=""
             />
             {edit && <div></div>}
             {edit && (
-              <a
+              <button
+                className="button-link"
                 onClick={() => {
                   showModal(
                     <UploadImage
@@ -66,7 +68,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                 }}
               >
                 Edit
-              </a>
+              </button>
             )}
           </div>
         </div>

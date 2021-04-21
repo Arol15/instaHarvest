@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import useSupercluster from "use-supercluster";
 import { useSelector } from "react-redux";
 
@@ -43,7 +43,7 @@ const Map = () => {
     return () => {
       window.removeEventListener("resize", updateWidth);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const bounds = mapRef.current
     ? mapRef.current.getMap().getBounds().toArray().flat()
@@ -59,7 +59,7 @@ const Map = () => {
   const renderOneMarker = (icon, id, lon, lat) => {
     return (
       <Marker key={`point-${id}`} longitude={lon} latitude={lat}>
-        <img className="map-marker" src={icon} />
+        <img className="map-marker" src={icon} alt="" />
       </Marker>
     );
   };

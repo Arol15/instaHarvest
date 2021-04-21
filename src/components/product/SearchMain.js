@@ -21,7 +21,7 @@ const SearchMain = () => {
     })
   );
 
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [isLoading, data, error, , sendRequest] = useRequest();
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -72,7 +72,7 @@ const SearchMain = () => {
       geocoder.off("result", onResultGeocoder);
       geocoder.off("clear", onClearGeocoder);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data) {
@@ -100,7 +100,7 @@ const SearchMain = () => {
         })
       );
     }
-  }, [data, error]);
+  }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

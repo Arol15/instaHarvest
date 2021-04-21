@@ -18,7 +18,7 @@ const Profile = ({ tab }) => {
   const [currTab, setCurrTab] = useState(tab ? tab : "products");
   const profileData = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [, data, error, errorNum, sendRequest] = useRequest();
 
   useLayoutEffect(() => {
     if (checkAuth() === false) {
@@ -30,7 +30,7 @@ const Profile = ({ tab }) => {
     } else {
       sendRequest("/api/account/get_profile_private", "POST", {});
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data && data.msg) {
@@ -47,7 +47,7 @@ const Profile = ({ tab }) => {
         })
       );
     }
-  }, [data, error, errorNum]);
+  }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

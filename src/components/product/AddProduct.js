@@ -100,7 +100,7 @@ const AddProduct = () => {
     } else {
       sendRequest("/api/account/get_user_addresses", "POST");
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (error) {
@@ -125,7 +125,7 @@ const AddProduct = () => {
         history.push("/user-products");
       }
     }
-  }, [data, error, errorNum]);
+  }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (newAddress) {
@@ -142,7 +142,7 @@ const AddProduct = () => {
         geocoder.off("clear", onClearGeocoder);
       };
     }
-  }, [newAddress]);
+  }, [newAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -185,6 +185,7 @@ const AddProduct = () => {
                 ? formData.product_icon
                 : "https://instaharvest.net/assets/images/icons/empty.png"
             }
+            alt=""
           />
 
           <p />

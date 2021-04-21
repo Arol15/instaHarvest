@@ -30,7 +30,7 @@ const DropDownMenu = ({
         window.removeEventListener("click", clickEvent);
       };
     }
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={classes.clContainer}>

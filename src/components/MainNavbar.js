@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-import "./MainNavbar.css";
-import { checkAuth, logout } from "../utils/localStorage";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { useModal } from "../hooks/hooks";
+
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
+
+import { checkAuth, logout } from "../utils/localStorage";
 import { selectProfile } from "../store/profileSlice";
 import { showMsg } from "../store/modalSlice";
+import "./MainNavbar.css";
 
 const MainNavbar = () => {
   const history = useHistory();
@@ -79,22 +81,30 @@ const MainNavbar = () => {
               }
               onClick={onClickProfile}
             >
-              <Link onClick={onClickProfile} to="/profile">
+              <button
+                className="button-link btn-main-menu"
+                onClick={() => {
+                  onClickProfile();
+                  history.push("/profile");
+                }}
+              >
                 Profile
-              </Link>
+              </button>
 
-              <a
+              <button
+                className="button-link btn-main-menu"
                 onClick={() => {
                   showModal(confirmLogout);
                 }}
               >
                 Logout
-              </a>
+              </button>
             </DropDownMenu>
           </>
         ) : (
           <div className="main-navbar-links">
-            <a
+            <button
+              className="button-link"
               onClick={() =>
                 showModal(
                   <AuthModal
@@ -108,7 +118,7 @@ const MainNavbar = () => {
               }
             >
               Sign In
-            </a>
+            </button>
           </div>
         )}
       </nav>

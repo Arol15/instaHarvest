@@ -1,5 +1,5 @@
-import { useHistory, useLocation } from "react-router-dom";
-import { useModal } from "../../hooks/hooks";
+import { useHistory } from "react-router-dom";
+// import { useModal } from "../../hooks/hooks";
 
 import classnames from "classnames";
 

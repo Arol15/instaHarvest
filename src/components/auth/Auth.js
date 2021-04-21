@@ -80,7 +80,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     } else if (view === "confirm") {
       setFormData({ login: user, password: "" });
     }
-  }, [view]);
+  }, [view]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data) {
@@ -112,7 +112,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     if (address && view === "signup") {
       setFormData({ ...formData, ...address });
     }
-  }, [address]);
+  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // console.log(formData);
   return (

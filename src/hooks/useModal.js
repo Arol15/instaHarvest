@@ -99,7 +99,7 @@ const useModal = ({
         }
       };
     }
-  }, [fetchState.isOpen, fetchState.modal]);
+  }, [fetchState.isOpen, fetchState.modal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (fetchState.isOpen && !withBackdrop && !inPlace) {
@@ -116,7 +116,7 @@ const useModal = ({
         dispatchFetch({ type: "setActive", active: fetchState.isOpen });
       }, 10);
     }
-  }, [fetchState.isOpen]);
+  }, [fetchState.isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let id;
@@ -133,7 +133,7 @@ const useModal = ({
         clearTimeout(id);
       }
     };
-  }, [fetchState.isOpen]);
+  }, [fetchState.isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (withBackdrop) {
@@ -183,7 +183,7 @@ const useModal = ({
     } else {
       <></>;
     }
-  }, [fetchState.active, fetchState.isOpen, fetchState.children]);
+  }, [fetchState.active, fetchState.isOpen, fetchState.children]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return [fetchState.modal, showModal, closeModal, fetchState.isOpen];
 };

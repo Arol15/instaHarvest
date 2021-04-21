@@ -1,5 +1,3 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useEffect, useState } from "react";
 import Home from "./components/Home";
 import Profile from "./components/profile/Profile";
 import Products from "./components/product/Products";
@@ -8,7 +6,6 @@ import NotFoundPage from "./components/NotFoundPage";
 import PublicProfile from "./components/profile/PublicProfile";
 import ResetPassword from "./components/auth/ResetPassword";
 import ModalMsg from "./components/UI/ModalMsg";
-import UserChatsPage from "./components/chat/UserChatsPage";
 import Chat from "./components/chat/Chat";
 import AddProduct from "./components/product/AddProduct";
 import UserProducts from "./components/product/UserProducts";
@@ -17,6 +14,8 @@ import MainNavbar from "./components/MainNavbar";
 import EditProduct from "./components/product/EditProduct";
 import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
   return (
