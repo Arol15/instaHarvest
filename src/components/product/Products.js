@@ -6,6 +6,7 @@ import Product from "./Product";
 import Map from "../map/Map";
 
 import { selectProducts } from "../../store/productsSlice";
+import "./product.css";
 
 const Products = () => {
   const history = useHistory();
@@ -20,7 +21,7 @@ const Products = () => {
   return (
     productsData.products && (
       <>
-        <div>
+        <div className="prd-grid">
           {productsData.products.map((product) => {
             return (
               <div key={product.properties.product_id}>
@@ -29,7 +30,6 @@ const Products = () => {
             );
           })}
         </div>
-
         <div>
           <Map />
         </div>

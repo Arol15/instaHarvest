@@ -2,6 +2,7 @@ import { useHistory } from "react-router-dom";
 // import { useModal } from "../../hooks/hooks";
 
 import classnames from "classnames";
+import "./product.css";
 
 const Product = ({ product }) => {
   const history = useHistory();
@@ -23,22 +24,20 @@ const Product = ({ product }) => {
   // );
 
   return (
-    <div className="prd-grid">
-      <div
-        className={classnames("product-element", {
-          "prd-personal": product.personal,
-        })}
-      >
-        {/* <img className="prd-img" src={product.image_urls.length > 0 ? product.image_urls[0] : product.icon} /> */}
-        <div className="prd-description">
-          <p>
-            <b>{product.properties.name}</b>
-          </p>
-          <p>${product.properties.price}</p>
-          {product.geometry.properties.distance_km && (
-            <p>{product.geometry.properties.distance_km} km away</p>
-          )}
-        </div>
+    <div
+      className={classnames("prd-element", {
+        "prd-personal": product.personal,
+      })}
+    >
+      {/* <img className="prd-img" src={product.image_urls.length > 0 ? product.image_urls[0] : product.icon} /> */}
+      <div className="prd-description">
+        <p>
+          <b>{product.properties.name}</b>
+        </p>
+        <p>${product.properties.price}</p>
+        {product.geometry.properties.distance_km && (
+          <p>{product.geometry.properties.distance_km} km away</p>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,37 @@
 .prd-grid {
+  margin: 20px 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .prd-element {
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid hsl(0, 2%, 75%);
+  border-radius: 5px;
+  transition: 0.25s;
+}
+
+@media screen and (max-width: 640px) {
+  .prd-element {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .prd-grid {
+    margin: 20px 10px;
+  }
+
+  .prd-element {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .prd-personal {

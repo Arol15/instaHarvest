@@ -4,6 +4,8 @@ import { useRequest } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import Product from "./Product";
 
+import "./product.css";
+
 const UserProducts = () => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
@@ -34,14 +36,17 @@ const UserProducts = () => {
     <div>
       <h2>All your products are here! </h2>
       {isLoading && <Spinner />}
-      {userProducts &&
-        userProducts.map((product) => {
-          return (
-            <div key={product.properties.product_id}>
-              <Product product={product} onDelete={handleDelete} />
-            </div>
-          );
-        })}
+      {userProducts && (
+        <div className="prd-grid">
+          {userProducts.map((product) => {
+            return (
+              <div key={product.properties.product_id}>
+                <Product product={product} onDelete={handleDelete} />
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
