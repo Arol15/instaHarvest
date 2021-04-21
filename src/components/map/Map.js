@@ -25,7 +25,7 @@ const Map = () => {
     latitude: productsData.location.lat,
     longitude: productsData.location.lon,
     width: calculateWidth(),
-    height: "40vh",
+    height: "50vh",
     zoom: 12,
   });
 

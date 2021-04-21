@@ -2,9 +2,9 @@
   margin: 10px auto;
   padding: 20px;
   width: 80vw;
-  height: 40vh;
+  height: 50vh;
   border: 1px solid #ddd;
-  border-radius: 25px;
+  border-radius: 15px;
 }
 
 .map-marker {
