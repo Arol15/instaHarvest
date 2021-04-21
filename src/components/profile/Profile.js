@@ -1,14 +1,17 @@
 import { useState, useEffect, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useRequest } from "../../hooks/hooks";
+
 import ProfileHeader from "./ProfileHeader";
-import { logout, checkAuth } from "../../utils/localStorage";
 import PublicProfileInfo from "./PublicProfileInfo";
 import UserChatsPage from "../chat/UserChatsPage";
 import UserProducts from "../product/UserProducts";
+import TabsMenu from "../UI/TabsMenu";
+
 import classnames from "classnames";
 import { datetimeToLocal } from "../../utils/datetime";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { logout, checkAuth } from "../../utils/localStorage";
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
 import "./profile.css";
@@ -69,34 +72,28 @@ const Profile = ({ tab }) => {
           >
             Edit profile
           </button>
-          <div className="prf-main-menu">
-            <hr className="hr-top" />
-            <div className="prf-main-menu-tabs">
-              <div
-                onClick={() => {
+          <TabsMenu
+            currTab={currTab}
+            tabs={[
+              {
+                title: "Products",
+                name: "products",
+                onClick: () => {
                   history.push("/profile");
                   setCurrTab("products");
-                }}
-                className={classnames({
-                  "prf-main-menu-active": currTab === "products",
-                })}
-              >
-                Products
-              </div>
-              <div
-                onClick={() => {
+                },
+              },
+              {
+                title: "Chats",
+                name: "chats",
+                onClick: () => {
                   history.push("/chats");
                   setCurrTab("chats");
-                }}
-                className={classnames({
-                  "prf-main-menu-active": currTab === "chats",
-                })}
-              >
-                Chats
-              </div>
-            </div>
-            <hr className="hr-bottom" />
-          </div>
+                },
+              },
+            ]}
+          />
+
           <div className="prf-body">
             {currTab === "chats" && <UserChatsPage />}
             {currTab === "products" && <UserProducts />}

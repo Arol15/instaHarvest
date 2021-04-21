@@ -153,4 +153,8 @@ footer {
   position: relative;
   bottom: 0;
   left: 0;
+  text-align: center;
+}
+footer div {
+  margin-top: 50px;
 }

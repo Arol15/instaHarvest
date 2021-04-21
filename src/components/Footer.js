@@ -1,9 +1,9 @@
 const Footer = () => {
-    return (
-        <footer>
-            All Icons and copyrights
-        </footer>
-    )
-}
+  return (
+    <footer>
+      <div>© 2021 InstaHarvest</div>
+    </footer>
+  );
+};
 
-export default Footer; 
+export default Footer;

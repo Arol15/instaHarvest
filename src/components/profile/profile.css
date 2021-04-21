@@ -270,45 +270,6 @@
   text-align: center;
 }
 
-.prf-main-menu {
-  margin-top: 20px;
-}
-
-.prf-main-menu-tabs {
-  display: flex;
-  /* height: 30px; */
-  width: 80%;
-  flex-direction: row;
-  justify-content: center;
-  margin: 10px auto;
-}
-
-.prf-main-menu {
-  color: hsl(0, 0%, 33%);
-}
-
-.prf-main-menu div {
-  /* margin: auto 30px; */
-  padding: 0 20px;
-  cursor: pointer;
-}
-
-.prf-main-menu-active {
-  font-weight: bold;
-}
-
-.prf-main-menu hr {
-  width: 80%;
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0)
-  );
-}
-
 .prf-body {
   width: 80%;
   margin: 0 auto;
