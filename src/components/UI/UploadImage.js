@@ -7,13 +7,7 @@ import { validation } from "../../form_validation/validation";
 
 import "./uploadImage.css";
 
-const UploadImage = ({
-  title,
-  closeModal,
-  uploadFileAPI,
-  imageUrlAPI,
-  multipleImages,
-}) => {
+const UploadImage = ({ title, closeModal, uploadFileAPI, multipleImages }) => {
   const [method, setMethod] = useState(null);
   const [images, setImages] = useState();
   const [isLoading, data, error, , sendRequest] = useRequest();
@@ -26,42 +20,31 @@ const UploadImage = ({
   const onSubmit = (e) => {
     e && e.preventDefault();
     const imagesData = new FormData();
-    if (method === "upload") {
-      if (images.length > 4) {
-        showModal("You can upload up to 4 images", "mdl-error");
+
+    if (images.length > 4) {
+      showModal("You can upload up to 4 images", "mdl-error");
+      return;
+    }
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].size > 2097152) {
+        showModal(
+          `Image size should be less then 2 mb. Image ${i + 1} has size ${(
+            images[i].size / 1048576
+          ).toFixed(1)} mb`,
+          "mdl-error"
+        );
         return;
       }
-      for (let i = 0; i < images.length; i++) {
-        if (images[i].size > 2097152) {
-          showModal(
-            `Image size should be less then 2 mb. Image ${i + 1} has size ${(
-              images[i].size / 1048576
-            ).toFixed(1)} mb`,
-            "mdl-error"
-          );
-          return;
-        }
-        imagesData.append("file", images[i]);
-      }
-
-      sendRequest(uploadFileAPI, "POST", imagesData);
+      imagesData.append("file", images[i]);
     }
-  };
 
-  const uploadImageUrl = () => {
-    sendRequest(imageUrlAPI, "POST", formData);
+    sendRequest(uploadFileAPI, "POST", imagesData);
   };
 
   const handleInputFileChange = (event) => {
     event && event.preventDefault();
     setImages(event.target.files);
   };
-
-  const [, handleSubmit, handleInputChange, formData, formErrors] = useForm(
-    { url: "" },
-    uploadImageUrl,
-    validation
-  );
 
   const resetMethod = () => {
     setMethod(null);
@@ -83,14 +66,6 @@ const UploadImage = ({
       <button
         className="button-link"
         onClick={() => {
-          setMethod("url");
-        }}
-      >
-        Save image url
-      </button>
-      <button
-        className="button-link"
-        onClick={() => {
           setMethod("upload");
         }}
       >
@@ -107,22 +82,6 @@ const UploadImage = ({
             multiple={multipleImages}
           ></input>
           <button onClick={onSubmit}>Submit</button>
-          <button onClick={resetMethod}>Cancel</button>
-        </form>
-      )}
-
-      {method === "url" && (
-        <form>
-          <input
-            placeholder={"Enter image url"}
-            type="text"
-            name={"url"}
-            onChange={handleInputChange}
-            value={formData.url || ""}
-          ></input>
-          <div className="form-danger">{formErrors.url && formErrors.url}</div>
-
-          <button onClick={handleSubmit}>Submit</button>
           <button onClick={resetMethod}>Cancel</button>
         </form>
       )}

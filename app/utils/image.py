@@ -22,6 +22,7 @@ def validate_image(image):
     Checks if the file `image` has correct extension and correct format.
     If file is correct, return image extension
     """
+    # Validates that the type of image contained in a file is an image format
     header = image.stream.read(512)
     image.stream.seek(0)
     format = imghdr.what(None, header)
@@ -38,11 +39,11 @@ def validate_image(image):
     return file_extension
 
 
-def save_image(uploaded_file, uuid, image_name):
+def save_image(uploaded_file, uuid, image_name, base_width=1200):
     file_extension = validate_image(uploaded_file)
     if file_extension is None:
         return "NOT_ALLOWED"
-    image = resize_image(uploaded_file, 1200)
+    image = resize_image(uploaded_file, base_width)
     file_name = f"{image_name}{file_extension}"
     path = os.path.join(
         current_app.config["USERS_FOLDER"], uuid, file_name)

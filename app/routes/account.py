@@ -165,118 +165,77 @@ def change_email(token):
     return redirect(f"{current_app.config['BASE_URL']}/profile", code=302)
 
 
-@bp.route("/update_profile_image_file", methods=["POST"])
+@bp.route("/edit_profile_image", methods=["POST", "DELETE"])
 @auth_required
-def edit_profile_image_file():
+def edit_profile_image():
     user_id = session["id"]
     user = User.query.filter_by(id=user_id).first()
-    uploaded_file = request.files.getlist("file")[0]
+    if request.method == "POST":
+        uploaded_file = request.files.getlist("file")[0]
 
-    image_url = save_image(uploaded_file, user.uuid, "profile_img")
-    if image_url == "NOT_ALLOWED":
-        return {"error": "Uploaded file has not allowed format"}, 404
-    elif image_url == "NOT_SAVED":
-        return {"error": "Something went wrong. Uploaded image has not been saved"}, 404
+        image_url = save_image(uploaded_file, user.uuid,
+                               "profile_img")
+        if image_url == "NOT_ALLOWED":
+            return {"error": "Uploaded file has not allowed format"}, 404
+        elif image_url == "NOT_SAVED":
+            return {"error": "Something went wrong. Uploaded image has not been saved"}, 404
+        user.image_url = image_url
+        db.session.add(user)
+        db.session.commit()
+        return {"msg": "Image uploaded",
+                "image_url": user.image_url}, 200
 
-    user.image_url = image_url
-    db.session.add(user)
-    db.session.commit()
+    elif request.method == "DELETE":
+        url = user.image_url
+        path = os.path.join(
+            current_app.config["USERS_FOLDER"], user.uuid, url.split('/')[-1])
+        try:
+            os.remove(path)
+        except:
+            pass
+        user.image_url = current_app.config['PROFILE_IMAGE']
 
-    return {"msg": "Image uploaded",
-            "image_url": user.image_url}, 200
+        db.session.add(user)
+        db.session.commit()
+        return {"msg": "Image deleted",
+                "image_url": user.image_url}, 200
 
 
-@bp.route("/update_profile_image_url", methods=["POST"])
+@bp.route("/edit_back_image", methods=["POST", "DELETE"])
 @auth_required
-def edit_profile_image_url():
-    user_id = session["id"]
-    image_url = request.json.get("url")
-    user = User.query.filter(User.id == user_id).first()
-    if user is None:
-        return {}, 404
-    user.image_url = image_url
-    db.session.add(user)
-    db.session.commit()
-    return {"msg": "Image url saved",
-            "image_url": user.image_url}, 200
-
-
-@bp.route("/delete_profile_image", methods=["POST"])
-@auth_required
-def delete_profile_image():
-    user_id = session["id"]
-    user = User.query.filter(User.id == user_id).first()
-    if user is None:
-        return {}, 404
-    url = user.image_url
-    path = os.path.join(
-        current_app.config["USERS_FOLDER"], user.uuid, url.split('/')[-1])
-    try:
-        os.remove(path)
-    except:
-        pass
-    user.image_url = current_app.config['PROFILE_IMAGE']
-    db.session.add(user)
-    db.session.commit()
-
-    return {"msg": "Image deleted",
-            "image_url": user.image_url}, 200
-
-
-@bp.route("/update_back_image_file", methods=["POST"])
-@auth_required
-def edit_back_image_file():
+def edit_back_image():
     user_id = session["id"]
     user = User.query.filter_by(id=user_id).first()
-    uploaded_file = request.files.getlist("file")[0]
 
-    image_url = save_image(uploaded_file, user.uuid, "profile_back_img")
-    if image_url == "NOT_ALLOWED":
-        return {"error": "Uploaded file has not allowed format"}, 404
-    elif image_url == "NOT_SAVED":
-        return {"error": "Something went wrong. Uploaded image has not been saved"}, 404
+    if request.method == "POST":
+        uploaded_file = request.files.getlist("file")[0]
 
-    user.image_back_url = image_url
-    db.session.add(user)
-    db.session.commit()
+        image_url = save_image(uploaded_file, user.uuid,
+                               "profile_back_img", base_width=2000)
+        if image_url == "NOT_ALLOWED":
+            return {"error": "Uploaded file has not allowed format"}, 404
+        elif image_url == "NOT_SAVED":
+            return {"error": "Something went wrong. Uploaded image has not been saved"}, 404
 
-    return {"msg": "Image uploaded",
-            "image_back_url": user.image_back_url}, 200
+        user.image_back_url = image_url
+        db.session.add(user)
+        db.session.commit()
 
+        return {"msg": "Image uploaded",
+                "image_back_url": user.image_back_url}, 200
 
-@bp.route("/update_back_image_url", methods=["POST"])
-@auth_required
-def edit_back_image_url():
-    user_id = session["id"]
-    image_back_url = request.json.get("url")
-    user = User.query.filter(User.id == user_id).first()
-    if user is None:
-        return {}, 404
-    user.image_back_url = image_back_url
-    db.session.add(user)
-    db.session.commit()
-    return {"msg": "Image url saved",
-            "image_back_url": user.image_back_url}, 200
+    elif request.method == "DELETE":
+        url = user.image_back_url
+        path = os.path.join(
+            current_app.config["USERS_FOLDER"], user.uuid, url.split('/')[-1])
+        try:
+            os.remove(path)
+        except:
+            pass
 
+        user.image_back_url = current_app.config['PROFILE_BACK_IMAGE']
+        db.session.add(user)
+        db.session.commit()
 
-@bp.route("/delete_back_image", methods=["POST"])
-@auth_required
-def delete_back_image():
-    user_id = session["id"]
-    user = User.query.filter(User.id == user_id).first()
-    if user is None:
-        return {}, 404
-    url = user.image_back_url
-    path = os.path.join(
-        current_app.config["USERS_FOLDER"], user.uuid, url.split('/')[-1])
-    try:
-        os.remove(path)
-    except:
-        pass
-
-    user.image_back_url = current_app.config['PROFILE_BACK_IMAGE']
-    db.session.add(user)
-    db.session.commit()
-
-    return {"msg": "Image deleted",
-            "image_back_url": user.image_back_url}, 200
+        return {"msg": "Image deleted",
+                "image_back_url": user.image_back_url}, 200

@@ -15,7 +15,7 @@ const DeleteImage = ({ title, deleteImageAPI }) => {
   const [deleteImage, setDeleteImage] = useState(false);
 
   const deleteImageRequest = (deleteImageAPI) => {
-    sendRequest(deleteImageAPI, "POST", {});
+    sendRequest(deleteImageAPI, "DELETE", {});
   };
 
   useEffect(() => {
@@ -32,7 +32,6 @@ const DeleteImage = ({ title, deleteImageAPI }) => {
       <button
         className="button-link"
         onClick={() => {
-          console.log("BUTTON");
           setDeleteImage(true);
         }}
       >
