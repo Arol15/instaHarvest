@@ -48,21 +48,23 @@ const Products = () => {
           ]}
         />
 
-        {currTab === "products" && (
-          <div className="prd-grid">
-            {productsData.products.map((product) => {
-              return (
-                <div key={product.properties.product_id}>
-                  <Product product={product} />
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <div
+          className={classnames("prd-grid", {
+            "prd-hide-tab": currTab !== "products",
+          })}
+        >
+          {productsData.products.map((product) => {
+            return (
+              <div key={product.properties.product_id}>
+                <Product product={product} />
+              </div>
+            );
+          })}
+        </div>
 
         <div
           className={classnames({
-            "prd-map-hide": currTab !== "map",
+            "prd-hide-tab": currTab !== "map",
           })}
         >
           <Map />

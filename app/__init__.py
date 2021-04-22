@@ -5,7 +5,6 @@ from flask_session import Session
 from flask_mail import Mail
 from app.config import Config
 from logging.config import dictConfig
-import boto3
 from flask_socketio import SocketIO, send
 
 db = SQLAlchemy()
@@ -44,12 +43,6 @@ def create_app(config_class=Config):
             'handlers': ['toFile']
         }
     })
-
-    s3_resource = boto3.resource(
-        "s3",
-        aws_access_key_id=app.config["AWS_ACCESS_KEY_ID"],
-        aws_secret_access_key=app.config["AWS_SECRET_ACCESS_KEY"]
-    )
 
     db.init_app(app)
     migrate.init_app(app, db)

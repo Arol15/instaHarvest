@@ -1,6 +1,9 @@
 import { useModal } from "../../hooks/hooks";
+import { useSelector, shallowEqual } from "react-redux";
+
 import UploadImage from "../UI/UploadImage";
-import { shallowEqual, useSelector } from "react-redux";
+import DeleteImage from "../UI/DeleteImage";
+
 import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";
 
@@ -30,13 +33,18 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                   className="button-link"
                   onClick={() => {
                     showModal(
-                      <UploadImage
-                        title="Set profile background image"
-                        closeModal={closeModal}
-                        uploadFileAPI="/api/account/update_back_image_file"
-                        imageUrlAPI="/api/account/update_back_image_url"
-                        deleteImageAPI="/api/account/delete_back_image"
-                      />
+                      <div className="prf-edit-modal">
+                        <UploadImage
+                          title="Set profile background image"
+                          closeModal={closeModal}
+                          uploadFileAPI="/api/account/update_back_image_file"
+                          imageUrlAPI="/api/account/update_back_image_url"
+                        />
+                        <DeleteImage
+                          title="Delete profile background image"
+                          deleteImageAPI="/api/account/delete_back_image"
+                        />
+                      </div>
                     );
                   }}
                 >
@@ -57,13 +65,19 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                 className="button-link"
                 onClick={() => {
                   showModal(
-                    <UploadImage
-                      title="Set profile image"
-                      closeModal={closeModal}
-                      uploadFileAPI="/api/account/update_profile_image_file"
-                      imageUrlAPI="/api/account/update_profile_image_url"
-                      deleteImageAPI="/api/account/delete_profile_image"
-                    />
+                    <div className="prf-edit-modal">
+                      <UploadImage
+                        title="Set profile image"
+                        closeModal={closeModal}
+                        uploadFileAPI="/api/account/update_profile_image_file"
+                        imageUrlAPI="/api/account/update_profile_image_url"
+                        multipleImages={true}
+                      />
+                      <DeleteImage
+                        title="Delete profile image"
+                        deleteImageAPI="/api/account/delete_profile_image"
+                      />
+                    </div>
                   );
                 }}
               >

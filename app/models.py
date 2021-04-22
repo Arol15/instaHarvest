@@ -10,6 +10,7 @@ from flask import current_app
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(36), unique=True)
     profile_addr = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(30))
     first_name = db.Column(db.String(30), nullable=False)
@@ -116,7 +117,7 @@ class Product(db.Model):
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
     product_icon = db.Column(db.String(255))
-    image_urls = db.Column(db.ARRAY(db.String(255)))
+
     price = db.Column(db.Float)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
@@ -128,6 +129,8 @@ class Product(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey(
         "addresses.id"), nullable=False)
 
+    images = db.relationship("Image", backref="Product", lazy="dynamic")
+
     likes = db.relationship(
         "LikedProduct", backref="product", lazy="dynamic")
 
@@ -136,6 +139,7 @@ class Product(db.Model):
         address_dict = self.address.to_dict(lat, lon)
         authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
+        product_images = [image.to_dict() for image in self.images]
         return {
             "type": "Feature",
             "properties": {
@@ -144,7 +148,7 @@ class Product(db.Model):
                 "name": self.name,
                 "product_type": self.product_type,
                 "product_icon": self.product_icon,
-                "image_urls": self.image_urls,
+                "product_images": product_images,
                 "price": self.price,
                 "description": self.description,
                 "status": self.status,
@@ -153,6 +157,27 @@ class Product(db.Model):
                 "total_likes": likes,
             },
             "geometry": address_dict
+        }
+
+
+class Image(db.Model):
+    __tablename__ = "images"
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey(
+        "products.id"), nullable=False)
+    image_url = db.Column(db.String)
+    primary = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime,
+                           default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    deleted_at = db.Column(db.DateTime)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "image_url": self.image_url,
+            "primary": self.primary,
+            "created_at": self.created_at.isoformat(),
         }
 
 

@@ -274,3 +274,7 @@
   width: 80%;
   margin: 0 auto;
 }
+
+.prf-edit-modal {
+  padding: 30px;
+}

@@ -1,4 +1,5 @@
 import json
+import os
 from uuid import uuid4
 from datetime import datetime
 from dateutil import tz
@@ -26,10 +27,18 @@ def signup():
     if username and User.query.filter_by(username=username).first():
         return {"error": f"The user with username {username} already exists"}, 409
     email_verified = False
-    profile_addr = str(uuid4())[:13]
+    uuid = str(uuid4())
+    profile_addr = uuid[:13]
     now = datetime.utcnow()
+    # create user's folder
+    user_folder = os.path.join(current_app.config['USERS_FOLDER'], uuid)
+    try:
+        os.mkdir(user_folder)
+    except OSError:
+        print(f"Creation of the directory for user {uuid} failed")
 
     user = User(username=username,
+                uuid=uuid,
                 first_name=data["first_name"],
                 password=data["password"],
                 email=email,
