@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useRequest } from "../../hooks/hooks";
+import { useDispatch } from "react-redux";
 
 import Spinner from "../UI/Spinner";
 import Product from "./Product";
 
+import { showMsg } from "../../store/modalSlice";
 import "./product.css";
 
 const UserProducts = () => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const dispatch = useDispatch();
 
   const getProducts = () => {
     sendRequest("/api/products/products_per_user", "POST", null);
@@ -19,18 +22,19 @@ const UserProducts = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (data && data.msg === "deleted") {
-      getProducts();
-    } else if (data) {
+    if (data) {
       setUserProducts(data.user_products);
     }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleDelete = (product_id) => {
-    sendRequest("/api/products/delete_product", "delete", {
-      product_id: product_id,
-    });
-  };
+    if (error) {
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
+    }
+  }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -41,7 +45,7 @@ const UserProducts = () => {
           {userProducts.map((product) => {
             return (
               <div key={product.properties.product_id}>
-                <Product product={product} onDelete={handleDelete} />
+                <Product product={product} />
               </div>
             );
           })}

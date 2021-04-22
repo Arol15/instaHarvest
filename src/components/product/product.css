@@ -38,6 +38,11 @@
 }
 
 .prd-img {
+  width: 100%;
+  height: 100%;
+}
+
+.prd-icon {
 }
 
 .prd-description {

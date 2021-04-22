@@ -41,7 +41,7 @@ def create_product():
                       name=data["name"],
                       product_type=data["product_type"],
                       product_icon=data["product_icon"],
-                      image_urls=data["image_urls"],
+                      #   images=data["image_urls"],
                       price=data["price"],
                       status="available",
                       description=data["description"],
@@ -64,7 +64,7 @@ def get_products_per_user():
 
 
 @bp.route("/get_local_products", methods=["POST"])
-def get_all_products():
+def get_local_products():
     user_id = None
     try:
         user_id = session["id"]
@@ -80,6 +80,15 @@ def get_all_products():
     products_dict = [product.to_dict(user_id, lat, lon)
                      for product in products]
     return {"products": products_dict}, 200
+
+
+@bp.route("/get_product", methods=["POST"])
+@auth_required
+def get_product():
+    user_id = session["id"]
+    product_id = request.json.get("product_id")
+    product = Product.query.filter_by(id=product_id).first()
+    return {"product": product.to_dict(user_id)}, 200
 
 
 @bp.route("/get-all-protected", methods=["POST"])
@@ -130,11 +139,10 @@ def edit_product(productId):
 def delete_product():
     data = request.get_json()
     product_id = data["product_id"]
-    # print(data)
     product = Product.query.filter_by(id=product_id).first()
     db.session.delete(product)
     db.session.commit()
-    return {"msg": "deleted"}, 200
+    return {"msg": "Deleted"}, 200
 
 
 @bp.route("/like/<int:product_id>", methods=["POST"])

@@ -10,6 +10,15 @@
     {
         "name": "Herb",
         "url": "https://instaharvest.net/assets/images/icons/herbs.png"
+    },
+    {
+        "name": "Mango",
+        "url": "https://instaharvest.net/assets/images/icons/mango.png"
+    },
+    {
+        "name": "Orange",
+        "url": "https://instaharvest.net/assets/images/icons/orange.png"
     }
+    
 
 ]

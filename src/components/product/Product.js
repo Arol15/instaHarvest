@@ -1,35 +1,46 @@
+import { useMemo } from "react";
 import { useHistory } from "react-router-dom";
-// import { useModal } from "../../hooks/hooks";
+import { useDispatch } from "react-redux";
 
+import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
 import "./product.css";
 
 const Product = ({ product }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleClick = (prod) => {
-    history.push("/product-info", prod);
+    dispatch(setCurrentProduct(prod));
+    history.push({
+      pathname: "/product-info",
+      state: { prevPath: history.location.pathname },
+    });
   };
 
-  const handleClickEdit = (prod) => {
-    history.push("/edit-product", prod);
-  };
-
-  //  const confirmDelete = (
-  //     <>
-  //         <h3>Are you sure to delete?</h3>
-  //         <button onClick={() => onDelete(product.product_id)}>Yes</button>
-  //         <button onClick={() => closeModal()}>No</button>
-  //     </>
-  // );
+  const primaryImage = useMemo(() => {
+    const images = product.properties.product_images;
+    let primaryImage = images.find((image) => image.primary === true);
+    if (!primaryImage) {
+      primaryImage = product.properties.product_icon;
+    }
+    return primaryImage;
+  }, [product]);
 
   return (
     <div
+      onClick={() => {
+        handleClick(product);
+      }}
       className={classnames("prd-element", {
-        "prd-personal": product.personal,
+        "prd-personal": product.properties.personal,
       })}
     >
-      {/* <img className="prd-img" src={product.image_urls.length > 0 ? product.image_urls[0] : product.icon} /> */}
+      <img
+        className="prd-img"
+        src={primaryImage}
+        alt={product.properties.name}
+      />
       <div className="prd-description">
         <p>
           <b>{product.properties.name}</b>
@@ -44,25 +55,3 @@ const Product = ({ product }) => {
 };
 
 export default Product;
-
-// {(user_id === product.user_id || prevPath === '/user-products') ? (
-//     <div style={divStyle}>
-//         {/* <h1>Your product</h1> */}
-//         <p>{product.name}</p>
-//         <p>{product.description}</p>
-//         <p>${product.price}</p>
-//         <button onClick={() => handleClickEdit(product)}>Edit Product</button>
-//         </div>
-// ) : (
-//     <div onClick={() => handleClick(product)} style={divStyle} className="product">
-//     <p>{product.name}</p>
-//     <p>{product.description}</p>
-//     <p>${product.price}</p>
-//     </div>)
-// }
-//     {prevPath === "/search-results" ? null :
-//     (<button onClick={() => {
-//         showModal(confirmDelete)
-//         }
-//         }>Delete Product</button>)}
-//     {modal}

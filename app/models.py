@@ -140,6 +140,7 @@ class Product(db.Model):
         authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
         product_images = [image.to_dict() for image in self.images]
+        user = self.user
         return {
             "type": "Feature",
             "properties": {
@@ -152,9 +153,13 @@ class Product(db.Model):
                 "price": self.price,
                 "description": self.description,
                 "status": self.status,
-                "user_id": self.user_id,
                 "product_id": self.id,
                 "total_likes": likes,
+                "user": {
+                    "id": self.user_id,
+                    "first_name": user.first_name,
+                    "image_url": user.image_url,
+                }
             },
             "geometry": address_dict
         }
