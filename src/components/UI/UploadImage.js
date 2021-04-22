@@ -25,31 +25,29 @@ const UploadImage = ({
 
   const onSubmit = (e) => {
     e && e.preventDefault();
+    const imagesData = new FormData();
     if (method === "upload") {
       if (images.length > 4) {
         showModal("You can upload up to 4 images", "mdl-error");
         return;
       }
       for (let i = 0; i < images.length; i++) {
-        if (images[i].size > 1000000) {
+        if (images[i].size > 2097152) {
           showModal(
-            `Image size should be less then 1mb. Image ${i + 1} has size ${(
+            `Image size should be less then 2 mb. Image ${i + 1} has size ${(
               images[i].size / 1048576
             ).toFixed(1)} mb`,
             "mdl-error"
           );
           return;
         }
+        imagesData.append("file", images[i]);
       }
-      const imagesData = new FormData();
-      imagesData.append("file", images);
+
       sendRequest(uploadFileAPI, "POST", imagesData);
     }
   };
 
-  // const deleteImage = () => {
-  //   sendRequest(deleteImageAPI, "POST", {});
-  // };
   const uploadImageUrl = () => {
     sendRequest(imageUrlAPI, "POST", formData);
   };
@@ -98,14 +96,6 @@ const UploadImage = ({
       >
         Upload photo
       </button>
-      {/* <button
-        className="button-link"
-        onClick={() => {
-          setMethod("delete");
-        }}
-      >
-        Delete photo
-      </button> */}
 
       {method === "upload" && (
         <form encType="multipart/form-data">
@@ -136,23 +126,6 @@ const UploadImage = ({
           <button onClick={resetMethod}>Cancel</button>
         </form>
       )}
-
-      {/* {method === "delete" && (
-        <div>
-          <p>Delete image? Are you sure?</p>
-          <button onClick={resetMethod}>No</button>
-          <button
-            onClick={() => {
-              setMethod("delete-confirmed");
-              deleteImage();
-            }}
-          >
-            Yes
-          </button>
-        </div>
-      )}
-
-      {method === "delete-confirmed" && <p>Image is deleting...</p>} */}
 
       {data && (
         <button

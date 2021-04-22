@@ -15,11 +15,9 @@ class Config(object):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    SEND_CONFIRM_EMAIL = True
+    SEND_CONFIRM_EMAIL = False
     BASE_URL = 'https://www.instaharvest.net'
-    S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    USERS_URL = 'https://www.instaharvest.net/assets/images/users/'
     PROFILE_IMAGE = 'https://instaharvest.net/assets/images/profile_image.png'
     PROFILE_BACK_IMAGE = 'https://instaharvest.net/assets/images/profile_back_image.jpg'
     SESSION_TYPE = 'sqlalchemy'
@@ -30,3 +28,5 @@ class Config(object):
     TESTING = False
     RADIUS = 6372.795477598
     KM_TO_MI_FACTOR = 0.621371
+    USERS_FOLDER = os.environ.get("USERS_FOLDER_PATH")
+    IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".bmp", ".gif"]

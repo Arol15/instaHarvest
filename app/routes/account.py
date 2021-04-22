@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime
 from dateutil import tz
 from flask import Blueprint, request, url_for, session, current_app
@@ -7,8 +8,7 @@ from app.models import User
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.utils.security import auth_required, reauth_required
-
-import boto3
+from app.utils.image import resize_image, save_image
 
 bp = Blueprint("account", __name__)
 
@@ -165,32 +165,23 @@ def change_email(token):
     return redirect(f"{current_app.config['BASE_URL']}/profile", code=302)
 
 
-# @bp.route("/files")
-# def files():
-#     s3_resource = boto3.resource("s3")
-#     my_bucket = s3_resource.Bucket(current_app.config['S3_BUCKET_NAME'])
-#     summaries = my_bucket.objects.all()
-#     for o in summaries:
-#         print(o.key)
-#     return {"msg": "bucket printed successfully"}, 200
-
-
 @bp.route("/update_profile_image_file", methods=["POST"])
 @auth_required
 def edit_profile_image_file():
     user_id = session["id"]
-    file = request.files["file"]
+    user = User.query.filter_by(id=user_id).first()
+    uploaded_file = request.files.getlist("file")[0]
 
-    file.filename = f"{user_id}_image_url.{file.filename.split('.')[-1]}"
-    s3_resource = boto3.resource("s3")
-    my_bucket = s3_resource.Bucket(current_app.config['S3_BUCKET_NAME'])
-    my_bucket.Object(file.filename).put(Body=file, ACL="public-read")
-    user = User.query.filter(User.id == user_id).first()
-    if user is None:
-        return {}, 404
-    user.image_url = f"https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}"
+    image_url = save_image(uploaded_file, user.uuid, "profile_img")
+    if image_url == "NOT_ALLOWED":
+        return {"error": "Uploaded file has not allowed format"}, 404
+    elif image_url == "NOT_SAVED":
+        return {"error": "Something went wrong. Uploaded image has not been saved"}, 404
+
+    user.image_url = image_url
     db.session.add(user)
     db.session.commit()
+
     return {"msg": "Image uploaded",
             "image_url": user.image_url}, 200
 
@@ -230,17 +221,19 @@ def delete_profile_image():
 @auth_required
 def edit_back_image_file():
     user_id = session["id"]
-    file = request.files["file"]
-    file.filename = f"{user_id}_image_back_url.{file.filename.split('.')[-1]}"
-    s3_resource = boto3.resource("s3")
-    my_bucket = s3_resource.Bucket(current_app.config['S3_BUCKET_NAME'])
-    my_bucket.Object(file.filename).put(Body=file, ACL="public-read")
-    user = User.query.filter(User.id == user_id).first()
-    if user is None:
-        return {}, 404
-    user.image_back_url = f"https://instaharvest.s3.us-east-2.amazonaws.com/{my_bucket.Object(file.filename).key}"
+    user = User.query.filter_by(id=user_id).first()
+    uploaded_file = request.files.getlist("file")[0]
+
+    image_url = save_image(uploaded_file, user.uuid, "profile_back_img")
+    if image_url == "NOT_ALLOWED":
+        return {"error": "Uploaded file has not allowed format"}, 404
+    elif image_url == "NOT_SAVED":
+        return {"error": "Something went wrong. Uploaded image has not been saved"}, 404
+
+    user.image_back_url = image_url
     db.session.add(user)
     db.session.commit()
+
     return {"msg": "Image uploaded",
             "image_back_url": user.image_back_url}, 200
 
