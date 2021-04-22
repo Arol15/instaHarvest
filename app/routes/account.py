@@ -208,7 +208,13 @@ def delete_profile_image():
     user = User.query.filter(User.id == user_id).first()
     if user is None:
         return {}, 404
-
+    url = user.image_url
+    path = os.path.join(
+        current_app.config["USERS_FOLDER"], user.uuid, url.split('/')[-1])
+    try:
+        os.remove(path)
+    except:
+        pass
     user.image_url = current_app.config['PROFILE_IMAGE']
     db.session.add(user)
     db.session.commit()
@@ -260,6 +266,13 @@ def delete_back_image():
     user = User.query.filter(User.id == user_id).first()
     if user is None:
         return {}, 404
+    url = user.image_back_url
+    path = os.path.join(
+        current_app.config["USERS_FOLDER"], user.uuid, url.split('/')[-1])
+    try:
+        os.remove(path)
+    except:
+        pass
 
     user.image_back_url = current_app.config['PROFILE_BACK_IMAGE']
     db.session.add(user)
