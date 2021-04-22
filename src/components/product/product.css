@@ -7,23 +7,101 @@
 }
 
 .prd-element {
+  position: relative;
   width: 200px;
   height: 200px;
   padding: 10px;
-  margin: 5px;
+  margin: 7px;
   border: 1px solid hsl(0, 2%, 75%);
   border-radius: 5px;
+  cursor: pointer;
   transition: 0.5s;
 }
 
-@media screen and (max-width: 640px) {
+.prd-element:hover {
+  background-color: hsl(66, 100%, 75%);
+  box-shadow: 0 0 6pt 3pt hsl(66, 100%, 75%);
+}
+
+.prd-personal {
+  box-shadow: 0 0 3pt 3pt hsl(16, 100%, 50%);
+}
+
+.prd-user-icon-back {
+  position: absolute;
+  text-align: center;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  height: 50px;
+  width: 50px;
+  background-color: hsla(0, 0%, 11%, 0.411);
+  border-radius: 50%;
+  transition: 0.5s;
+}
+
+.prd-user-icon {
+  margin-top: 10%;
+  /* margin-left: 10%; */
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
+}
+
+.prd-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.prd-description-back {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  background-color: hsla(0, 0%, 11%, 0.411);
+  border-radius: 0 0 4px 4px;
+}
+
+.prd-description {
+  padding-top: 10px;
+  text-align: center;
+  color: white;
+  position: relative;
+  bottom: 0;
+  margin: 0 auto;
+}
+.prd-description p {
+  padding: 0;
+  margin: 0;
+}
+
+.prd-hide-tab {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .prd-description {
+    padding-top: 7px;
+    font-size: 0.8rem;
+  }
+
   .prd-element {
     width: 150px;
     height: 150px;
   }
+
+  .prd-user-icon-back {
+    margin: 5px;
+    height: 40px;
+    width: 40px;
+  }
 }
 
-@media screen and (max-width: 440px) {
+@media screen and (max-width: 580px) {
   .prd-grid {
     margin: 20px 10px;
   }
@@ -32,22 +110,15 @@
     width: 100px;
     height: 100px;
   }
-}
 
-.prd-personal {
-}
+  .prd-description {
+    padding-top: 5px;
+    font-size: 0.6rem;
+  }
 
-.prd-img {
-  width: 100%;
-  height: 100%;
-}
-
-.prd-icon {
-}
-
-.prd-description {
-}
-
-.prd-hide-tab {
-  display: none;
+  .prd-user-icon-back {
+    margin: 5px;
+    height: 30px;
+    width: 30px;
+  }
 }

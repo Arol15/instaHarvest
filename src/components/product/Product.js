@@ -6,7 +6,7 @@ import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
 import "./product.css";
 
-const Product = ({ product }) => {
+const Product = ({ product, accentPersonal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const Product = ({ product }) => {
         handleClick(product);
       }}
       className={classnames("prd-element", {
-        "prd-personal": product.properties.personal,
+        "prd-personal": product.properties.personal && accentPersonal,
       })}
     >
       <img
@@ -41,14 +41,27 @@ const Product = ({ product }) => {
         src={primaryImage}
         alt={product.properties.name}
       />
-      <div className="prd-description">
-        <p>
-          <b>{product.properties.name}</b>
-        </p>
-        <p>${product.properties.price}</p>
-        {product.geometry.properties.distance_km && (
-          <p>{product.geometry.properties.distance_km} km away</p>
-        )}
+      <div className="prd-user-icon-back">
+        <img
+          className="prd-user-icon"
+          src={product.properties.user.image_url}
+        />
+      </div>
+
+      <div className="prd-description-back">
+        <div className="prd-description">
+          <p>
+            <b>{product.properties.name}</b>
+          </p>
+          <p>
+            {product.properties.price
+              ? `$ ${product.properties.price}`
+              : "Free"}
+          </p>
+          {product.geometry.properties.distance_km && (
+            <p>{product.geometry.properties.distance_km} km away</p>
+          )}
+        </div>
       </div>
     </div>
   );

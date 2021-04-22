@@ -56,7 +56,7 @@ const Products = () => {
           {productsData.products.map((product) => {
             return (
               <div key={product.properties.product_id}>
-                <Product product={product} />
+                <Product product={product} accentPersonal />
               </div>
             );
           })}
