@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import Auth from "../../components/auth/Auth";
-import "./auth.css";
-import classnames from "classnames";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
+
+import classnames from "classnames";
+import "./auth.css";
 
 const AuthModal = ({ closeModal, afterConfirm }) => {
   const [view, setView] = useState("login");

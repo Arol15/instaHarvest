@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import Portal from "./Portal";
-import classnames from "classnames";
-import { clearMsg, selectModal } from "../../store/modalSlice";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+
+import Portal from "./Portal";
+
+import { clearMsg, selectModal } from "../../store/modalSlice";
+import classnames from "classnames";
 import "../../index.css";
 
 const ModalMsg = () => {

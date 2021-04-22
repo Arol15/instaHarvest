@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useRequest, useForm, useModal } from "../../hooks/hooks";
+import { useRequest, useModal } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
-
-import { validation } from "../../form_validation/validation";
 
 import "./uploadImage.css";
 

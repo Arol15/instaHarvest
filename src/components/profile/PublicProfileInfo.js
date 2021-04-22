@@ -1,4 +1,5 @@
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
+
 import statesList from "../../assets/data/states.json";
 import "./profile.css";
 

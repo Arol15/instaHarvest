@@ -1,8 +1,8 @@
-import { memo, useState } from "react";
+import { useState, memo } from "react";
 
 import DropDownMenu from "../UI/DropDownMenu";
-
 import { MdMoreVert } from "react-icons/md";
+
 import classnames from "classnames";
 import "./chat.css";
 

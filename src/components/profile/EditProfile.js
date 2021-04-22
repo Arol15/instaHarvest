@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useRequest } from "../../hooks/hooks";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+
 import ProfileField from "./ProfileField";
 import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
-import { showMsg } from "../../store/modalSlice";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { updateProfile, selectProfile } from "../../store/profileSlice";
 import Spinner from "../UI/Spinner";
+
+import { showMsg } from "../../store/modalSlice";
+import { updateProfile, selectProfile } from "../../store/profileSlice";
 import config from "../../config";
 import "./profile.css";
 

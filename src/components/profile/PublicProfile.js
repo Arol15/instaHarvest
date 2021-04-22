@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useRequest } from "../../hooks/hooks";
+
 import ProfileHeader from "./ProfileHeader";
 import PublicProfileInfo from "./PublicProfileInfo";
 import Spinner from "../UI/Spinner";
+
 import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
 

@@ -9,7 +9,6 @@ import UserChatsPage from "../chat/UserChatsPage";
 import UserProducts from "../product/UserProducts";
 import TabsMenu from "../UI/TabsMenu";
 
-import classnames from "classnames";
 import { datetimeToLocal } from "../../utils/datetime";
 import { logout, checkAuth } from "../../utils/localStorage";
 import { showMsg } from "../../store/modalSlice";

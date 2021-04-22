@@ -1,10 +1,12 @@
 import { useRef, useEffect, useReducer } from "react";
+import { useDispatch } from "react-redux";
+
 import Portal from "../components/UI/Portal";
+import { FiX } from "react-icons/fi";
+
+import { showMsg } from "../store/modalSlice";
 import classnames from "classnames";
 import "./useModal.css";
-import { showMsg } from "../store/modalSlice";
-import { useDispatch } from "react-redux";
-import { FiX } from "react-icons/fi";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import classnames from "classnames";
-import { FiUser, FiUsers, FiHome, FiMenu, FiX } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import { useWidth } from "../../hooks/hooks";
+
+import { FiUser, FiUsers, FiHome, FiMenu, FiX } from "react-icons/fi";
+
+import classnames from "classnames";
 
 const ProfileSideMenu = ({ currTab }) => {
   const history = useHistory();
