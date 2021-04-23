@@ -15,11 +15,26 @@ const Products = () => {
   const productsData = useSelector(selectProducts);
   const [currTab, setCurrTab] = useState("products");
 
+  const onBackButtonEvent = () => {
+    setCurrTab("products");
+  };
+
   useEffect(() => {
     if (!productsData.location) {
       history.push("/");
     }
+    window.addEventListener("popstate", onBackButtonEvent);
+
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (currTab === "map") {
+      window.history.pushState(null, null, window.location.href);
+    }
+  }, [currTab]);
 
   return (
     productsData.products && (

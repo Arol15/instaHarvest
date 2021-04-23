@@ -69,6 +69,9 @@ export const validation = (data) => {
       if (!value) {
         errors.name = "Please enter name";
       }
+      if (value.length > 12) {
+        errors.name = "Should not be more then 12 letters";
+      }
     }
     if (key === "product_type") {
       if (!value) {
@@ -78,6 +81,9 @@ export const validation = (data) => {
     if (key === "description") {
       if (!value) {
         errors.description = "Please describe your product";
+      }
+      if (value.length > 2000) {
+        errors.name = "Should not be more then 2000 letters";
       }
     }
     if (key === "url") {
