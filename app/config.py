@@ -15,7 +15,7 @@ class Config(object):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    SEND_CONFIRM_EMAIL = False
+    SEND_CONFIRM_EMAIL = True
     BASE_URL = 'https://www.instaharvest.net'
     USERS_URL = 'https://www.instaharvest.net/assets/images/users/'
     PROFILE_IMAGE = 'https://instaharvest.net/assets/images/profile_image.png'

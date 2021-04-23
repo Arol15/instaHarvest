@@ -179,6 +179,9 @@ const AddProduct = () => {
           </div>
           <label>Icon:</label>
           <img
+            onClick={() => {
+              showModal(<Icons onClick={onChooseIcon} />);
+            }}
             className="add-product-icon"
             src={
               formData.product_icon
