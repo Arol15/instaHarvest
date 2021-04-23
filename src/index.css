@@ -83,33 +83,6 @@ textarea:focus {
   display: inline-block;
 }
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip .tooltiptext {
-  width: max-content;
-  visibility: hidden;
-  opacity: 0;
-  background-color: hsla(201, 97%, 36%, 0.3);
-  color: black;
-  font-size: 0.7rem;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 10px;
-  transition: all 500ms ease-in-out;
-  top: -17px;
-  left: 10px;
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
 .form-danger {
   height: fit-content;
   color: red;

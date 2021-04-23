@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import Tooltip from "../UI/Tooltip";
+
 import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
 import "./product.css";
@@ -39,11 +41,13 @@ const Product = ({ product, openMap, accentPersonal }) => {
         alt={product.properties.name}
       />
       <div className="prd-circle prd-circle-left">
-        <img
-          className="prd-user-icon"
-          src={product.properties.user.image_url}
-          alt={product.properties.user.first_name}
-        />
+        <Tooltip text={product.properties.user.first_name}>
+          <img
+            className="prd-user-icon"
+            src={product.properties.user.image_url}
+            alt={product.properties.user.first_name}
+          />
+        </Tooltip>
       </div>
 
       {product.geometry.properties.distance_km && (
@@ -72,15 +76,17 @@ const Product = ({ product, openMap, accentPersonal }) => {
             >
               Details
             </button>{" "}
-            <button
-              onClick={() => {
-                dispatch(setCurrentProduct(product));
-                openMap();
-              }}
-              className="button-link"
-            >
-              Show on map
-            </button>
+            {openMap && (
+              <button
+                onClick={() => {
+                  dispatch(setCurrentProduct(product));
+                  openMap();
+                }}
+                className="button-link"
+              >
+                Show on map
+              </button>
+            )}
           </p>
         </div>
       </div>

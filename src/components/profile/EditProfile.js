@@ -167,9 +167,8 @@ const Profile = ({ tab }) => {
                     value={profileData.email}
                   >
                     <div>
-                      <EmailConfirmIcon verified={profileData.email_verified}>
-                        <p className="inline-block">{profileData.email}</p>
-                      </EmailConfirmIcon>
+                      <span>{profileData.email}</span>
+                      <EmailConfirmIcon verified={profileData.email_verified} />
                     </div>
                     <p></p>
                   </ProfileField>
