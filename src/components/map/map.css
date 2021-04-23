@@ -21,3 +21,30 @@
   justify-content: center;
   align-items: center;
 }
+
+.mapboxgl-popup-close-button {
+  color: black;
+  transform: translateY(-10px);
+}
+
+.mapboxgl-popup-content {
+  border-radius: 15px !important;
+  max-width: 200px;
+  text-align: center;
+}
+
+.popup-content-user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.popup-content {
+  word-wrap: break-word;
+}
+
+@media screen and (max-width: 600px) {
+  .mapboxgl-popup-content {
+    max-width: 150px;
+  }
+}

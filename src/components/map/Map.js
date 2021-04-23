@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import useSupercluster from "use-supercluster";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 
 import { selectProducts } from "../../store/productsSlice";
 import mapboxgl from "mapbox-gl";
 import { arrangeMarkers } from "../../utils/map";
+import "mapbox-gl/dist/mapbox-gl.css";
 import "./map.css";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -20,6 +22,7 @@ const Map = () => {
   };
 
   const mapRef = useRef();
+  const history = useHistory();
 
   const [viewport, setViewport] = useState({
     latitude: productsData.location.lat,
@@ -28,6 +31,8 @@ const Map = () => {
     height: "50vh",
     zoom: 12,
   });
+
+  const [popup, setPopup] = useState();
 
   // const goToMarker = (lat, lon) => {
   //   setViewport({...viewport, latitude: lat, longitude: lon, zoom: 9})
@@ -69,10 +74,55 @@ const Map = () => {
     options: { radius: 75, maxZoom: 20 },
   });
 
-  const renderOneMarker = (icon, id, lon, lat) => {
+  const handleClick = () => {
+    history.push({
+      pathname: "/product-info",
+      state: { prevPath: history.location.pathname },
+    });
+  };
+
+  const openPopup = (properties, lon, lat) => {
+    console.log(properties);
+    setPopup(
+      <Popup
+        latitude={lat}
+        longitude={lon}
+        closeButton={true}
+        closeOnClick={false}
+        onClose={() => setPopup(null)}
+        anchor="bottom"
+        offsetLeft={30}
+      >
+        <div className="popup-content">
+          <img
+            className="popup-content-user-icon"
+            src={properties.user.image_url}
+            alt={properties.user.first_name}
+          />
+          <p>
+            <b>{properties.name}</b>
+          </p>
+
+          <p>{properties.description}</p>
+          <button className="button-link" onClick={handleClick}>
+            Details
+          </button>
+        </div>
+      </Popup>
+    );
+  };
+
+  const renderOneMarker = (properties, lon, lat) => {
     return (
-      <Marker key={`point-${id}`} longitude={lon} latitude={lat}>
-        <img className="map-marker" src={icon} alt="" />
+      <Marker
+        key={`point-${properties.product_id}`}
+        onClick={() => {
+          openPopup(properties, lon, lat);
+        }}
+        longitude={lon}
+        latitude={lat}
+      >
+        <img className="map-marker" src={properties.product_icon} alt="" />
       </Marker>
     );
   };
@@ -101,8 +151,7 @@ const Map = () => {
               const newMarkers = arrangeMarkers(children, lon, lat);
               return newMarkers.map((marker) => {
                 return renderOneMarker(
-                  marker.properties.product_icon,
-                  marker.properties.product_id,
+                  marker.properties,
                   marker.geometry.coordinates[0],
                   marker.geometry.coordinates[1]
                 );
@@ -148,13 +197,9 @@ const Map = () => {
               </Marker>
             );
           }
-          return renderOneMarker(
-            cluster.properties.product_icon,
-            cluster.properties.product_id,
-            lon,
-            lat
-          );
+          return renderOneMarker(cluster.properties, lon, lat);
         })}
+        {popup && popup}
       </ReactMapGL>
     </div>
   );
