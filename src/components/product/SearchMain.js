@@ -80,7 +80,8 @@ const SearchMain = () => {
         geocoder.setInput(data.features[0].place_name);
       } else if (data.products.length > 0) {
         dispatch(updateProducts(data.products));
-        dispatch(updateLocation(formData));
+        const coord = data.products[0].geometry.coordinates;
+        dispatch(updateLocation({ lon: coord[0], lat: coord[1] }));
         history.push("/search-results");
       } else {
         dispatch(

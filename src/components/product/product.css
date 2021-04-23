@@ -14,24 +14,22 @@
   margin: 7px;
   border: 1px solid hsl(0, 2%, 75%);
   border-radius: 5px;
-  cursor: pointer;
   transition: 0.5s;
 }
 
 .prd-element:hover {
-  background-color: hsl(66, 100%, 75%);
-  box-shadow: 0 0 6pt 3pt hsl(66, 100%, 75%);
+  background-color: hsla(0, 0%, 0%, 0.185);
+  box-shadow: 0 0 6pt 3pt hsla(0, 0%, 0%, 0.185);
 }
 
 .prd-personal {
-  box-shadow: 0 0 3pt 3pt hsl(16, 100%, 50%);
+  box-shadow: 0 0 3pt 3pt hsla(16, 100%, 50%, 0.39);
 }
 
-.prd-user-icon-back {
+.prd-circle {
   position: absolute;
   text-align: center;
   top: 0;
-  left: 0;
   margin: 10px;
   height: 50px;
   width: 50px;
@@ -40,12 +38,32 @@
   transition: 0.5s;
 }
 
+.prd-circle-left {
+  left: 0;
+}
+
 .prd-user-icon {
   margin-top: 10%;
   /* margin-left: 10%; */
   height: 80%;
   width: 80%;
   border-radius: 50%;
+}
+
+.prd-circle-right {
+  right: 0;
+}
+
+.prd-circle p {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  color: hsl(0, 0%, 100%);
+  font-size: 0.9rem;
+  margin-bottom: -5px;
+}
+
+.prd-circle p:first-child {
+  padding-top: 20%;
 }
 
 .prd-img {
@@ -64,6 +82,10 @@
   height: 40%;
   background-color: hsla(0, 0%, 11%, 0.411);
   border-radius: 0 0 4px 4px;
+}
+
+.prd-description-back button {
+  color: hsl(0, 0%, 100%);
 }
 
 .prd-description {
@@ -94,10 +116,14 @@
     height: 150px;
   }
 
-  .prd-user-icon-back {
+  .prd-circle {
     margin: 5px;
     height: 40px;
     width: 40px;
+  }
+
+  .prd-circle p {
+    font-size: 0.7rem;
   }
 }
 
@@ -113,12 +139,17 @@
 
   .prd-description {
     padding-top: 5px;
-    font-size: 0.6rem;
+    font-size: 0.5rem;
   }
 
-  .prd-user-icon-back {
+  .prd-circle {
     margin: 5px;
     height: 30px;
     width: 30px;
+  }
+
+  .prd-circle p {
+    font-size: 0.5rem;
+    margin-bottom: -2px;
   }
 }

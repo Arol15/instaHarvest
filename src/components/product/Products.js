@@ -13,17 +13,13 @@ import "./product.css";
 const Products = () => {
   const history = useHistory();
   const productsData = useSelector(selectProducts);
-  const [currTab, setcurrTab] = useState("products");
+  const [currTab, setCurrTab] = useState("products");
 
   useEffect(() => {
     if (!productsData.location) {
       history.push("/");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // const changeTab = (tab) => {
-  //   setcurrTab(tab);
-  // }
 
   return (
     productsData.products && (
@@ -35,14 +31,14 @@ const Products = () => {
               title: "Products",
               name: "products",
               onClick: () => {
-                setcurrTab("products");
+                setCurrTab("products");
               },
             },
             {
               title: "Map",
               name: "map",
               onClick: () => {
-                setcurrTab("map");
+                setCurrTab("map");
               },
             },
           ]}
@@ -56,7 +52,13 @@ const Products = () => {
           {productsData.products.map((product) => {
             return (
               <div key={product.properties.product_id}>
-                <Product product={product} accentPersonal />
+                <Product
+                  product={product}
+                  openMap={() => {
+                    setCurrTab("map");
+                  }}
+                  accentPersonal
+                />
               </div>
             );
           })}

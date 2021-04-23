@@ -45,6 +45,19 @@ const Map = () => {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    setViewport({
+      ...viewport,
+      zoom: 16,
+      latitude: productsData.location.lat,
+      longitude: productsData.location.lon,
+      transitionInterpolator: new FlyToInterpolator({
+        speed: 3,
+      }),
+      transitionDuration: "auto",
+    });
+  }, [productsData]);
+
   const bounds = mapRef.current
     ? mapRef.current.getMap().getBounds().toArray().flat()
     : null;

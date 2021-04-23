@@ -51,6 +51,10 @@
   left: 43px;
 }
 
+.switch-input:focus {
+  box-shadow: none;
+}
+
 .switch input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;

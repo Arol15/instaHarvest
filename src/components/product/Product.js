@@ -6,7 +6,7 @@ import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
 import "./product.css";
 
-const Product = ({ product, accentPersonal }) => {
+const Product = ({ product, openMap, accentPersonal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -29,9 +29,6 @@ const Product = ({ product, accentPersonal }) => {
 
   return (
     <div
-      onClick={() => {
-        handleClick(product);
-      }}
       className={classnames("prd-element", {
         "prd-personal": product.properties.personal && accentPersonal,
       })}
@@ -41,12 +38,20 @@ const Product = ({ product, accentPersonal }) => {
         src={primaryImage}
         alt={product.properties.name}
       />
-      <div className="prd-user-icon-back">
+      <div className="prd-circle prd-circle-left">
         <img
           className="prd-user-icon"
           src={product.properties.user.image_url}
+          alt={product.properties.user.first_name}
         />
       </div>
+
+      {product.geometry.properties.distance_km && (
+        <div className="prd-circle prd-circle-right">
+          <p>{product.geometry.properties.distance_km}</p>
+          <p>km</p>
+        </div>
+      )}
 
       <div className="prd-description-back">
         <div className="prd-description">
@@ -58,9 +63,25 @@ const Product = ({ product, accentPersonal }) => {
               ? `$ ${product.properties.price}`
               : "Free"}
           </p>
-          {product.geometry.properties.distance_km && (
-            <p>{product.geometry.properties.distance_km} km away</p>
-          )}
+          <p>
+            <button
+              onClick={() => {
+                handleClick(product);
+              }}
+              className="button-link"
+            >
+              Details
+            </button>{" "}
+            <button
+              onClick={() => {
+                dispatch(setCurrentProduct(product));
+                openMap();
+              }}
+              className="button-link"
+            >
+              Show on map
+            </button>
+          </p>
         </div>
       </div>
     </div>

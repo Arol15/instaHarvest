@@ -19,7 +19,12 @@ export const productsSlice = createSlice({
       state.products = null;
     },
     setCurrentProduct: (state, action) => {
-      state.currentProduct = { ...action.payload };
+      const product = { ...action.payload };
+      state.currentProduct = product;
+      state.location = {
+        lon: product.geometry.coordinates[0],
+        lat: product.geometry.coordinates[1],
+      };
     },
     clearProduct: (state) => {
       state.currentProduct = null;
