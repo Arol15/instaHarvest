@@ -8,13 +8,17 @@ import Product from "./Product";
 import { showMsg } from "../../store/modalSlice";
 import "./product.css";
 
-const UserProducts = () => {
+const UserProducts = ({ user_id, title }) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, data, error, , sendRequest] = useRequest();
   const dispatch = useDispatch();
 
   const getProducts = () => {
-    sendRequest("/api/products/products_per_user", "POST", null);
+    const obj = {};
+    if (user_id) {
+      obj.user_id = user_id;
+    }
+    sendRequest("/api/products/products_per_user", "POST", obj);
   };
 
   useEffect(() => {
@@ -37,8 +41,8 @@ const UserProducts = () => {
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div>
-      <h2>All your products are here! </h2>
+    <div className="prd">
+      <h2>{title}</h2>
       {isLoading && <Spinner />}
       {userProducts && (
         <div className="prd-grid">

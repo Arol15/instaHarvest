@@ -29,7 +29,7 @@ def auth_required(fn):
     def wrapper(*args, **kwargs):
         user_id = session.get('id', False)
         if user_id is False:
-            return {'error': 'unauthorized'}, 401
+            return {'error': 'Unauthorized'}, 401
         else:
             return fn(*args, **kwargs)
     return wrapper

@@ -1,3 +1,7 @@
+.prd > h2 {
+  text-align: center;
+}
+
 .prd-grid {
   margin: 20px 40px;
   display: flex;

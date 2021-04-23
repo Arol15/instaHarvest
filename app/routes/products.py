@@ -52,9 +52,17 @@ def create_product():
 
 
 @bp.route("/products_per_user", methods=["POST"])
-@auth_required
 def get_products_per_user():
-    user_id = session["id"]
+    user_id = None
+    try:
+        user_id = request.json.get("user_id")
+    except:
+        pass
+    if user_id is None:
+        try:
+            user_id = session["id"]
+        except:
+            return {'error': 'Unauthorized'}, 401
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404

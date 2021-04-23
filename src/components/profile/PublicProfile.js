@@ -4,6 +4,7 @@ import { useRequest } from "../../hooks/hooks";
 import ProfileHeader from "./ProfileHeader";
 import PublicProfileInfo from "./PublicProfileInfo";
 import Spinner from "../UI/Spinner";
+import UserProducts from "../product/UserProducts";
 
 import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
@@ -33,6 +34,10 @@ const PublicProfile = (props) => {
             usState={data.us_state}
             country={data.country}
             joined={datetimeToLocal(data.created_at, "month-year")}
+          />
+          <UserProducts
+            user_id={data.user_id}
+            title={`All products from ${data.first_name}`}
           />
         </>
       )}

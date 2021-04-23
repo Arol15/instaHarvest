@@ -123,7 +123,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
       {view === "signup" && <h1>Sign Up</h1>}
       {view === "confirm" && <h1>Confirm identity</h1>}
 
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="auth-inputs">
           {view === "login" && (
             <>
@@ -216,7 +216,10 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
             </>
           )}
         </div>
-        <input key="8" type="submit" disabled={isLoading} />
+        {/* <input key="8" type="submit" disabled={isLoading} /> */}
+        <button onClick={handleSubmit} disabled={isLoading}>
+          Submit
+        </button>
       </form>
 
       {inModal ? null : view === "login" ? (

@@ -43,6 +43,10 @@
   word-wrap: break-word;
 }
 
+.mapboxgl-popup-close-button:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 @media screen and (max-width: 600px) {
   .mapboxgl-popup-content {
     max-width: 150px;

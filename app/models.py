@@ -86,6 +86,7 @@ class User(db.Model):
     def to_dict_public(self):
         address = self.addresses.filter_by(primary_address=True).first()
         return {
+            "user_id": self.id,
             "first_name": self.first_name,
             "image_url": self.image_url,
             "profile_addr": self.profile_addr,
