@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import Tooltip from "../UI/Tooltip";
+import ProductLikes from "./ProductLikes";
 
 import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
@@ -11,6 +12,7 @@ import "./product.css";
 const Product = ({ product, openMap, accentPersonal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  // const [like, toggleLike] = useState();
 
   const handleClick = (prod) => {
     dispatch(setCurrentProduct(prod));
@@ -29,6 +31,7 @@ const Product = ({ product, openMap, accentPersonal }) => {
     return primaryImage;
   }, [product]);
 
+  console.log(product);
   return (
     <div
       className={classnames("prd-element", {
@@ -37,10 +40,13 @@ const Product = ({ product, openMap, accentPersonal }) => {
     >
       <img
         className="prd-img"
+        onClick={() => {
+          handleClick(product);
+        }}
         src={primaryImage}
         alt={product.properties.name}
       />
-      <div className="prd-circle prd-circle-left">
+      <div className="prd-circle prd-circle-top-left">
         <Tooltip text={product.properties.user.first_name}>
           <img
             className="prd-user-icon"
@@ -51,13 +57,47 @@ const Product = ({ product, openMap, accentPersonal }) => {
       </div>
 
       {product.geometry.properties.distance_km && (
-        <div className="prd-circle prd-circle-right">
+        <div className="prd-circle prd-circle-top-right">
           <p>{product.geometry.properties.distance_km}</p>
           <p>km</p>
         </div>
       )}
 
-      <div className="prd-description-back">
+      <ProductLikes
+        product_id={product.properties.product_id}
+        addClass="prd-circle-bottom-left"
+      />
+      {/* <Tooltip text="Add to favorites">
+          <img
+            className="prd-heart-icon"
+            src={
+              product.properties.liked
+                ? "https://instaharvest.net/assets/images/icons/heart-outline.png"
+                : "https://instaharvest.net/assets/images/icons/heart-outline.png"
+            }
+            alt=""
+          />
+        </Tooltip> */}
+
+      {openMap && (
+        <div
+          onClick={() => {
+            dispatch(setCurrentProduct(product));
+            openMap();
+          }}
+          className="prd-circle prd-circle-bottom-right"
+        >
+          <Tooltip text="Show on map">
+            <img
+              className="prd-map-icon"
+              src="https://instaharvest.net/assets/images/icons/map.png"
+              alt="map"
+            />
+          </Tooltip>
+        </div>
+      )}
+
+      {/* <div className="prd-description-back">
         <div className="prd-description">
           <p>
             <b>{product.properties.name}</b>
@@ -67,29 +107,8 @@ const Product = ({ product, openMap, accentPersonal }) => {
               ? `$ ${product.properties.price}`
               : "Free"}
           </p>
-          <p>
-            <button
-              onClick={() => {
-                handleClick(product);
-              }}
-              className="button-link"
-            >
-              Details
-            </button>{" "}
-            {openMap && (
-              <button
-                onClick={() => {
-                  dispatch(setCurrentProduct(product));
-                  openMap();
-                }}
-                className="button-link"
-              >
-                Show on map
-              </button>
-            )}
-          </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

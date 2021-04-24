@@ -164,7 +164,25 @@ def give_like(product_id):
         new_like = LikedProduct(user_id=session["id"], product_id=product.id)
         db.session.add(new_like)
         db.session.commit()
+        liked = True
     else:
         db.session.delete(like)
         db.session.commit()
-    return {}, 200
+        liked = False
+    likes = product.likes.count()
+    return {
+        "liked": liked,
+        "likes": likes
+    }, 200
+
+
+@bp.route("/get_likes/<int:product_id>", methods=["POST"])
+@auth_required
+def get_likes(product_id):
+    product = Product.query.filter_by(id=product_id).first()
+    likes = product.likes.count()
+    liked = product.liked_by_user(session["id"])
+    return {
+        "liked": liked,
+        "likes": likes
+    }

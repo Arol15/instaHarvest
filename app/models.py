@@ -135,13 +135,21 @@ class Product(db.Model):
     likes = db.relationship(
         "LikedProduct", backref="product", lazy="dynamic")
 
+    def liked_by_user(self, user_id):
+        liked = self.likes.filter_by(user_id=user_id).first()
+        return True if liked else False
+
     def to_dict(self, user_id, lat=None, lon=None):
         likes = self.likes.count()
         address_dict = self.address.to_dict(lat, lon)
-        authorized = True if user_id else False
         personal = True if user_id == self.user_id else False
         product_images = [image.to_dict() for image in self.images]
         user = self.user
+        authorized = False
+        liked = False
+        if user_id:
+            liked = self.liked_by_user(user_id)
+            authorized = True
         return {
             "type": "Feature",
             "properties": {
@@ -156,6 +164,7 @@ class Product(db.Model):
                 "status": self.status,
                 "product_id": self.id,
                 "total_likes": likes,
+                "liked": liked,
                 "user": {
                     "id": self.user_id,
                     "first_name": user.first_name,
