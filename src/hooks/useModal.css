@@ -24,6 +24,8 @@
   height: fit-content;
   min-width: 30%;
   max-width: 60%;
+  max-height: 90vh;
+  overflow-y: auto;
   /* width: fit-content; */
 
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

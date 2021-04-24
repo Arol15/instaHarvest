@@ -8,6 +8,7 @@ import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
+import UploadImage from "../UI/UploadImage";
 
 import { validation } from "../../form_validation/validation";
 import { parseLocation } from "../../utils/map";
@@ -204,14 +205,9 @@ const AddProduct = () => {
             {formErrors.product_icon && formErrors.product_icon}
           </div>
           <label>Picture:</label>
-          <input
-            disabled={true}
-            className="add-product-input"
-            type="file"
-            name="image_urls"
-            onChange={handleInputChange}
-            value={formData.image_urls || ""}
-          />
+          <button className="button-link" onClick={() => {}}>
+            Upload Pictures
+          </button>
           <label>Price: </label>
           <ToggleInput
             name="price"

@@ -3,7 +3,7 @@ import { useRequest, useModal } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
 
-const DeleteImage = ({ title, deleteImageAPI }) => {
+const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
   const [modal, showModal] = useModal({
     withBackdrop: false,
     useTimer: true,
@@ -19,6 +19,14 @@ const DeleteImage = ({ title, deleteImageAPI }) => {
   };
 
   useEffect(() => {
+    if (currTab === "delete") {
+      setDeleteImage(true);
+    } else {
+      setDeleteImage(false);
+    }
+  }, [currTab]);
+
+  useEffect(() => {
     if (data && data.msg) {
       showModal(data.msg, "mdl-ok");
     } else if (error) {
@@ -32,6 +40,7 @@ const DeleteImage = ({ title, deleteImageAPI }) => {
       <button
         className="button-link"
         onClick={() => {
+          setCurrTab("delete");
           setDeleteImage(true);
         }}
       >

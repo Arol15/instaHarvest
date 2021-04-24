@@ -36,12 +36,54 @@
   width: fit-content;
   margin: 0 auto;
 }
-.upload-image button {
+
+.upload-image-buttons button {
   margin: 10px;
   min-width: 40px;
+  width: 100px;
+  /* margin: 10px auto; */
 }
 
-.upload-image form button {
+.upload-image-thumbs-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.upload-image-thumb {
+  display: inline-flex;
+  border-radius: 5px;
+  border: 1px solid #c1bebe;
+  margin-bottom: 8px;
+  margin-right: 8px;
   width: 100px;
-  margin: 10px auto;
+  height: 100px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.upload-image-thumb-inner {
+  display: flex;
+  margin: auto 0;
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+}
+
+.upload-image-thumb-inner img {
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  margin: 0 auto;
+  border-radius: 5px;
+  /* margin-top: 1%; */
+
+  /* height: auto; */
+  /* height: 100%; */
+}
+
+.upload-image ul {
+  text-align: start;
 }

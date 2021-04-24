@@ -38,10 +38,10 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                           title="Set profile background image"
                           closeModal={closeModal}
                           uploadFileAPI="/api/account/edit_back_image"
-                        />
-                        <DeleteImage
-                          title="Delete profile background image"
-                          deleteImageAPI="/api/account/edit_back_image"
+                          deleteImage={{
+                            title: "Delete profile background image",
+                            deleteImageAPI: "/api/account/edit_back_image",
+                          }}
                         />
                       </div>
                     );
@@ -69,11 +69,10 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                         title="Set profile image"
                         closeModal={closeModal}
                         uploadFileAPI="/api/account/edit_profile_image"
-                        multipleImages={true}
-                      />
-                      <DeleteImage
-                        title="Delete profile image"
-                        deleteImageAPI="/api/account/edit_profile_image"
+                        deleteImage={{
+                          title: "Delete profile image",
+                          deleteImageAPI: "/api/account/edit_profile_image",
+                        }}
                       />
                     </div>
                   );

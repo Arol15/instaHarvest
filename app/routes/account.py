@@ -1,14 +1,13 @@
 import json
 import os
 from datetime import datetime
-from dateutil import tz
 from flask import Blueprint, request, url_for, session, current_app
 from app import db
 from app.models import User
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.utils.security import auth_required, reauth_required
-from app.utils.image import resize_image, save_image
+from app.utils.image import save_image
 
 bp = Blueprint("account", __name__)
 

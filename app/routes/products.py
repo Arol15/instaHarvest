@@ -2,8 +2,9 @@ from flask import Blueprint, request, session, current_app
 import json
 from sqlalchemy.sql import func
 from app import db
-from app.models import Product, User, LikedProduct, Address
+from app.models import Product, User, LikedProduct, Address, Image
 from app.utils.security import auth_required
+from app.utils.image import save_image
 
 bp = Blueprint("products", __name__)
 
@@ -78,7 +79,6 @@ def get_local_products():
         user_id = session["id"]
     except:
         pass
-    # data = request.get_json()
     lon = request.json.get("lon")
     lat = request.json.get("lat")
     params = func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
@@ -97,60 +97,6 @@ def get_product():
     product_id = request.json.get("product_id")
     product = Product.query.filter_by(id=product_id).first()
     return {"product": product.to_dict(user_id)}, 200
-
-
-@bp.route("/get-all-protected", methods=["POST"])
-@auth_required
-def get_all_products_protected():
-    user_id = session["id"]
-    data = request.get_json()
-    # print(data)
-    searchCity = data["search_term"]
-    # print(searchCity)
-    prods = Product.query.join(Product.user).filter(
-        User.city == searchCity).all()
-    # print(prods)
-    user_products = [product.to_dict() for product in prods]
-    # print(user_products)
-    return {"products": user_products, "user_id": user_id}
-
-
-@bp.route("/product-location-info/<int:userId>", methods=["POST"])
-def product_location_info(userId):
-    # print(userId)
-    product_details = {}
-    user = User.query.filter_by(id=userId).first_or_404()
-    product_details["lat"] = user.lat
-    product_details["lon"] = user.lon
-    product_details["image_url"] = user.image_url
-    product_details["first_name"] = user.first_name
-    product_details["state"] = user.state
-    product_details["city"] = user.city
-    # print(product_details)
-    return {"product_details": product_details}, 200
-
-
-@bp.route("/edit-product/<int:productId>", methods=["PATCH"])
-@auth_required
-def edit_product(productId):
-    data = request.get_json()
-    product = Product.query.filter_by(id=productId).first()
-    for key, value in data.items():
-        setattr(product, key, value)
-    db.session.add(product)
-    db.session.commit()
-    return {"msg": "Product updated"}, 200
-
-
-@bp.route("/delete_product", methods=["DELETE"])
-@auth_required
-def delete_product():
-    data = request.get_json()
-    product_id = data["product_id"]
-    product = Product.query.filter_by(id=product_id).first()
-    db.session.delete(product)
-    db.session.commit()
-    return {"msg": "Deleted"}, 200
 
 
 @bp.route("/like/<int:product_id>", methods=["POST"])
@@ -188,3 +134,36 @@ def get_likes(product_id):
         "liked": liked,
         "likes": likes
     }
+
+
+@bp.route("/update_product_images", methods=["POST"])
+@auth_required
+def update_product_images():
+    user_id = session["id"]
+    user = User.query.filter_by(id=user_id).first()
+    for uploaded_file in request.files.getlist("file"):
+        image_url = save_image(uploaded_file, user.uuid,
+                               "profile_img")
+
+
+@bp.route("/edit-product/<int:productId>", methods=["PATCH"])
+@auth_required
+def edit_product(productId):
+    data = request.get_json()
+    product = Product.query.filter_by(id=productId).first()
+    for key, value in data.items():
+        setattr(product, key, value)
+    db.session.add(product)
+    db.session.commit()
+    return {"msg": "Product updated"}, 200
+
+
+@bp.route("/delete_product", methods=["DELETE"])
+@auth_required
+def delete_product():
+    data = request.get_json()
+    product_id = data["product_id"]
+    product = Product.query.filter_by(id=product_id).first()
+    db.session.delete(product)
+    db.session.commit()
+    return {"msg": "Deleted"}, 200
