@@ -31,7 +31,6 @@ const Product = ({ product, openMap, accentPersonal }) => {
     return primaryImage;
   }, [product]);
 
-  console.log(product);
   return (
     <div
       className={classnames("prd-element", {
@@ -55,29 +54,18 @@ const Product = ({ product, openMap, accentPersonal }) => {
           />
         </Tooltip>
       </div>
-
-      {product.geometry.properties.distance_km && (
+      {product.geometry.properties.distance_mi !== null && (
         <div className="prd-circle prd-circle-top-right">
-          <p>{product.geometry.properties.distance_km}</p>
-          <p>km</p>
+          <p>{product.geometry.properties.distance_mi}</p>
+          <p>mi</p>
         </div>
       )}
 
       <ProductLikes
         product_id={product.properties.product_id}
+        authorized={product.properties.authorized}
         addClass="prd-circle-bottom-left"
       />
-      {/* <Tooltip text="Add to favorites">
-          <img
-            className="prd-heart-icon"
-            src={
-              product.properties.liked
-                ? "https://instaharvest.net/assets/images/icons/heart-outline.png"
-                : "https://instaharvest.net/assets/images/icons/heart-outline.png"
-            }
-            alt=""
-          />
-        </Tooltip> */}
 
       {openMap && (
         <div
@@ -96,19 +84,6 @@ const Product = ({ product, openMap, accentPersonal }) => {
           </Tooltip>
         </div>
       )}
-
-      {/* <div className="prd-description-back">
-        <div className="prd-description">
-          <p>
-            <b>{product.properties.name}</b>
-          </p>
-          <p>
-            {product.properties.price
-              ? `$ ${product.properties.price}`
-              : "Free"}
-          </p>
-        </div>
-      </div> */}
     </div>
   );
 };

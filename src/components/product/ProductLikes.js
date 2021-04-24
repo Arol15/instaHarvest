@@ -4,7 +4,7 @@ import { useRequest } from "../../hooks/hooks";
 import classnames from "classnames";
 import "./product.css";
 
-const ProductLikes = ({ product_id, addClass }) => {
+const ProductLikes = ({ product_id, authorized, addClass }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
 
@@ -22,11 +22,15 @@ const ProductLikes = ({ product_id, addClass }) => {
   }, [data]);
 
   const onClick = () => {
-    sendRequest(`/api/products/like/${product_id}`, "POST");
+    if (authorized) sendRequest(`/api/products/like/${product_id}`, "POST");
   };
 
   return (
-    <div className={classnames("prd-likes-circle", addClass)}>
+    <div
+      className={classnames("prd-likes-circle", addClass, {
+        "prd-unauth": !authorized,
+      })}
+    >
       <img
         onClick={onClick}
         className={classnames("prd-heart-icon", {

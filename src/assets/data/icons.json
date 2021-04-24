@@ -12,13 +12,23 @@
         "url": "https://instaharvest.net/assets/images/icons/herbs.png"
     },
     {
+        "name": "Apricot",
+        "url": "https://instaharvest.net/assets/images/icons/apricot.png"
+    },
+    {
+        "name": "Coconut",
+        "url": "https://instaharvest.net/assets/images/icons/coconut.png"
+    },
+    {
         "name": "Mango",
         "url": "https://instaharvest.net/assets/images/icons/mango.png"
     },
     {
         "name": "Orange",
         "url": "https://instaharvest.net/assets/images/icons/orange.png"
+    },
+    {
+        "name": "Tomato",
+        "url": "https://instaharvest.net/assets/images/icons/tomato.png"
     }
-    
-
 ]

@@ -177,11 +177,13 @@ def give_like(product_id):
 
 
 @bp.route("/get_likes/<int:product_id>", methods=["POST"])
-@auth_required
 def get_likes(product_id):
     product = Product.query.filter_by(id=product_id).first()
     likes = product.likes.count()
-    liked = product.liked_by_user(session["id"])
+    user_id = session.get('id', False)
+    liked = False
+    if user_id:
+        liked = product.liked_by_user(session["id"])
     return {
         "liked": liked,
         "likes": likes
