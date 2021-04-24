@@ -140,15 +140,12 @@ class Product(db.Model):
         return True if liked else False
 
     def to_dict(self, user_id, lat=None, lon=None):
-        likes = self.likes.count()
         address_dict = self.address.to_dict(lat, lon)
         personal = True if user_id == self.user_id else False
         product_images = [image.to_dict() for image in self.images]
         user = self.user
         authorized = False
-        liked = False
         if user_id:
-            liked = self.liked_by_user(user_id)
             authorized = True
         return {
             "type": "Feature",
@@ -163,8 +160,6 @@ class Product(db.Model):
                 "description": self.description,
                 "status": self.status,
                 "product_id": self.id,
-                "total_likes": likes,
-                "liked": liked,
                 "user": {
                     "id": self.user_id,
                     "first_name": user.first_name,

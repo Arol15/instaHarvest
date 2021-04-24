@@ -35,7 +35,7 @@ const Products = () => {
       window.history.pushState(null, null, window.location.href);
     }
   }, [currTab]);
-  console.log(productsData.products);
+
   return (
     productsData.products && (
       <>
