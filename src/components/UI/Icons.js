@@ -8,13 +8,14 @@ const Icons = ({ onClick }) => {
     <div className="icons-grid">
       {icons.map((icon, ind) => {
         return (
-          <Tooltip key={ind} text={icon.name} classes="icons-offset-top">
+          <div className="icons-icon-container" key={ind}>
             <img
               onClick={() => onClick(icon.url)}
               src={icon.url}
               alt={icon.name}
             />
-          </Tooltip>
+            <div className="icons-title">{icon.name}</div>
+          </div>
         );
       })}
     </div>

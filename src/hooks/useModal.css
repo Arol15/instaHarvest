@@ -65,6 +65,7 @@
 }
 
 .mdl-close-button {
+  cursor: pointer;
   margin-left: auto;
   width: fit-content;
 }

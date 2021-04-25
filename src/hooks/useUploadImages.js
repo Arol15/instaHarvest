@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 
+import { FiX } from "react-icons/fi";
+
 import "./useUploadImages.css";
 
 /**
@@ -30,6 +32,7 @@ const useUploadImages = ({ multipleImages }) => {
     color: "#bdbdbd",
     outline: "none",
     transition: "border .24s ease-in-out",
+    cursor: "pointer",
   };
 
   const activeStyle = {
@@ -99,11 +102,19 @@ const useUploadImages = ({ multipleImages }) => {
         <div className="upload-images-thumb" key={file.name}>
           <div className="upload-images-thumb-inner">
             <div
+              className="upload-images-x-icon"
               onClick={() => {
                 removeFile(file.name);
               }}
             >
-              x
+              <FiX
+                size="20px"
+                style={{
+                  color: "white",
+                  borderRadius: "50%",
+                  backgroundColor: "#1c1c1c79",
+                }}
+              />
             </div>
             <img src={file.preview} />
           </div>

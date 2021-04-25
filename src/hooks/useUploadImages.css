@@ -19,6 +19,7 @@
 }
 
 .upload-images-thumb-inner {
+  position: relative;
   display: flex;
   margin: auto 0;
   overflow: hidden;
@@ -36,4 +37,10 @@
 
 .upload-images ul {
   text-align: start;
+}
+
+.upload-images-x-icon {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
 }

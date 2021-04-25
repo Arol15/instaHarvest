@@ -6,18 +6,33 @@
 }
 
 .icons-grid img {
+  width: 75px;
+  height: 75px;
+}
+
+.icons-icon-container {
+  position: relative;
+  margin: 5px;
   width: 80px;
   height: 80px;
   padding: 10px;
   cursor: pointer;
-  border-radius: 25px;
-  transition: 0.25s;
+  border-radius: 10px;
+  border: 1px solid hsl(0, 2%, 75%);
+  transition: 0.25s ease-in-out;
 }
 
-.icons-offset-top {
-  top: -5px;
-  transform: translateX(-30px);
-  bottom: 30px;
+.icons-title {
+  position: absolute;
+  color: white;
+  font-size: 0.9rem;
+  width: 100%;
+  opacity: 0;
+  background-color: hsla(0, 0%, 0%, 0.363);
+  bottom: 0;
+  left: 0;
+  border-radius: 0 0 10px 10px;
+  transition: 0.5s ease-in-out;
 }
 
 @media screen and (max-width: 640px) {
@@ -25,10 +40,16 @@
     width: 50px;
     height: 50px;
   }
+  .icons-offset-top {
+    width: 40px;
+    font-size: 0.5rem;
+  }
 }
 
-.icons-grid img:hover {
+.icons-icon-container:hover {
   background-color: hsla(0, 0%, 0%, 0.116);
+}
 
-  transition: 0.25s ease-in-out;
+.icons-icon-container:hover .icons-title {
+  opacity: 1;
 }
