@@ -40,6 +40,13 @@ const fetchReducer = (currState, action) => {
 /**
  *  useModal
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useModal
+ *
+ * ```
+ *  const [modal, showModal, closeModal, isOpen] = useModal({ withBackdrop, useTimer, inPlace, timeOut, disableClose });
+ * ```
+ * ```
+ * showModal(children, classes);
+ * ```
  */
 
 const useModal = ({

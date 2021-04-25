@@ -3,6 +3,15 @@ import { useDropzone } from "react-dropzone";
 
 import "./useUploadImages.css";
 
+/**
+ *  useUploadImages
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useUploadImages
+ *
+ * ```
+ * const [uploadImagesContainer, filesToSend] = useUploadImages({ multipleImages });
+ * ```
+ */
+
 const useUploadImages = ({ multipleImages }) => {
   const [files, setFiles] = useState([]);
   const [filesToSend, setFilesToSend] = useState([]);

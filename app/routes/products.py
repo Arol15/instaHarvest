@@ -42,14 +42,14 @@ def create_product():
                       name=data["name"],
                       product_type=data["product_type"],
                       product_icon=data["product_icon"],
-                      #   images=data["image_urls"],
                       price=data["price"],
                       status="available",
                       description=data["description"],
                       address_id=address_id)
     db.session.add(product)
     db.session.commit()
-    return {"msg": "Product created"}, 200
+    return {"msg": "Product created",
+            "product_id": product.id}, 200
 
 
 @bp.route("/products_per_user", methods=["POST"])

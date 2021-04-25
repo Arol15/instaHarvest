@@ -13,6 +13,7 @@
   - [useRequest](#useRequest)
   - [useModal](#useModal)
   - [useForm](#useForm)
+  - [useUploadImages](#useUploadImages)
   - [useWidth](#useWidth)
 
 - [Components](#Components)
@@ -674,11 +675,11 @@ useEffect(() => {
 
 ```js
 const [modal, showModal, closeModal, isOpen] = useModal({
-    withBackdrop: ,
-    useTimer: ,
-    inPlace:,
-    timeOut: ,
-    disableClose: ,
+    withBackdrop
+    useTimer,
+    inPlace,
+    timeOut,
+    disableClose
   });
 ```
 
@@ -766,9 +767,31 @@ const [
 
 **formValidation** - function to validate form fields
 
+### useUploadImages
+
+Creates drag and drop container for images
+
+```js
+const [uploadImagesContainer, filesToSend] = useUploadImages({
+  multipleImages,
+});
+```
+
+#### Argument:
+
+**multipleImages** - [bool] (optional) - default `false` - Allows to drop and load more then one image, max 4 images
+
+#### Return:
+
+**uploadImagesContainer** = [JSX element] - Drag and drop container
+
+**filesToSend** = [array] - List of `File` objects
+
+---
+
 ### useWidth
 
-\*Checks current width of the screen and returns **isDesktop** true if width is greater then **breakpoint\***
+Checks current width of the screen and returns **isDesktop** true if width is greater then **breakpoint**
 
 ```js
 const [isDesktop] = useWidth(breakpoint);

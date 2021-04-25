@@ -3,6 +3,10 @@ import { useState } from "react";
 /**
  *  useForm
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useForm
+ *
+ * ```
+ * const [setFormData, handleSubmit, handleInputChange, formData, formErrors] = useForm(formData, onSubmit, formValidation);
+ * ```
  */
 
 const useForm = (formData, onSubmit, formValidation) => {

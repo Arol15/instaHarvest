@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
 
+/**
+ *  useUploadImages
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useWidth
+ *
+ * ```
+ * const [isDesktop] = useWidth(breakpoint);
+ * ```
+ */
+
 const useWidth = (breakpoint = 600) => {
   const [width, setWidth] = useState(window.innerWidth);
   const [isDesktop, setDesktop] = useState(window.innerWidth >= breakpoint);

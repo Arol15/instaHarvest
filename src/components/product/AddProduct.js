@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useRequest, useForm, useModal } from "../../hooks/hooks";
+import {
+  useRequest,
+  useForm,
+  useModal,
+  useUploadImages,
+} from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import AuthModal from "../auth/AuthModal";
@@ -14,6 +19,7 @@ import { parseLocation } from "../../utils/map";
 import { checkAuth } from "../../utils/localStorage";
 import { showMsg } from "../../store/modalSlice";
 
+import { createFormData } from "../../utils/images";
 import "../map/mapboxGeocoder.css";
 import "./addProduct.css";
 
@@ -30,7 +36,14 @@ const AddProduct = () => {
     disableClose: true,
   });
 
+  const [uploadImagesContainer, filesToSend] = useUploadImages({
+    multipleImages: true,
+  });
+
   const onSubmit = () => {
+    if (filesToSend.length > 0) {
+      const formDataObject = createFormData(filesToSend);
+    }
     sendRequest("/api/products/add_product", "post", formData);
   };
 
@@ -45,7 +58,7 @@ const AddProduct = () => {
       name: "",
       product_type: "",
       product_icon: "",
-      image_urls: [],
+      image_urls: null,
       price: 0,
       status: "",
       description: "",
@@ -104,21 +117,34 @@ const AddProduct = () => {
 
   useEffect(() => {
     if (error) {
-      dispatch(
-        showMsg({
-          open: true,
-          msg: error,
-          classes: "mdl-error",
-        })
-      );
-    } else if (data) {
-      if (data.msg === "addresses") {
-        setAddresses(data.list);
+      if (error.msg === "There was error while uploading images") {
+        history.push("/user-products");
       } else {
         dispatch(
           showMsg({
             open: true,
-            msg: "Product has been added!",
+            msg: error,
+            classes: "mdl-error",
+          })
+        );
+      }
+    } else if (data) {
+      if (data.msg === "addresses") {
+        setAddresses(data.list);
+      } else if (data.msg === "Product created" && filesToSend.length > 0) {
+        dispatch(
+          showMsg({
+            open: true,
+            msg: "Product has been added! Uploading images...",
+            classes: "mdl-ok",
+          })
+        );
+        //request to add pictures
+      } else if (data.msg === "Images has been uploaded!") {
+        dispatch(
+          showMsg({
+            open: true,
+            msg: data.msg,
             classes: "mdl-ok",
           })
         );
@@ -145,7 +171,7 @@ const AddProduct = () => {
   }, [newAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
+    <div className="add-product-main">
       {isLoading && <Spinner />}
       <div className="add-product">
         <h2>Share Your Product</h2>
@@ -203,10 +229,8 @@ const AddProduct = () => {
           <div className="form-danger">
             {formErrors.product_icon && formErrors.product_icon}
           </div>
-          <label>Picture:</label>
-          <button className="button-link" onClick={() => {}}>
-            Upload Pictures
-          </button>
+          <label>Images:</label>
+          {uploadImagesContainer}
           <label>Price: </label>
           <ToggleInput
             name="price"
@@ -261,7 +285,7 @@ const AddProduct = () => {
         </form>
       </div>
       {modal}
-    </>
+    </div>
   );
 };
 
