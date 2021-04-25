@@ -41,9 +41,6 @@ const AddProduct = () => {
   });
 
   const onSubmit = () => {
-    if (filesToSend.length > 0) {
-      const formDataObject = createFormData(filesToSend);
-    }
     sendRequest("/api/products/add_product", "post", formData);
   };
 
@@ -117,17 +114,14 @@ const AddProduct = () => {
 
   useEffect(() => {
     if (error) {
-      if (error.msg === "There was error while uploading images") {
-        history.push("/user-products");
-      } else {
-        dispatch(
-          showMsg({
-            open: true,
-            msg: error,
-            classes: "mdl-error",
-          })
-        );
-      }
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
+      history.push("/user-products");
     } else if (data) {
       if (data.msg === "addresses") {
         setAddresses(data.list);
@@ -139,8 +133,14 @@ const AddProduct = () => {
             classes: "mdl-ok",
           })
         );
-        //request to add pictures
-      } else if (data.msg === "Images has been uploaded!") {
+
+        const formDataObject = createFormData(filesToSend);
+        sendRequest(
+          `/api/products/update_product_images/${data.product_id}`,
+          "POST",
+          formDataObject
+        );
+      } else if (data.msg === "Images have been uploaded!") {
         dispatch(
           showMsg({
             open: true,
@@ -217,15 +217,6 @@ const AddProduct = () => {
             alt=""
           />
 
-          <p />
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              showModal(<Icons onClick={onChooseIcon} />);
-            }}
-          >
-            Choose icon
-          </button>
           <div className="form-danger">
             {formErrors.product_icon && formErrors.product_icon}
           </div>
@@ -281,6 +272,7 @@ const AddProduct = () => {
               </div>
             </>
           )}
+          <p></p>
           <button>Add Product</button>
         </form>
       </div>

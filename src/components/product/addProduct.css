@@ -7,21 +7,24 @@
   margin: 0 auto;
   text-align: center;
 }
+
 .add-product label {
   text-align: left;
   display: block;
+  margin: 15px 0;
 }
+
 .add-product h2 {
   font-size: 30px;
   color: hsl(16, 100%, 50%);
-  margin-bottom: 30px;
 }
+
 .add-product-input,
 .add-product textarea,
 .add-product select {
   width: 100%;
   padding: 6px 10px;
-  margin: 10px 0;
+  /* margin: 10px 0; */
   /* border: 1px solid #ddd; */
   box-sizing: border-box;
   display: block;
@@ -44,4 +47,7 @@
   width: 50px;
   height: 50px;
   cursor: pointer;
+  border: 1px solid hsl(0, 2%, 75%);
+  border-radius: 10px;
+  padding: 5px;
 }

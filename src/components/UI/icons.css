@@ -16,6 +16,7 @@
 
 .icons-offset-top {
   top: -5px;
+  transform: translateX(-30px);
   bottom: 30px;
 }
 

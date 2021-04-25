@@ -136,14 +136,33 @@ def get_likes(product_id):
     }
 
 
-@bp.route("/update_product_images", methods=["POST"])
+@bp.route("/update_product_images/<int:product_id>", methods=["POST"])
 @auth_required
-def update_product_images():
+def update_product_images(product_id):
     user_id = session["id"]
-    user = User.query.filter_by(id=user_id).first()
+    product = Product.query.filter_by(id=product_id).first()
+    user = product.user
+    if user_id != product.user_id:
+        return {}, 403
+    total_images = product.images.count()
+    if total_images >= 4:
+        return {"error": "You already have 4 images saved. Delete them first."}, 404
+    count_uploaded = 0
     for uploaded_file in request.files.getlist("file"):
+        if total_images == 4:
+            return {"msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"}, 200
+        image_name = f"{product.name}-{product_id}-{total_images}"
         image_url = save_image(uploaded_file, user.uuid,
-                               "profile_img")
+                               image_name)
+        image = Image(
+            product_id=product_id,
+            image_url=image_url,
+            primary=False)
+        db.session.add(image)
+        db.session.commit()
+        count_uploaded += 1
+        total_images += 1
+    return {"msg": "Images have been uploaded!"}, 200
 
 
 @bp.route("/edit-product/<int:productId>", methods=["PATCH"])
