@@ -27,10 +27,12 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime,
                            onupdate=datetime.utcnow)
 
-    products = db.relationship("Product", backref="user", lazy="dynamic")
+    products = db.relationship(
+        "Product", cascade="all, delete", backref="user", lazy="dynamic")
     liked_products = db.relationship(
-        "LikedProduct", backref="user", lazy="dynamic")
-    addresses = db.relationship("Address", backref="user", lazy="dynamic")
+        "LikedProduct", cascade="all, delete", backref="user", lazy="dynamic")
+    addresses = db.relationship(
+        "Address", backref="user", cascade="all, delete", lazy="dynamic")
 
     @property
     def password(self):
@@ -130,10 +132,11 @@ class Product(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey(
         "addresses.id"), nullable=False)
 
-    images = db.relationship("Image", backref="Product", lazy="dynamic")
+    images = db.relationship("Image", backref="Product",
+                             cascade="all, delete", lazy="dynamic")
 
     likes = db.relationship(
-        "LikedProduct", backref="product", lazy="dynamic")
+        "LikedProduct", backref="product", cascade="all, delete", lazy="dynamic")
 
     def liked_by_user(self, user_id):
         liked = self.likes.filter_by(user_id=user_id).first()
@@ -244,7 +247,8 @@ class Chat(db.Model):
 
     user1 = db.relationship("User", foreign_keys=[user1_id], lazy=False)
     user2 = db.relationship("User", foreign_keys=[user2_id], lazy=False)
-    messages = db.relationship("Message", backref="chat", lazy="dynamic")
+    messages = db.relationship(
+        "Message", backref="chat", cascade="all, delete", lazy="dynamic")
 
     def to_dict(self, user_id):
         recipient_id = self.user2_id if self.user1_id == user_id else self.user1_id

@@ -45,7 +45,7 @@ const ProductDetails = () => {
   };
 
   const onDelete = (product_id) => {
-    sendRequest("/api/products/delete_product", "delete", {
+    sendRequest("/api/products/delete_product", "DELETE", {
       product_id: product_id,
     });
   };

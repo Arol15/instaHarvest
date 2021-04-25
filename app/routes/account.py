@@ -191,7 +191,8 @@ def edit_profile_image():
         try:
             os.remove(path)
         except:
-            pass
+            print(
+                f"File {url.split('/')[-1]} in folder {user.uuid} has not been deleted")
         user.image_url = current_app.config['PROFILE_IMAGE']
 
         db.session.add(user)

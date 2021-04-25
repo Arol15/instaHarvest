@@ -140,7 +140,10 @@ const AddProduct = () => {
           "POST",
           formDataObject
         );
-      } else if (data.msg === "Images have been uploaded!") {
+      } else if (
+        data.msg === "Product created" ||
+        data.msg === "Images have been uploaded!"
+      ) {
         dispatch(
           showMsg({
             open: true,

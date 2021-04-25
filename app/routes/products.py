@@ -1,5 +1,6 @@
 from flask import Blueprint, request, session, current_app
 import json
+import os
 from sqlalchemy.sql import func
 from app import db
 from app.models import Product, User, LikedProduct, Address, Image
@@ -180,9 +181,26 @@ def edit_product(productId):
 @bp.route("/delete_product", methods=["DELETE"])
 @auth_required
 def delete_product():
-    data = request.get_json()
-    product_id = data["product_id"]
+    user_id = session["id"]
+    product_id = request.json.get("product_id")
     product = Product.query.filter_by(id=product_id).first()
+    if user_id != product.user_id:
+        return {}, 403
+    product_images = product.images.all()
+    images_names = [image.image_url for image in product_images]
+    uuid = product.user.uuid
     db.session.delete(product)
     db.session.commit()
+    if len(images_names) > 0:
+        path = os.path.join(
+            current_app.config["USERS_FOLDER"], uuid)
+        for image in images_names:
+            to_delete = os.path.join(
+                path, image.split('/')[-1])
+            try:
+                os.remove(to_delete)
+            except:
+                print(
+                    f"File {image.split('/')[-1]} in {uuid} folder has not been deleted")
+
     return {"msg": "Deleted"}, 200
