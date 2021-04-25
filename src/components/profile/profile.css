@@ -277,3 +277,18 @@
 .prf-edit-modal {
   padding: 30px;
 }
+
+/* ProfileUpdateImage*/
+
+.prf-upload-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prf-upload-image-buttons button {
+  margin: 10px;
+  min-width: 40px;
+  width: 100px;
+  /* margin: 10px auto; */
+}

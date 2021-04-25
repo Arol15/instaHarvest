@@ -65,7 +65,7 @@ const useRequest = () => {
       method: method,
       url: url,
       data: body,
-      timeout: 5000,
+      timeout: 10000,
     };
 
     let resp = await axios(config).then(

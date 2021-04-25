@@ -29,6 +29,7 @@ const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
   useEffect(() => {
     if (data && data.msg) {
       showModal(data.msg, "mdl-ok");
+      setCurrTab("close");
     } else if (error) {
       showModal(error, "mdl-error");
     }

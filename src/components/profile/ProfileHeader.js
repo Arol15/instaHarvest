@@ -1,8 +1,7 @@
 import { useModal } from "../../hooks/hooks";
 import { useSelector, shallowEqual } from "react-redux";
 
-import UploadImage from "../UI/UploadImage";
-import DeleteImage from "../UI/DeleteImage";
+import ProfileUpdateImage from "./ProfileUpdateImage";
 
 import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";
@@ -34,7 +33,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                   onClick={() => {
                     showModal(
                       <div className="prf-edit-modal">
-                        <UploadImage
+                        <ProfileUpdateImage
                           title="Set profile background image"
                           closeModal={closeModal}
                           uploadFileAPI="/api/account/edit_back_image"
@@ -65,7 +64,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                 onClick={() => {
                   showModal(
                     <div className="prf-edit-modal">
-                      <UploadImage
+                      <ProfileUpdateImage
                         title="Set profile image"
                         closeModal={closeModal}
                         uploadFileAPI="/api/account/edit_profile_image"

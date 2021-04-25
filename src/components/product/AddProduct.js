@@ -8,7 +8,6 @@ import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
-import UploadImage from "../UI/UploadImage";
 
 import { validation } from "../../form_validation/validation";
 import { parseLocation } from "../../utils/map";

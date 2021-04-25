@@ -1,0 +1,39 @@
+.upload-images-thumbs-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.upload-images-thumb {
+  display: inline-flex;
+  border-radius: 5px;
+  border: 1px solid #c1bebe;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  width: 100px;
+  height: 100px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.upload-images-thumb-inner {
+  display: flex;
+  margin: auto 0;
+  overflow: hidden;
+  height: 100px;
+  width: 100px;
+}
+
+.upload-images-thumb-inner img {
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.upload-images ul {
+  text-align: start;
+}
