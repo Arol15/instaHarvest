@@ -5,17 +5,17 @@ import { useState } from "react";
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useForm
  *
  * ```
- * const [setFormData, handleSubmit, handleInputChange, formData, formErrors] = useForm(formData, onSubmit, formValidation);
+ * const {setFormData, handleSubmit, handleInputChange, formData, formErrors} = useForm(inputFormData, onSubmit, formValidation);
  * ```
  */
 
-const useForm = (formData, onSubmit, formValidation) => {
-  const [formState, setFormState] = useState({ ...formData });
+const useForm = (inputFormData, onSubmit, formValidation) => {
+  const [formData, setFormData] = useState({ ...inputFormData });
   const [formErrors, setErrors] = useState({});
 
   const handleSubmit = (event) => {
     event && event.preventDefault();
-    const validationErrors = formValidation(formState);
+    const validationErrors = formValidation(formData);
     const isValid = Object.keys(validationErrors).length === 0;
     setErrors(validationErrors);
 
@@ -26,10 +26,16 @@ const useForm = (formData, onSubmit, formValidation) => {
 
   const handleInputChange = (event) => {
     // event.persist();
-    setFormState({ ...formState, [event.target.name]: event.target.value });
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  return [setFormState, handleSubmit, handleInputChange, formState, formErrors];
+  return {
+    setFormData,
+    handleSubmit,
+    handleInputChange,
+    formData,
+    formErrors,
+  };
 };
 
 export default useForm;

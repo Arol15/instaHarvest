@@ -30,13 +30,13 @@ const Chat = () => {
     sendMessage(formData, chatState.chat_id, chatState.user_id);
     setFormData({ ...formData, body: "" });
   };
-  const [
+  const {
     setFormData,
     handleSubmit,
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm(
+  } = useForm(
     { body: "", recipient_id: chatState && chatState.recipient_id },
     onSubmit,
     validation

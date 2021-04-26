@@ -51,13 +51,13 @@ const AddProduct = () => {
     sendRequest("/api/products/add_product", "post", formData);
   };
 
-  const [
+  const {
     setFormData,
     handleSubmit,
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm(
+  } = useForm(
     {
       name: "",
       product_type: "",

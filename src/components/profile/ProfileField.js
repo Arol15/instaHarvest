@@ -22,13 +22,13 @@ const ProfileFild = (props) => {
     sendRequest(`/api/account${props.api}`, props.method, formData);
   };
 
-  const [
+  const {
     setFormData,
     handleSubmit,
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({ [props.name]: props.value }, onSubmit, validation);
+  } = useForm({ [props.name]: props.value }, onSubmit, validation);
   useEffect(() => {
     if (error && errorNum !== 403) {
       props.sendMsg(error, "mdl-error");

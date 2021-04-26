@@ -27,7 +27,7 @@ const ResetPassword = (props) => {
     }
   };
 
-  const [, handleSubmit, handleInputChange, formData, formErrors] = useForm(
+  const { handleSubmit, handleInputChange, formData, formErrors } = useForm(
     props.reset ? { email: "" } : { password: "", confirm_pass: "" },
     onSubmit,
     validation

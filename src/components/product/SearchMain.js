@@ -30,7 +30,7 @@ const SearchMain = () => {
     sendRequest("/api/products/get_local_products", "POST", formData);
   };
 
-  const [setFormData, handleSubmit, , formData, formErrors] = useForm(
+  const { setFormData, handleSubmit, formData, formErrors } = useForm(
     { lat: "", lon: "" },
     onSubmit,
     validation

@@ -756,16 +756,24 @@ return { modal };
 ### useForm
 
 ```js
-const [
+const {
   setFormData,
   handleSubmit,
   handleInputChange,
   formData,
   formErrors,
-] = useForm(formData, onSubmit, formValidation);
+} = useForm(inputFormData, onSubmit, formValidation);
 ```
 
 #### Arguments:
+
+**inputFormData** - initial form fields
+
+**onSubmit** - function to execute after validation
+
+**formValidation** - function to validate form fields
+
+#### Return:
 
 **setFormData** - [func] function to update form fields state
 
@@ -776,14 +784,6 @@ const [
 **formData** - [object] form fields state
 
 **formErrors** - [object] if validation didn't pass, contains errors
-
-#### Return:
-
-**formData** - initial form fields
-
-**onSubmit** - function to execute after validation
-
-**formValidation** - function to validate form fields
 
 ### useUploadImages
 

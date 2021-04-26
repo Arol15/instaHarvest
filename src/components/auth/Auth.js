@@ -36,13 +36,13 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
     );
   };
 
-  const [
+  const {
     setFormData,
     handleSubmit,
     handleInputChange,
     formData,
     formErrors,
-  ] = useForm({}, onSubmit, validation);
+  } = useForm({}, onSubmit, validation);
 
   const getAddressFromGeoInput = (data) => {
     const location = parseLocation(data);
