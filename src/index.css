@@ -51,6 +51,7 @@ a,
 button,
 input[type="submit"] {
   background: hsl(16, 100%, 50%);
+  font-size: 0.9rem;
   outline: none;
   color: hsl(0, 0%, 100%);
   border: 0;
@@ -58,6 +59,15 @@ input[type="submit"] {
   margin: 5px;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.25s ease-in-out;
+}
+
+button:hover {
+  background: hsl(16, 100%, 37%);
+}
+
+.button-link:hover {
+  background: hsla(16, 100%, 37%, 0);
 }
 
 input,
@@ -87,6 +97,15 @@ textarea:focus {
   height: fit-content;
   color: red;
   font-size: 0.8rem;
+}
+
+.border {
+  border: 1px solid hsl(0, 2%, 75%);
+}
+
+.background {
+  border-radius: 5px;
+  background-color: hsla(0, 0%, 0%, 0.041);
 }
 
 .mdl-msg {
@@ -157,4 +176,11 @@ footer div {
   width: 3px;
   border-radius: 10px;
   background-color: hsla(68, 7%, 45%, 0.753);
+}
+
+.flexbox-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
 }

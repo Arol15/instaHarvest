@@ -6,12 +6,15 @@ import { useSelector, useDispatch } from "react-redux";
 import AuthModal from "../auth/AuthModal";
 import Spinner from "../UI/Spinner";
 import ProductPhotos from "./ProductPhotos";
+import ProductFavorites from "./ProductFavorites";
+import PublicProfileInfo from "../profile/PublicProfileInfo";
 
 import { showMsg } from "../../store/modalSlice";
 import {
   selectCurrentProduct,
   setCurrentProduct,
 } from "../../store/productsSlice";
+import { datetimeToLocal } from "../../utils/datetime";
 import { checkAuth } from "../../utils/localStorage";
 
 const ProductDetails = () => {
@@ -34,7 +37,7 @@ const ProductDetails = () => {
 
   const getChat = () => {
     sendRequest("/api/chat/find_create_chat", "POST", {
-      recipient_id: product.properties.user.id,
+      recipient_id: product.properties.user.user_id,
     });
   };
 
@@ -61,7 +64,7 @@ const ProductDetails = () => {
     if (data) {
       if (data.chat_id) {
         openChat({
-          recipient_id: product.properties.user.id,
+          recipient_id: product.properties.user.user_id,
           recipient_name: product.properties.user.first_name,
           recipient_img: product.properties.user.image_url,
           chat_id: data.chat_id,
@@ -108,40 +111,65 @@ const ProductDetails = () => {
     <>
       {isLoading && <Spinner />}
       {product && (
-        <div className="prd-details-main">
-          <ProductPhotos width={200} height={200} />
-          {/* <ProductFavorite />
-          Add to favorites */}
-          <div>Product: {product.properties.name}</div>
-          <p>About this product: {product.properties.description}</p>
-          {product.properties.personal ? (
-            <button
-              onClick={() => {
-                showModal(confirmDelete);
-              }}
-            >
-              Delete product
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                if (checkAuth()) {
-                  getChat();
-                } else {
-                  showModal(
-                    <AuthModal
-                      afterConfirm={() => {
-                        updateProduct();
-                        closeModal();
-                      }}
-                    />
-                  );
-                }
-              }}
-            >
-              Connect with seller
-            </button>
-          )}
+        <div className="flexbox-row">
+          <div className="prd-details-main">
+            <ProductPhotos width={400} height={400} />
+            <ProductFavorites
+              product_id={product.properties.product_id}
+              authorized={product.properties.authorized}
+              full
+            />
+
+            <div>Product: {product.properties.name}</div>
+            <p>About this product: {product.properties.description}</p>
+            {product.properties.personal ? (
+              <button
+                onClick={() => {
+                  showModal(confirmDelete);
+                }}
+              >
+                Delete product
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  if (checkAuth()) {
+                    getChat();
+                  } else {
+                    showModal(
+                      <AuthModal
+                        afterConfirm={() => {
+                          updateProduct();
+                          closeModal();
+                        }}
+                      />
+                    );
+                  }
+                }}
+              >
+                Connect with seller
+              </button>
+            )}
+          </div>
+          <div
+            className="prd-details-profile background"
+            onClick={() =>
+              history.push(`/profile/${product.properties.user.profile_addr}`)
+            }
+          >
+            <img src={product.properties.user.image_url} />
+            <PublicProfileInfo
+              firstName={product.properties.user.first_name}
+              emailVerified={product.properties.user.email_verified}
+              city={product.properties.user.city}
+              usState={product.properties.user.us_state}
+              country={product.properties.user.country}
+              joined={datetimeToLocal(
+                product.properties.user.created_at,
+                "month-year"
+              )}
+            />
+          </div>
         </div>
       )}
       {modal}

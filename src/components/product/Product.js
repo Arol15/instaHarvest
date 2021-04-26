@@ -32,7 +32,7 @@ const Product = ({ product, openMap, accentPersonal }) => {
 
   return (
     <div
-      className={classnames("prd-element", {
+      className={classnames("prd-element border", {
         "prd-personal": product.properties.personal && accentPersonal,
       })}
     >

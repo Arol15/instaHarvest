@@ -47,7 +47,6 @@
   width: 50px;
   height: 50px;
   cursor: pointer;
-  border: 1px solid hsl(0, 2%, 75%);
   border-radius: 10px;
   padding: 5px;
 }

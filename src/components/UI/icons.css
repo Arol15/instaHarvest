@@ -13,7 +13,6 @@
   padding: 10px;
   cursor: pointer;
   border-radius: 10px;
-  border: 1px solid hsl(0, 2%, 75%);
   transition: 0.25s ease-in-out;
 }
 

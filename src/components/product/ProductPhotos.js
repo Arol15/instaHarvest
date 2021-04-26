@@ -22,11 +22,9 @@ const ProductPhotos = ({ width = 340, height = 300 }) => {
     scrollRight,
   ] = useElementPosition(ref);
 
-  console.log(hasElemOnLeft, hasElemOnRight);
-
   return (
     <div
-      className="prd-photos-carousel-main"
+      className="prd-photos-carousel-main background"
       style={{ width: width, height: height }}
     >
       <div

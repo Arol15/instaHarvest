@@ -219,7 +219,7 @@ const AddProduct = () => {
             onClick={() => {
               showModal(<Icons onClick={onChooseIcon} />);
             }}
-            className="add-product-icon"
+            className="add-product-icon border"
             src={
               formData.product_icon
                 ? formData.product_icon

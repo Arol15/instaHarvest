@@ -164,11 +164,7 @@ class Product(db.Model):
                 "description": self.description,
                 "status": self.status,
                 "product_id": self.id,
-                "user": {
-                    "id": self.user_id,
-                    "first_name": user.first_name,
-                    "image_url": user.image_url,
-                }
+                "user": user.to_dict_public()
             },
             "geometry": address_dict
         }

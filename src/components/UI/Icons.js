@@ -8,7 +8,7 @@ const Icons = ({ onClick }) => {
     <div className="icons-grid">
       {icons.map((icon, ind) => {
         return (
-          <div className="icons-icon-container" key={ind}>
+          <div className="icons-icon-container border" key={ind}>
             <img
               onClick={() => onClick(icon.url)}
               src={icon.url}
