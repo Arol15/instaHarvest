@@ -157,10 +157,13 @@ def update_product_images(product_id):
                                image_name)
         image = Image(
             product_id=product_id,
-            image_url=image_url,
-            primary=False)
+            image_url=image_url)
         db.session.add(image)
         db.session.commit()
+        if total_images == 0:
+            product.primary_image = image_url
+            db.session.add(product)
+            db.session.commit()
         count_uploaded += 1
         total_images += 1
     return {"msg": "Images have been uploaded!"}, 200

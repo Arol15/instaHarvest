@@ -16,8 +16,8 @@ class Config(object):
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     SEND_CONFIRM_EMAIL = True
-    BASE_URL = 'https://www.instaharvest.net'
-    USERS_URL = 'https://www.instaharvest.net/assets/images/users/'
+    BASE_URL = os.environ.get('BASE_URL')
+    USERS_URL = os.environ.get('USERS_URL')
     PROFILE_IMAGE = 'https://instaharvest.net/assets/images/profile_image.png'
     PROFILE_BACK_IMAGE = 'https://instaharvest.net/assets/images/profile_back_image.jpg'
     SESSION_TYPE = 'sqlalchemy'

@@ -4,11 +4,11 @@ import { useRequest } from "../../hooks/hooks";
 import classnames from "classnames";
 import "./product.css";
 
-const ProductLikes = ({ product_id, authorized, addClass }) => {
+const ProductFavorites = ({ product_id, authorized, addClass }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
 
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const [, data, , , sendRequest] = useRequest();
 
   useEffect(() => {
     sendRequest(`/api/products/get_likes/${product_id}`, "POST");
@@ -48,4 +48,4 @@ const ProductLikes = ({ product_id, authorized, addClass }) => {
   );
 };
 
-export default ProductLikes;
+export default ProductFavorites;

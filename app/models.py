@@ -120,7 +120,7 @@ class Product(db.Model):
     name = db.Column(db.String(30), nullable=False)
     product_type = db.Column(db.String(30))
     product_icon = db.Column(db.String(255))
-
+    primary_image = db.Column(db.String)
     price = db.Column(db.Float)
     status = db.Column(db.String)
     description = db.Column(db.String(2000))
@@ -158,6 +158,7 @@ class Product(db.Model):
                 "name": self.name,
                 "product_type": self.product_type,
                 "product_icon": self.product_icon,
+                "primary_image": self.primary_image,
                 "product_images": product_images,
                 "price": self.price,
                 "description": self.description,
@@ -179,7 +180,6 @@ class Image(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey(
         "products.id"), nullable=False)
     image_url = db.Column(db.String)
-    primary = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime,
                            default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
@@ -189,7 +189,6 @@ class Image(db.Model):
         return {
             "id": self.id,
             "image_url": self.image_url,
-            "primary": self.primary,
             "created_at": self.created_at.isoformat(),
         }
 

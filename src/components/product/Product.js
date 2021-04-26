@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import Tooltip from "../UI/Tooltip";
-import ProductLikes from "./ProductLikes";
+import ProductFavorites from "./ProductFavorites";
 
 import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
@@ -12,7 +12,6 @@ import "./product.css";
 const Product = ({ product, openMap, accentPersonal }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const [like, toggleLike] = useState();
 
   const handleClick = (prod) => {
     dispatch(setCurrentProduct(prod));
@@ -61,7 +60,7 @@ const Product = ({ product, openMap, accentPersonal }) => {
         </div>
       )}
 
-      <ProductLikes
+      <ProductFavorites
         product_id={product.properties.product_id}
         authorized={product.properties.authorized}
         addClass="prd-circle-bottom-left"

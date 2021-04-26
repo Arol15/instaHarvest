@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import AuthModal from "../auth/AuthModal";
 import Spinner from "../UI/Spinner";
+import ProductPhotos from "./ProductPhotos";
 
 import { showMsg } from "../../store/modalSlice";
 import {
@@ -98,7 +99,7 @@ const ProductDetails = () => {
         >
           Yes
         </button>
-        <button onClick={() => closeModal()}>No</button>
+        <button onClick={closeModal}>No</button>
       </>
     );
   }, []);
@@ -107,7 +108,10 @@ const ProductDetails = () => {
     <>
       {isLoading && <Spinner />}
       {product && (
-        <div>
+        <div className="prd-details-main">
+          <ProductPhotos width={200} height={200} />
+          {/* <ProductFavorite />
+          Add to favorites */}
           <div>Product: {product.properties.name}</div>
           <p>About this product: {product.properties.description}</p>
           {product.properties.personal ? (

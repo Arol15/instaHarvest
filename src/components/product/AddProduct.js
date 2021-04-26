@@ -121,7 +121,7 @@ const AddProduct = () => {
           classes: "mdl-error",
         })
       );
-      history.push("/user-products");
+      history.push("/profile");
     } else if (data) {
       if (data.msg === "addresses") {
         setAddresses(data.list);
@@ -151,7 +151,7 @@ const AddProduct = () => {
             classes: "mdl-ok",
           })
         );
-        history.push("/user-products");
+        history.push("/profile");
       }
     }
   }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps

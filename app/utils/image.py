@@ -53,4 +53,4 @@ def save_image(uploaded_file, uuid, image_name, base_width=1200):
         print(f"Error saving image to {path}")
         return "NOT_SAVED"
 
-    return f"{current_app.config['USERS_URL']}{uuid}/{file_name}"
+    return f"{current_app.config['USERS_URL']}/{uuid}/{file_name}"
