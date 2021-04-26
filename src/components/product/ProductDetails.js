@@ -18,7 +18,7 @@ const ProductDetails = () => {
   const history = useHistory();
   const product = useSelector(selectCurrentProduct);
   const dispatch = useDispatch();
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const { isLoading, data, error, sendRequest } = useRequest();
 
   useEffect(() => {
     if (!product) {

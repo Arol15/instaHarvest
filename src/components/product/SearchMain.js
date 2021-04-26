@@ -21,7 +21,7 @@ const SearchMain = () => {
     })
   );
 
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const { isLoading, data, error, sendRequest } = useRequest();
   const dispatch = useDispatch();
 
   const history = useHistory();

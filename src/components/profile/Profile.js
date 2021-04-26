@@ -20,7 +20,7 @@ const Profile = ({ tab }) => {
   const [currTab, setCurrTab] = useState(tab ? tab : "products");
   const profileData = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const { data, error, errorNum, sendRequest } = useRequest();
 
   useLayoutEffect(() => {
     if (checkAuth() === false) {

@@ -10,7 +10,7 @@ import "./product.css";
 
 const UserProducts = ({ user_id, title }) => {
   const [userProducts, setUserProducts] = useState([]);
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const { isLoading, data, error, sendRequest } = useRequest();
   const dispatch = useDispatch();
 
   const getProducts = () => {

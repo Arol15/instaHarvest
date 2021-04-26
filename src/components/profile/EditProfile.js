@@ -18,14 +18,8 @@ const Profile = ({ tab }) => {
   const profileData = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [
-    ,
-    dataEmailReq,
-    errorEmailReq,
-    errorNumEmailReq,
-    sendEmailRequest,
-  ] = useRequest();
+  const { isLoading, data, error, errorNum, sendRequest } = useRequest();
+  const rq2 = useRequest();
   const history = useHistory();
   const updateProfileData = () => {
     sendRequest("/api/account/get_profile_private", "POST", {});
@@ -59,24 +53,24 @@ const Profile = ({ tab }) => {
   }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (errorEmailReq) {
+    if (rq2.error) {
       dispatch(
         showMsg({
           open: true,
-          msg: errorEmailReq,
+          msg: rq2.error,
           classes: "mdl-error",
         })
       );
-    } else if (dataEmailReq && dataEmailReq.msg) {
+    } else if (rq2.data && rq2.data.msg) {
       dispatch(
         showMsg({
           open: true,
-          msg: dataEmailReq.msg,
+          msg: rq2.data.msg,
           classes: "mdl-ok",
         })
       );
     }
-  }, [dataEmailReq, errorEmailReq, errorNumEmailReq]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rq2.data, rq2.error, rq2.errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const sendMessage = (msg, classes) => {
     dispatch(
@@ -89,7 +83,7 @@ const Profile = ({ tab }) => {
   };
 
   const resendConfirmEmail = () => {
-    sendEmailRequest("/api/auth/resend_email", "POST", {}, true);
+    rq2.sendRequest("/api/auth/resend_email", "POST", {}, true);
   };
 
   return (

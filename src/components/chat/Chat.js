@@ -19,8 +19,7 @@ import {
 } from "../../utils/socket";
 
 const Chat = () => {
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
-  const [isLoadingMsg, dataMsg, errorMsg, errorNumMsg] = useRequest();
+  const { isLoading, data, error, errorNum, sendRequest } = useRequest();
   const [chatMsgs, setChatMsgs] = useState();
   const bottom = useRef();
   const location = useLocation();
@@ -92,28 +91,13 @@ const Chat = () => {
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (errorMsg) {
-      dispatch(
-        showMsg({
-          open: true,
-          msg: errorMsg,
-          classes: "mdl-error",
-        })
-      );
-    } else if (dataMsg) {
-      getMessages();
-      setFormData({ ...formData, body: "" });
-    }
-  }, [dataMsg, errorMsg, errorNumMsg]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
     bottom.current && bottom.current.scrollIntoView();
   }, [chatMsgs]);
 
   return (
     chatState && (
       <div className="chat">
-        {(isLoading || isLoadingMsg) && <Spinner />}
+        {isLoading && <Spinner />}
         <div className="chat-header">
           <h1>Chat with {chatState && chatState.recipient_name}</h1>
           <button

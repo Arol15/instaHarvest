@@ -10,7 +10,7 @@ import { datetimeToLocal } from "../../utils/datetime";
 import "./profile.css";
 
 const PublicProfile = (props) => {
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const { isLoading, data, error, sendRequest } = useRequest();
 
   useEffect(() => {
     sendRequest(`/api/account/${props.match.params.addr}`, "GET", {});

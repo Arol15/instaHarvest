@@ -10,7 +10,7 @@ import { showMsg } from "../../store/modalSlice";
 
 const ResetPassword = (props) => {
   const history = useHistory();
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const { isLoading, data, error, errorNum, sendRequest } = useRequest();
 
   const dispatch = useDispatch();
 

@@ -54,7 +54,7 @@ const fetchReducer = (currState, action) => {
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useRequest
  *
  * ```
- * const [isLoading, data, error, errorNum, sendRequest, uploadStatus] = useRequest();
+ * const {isLoading, data, error, errorNum, sendRequest, uploadStatus} = useRequest();
  * ```
  *
  * ```
@@ -154,14 +154,14 @@ const useRequest = () => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return [
-    fetchState.isLoading,
-    fetchState.data,
-    fetchState.error,
-    fetchState.errorNum,
+  return {
     sendRequest,
-    fetchState.uploadStatus,
-  ];
+    isLoading: fetchState.isLoading,
+    data: fetchState.data,
+    error: fetchState.error,
+    errorNum: fetchState.errorNum,
+    uploadStatus: fetchState.uploadStatus,
+  };
 };
 
 export default useRequest;

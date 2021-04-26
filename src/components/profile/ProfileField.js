@@ -11,7 +11,7 @@ import "./profile.css";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const { isLoading, data, error, errorNum, sendRequest } = useRequest();
   const [modalLogin, showModalLogin, onClose] = useModal({
     withBackdrop: true,
     useTimer: false,

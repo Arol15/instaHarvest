@@ -15,7 +15,7 @@ const ProfileUpdateImage = ({
   deleteImage,
 }) => {
   const [method, setMethod] = useState(null);
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const { isLoading, data, error, sendRequest } = useRequest();
   const [modal, showModal] = useModal({
     withBackdrop: false,
     useTimer: true,

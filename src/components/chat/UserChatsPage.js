@@ -13,7 +13,7 @@ import "./chat.css";
 // const socket = io.connect(`${endPoint}`);
 
 const UserChatsPage = () => {
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const { isLoading, data, error, errorNum, sendRequest } = useRequest();
   const dispatch = useDispatch();
   const history = useHistory();
   const openChat = (chat) => {

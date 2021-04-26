@@ -10,7 +10,7 @@ const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
     inPlace: true,
   });
 
-  const [isLoading, data, error, , sendRequest] = useRequest();
+  const { isLoading, data, error, sendRequest } = useRequest();
 
   const [deleteImage, setDeleteImage] = useState(false);
 

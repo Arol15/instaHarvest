@@ -25,14 +25,14 @@ import "./addProduct.css";
 
 const AddProduct = () => {
   const history = useHistory();
-  const [
+  const {
     isLoading,
     data,
     error,
     errorNum,
     sendRequest,
     uploadStatus,
-  ] = useRequest();
+  } = useRequest();
   const dispatch = useDispatch();
   const [addresses, setAddresses] = useState();
   const [newAddress, setNewAddress] = useState(false);

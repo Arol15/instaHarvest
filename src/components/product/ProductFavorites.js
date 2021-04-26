@@ -8,7 +8,7 @@ const ProductFavorites = ({ product_id, authorized, addClass }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
 
-  const [, data, , , sendRequest] = useRequest();
+  const { data, sendRequest } = useRequest();
 
   useEffect(() => {
     sendRequest(`/api/products/get_likes/${product_id}`, "POST");

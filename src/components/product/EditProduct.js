@@ -22,7 +22,7 @@ const EditProduct = () => {
   };
 
   const dispatch = useDispatch();
-  const [, data, error, errorNum, sendRequest] = useRequest();
+  const { data, error, errorNum, sendRequest } = useRequest();
   const [, handleSubmit, handleInputChange, formData, ,] = useForm(
     {
       name: product.name,

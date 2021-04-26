@@ -14,7 +14,7 @@ import { parseLocation } from "../../utils/map";
 import "../map/mapboxGeocoder.css";
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const { isLoading, data, error, errorNum, sendRequest } = useRequest();
   const [address, setAddress] = useState();
   const history = useHistory();
   const dispatch = useDispatch();

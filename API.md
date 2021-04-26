@@ -633,14 +633,14 @@ session
 ### useRequest
 
 ```js
-const [
+const {
   isLoading,
   data,
   error,
   errorNum,
   sendRequest,
   uploadStatus,
-] = useRequest();
+} = useRequest();
 ```
 
 #### Return:
@@ -669,14 +669,14 @@ sendRequest(url, method, body);
 #### example:
 
 ```js
-const [
+const {
   isLoading,
   data,
   error,
   errorNum,
   sendRequest,
   uploadStatus,
-] = useRequest();
+} = useRequest();
 
 const onSubmit = (formData) => {
   sendRequest("/api/auth/login", "post", formData);
