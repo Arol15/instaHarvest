@@ -5,9 +5,9 @@ import { useState, useEffect, useCallback } from "react";
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useElementPosition
  *
  * ```
-const [hasItemsOnLeft, hasItemsOnRight, scrollLeft, scrollRight] = useElementPosition(ref);
-* ```
-*/
+ * const [hasItemsOnLeft, hasItemsOnRight, scrollLeft, scrollRight] = useElementPosition(ref);
+ * ```
+ */
 
 const useElementPosition = (ref) => {
   const [prevElem, setPrevElem] = useState(null);

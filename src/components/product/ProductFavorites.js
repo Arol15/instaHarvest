@@ -1,49 +1,36 @@
-import { useState, useEffect } from "react";
-import { useRequest } from "../../hooks/hooks";
+import { useFavorites } from "../../hooks/hooks";
 
 import classnames from "classnames";
 import "./product.css";
 
 const ProductFavorites = ({ product_id, authorized, addClass }) => {
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(0);
-
-  const { data, sendRequest } = useRequest();
-
-  useEffect(() => {
-    sendRequest(`/api/products/get_likes/${product_id}`, "POST");
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      setLiked(data.liked);
-      setLikes(data.likes);
-    }
-  }, [data]);
+  const { total, added, addToFavorites } = useFavorites(product_id);
 
   const onClick = () => {
-    if (authorized) sendRequest(`/api/products/like/${product_id}`, "POST");
+    if (authorized) {
+      addToFavorites();
+    }
   };
 
   return (
     <div
-      className={classnames("prd-likes-circle", addClass, {
+      className={classnames("prd-favorite-circle", addClass, {
         "prd-unauth": !authorized,
       })}
     >
       <img
         onClick={onClick}
         className={classnames("prd-heart-icon", {
-          "prd-liked": likes > 0,
+          "prd-favorite": total > 0,
         })}
         src={
-          liked
+          added
             ? "https://instaharvest.net/assets/images/icons/heart.png"
             : "https://instaharvest.net/assets/images/icons/heart-outline.png"
         }
         alt=""
       />
-      {likes > 0 && <p>{likes}</p>}
+      {total > 0 && <p>{total}</p>}
     </div>
   );
 };
