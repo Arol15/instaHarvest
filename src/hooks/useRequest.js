@@ -13,6 +13,7 @@ const fetchReducer = (currState, action) => {
         errorNum: null,
         error: null,
         data: null,
+        upload_status: null,
       };
     case "RESPONSE":
       return {
@@ -20,6 +21,7 @@ const fetchReducer = (currState, action) => {
         data: action.responseData,
         errorNum: null,
         error: null,
+        upload_status: null,
       };
     case "ERROR":
       return {
@@ -27,6 +29,7 @@ const fetchReducer = (currState, action) => {
         isLoading: false,
         error: action.errorMessage,
         errorNum: action.errorNum,
+        upload_status: null,
       };
     case "LOGOUT":
       return {
@@ -34,6 +37,12 @@ const fetchReducer = (currState, action) => {
         errorNum: null,
         error: null,
         data: null,
+        upload_status: null,
+      };
+    case "UPLOAD":
+      return {
+        ...currState,
+        uploadStatus: action.uploadStatus,
       };
     default:
       return;
@@ -45,11 +54,11 @@ const fetchReducer = (currState, action) => {
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useRequest
  *
  * ```
- * const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+ * const [isLoading, data, error, errorNum, sendRequest, uploadStatus] = useRequest();
  * ```
  *
  * ```
- * sendRequest(url, method, body);
+ * sendRequest(url, method, body, upload);
  * ```
  */
 
@@ -62,9 +71,8 @@ const useRequest = () => {
   });
 
   const history = useHistory();
-  // const dispatch = useDispatch();
 
-  const sendRequest = useCallback(async (url, method, body) => {
+  const sendRequest = useCallback(async (url, method, body, upload) => {
     dispatchFetch({
       type: "SEND",
     });
@@ -73,7 +81,16 @@ const useRequest = () => {
       method: method,
       url: url,
       data: body,
-      timeout: 20000,
+      timeout: upload ? null : 20000,
+      onUploadProgress: (data) => {
+        const percent = Math.round((100 * data.loaded) / data.total);
+        if (percent > 0 && percent < 100) {
+          dispatchFetch({
+            type: "UPLOAD",
+            uploadStatus: percent,
+          });
+        }
+      },
     };
 
     let resp = await axios(config).then(
@@ -143,6 +160,7 @@ const useRequest = () => {
     fetchState.error,
     fetchState.errorNum,
     sendRequest,
+    fetchState.uploadStatus,
   ];
 };
 

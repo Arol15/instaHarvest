@@ -1,15 +1,22 @@
 import "./Spinner.css";
 
-const Spinner = (props) => {
+const Spinner = ({ uploadStatus }) => {
+  const status = uploadStatus;
   const el = (
-    <div className="center">
-      <div className="indicator">
-        <div className="ind-chase-dot"></div>
-        <div className="ind-chase-dot"></div>
-        <div className="ind-chase-dot"></div>
-        <div className="ind-chase-dot"></div>
-        <div className="ind-chase-dot"></div>
-        <div className="ind-chase-dot"></div>
+    <div className="spinner-center">
+      {uploadStatus && (
+        <>
+          <div className="spinner-upload-text">Uploading...</div>
+          <div className="spinner-upload">{uploadStatus} %</div>
+        </>
+      )}
+      <div className="spinner-ind">
+        <div className="spinner-ind-chase-dot"></div>
+        <div className="spinner-ind-chase-dot"></div>
+        <div className="spinner-ind-chase-dot"></div>
+        <div className="spinner-ind-chase-dot"></div>
+        <div className="spinner-ind-chase-dot"></div>
+        <div className="spinner-ind-chase-dot"></div>
       </div>
     </div>
   );

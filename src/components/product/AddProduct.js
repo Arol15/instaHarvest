@@ -25,7 +25,14 @@ import "./addProduct.css";
 
 const AddProduct = () => {
   const history = useHistory();
-  const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+  const [
+    isLoading,
+    data,
+    error,
+    errorNum,
+    sendRequest,
+    uploadStatus,
+  ] = useRequest();
   const dispatch = useDispatch();
   const [addresses, setAddresses] = useState();
   const [newAddress, setNewAddress] = useState(false);
@@ -138,11 +145,12 @@ const AddProduct = () => {
         sendRequest(
           `/api/products/update_product_images/${data.product_id}`,
           "POST",
-          formDataObject
+          formDataObject,
+          true
         );
       } else if (
         data.msg === "Product created" ||
-        data.msg === "Images have been uploaded!"
+        data.msg.includes("been uploaded")
       ) {
         dispatch(
           showMsg({
@@ -175,7 +183,7 @@ const AddProduct = () => {
 
   return (
     <div className="add-product-main">
-      {isLoading && <Spinner />}
+      {isLoading && <Spinner uploadStatus={uploadStatus} />}
       <div className="add-product">
         <h2>Share Your Product</h2>
         <form onSubmit={handleSubmit}>

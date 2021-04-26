@@ -149,12 +149,16 @@ def update_product_images(product_id):
     if total_images >= 4:
         return {"error": "You already have 4 images saved. Delete them first."}, 404
     count_uploaded = 0
+    rejected = []
     for uploaded_file in request.files.getlist("file"):
         if total_images == 4:
             return {"msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"}, 200
         image_name = f"{product.name}-{product_id}-{total_images}"
         image_url = save_image(uploaded_file, user.uuid,
                                image_name)
+        if (image_url == "NOT_ALLOWED" or image_url == "NOT_SAVED"):
+            rejected.append(uploaded_file.filename)
+            continue
         image = Image(
             product_id=product_id,
             image_url=image_url)
@@ -166,7 +170,14 @@ def update_product_images(product_id):
             db.session.commit()
         count_uploaded += 1
         total_images += 1
-    return {"msg": "Images have been uploaded!"}, 200
+
+    msg = f"{count_uploaded} {'file has' if count_uploaded == 1 else 'files have'} been uploaded."
+
+    if len(rejected) > 0:
+        msg += f" {len(rejected)} {'file was rejected: ' if len(rejected) == 1 else 'files were rejected: '} "
+    for r in rejected:
+        msg += f"{r} "
+    return {"msg": msg}, 200
 
 
 @bp.route("/edit-product/<int:productId>", methods=["PATCH"])

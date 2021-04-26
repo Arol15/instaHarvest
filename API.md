@@ -15,6 +15,7 @@
   - [useForm](#useForm)
   - [useUploadImages](#useUploadImages)
   - [useWidth](#useWidth)
+  - [useElementPosition](#useElementPosition)
 
 - [Components](#Components)
   - [Spinner](#Spinner)
@@ -632,7 +633,14 @@ session
 ### useRequest
 
 ```js
-const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+const [
+  isLoading,
+  data,
+  error,
+  errorNum,
+  sendRequest,
+  uploadStatus,
+] = useRequest();
 ```
 
 #### Return:
@@ -647,6 +655,8 @@ const [isLoading, data, error, errorNum, sendRequest] = useRequest();
 
 **sendRequest** - [func] - function to send request
 
+**uploadStatus** - [int] - shows how much data is uploaded
+
 ```js
 sendRequest(url, method, body);
 ```
@@ -654,11 +664,19 @@ sendRequest(url, method, body);
 **url** - [string]
 **method** - [string]
 **body** - [object]
+**upload** - [bool] (optional) - If `true` sets timeout of the request to null and allows wait until file is uploaded
 
 #### example:
 
 ```js
-const [isLoading, data, error, errorNum, sendRequest] = useRequest();
+const [
+  isLoading,
+  data,
+  error,
+  errorNum,
+  sendRequest,
+  uploadStatus,
+] = useRequest();
 
 const onSubmit = (formData) => {
   sendRequest("/api/auth/login", "post", formData);
@@ -804,6 +822,35 @@ const [isDesktop] = useWidth(breakpoint);
 #### Return:
 
 **isDesktop** = [bool] - `true` if width of the screen greater then `breakpoint`
+
+---
+
+### useElementPosition
+
+Keeps track of the next and previous items inside of the **ref** element
+
+```js
+const [
+  hasItemsOnLeft,
+  hasItemsOnRight,
+  scrollLeft,
+  scrollRight,
+] = useElementPosition(ref);
+```
+
+#### Argument:
+
+**ref** - reference to the JSX element
+
+#### Return:
+
+**hasItemsOnLeft** - [bool] - `true` if there is an element to the left of the referenced element
+
+**hasItemsOnRight** - [bool] - `true` if there is an element to the right of the referenced element
+
+**scrollLeft** - [fn] - scrolls to the position of the element positioned to the left of the referenced element
+
+**scrollRight** - scrolls to the position of the element positioned to the right of the referenced element
 
 ---
 
