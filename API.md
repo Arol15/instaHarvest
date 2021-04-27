@@ -812,7 +812,7 @@ const [uploadImagesContainer, filesToSend] = useUploadImages({
 Checks current width of the screen and returns **isDesktop** true if width is greater then **breakpoint**
 
 ```js
-const [isDesktop] = useWidth(breakpoint);
+const { isDesktop, screenWidth } = useWidth(breakpoint);
 ```
 
 #### Argument:
@@ -823,6 +823,8 @@ const [isDesktop] = useWidth(breakpoint);
 
 **isDesktop** = [bool] - `true` if width of the screen greater then `breakpoint`
 
+**width** [int] - current width
+
 ---
 
 ### useElementPosition
@@ -830,12 +832,12 @@ const [isDesktop] = useWidth(breakpoint);
 Keeps track of the next and previous items inside of the **ref** element
 
 ```js
-const [
+const {
   hasItemsOnLeft,
   hasItemsOnRight,
   scrollLeft,
   scrollRight,
-] = useElementPosition(ref);
+} = useElementPosition(ref);
 ```
 
 #### Argument:

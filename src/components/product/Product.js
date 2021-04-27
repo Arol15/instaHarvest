@@ -41,7 +41,11 @@ const Product = ({ product, openMap, accentPersonal }) => {
         onClick={() => {
           handleClick(product);
         }}
-        src={primaryImage}
+        src={
+          product.properties.primary_image
+            ? product.properties.primary_image
+            : product.properties.product_icon
+        }
         alt={product.properties.name}
       />
       <div className="prd-circle prd-circle-top-left">

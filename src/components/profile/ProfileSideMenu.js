@@ -9,7 +9,7 @@ import classnames from "classnames";
 const ProfileSideMenu = ({ currTab }) => {
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
-  const isDesktop = useWidth(1300);
+  const { isDesktop } = useWidth(1300);
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };

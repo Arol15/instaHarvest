@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useWidth
  *
  * ```
- * const [isDesktop] = useWidth(breakpoint);
+ * const {isDesktop, screenWidth} = useWidth(breakpoint);
  * ```
  */
 
@@ -30,7 +30,7 @@ const useWidth = (breakpoint = 600) => {
       setDesktop(true);
     }
   }, [width]); // eslint-disable-line react-hooks/exhaustive-deps
-  return isDesktop;
+  return { isDesktop, screenWidth: width };
 };
 
 export default useWidth;

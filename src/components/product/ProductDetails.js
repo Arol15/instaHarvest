@@ -113,7 +113,11 @@ const ProductDetails = () => {
       {product && (
         <div className="flexbox-row">
           <div className="prd-details-main">
-            <ProductPhotos width={400} height={400} />
+            <ProductPhotos
+              width={400}
+              height={300}
+              icon={product.properties.product_icon}
+            />
             <ProductFavorites
               product_id={product.properties.product_id}
               authorized={product.properties.authorized}
@@ -147,7 +151,7 @@ const ProductDetails = () => {
                   }
                 }}
               >
-                Connect with seller
+                Connect with the seller
               </button>
             )}
           </div>
