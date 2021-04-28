@@ -64,9 +64,11 @@ const Map = () => {
     });
   }, [productsData]);
 
-  const bounds = mapRef.current
-    ? mapRef.current.getMap().getBounds().toArray().flat()
-    : null;
+  console.log(mapRef.current);
+  const bounds =
+    mapRef.current && mapRef.current.getMap()
+      ? mapRef.current.getMap().getBounds().toArray().flat()
+      : null;
 
   const { clusters, supercluster } = useSupercluster({
     points: productsData.products,
