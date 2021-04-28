@@ -63,7 +63,6 @@ const useElementPosition = (ref) => {
         left: newScrollPosition,
         behavior: "smooth",
       });
-      console.log(newScrollPosition);
     },
     [totalWidth, ref]
   );

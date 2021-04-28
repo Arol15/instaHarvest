@@ -48,7 +48,12 @@ const Product = ({ product, openMap, accentPersonal }) => {
         }
         alt={product.properties.name}
       />
-      <div className="prd-circle prd-circle-top-left">
+      <div
+        className="prd-circle prd-circle-top-left"
+        onClick={() => {
+          history.push(`/profile/${product.properties.user.profile_addr}`);
+        }}
+      >
         <Tooltip text={product.properties.user.first_name}>
           <img
             className="prd-user-icon"

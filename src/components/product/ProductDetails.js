@@ -111,7 +111,7 @@ const ProductDetails = () => {
     <>
       {isLoading && <Spinner />}
       {product && (
-        <div className="flexbox-row">
+        <div className="flexbox-row prd-details-flexbox">
           <div className="prd-details-main">
             <ProductPhotos
               width={400}

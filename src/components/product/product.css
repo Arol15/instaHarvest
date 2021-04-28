@@ -41,6 +41,7 @@
 }
 
 .prd-circle-top-left {
+  cursor: pointer;
   top: 0;
   left: 0;
 }
@@ -155,6 +156,9 @@
 }
 
 .prd-details-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 40px;
   margin-top: 40px;
   padding: 20px;
@@ -171,7 +175,7 @@
 }
 
 .prd-details-profile img {
-  padding: 0 auto;
+  margin: 0 auto;
   height: 80px;
   width: 80px;
   border-radius: 50%;
@@ -301,11 +305,7 @@
 
 /* Media */
 
-@media screen and (max-width: 799px) {
-  .prd-details-profile {
-    width: 100%;
-  }
-
+@media screen and (max-width: 699px) {
   .prd-details-main {
     margin-left: 0;
     margin-right: 0;

@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
 import { useRequest } from "../../hooks/hooks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Spinner from "../UI/Spinner";
 import Product from "./Product";
 
 import { showMsg } from "../../store/modalSlice";
+import { updateProducts, selectProducts } from "../../store/productsSlice";
 import "./product.css";
 
 const UserProducts = ({ user_id, title }) => {
-  const [userProducts, setUserProducts] = useState([]);
+  const [showProducts, setShowProducts] = useState(false);
+  const userProducts = useSelector(selectProducts);
   const { isLoading, data, error, sendRequest } = useRequest();
   const dispatch = useDispatch();
 
   const getProducts = () => {
-    const obj = {};
-    if (user_id) {
-      obj.user_id = user_id;
-    }
-    sendRequest("/api/products/products_per_user", "POST", obj);
+    sendRequest(
+      "/api/products/products_per_user",
+      "POST",
+      user_id ? { user_id: user_id } : {}
+    );
   };
 
   useEffect(() => {
@@ -27,7 +29,8 @@ const UserProducts = ({ user_id, title }) => {
 
   useEffect(() => {
     if (data) {
-      setUserProducts(data.user_products);
+      dispatch(updateProducts(data.user_products));
+      setShowProducts(true);
     }
     if (error) {
       dispatch(
@@ -44,9 +47,9 @@ const UserProducts = ({ user_id, title }) => {
     <div className="prd">
       <h2>{title}</h2>
       {isLoading && <Spinner />}
-      {userProducts && (
+      {showProducts && (
         <div className="prd-grid">
-          {userProducts.map((product) => {
+          {userProducts.products.map((product) => {
             return (
               <div key={product.properties.product_id}>
                 <Product product={product} />
