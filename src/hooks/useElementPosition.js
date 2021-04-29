@@ -12,7 +12,6 @@ import { useState, useEffect, useCallback } from "react";
 const useElementPosition = (ref) => {
   const [prevElem, setPrevElem] = useState(null);
   const [nextElem, setNextElem] = useState(null);
-  const [totalWidth, setTotalWidth] = useState(null);
 
   const getPreviousElem = (list) => {
     const sibling = list[0].previousElementSibling;
@@ -50,23 +49,6 @@ const useElementPosition = (ref) => {
     [ref]
   );
 
-  const scrollToIndex = useCallback(
-    (ind) => {
-      const currentNode = ref.current;
-      const viewportPosition = currentNode.getBoundingClientRect();
-      const totalImages = currentNode.children.length;
-      const imageWidth = totalWidth / totalImages;
-
-      const newScrollPosition =
-        imageWidth * ind + imageWidth / 2 - viewportPosition.width / 2;
-      currentNode.scroll({
-        left: newScrollPosition,
-        behavior: "smooth",
-      });
-    },
-    [totalWidth, ref]
-  );
-
   const scrollRight = useCallback(() => scrollToElem(nextElem), [
     scrollToElem,
     nextElem,
@@ -83,9 +65,6 @@ const useElementPosition = (ref) => {
       const elemPosition = elem.getBoundingClientRect();
       const currVisibleElems = Array.from(elem.children).filter((child) => {
         const childPosition = child.getBoundingClientRect();
-        // setTotalWidth(
-        //   child.getBoundingClientRect().width * elem.children.length
-        // );
 
         return (
           childPosition.left >= elemPosition.left &&
@@ -101,8 +80,6 @@ const useElementPosition = (ref) => {
     update();
 
     elem.addEventListener("scroll", update, { passive: true });
-    // scrollToIndex(0);
-    // console.log("SCROLL0");
 
     return () => {
       elem.removeEventListener("scroll", update, { passive: true });
@@ -124,8 +101,6 @@ const useElementPosition = (ref) => {
     hasElemOnRight,
     scrollLeft,
     scrollRight,
-    scrollToIndex,
-    setTotalWidth,
   };
 };
 

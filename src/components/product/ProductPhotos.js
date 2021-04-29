@@ -23,8 +23,6 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
     hasElemOnRight,
     scrollLeft,
     scrollRight,
-    scrollToIndex,
-    setTotalWidth,
   } = useElementPosition(ref);
 
   useEffect(() => {
@@ -34,10 +32,6 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
       setCurrWidth(width);
     }
   }, [screenWidth]);
-
-  useEffect(() => {
-    setTotalWidth((currWidth - 40) * product_images.length);
-  }, [currWidth]);
 
   return (
     <div
@@ -76,21 +70,6 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
       >
         <FiArrowRight size="34px" style={{ padding: "auto 0" }} />
       </div>
-      {product_images.length > 1 && (
-        <div className="prd-photos-carousel-dots flexbox-row">
-          {product_images.map((_, ind) => {
-            return (
-              <div
-                key={ind}
-                className="prd-photos-carousel-dot"
-                onClick={() => {
-                  scrollToIndex(ind);
-                }}
-              ></div>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 };

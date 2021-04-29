@@ -134,7 +134,7 @@ const Addresses = () => {
                       onClick={() =>
                         onClickDelete(isPrimary, addr.properties.id)
                       }
-                      color={isPrimary ? "#7575756b" : "red"}
+                      color={isPrimary ? "#a3a3a3" : "red"}
                       size="34px"
                       style={{ cursor: "pointer" }}
                     />
@@ -151,7 +151,7 @@ const Addresses = () => {
                       onClick={() =>
                         onClickMakePrimary(isPrimary, addr.properties.id)
                       }
-                      color={isPrimary ? "#00ac00" : "#7575756b"}
+                      color={isPrimary ? "#00ac00" : "#a3a3a3"}
                       size="34px"
                       style={{ cursor: "pointer" }}
                     />
