@@ -1,13 +1,19 @@
 import classnames from "classnames";
 import "./tooltip.css";
 
-const Tooltip = ({ children, text, classes }) => {
+const Tooltip = ({ children, text, style }) => {
   return (
     <div>
-      <span className="tooltip-body">
-        {children}
-        <span className={classnames("tooltip-text", classes)}>{text}</span>
-      </span>
+      {!text ? (
+        children
+      ) : (
+        <span className="tooltip-body">
+          {children}
+          <span className="tooltip-text" style={style}>
+            {text}
+          </span>
+        </span>
+      )}
     </div>
   );
 };

@@ -17,8 +17,8 @@ import Icons from "../UI/Icons";
 import { validation } from "../../form_validation/validation";
 import { checkAuth } from "../../utils/localStorage";
 import { showMsg } from "../../store/modalSlice";
-
 import { createFormData } from "../../utils/images";
+import { addressObjToString } from "../../utils/map";
 import "../map/mapboxGeocoder.css";
 import "./addProduct.css";
 
@@ -249,12 +249,7 @@ const AddProduct = () => {
                   return (
                     <option key={i} value={addr.properties.id}>
                       {addr.properties.primary_address && "Primary address: "}
-                      {addr.properties.address &&
-                        `${addr.properties.address}, `}
-                      {addr.properties.city && `${addr.properties.city}, `}
-                      {addr.properties.us_state &&
-                        `${addr.properties.us_state}, `}
-                      {addr.properties.country && `${addr.properties.country}`}
+                      {addressObjToString(addr.properties)}
                     </option>
                   );
                 })}

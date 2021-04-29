@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from flask import Blueprint, request, url_for, session, current_app
 from app import db
-from app.models import User
+from app.models import User, Address
 from app.utils.security import ts, auth_required
 from app.utils.email_support import send_email
 from app.utils.security import auth_required, reauth_required
@@ -35,6 +35,68 @@ def get_user_addresses():
     return {"msg": "addresses",  "list": addr_list}, 200
 
 
+@bp.route("/edit_user_address", methods=["POST", "DELETE", "PATCH"])
+@auth_required
+def edit_user_address():
+    user_id = session["id"]
+    data = request.get_json()
+
+    if request.method == "POST":
+        lon = data["lon"]
+        lat = data["lat"]
+        user = User.query.filter_by(id=user_id).first()
+        if user is None:
+            return {}, 404
+        address = user.addresses.filter_by(
+            lon=lon, lat=lat).first()
+        if address:
+            return {"error": "Address already exists"}, 409
+        address = Address(user_id=user_id,
+                          primary_address=False,
+                          state=data["state"],
+                          city=data["city"],
+                          country=data["country"],
+                          lat=lat,
+                          lon=lon,
+                          address=data["address"],
+                          zip_code=data["zip_code"] if data["zip_code"] else None)
+        db.session.add(address)
+        db.session.commit()
+        address_id = address.id
+        return {
+            "msg": "Address has been added",
+            "address_id": address_id
+        }, 201
+
+    if request.method == "DELETE":
+        address_id = data["address_id"]
+        address = Address.query.filter_by(id=address_id).first()
+        if user_id != address.user_id:
+            return {}, 403
+        n_products = address.products.count()
+        if n_products > 0:
+            return {"error": f"You can not delete this address. You have {n_products} product{'s' if n_products > 1 else ''} connected to it."}, 404
+        db.session.delete(address)
+        db.session.commit()
+        return {"msg": "Address has been deleted"}, 200
+
+    if request.method == "PATCH":
+        address_id = data["address_id"]
+        address = Address.query.filter_by(id=address_id).first()
+        if user_id != address.user_id:
+            return {}, 403
+        prev_prim_address = address.user.addresses.filter_by(
+            primary_address=True).first()
+        if prev_prim_address is None:
+            return {}, 404
+        prev_prim_address.primary_address = False
+        address.primary_address = True
+        db.session.add(prev_prim_address)
+        db.session.add(address)
+        db.session.commit()
+        return {"msg": "Primary address has been changed"}, 200
+
+
 @bp.route("/<string:addr>")
 def get_profile_public(addr):
     user = User.query.filter_by(profile_addr=addr).first()
@@ -64,9 +126,7 @@ def change_pass():
 @auth_required
 def edit_profile():
     """
-    Can update only `first_name`, `last_name`, `image_url`, `image_back_url` `address`,
-    `city`, `state`, `zip_code`
-
+    Can update only `first_name`, `last_name`
     """
     data = request.get_json()
     user_id = session["id"]

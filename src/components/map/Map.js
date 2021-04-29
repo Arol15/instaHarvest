@@ -64,7 +64,6 @@ const Map = () => {
     });
   }, [productsData]);
 
-  console.log(mapRef.current);
   const bounds =
     mapRef.current && mapRef.current.getMap()
       ? mapRef.current.getMap().getBounds().toArray().flat()

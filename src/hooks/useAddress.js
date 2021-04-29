@@ -41,10 +41,14 @@ const useAddress = ({ id, placeholder }) => {
     setAddress({ ...fields });
   };
 
-  useEffect(() => {
+  const updateAddresses = () => {
     if (checkAuth()) {
       sendRequest("/api/account/get_user_addresses", "POST");
     }
+  };
+
+  useEffect(() => {
+    updateAddresses();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -78,7 +82,13 @@ const useAddress = ({ id, placeholder }) => {
     }
   }, [searchAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { searchAddress, setSearchAddress, addresses, address };
+  return {
+    searchAddress,
+    setSearchAddress,
+    updateAddresses,
+    addresses,
+    address,
+  };
 };
 
 export default useAddress;

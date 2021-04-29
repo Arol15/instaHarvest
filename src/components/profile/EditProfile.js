@@ -235,63 +235,7 @@ const Profile = ({ tab }) => {
               <h2>Addresses</h2>
 
               <div className="prf-field">
-                <ProfileField
-                  name="address"
-                  title="Address"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.address}
-                >
-                  <p>{profileData.address}</p>
-                </ProfileField>
-                <hr />
-              </div>
-
-              <div className="prf-field">
-                <ProfileField
-                  name="city"
-                  title="City"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.city}
-                >
-                  <p>{profileData.city}</p>
-                </ProfileField>
-                <hr />
-              </div>
-
-              <div className="prf-field">
-                <ProfileField
-                  name="us_state"
-                  title="State"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.us_state}
-                >
-                  <p>{profileData.us_state}</p>
-                </ProfileField>
-                <hr />
-              </div>
-
-              <div className="prf-field">
-                <ProfileField
-                  name="zip_code"
-                  title="Zip code"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.zip_code}
-                >
-                  <p>{profileData.zip_code}</p>
-                </ProfileField>
-                <hr />
+                <Addresses />
               </div>
             </div>
           )}
