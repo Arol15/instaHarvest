@@ -126,7 +126,10 @@ const Addresses = () => {
               <div className="prf-address-flexbox">
                 <div>{addressObjToString(addr.properties)}</div>
                 <div>
-                  <Tooltip text={isPrimary ? "" : "Delete"}>
+                  <Tooltip
+                    style={{ marginBottom: "10px" }}
+                    text={isPrimary ? "Can not delete" : "Delete"}
+                  >
                     <FiX
                       onClick={() =>
                         onClickDelete(isPrimary, addr.properties.id)
@@ -139,8 +142,9 @@ const Addresses = () => {
                 </div>
                 <div>
                   <Tooltip
+                    style={{ marginBottom: "10px" }}
                     text={
-                      isPrimary ? "Primary address" : "Make primary address"
+                      isPrimary ? "Primary address" : "Make as primary address"
                     }
                   >
                     <FiCheck
