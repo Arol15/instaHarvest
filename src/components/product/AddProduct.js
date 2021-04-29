@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -6,20 +6,19 @@ import {
   useForm,
   useModal,
   useUploadImages,
+  useAddress,
 } from "../../hooks/hooks";
 
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
 
 import { validation } from "../../form_validation/validation";
-import { parseLocation } from "../../utils/map";
 import { checkAuth } from "../../utils/localStorage";
 import { showMsg } from "../../store/modalSlice";
-
 import { createFormData } from "../../utils/images";
+import { addressObjToString } from "../../utils/map";
 import "../map/mapboxGeocoder.css";
 import "./addProduct.css";
 
@@ -34,13 +33,15 @@ const AddProduct = () => {
     uploadStatus,
   } = useRequest();
   const dispatch = useDispatch();
-  const [addresses, setAddresses] = useState();
-  const [newAddress, setNewAddress] = useState(false);
   const [modal, showModal, closeModal] = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
     disableClose: true,
+  });
+  const { addresses, address, searchAddress, setSearchAddress } = useAddress({
+    id: "#geocoder-add-loc",
+    placeholder: "Add new location",
   });
 
   const [uploadImagesContainer, filesToSend] = useUploadImages({
@@ -80,31 +81,21 @@ const AddProduct = () => {
 
   const handleInputChangeLocation = (event) => {
     if (event.target.value === "add") {
-      setNewAddress(true);
+      setSearchAddress(true);
     } else {
-      setNewAddress(false);
+      setSearchAddress(false);
     }
 
     handleInputChange(event);
   };
 
-  const onResultGeocoder = (data) => {
-    const addressFields = {
-      state: "",
-      city: "",
-      zip_code: "",
-      country: "",
-      lat: "",
-      lon: "",
-      address: "",
-    };
-    const location = parseLocation(data);
-    setFormData({ ...formData, location: { ...addressFields, ...location } });
-  };
-
-  const onClearGeocoder = () => {
-    setFormData({ ...formData, location: "add" });
-  };
+  useEffect(() => {
+    if (address.lat) {
+      setFormData({ ...formData, location: { ...address } });
+    } else {
+      setFormData({ ...formData, location: "add" });
+    }
+  }, [address]);
 
   const onChooseIcon = (url) => {
     setFormData({ ...formData, product_icon: url });
@@ -114,13 +105,19 @@ const AddProduct = () => {
   useEffect(() => {
     if (!checkAuth()) {
       showModal(<AuthModal afterConfirm={handleAfterConfirm} />);
-    } else {
-      sendRequest("/api/account/get_user_addresses", "POST");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (error) {
+    if (error && error.includes("Address already exist")) {
+      dispatch(
+        showMsg({
+          open: true,
+          msg: error,
+          classes: "mdl-error",
+        })
+      );
+    } else if (error) {
       dispatch(
         showMsg({
           open: true,
@@ -130,9 +127,7 @@ const AddProduct = () => {
       );
       history.push("/profile");
     } else if (data) {
-      if (data.msg === "addresses") {
-        setAddresses(data.list);
-      } else if (data.msg === "Product created" && filesToSend.length > 0) {
+      if (data.msg === "Product created" && filesToSend.length > 0) {
         dispatch(
           showMsg({
             open: true,
@@ -163,23 +158,6 @@ const AddProduct = () => {
       }
     }
   }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (newAddress) {
-      const geocoder = new MapboxGeocoder({
-        accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
-      });
-      geocoder.addTo("#geocoder-add-loc");
-      geocoder.setPlaceholder("Enter new location");
-      geocoder.on("result", onResultGeocoder);
-      geocoder.on("clear", onClearGeocoder);
-
-      return () => {
-        geocoder.off("result", onResultGeocoder);
-        geocoder.off("clear", onClearGeocoder);
-      };
-    }
-  }, [newAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="add-product-main">
@@ -259,25 +237,24 @@ const AddProduct = () => {
               <select
                 name="location"
                 onChange={handleInputChangeLocation}
-                value={formData.location || ""}
+                defaultValue={"select"}
               >
-                <option value="">Select location</option>
+                <option key="select" value="">
+                  Select location
+                </option>
+                <option key="addnew" value="add">
+                  Add new location
+                </option>
                 {addresses.map((addr, i) => {
                   return (
                     <option key={i} value={addr.properties.id}>
                       {addr.properties.primary_address && "Primary address: "}
-                      {addr.properties.address &&
-                        `${addr.properties.address}, `}
-                      {addr.properties.city && `${addr.properties.city}, `}
-                      {addr.properties.us_state &&
-                        `${addr.properties.us_state}, `}
-                      {addr.properties.country && `${addr.properties.country}`}
+                      {addressObjToString(addr.properties)}
                     </option>
                   );
                 })}
-                <option value="add">Add new location</option>
               </select>
-              {newAddress && <div id="geocoder-add-loc" />}
+              {searchAddress && <div id="geocoder-add-loc" />}
               <div className="form-danger">
                 {formErrors.location && formErrors.location}
               </div>

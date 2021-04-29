@@ -123,11 +123,11 @@ textarea:focus {
 }
 
 .mdl-error {
-  background-color: hsla(3, 84%, 49%, 0.808);
+  background-color: hsla(3, 84%, 49%, 0.9);
 }
 
 .mdl-ok {
-  background-color: hsla(106, 70%, 46%, 0.8);
+  background-color: hsla(106, 70%, 46%, 0.9);
 }
 
 .mdl-msg-active {

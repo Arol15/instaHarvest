@@ -8,6 +8,7 @@ import ProfileHeader from "./ProfileHeader";
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
 import Spinner from "../UI/Spinner";
+import Addresses from "./Addresses";
 
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
@@ -231,65 +232,10 @@ const Profile = ({ tab }) => {
 
           {currTab === "address" && (
             <div className="prf-block">
-              <h2>Address</h2>
-              <div className="prf-field">
-                <ProfileField
-                  name="address"
-                  title="Address"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.address}
-                >
-                  <p>{profileData.address}</p>
-                </ProfileField>
-                <hr />
-              </div>
+              <h2>Addresses</h2>
 
               <div className="prf-field">
-                <ProfileField
-                  name="city"
-                  title="City"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.city}
-                >
-                  <p>{profileData.city}</p>
-                </ProfileField>
-                <hr />
-              </div>
-
-              <div className="prf-field">
-                <ProfileField
-                  name="us_state"
-                  title="State"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.us_state}
-                >
-                  <p>{profileData.us_state}</p>
-                </ProfileField>
-                <hr />
-              </div>
-
-              <div className="prf-field">
-                <ProfileField
-                  name="zip_code"
-                  title="Zip code"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.zip_code}
-                >
-                  <p>{profileData.zip_code}</p>
-                </ProfileField>
-                <hr />
+                <Addresses />
               </div>
             </div>
           )}
