@@ -26,7 +26,15 @@ const useForm = (inputFormData, onSubmit, formValidation) => {
 
   const handleInputChange = (event) => {
     // event.persist();
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    if (event.target.type === "range" || event.target.type === "number") {
+      setFormData({
+        ...formData,
+        [event.target.name]: event.target.valueAsNumber,
+      });
+    } else {
+      setFormData({ ...formData, [event.target.name]: event.target.value });
+    }
   };
 
   return {

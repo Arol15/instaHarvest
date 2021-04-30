@@ -56,9 +56,13 @@
 }
 
 .switch input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+.switch input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.switch input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .switch-input-hide {

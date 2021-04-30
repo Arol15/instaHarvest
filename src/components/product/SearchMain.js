@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm, useRequest, useModal } from "../../hooks/hooks";
@@ -34,22 +34,24 @@ const SearchMain = () => {
   const history = useHistory();
 
   const onSubmit = () => {
-    sendRequest("/api/products/get_local_products", "POST", formData);
+    sendRequest("/api/products/get_products", "POST", formData, true);
   };
 
-  const { setFormData, handleSubmit, formData, formErrors } = useForm(
-    { lat: "", lon: "" },
-    onSubmit,
-    validation
-  );
+  const {
+    setFormData,
+    handleSubmit,
+    handleInputChange,
+    formData,
+    formErrors,
+  } = useForm({ lat: "", lon: "", range: 20 }, onSubmit, validation);
 
   const onResultGeocoder = (data) => {
     const location = parseLocation(data);
-    setFormData({ lat: location.lat, lon: location.lon });
+    setFormData({ ...formData, lat: location.lat, lon: location.lon });
   };
 
   const onClearGeocoder = () => {
-    setFormData({ lat: "", lon: "" });
+    setFormData({ ...formData, lat: "", lon: "" });
   };
 
   const successFn = (pos) => {
@@ -94,7 +96,7 @@ const SearchMain = () => {
         dispatch(
           showMsg({
             open: true,
-            msg: "No results per this location",
+            msg: `No results per this location and in range of ${formData.range} mi`,
             classes: "mdl-error",
           })
         );
@@ -110,9 +112,11 @@ const SearchMain = () => {
     }
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // console.log(formData);
   return (
     <>
       {isLoading && <Spinner />}
+      {modal}
       <div className="search-container">
         <div id="geocoder-main" />
         <div
@@ -125,8 +129,26 @@ const SearchMain = () => {
       <div className="form-danger">
         {formErrors.address && formErrors.address}
       </div>
+      <div className="prd-search-range">
+        <div>Range: </div>
+        <form>
+          <input
+            type="number"
+            name="range"
+            min="0"
+            max="3000"
+            step="5"
+            onChange={handleInputChange}
+            value={formData.range || ""}
+          ></input>
+        </form>
+        <div> mi</div>
+      </div>
+      <div className="form-danger">{formErrors.range && formErrors.range}</div>
 
-      <button onClick={handleSubmit}>Find</button>
+      <button style={{ marginTop: "20px" }} onClick={handleSubmit}>
+        Find
+      </button>
     </>
   );
 };

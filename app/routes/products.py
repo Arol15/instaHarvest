@@ -73,7 +73,7 @@ def get_products_per_user():
     return {"user_products": products}
 
 
-@bp.route("/get_local_products", methods=["POST"])
+@bp.route("/get_products", methods=["POST"])
 def get_local_products():
     user_id = None
     try:
@@ -82,10 +82,11 @@ def get_local_products():
         pass
     lon = request.json.get("lon")
     lat = request.json.get("lat")
+    rng = request.json.get("range")
     params = func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
         func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lon) - (func.radians(lon)))) * current_app.config['RADIUS']
     products = Product.query.join(Product.address).filter(
-        params <= 40).order_by(params).all()
+        params <= rng).order_by(params).all()
     products_dict = [product.to_dict(user_id, lat, lon)
                      for product in products]
     return {"products": products_dict}, 200

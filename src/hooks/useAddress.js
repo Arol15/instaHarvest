@@ -34,7 +34,8 @@ const useAddress = ({ id, placeholder }) => {
   const dispatch = useDispatch();
 
   const onResultGeocoder = (data) => {
-    setAddress(parseLocation(data));
+    const parsedData = parseLocation(data);
+    setAddress({ ...fields, ...parsedData });
   };
 
   const onClearGeocoder = () => {

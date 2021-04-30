@@ -25,6 +25,29 @@
   box-shadow: 0 0 6pt 3pt hsla(0, 0%, 0%, 0.185);
 }
 
+.prd-search-range {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.prd-search-range > div {
+  margin: 0 5px;
+}
+
+.prd-search-range input[type="range"] {
+  padding: 0;
+  margin: 10px;
+}
+
+.prd-search-range input[type="number"]::-webkit-inner-spin-button,
+.prd-search-range input[type="number"]::-webkit-outer-spin-button {
+  height: 30px;
+}
+
 .prd-personal {
   box-shadow: 0 0 3pt 3pt hsla(16, 100%, 50%, 0.39);
 }
