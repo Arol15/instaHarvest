@@ -81,6 +81,11 @@ const useElementPosition = (ref) => {
 
     elem.addEventListener("scroll", update, { passive: true });
 
+    ref.current.scroll({
+      left: -20,
+      behavior: "smooth",
+    });
+
     return () => {
       elem.removeEventListener("scroll", update, { passive: true });
     };
@@ -88,13 +93,6 @@ const useElementPosition = (ref) => {
 
   const hasElemOnLeft = prevElem !== null;
   const hasElemOnRight = nextElem !== null;
-
-  useEffect(() => {
-    ref.current.scroll({
-      left: -20,
-      behavior: "smooth",
-    });
-  }, [ref.current]);
 
   return {
     hasElemOnLeft,

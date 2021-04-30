@@ -1,14 +1,25 @@
 import { useFavorites } from "../../hooks/hooks";
+import { useDispatch } from "react-redux";
 
+import { showMsg } from "../../store/modalSlice";
 import classnames from "classnames";
 import "./product.css";
 
 const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
   const { total, added, addToFavorites } = useFavorites(product_id);
+  const dispatch = useDispatch();
 
   const onClick = () => {
     if (authorized) {
       addToFavorites();
+    } else {
+      dispatch(
+        showMsg({
+          open: true,
+          msg: "Please authorize!",
+          classes: "mdl-error",
+        })
+      );
     }
   };
   const icon = added

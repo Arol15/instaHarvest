@@ -247,6 +247,14 @@
   padding: 0 5px;
 }
 
+.prd-photos-carousel-inner img:first-child {
+  padding-left: 20px;
+}
+
+.prd-photos-carousel-inner img:last-child {
+  padding-right: 20px;
+}
+
 .prd-photos-arrow {
   visibility: visible;
   background-color: hsla(0, 0%, 0%, 0.562);

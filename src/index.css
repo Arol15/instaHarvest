@@ -51,7 +51,7 @@ a,
 button,
 input[type="submit"] {
   background: hsl(16, 100%, 50%);
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
   outline: none;
   color: hsl(0, 0%, 100%);
   border: 0;

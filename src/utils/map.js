@@ -76,8 +76,6 @@ export const arrangeMarkers = (markers, lon, lat) => {
 export const addressObjToString = (addr) => {
   let res = "";
 
-  console.log(addr);
-
   res = addr.address && res.concat(addr.address, ", ");
   res = addr.city && res.concat(addr.city, ", ");
   res = addr.us_state && res.concat(addr.us_state, ", ");

@@ -164,7 +164,16 @@ const AddProduct = () => {
       {isLoading && <Spinner uploadStatus={uploadStatus} />}
       <div className="add-product">
         <h2>Share Your Product</h2>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (checkAuth()) {
+              handleSubmit();
+            } else {
+              showModal(<AuthModal afterConfirm={handleAfterConfirm} />);
+            }
+          }}
+        >
           <label>Name of your product:</label>
           <input
             className="add-product-input"
