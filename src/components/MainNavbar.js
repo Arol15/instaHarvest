@@ -15,7 +15,7 @@ const MainNavbar = () => {
   const history = useHistory();
   const { image_url } = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
-  const [modal, showModal, closeModal] = useModal({
+  const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,

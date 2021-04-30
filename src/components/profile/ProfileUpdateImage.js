@@ -16,7 +16,7 @@ const ProfileUpdateImage = ({
 }) => {
   const [method, setMethod] = useState(null);
   const { isLoading, data, error, sendRequest } = useRequest();
-  const [modal, showModal] = useModal({
+  const { modal, showModal } = useModal({
     withBackdrop: false,
     useTimer: true,
     inPlace: true,

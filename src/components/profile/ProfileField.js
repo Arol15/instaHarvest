@@ -12,7 +12,7 @@ import "./profile.css";
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
   const { isLoading, data, error, errorNum, sendRequest } = useRequest();
-  const [modalLogin, showModalLogin, onClose] = useModal({
+  const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,
@@ -41,11 +41,11 @@ const ProfileFild = (props) => {
 
   useEffect(() => {
     if (errorNum === 403) {
-      showModalLogin(
+      showModal(
         <Auth
           view={"confirm"}
           inModal={true}
-          closeModal={onClose}
+          closeModal={closeModal}
           afterConfirm={handleSubmit}
           user={props.user}
         />
@@ -55,7 +55,7 @@ const ProfileFild = (props) => {
 
   return (
     <>
-      {modalLogin}
+      {modal}
       {isLoading && <Spinner />}
       <b>{props.title}:</b>
       {editState ? (

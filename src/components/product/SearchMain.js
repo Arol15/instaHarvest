@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useForm, useRequest } from "../../hooks/hooks";
+import { useForm, useRequest, useModal } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
@@ -20,6 +20,13 @@ const SearchMain = () => {
       accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
     })
   );
+
+  const { modal, showModal, closeModal, isOpen } = useModal({
+    withBackdrop: true,
+    useTimer: false,
+    inPlace: false,
+    disableClose: true,
+  });
 
   const { isLoading, data, error, sendRequest } = useRequest();
   const dispatch = useDispatch();

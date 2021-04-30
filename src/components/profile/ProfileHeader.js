@@ -9,7 +9,7 @@ import "./profile.css";
 const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
   const data = useSelector(selectProfile, shallowEqual);
 
-  const [modal, showModal, closeModal] = useModal({
+  const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,

@@ -29,7 +29,7 @@ const ProductDetails = () => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [modal, showModal, closeModal] = useModal({
+  const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,

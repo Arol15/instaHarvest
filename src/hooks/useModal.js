@@ -42,7 +42,7 @@ const fetchReducer = (currState, action) => {
  * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useModal
  *
  * ```
- *  const [modal, showModal, closeModal, isOpen] = useModal({ withBackdrop, useTimer, inPlace, timeOut, disableClose });
+ *  const {modal, showModal, closeModal, isOpen} = useModal({ withBackdrop, useTimer, inPlace, timeOut, disableClose });
  * ```
  * ```
  * showModal(children, classes);
@@ -194,7 +194,12 @@ const useModal = ({
     }
   }, [fetchState.active, fetchState.isOpen, fetchState.children]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return [fetchState.modal, showModal, closeModal, fetchState.isOpen];
+  return {
+    modal: fetchState.modal,
+    showModal,
+    closeModal,
+    isOpen: fetchState.isOpen,
+  };
 };
 
 export default useModal;

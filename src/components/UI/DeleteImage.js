@@ -4,7 +4,7 @@ import { useRequest, useModal } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 
 const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
-  const [modal, showModal] = useModal({
+  const { modal, showModal } = useModal({
     withBackdrop: false,
     useTimer: true,
     inPlace: true,

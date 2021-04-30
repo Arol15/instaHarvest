@@ -24,7 +24,7 @@ const Addresses = () => {
     placeholder: "Add new address",
   });
 
-  const [modal, showModal, closeModal] = useModal({
+  const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,

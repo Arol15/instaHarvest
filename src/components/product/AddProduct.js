@@ -33,7 +33,7 @@ const AddProduct = () => {
     uploadStatus,
   } = useRequest();
   const dispatch = useDispatch();
-  const [modal, showModal, closeModal] = useModal({
+  const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
     inPlace: false,

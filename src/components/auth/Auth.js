@@ -18,7 +18,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const [address, setAddress] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [modal, showModal] = useModal({
+  const { modal, showModal } = useModal({
     withBackdrop: false,
     useTimer: true,
     inPlace: inModal ? true : false,
