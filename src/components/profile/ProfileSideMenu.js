@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useWidth } from "../../hooks/hooks";
+import { useScreen } from "../../hooks/hooks";
 
 import { FiUser, FiUsers, FiHome, FiMenu, FiX } from "react-icons/fi";
 
@@ -9,7 +9,7 @@ import classnames from "classnames";
 const ProfileSideMenu = ({ currTab }) => {
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
-  const { isDesktop } = useWidth(1300);
+  const { isDesktop } = useScreen(1300);
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };

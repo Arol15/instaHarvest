@@ -14,7 +14,7 @@
   - [useModal](#useModal)
   - [useForm](#useForm)
   - [useUploadImages](#useUploadImages)
-  - [useWidth](#useWidth)
+  - [useScreen](#useScreen)
   - [useElementPosition](#useElementPosition)
 
 - [Components](#Components)
@@ -807,12 +807,12 @@ const [uploadImagesContainer, filesToSend] = useUploadImages({
 
 ---
 
-### useWidth
+### useScreen
 
-Checks current width of the screen and returns **isDesktop** true if width is greater then **breakpoint**
+Checks current width of the screen and returns **isDesktop** true if width is greater then **breakpoint**, returns screen width and height
 
 ```js
-const { isDesktop, screenWidth } = useWidth(breakpoint);
+const { isDesktop, screenWidth, screenHeight } = useScreen(breakpoint);
 ```
 
 #### Argument:
@@ -823,7 +823,9 @@ const { isDesktop, screenWidth } = useWidth(breakpoint);
 
 **isDesktop** = [bool] - `true` if width of the screen greater then `breakpoint`
 
-**width** [int] - current width
+**screenWidth** [int] - current inner width of the screen
+
+**screenHeight** [int] - current inner height of the screen
 
 ---
 

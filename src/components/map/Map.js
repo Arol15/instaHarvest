@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useSupercluster from "use-supercluster";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useWidth } from "../../hooks/hooks";
+import { useScreen } from "../../hooks/hooks";
 
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 
@@ -20,7 +20,7 @@ const Map = ({ width }) => {
   const mapRef = useRef();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { screenWidth } = useWidth();
+  const { screenWidth, screenHeight } = useScreen();
 
   const calculateWidth = () => {
     if (width && width + 50 < screenWidth) {
@@ -29,19 +29,27 @@ const Map = ({ width }) => {
     return `${screenWidth * 0.8}px`;
   };
 
+  const calculateHeight = () => {
+    return `${0.5 * screenHeight}px`;
+  };
+
   const [viewport, setViewport] = useState({
     latitude: productsData.location.lat,
     longitude: productsData.location.lon,
     width: calculateWidth(),
-    height: "50vh",
+    height: calculateHeight(),
     zoom: 12,
   });
 
   const [popup, setPopup] = useState();
 
   useEffect(() => {
-    setViewport({ ...viewport, width: calculateWidth() });
-  }, [screenWidth]); // eslint-disable-line react-hooks/exhaustive-deps
+    setViewport({
+      ...viewport,
+      width: calculateWidth(),
+      height: calculateHeight(),
+    });
+  }, [screenWidth, screenHeight]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setViewport({

@@ -164,6 +164,8 @@ class Product(db.Model):
                 "description": self.description,
                 "status": self.status,
                 "product_id": self.id,
+                "created_at": self.created_at.isoformat(),
+                "updated_at": self.updated_at.isoformat() if self.updated_at else None,
                 "user": user.to_dict_public()
             },
             "geometry": address_dict
@@ -258,7 +260,7 @@ class Chat(db.Model):
         return {
             "user_id": user_id,
             "chat_id": self.id,
-            "created_at": self.created_at,
+            "created_at": self.created_at.isoformat(),
             "recipient_id": recipient_id,
             "recipient_img": recipient.image_url,
             "recipient_name": recipient.first_name,

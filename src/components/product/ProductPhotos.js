@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useElementPosition, useWidth } from "../../hooks/hooks";
+import { useElementPosition, useScreen } from "../../hooks/hooks";
 
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
@@ -8,7 +8,7 @@ import { selectCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
 import "./product.css";
 
-const ProductPhotos = ({ width = 340, height = 300, icon }) => {
+const ProductPhotos = ({ width = 340, height = 300, icon, personal }) => {
   const {
     properties: { product_images },
   } = useSelector(selectCurrentProduct);
@@ -16,7 +16,7 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
   const ref = useRef();
   const [currWidth, setCurrWidth] = useState(width);
 
-  const { screenWidth } = useWidth();
+  const { screenWidth } = useScreen();
 
   const {
     hasElemOnLeft,
@@ -44,7 +44,7 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
         })}
         onClick={scrollLeft}
       >
-        <FiArrowLeft size="34px" style={{ padding: "auto 0" }} />
+        <FiArrowLeft size="34px" />
       </div>
       <div className="prd-photos-carousel-inner" ref={ref}>
         {product_images.length > 0 ? (
@@ -68,7 +68,7 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
         })}
         onClick={scrollRight}
       >
-        <FiArrowRight size="34px" style={{ padding: "auto 0" }} />
+        <FiArrowRight size="34px" />
       </div>
     </div>
   );

@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 
 /**
- *  useUploadImages
- * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useWidth
+ *  useScreen
+ * @see https://github.com/Arol15/instaHarvest/blob/master/API.md#useScreen
  *
  * ```
- * const {isDesktop, screenWidth} = useWidth(breakpoint);
+ * const {isDesktop, screenWidth, screenHeight} = useScreen(breakpoint);
  * ```
  */
 
-const useWidth = (breakpoint = 600) => {
+const useScreen = (breakpoint = 600) => {
   const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
   const [isDesktop, setDesktop] = useState(window.innerWidth >= breakpoint);
 
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
     };
     window.addEventListener("resize", handleResize);
     return () => {
@@ -30,7 +32,10 @@ const useWidth = (breakpoint = 600) => {
       setDesktop(true);
     }
   }, [width]); // eslint-disable-line react-hooks/exhaustive-deps
-  return { isDesktop, screenWidth: width };
+
+  console.log(height);
+
+  return { isDesktop, screenWidth: width, screenHeight: height };
 };
 
-export default useWidth;
+export default useScreen;

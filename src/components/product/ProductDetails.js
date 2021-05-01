@@ -10,6 +10,7 @@ import ProductFavorites from "./ProductFavorites";
 import PublicProfileInfo from "../profile/PublicProfileInfo";
 import Map from "../map/Map";
 
+import { FiEdit } from "react-icons/fi";
 import { showMsg } from "../../store/modalSlice";
 import {
   selectCurrentProduct,
@@ -119,22 +120,20 @@ const ProductDetails = () => {
               width={400}
               height={300}
               icon={product.properties.product_icon}
+              personal={product.properties.personal}
             />
+            {product.properties.personal && (
+              <div className="prd-details-photos-edit-button">
+                <FiEdit size="26px" style={{ margin: "2px" }} />
+              </div>
+            )}
             <div className="prd-details-buttons">
               <ProductFavorites
                 product_id={product.properties.product_id}
                 authorized={product.properties.authorized}
                 full
               />
-              {product.properties.personal ? (
-                <button
-                  onClick={() => {
-                    showModal(confirmDelete);
-                  }}
-                >
-                  Delete product
-                </button>
-              ) : (
+              {!product.properties.personal ? (
                 <button
                   onClick={() => {
                     if (checkAuth()) {
@@ -153,7 +152,7 @@ const ProductDetails = () => {
                 >
                   Connect with the seller
                 </button>
-              )}
+              ) : null}
             </div>
             <h2> {product.properties.name}</h2>
             <p className="prd-details-description background">
@@ -164,25 +163,42 @@ const ProductDetails = () => {
             </h3>
             <Map width={360} />
           </div>
-          <div
-            className="prd-details-profile background"
-            onClick={() =>
-              history.push(`/profile/${product.properties.user.profile_addr}`)
-            }
-          >
-            <img src={product.properties.user.image_url} alt="" />
-            <PublicProfileInfo
-              firstName={product.properties.user.first_name}
-              emailVerified={product.properties.user.email_verified}
-              city={product.properties.user.city}
-              usState={product.properties.user.us_state}
-              country={product.properties.user.country}
-              joined={datetimeToLocal(
-                product.properties.user.created_at,
-                "month-year"
+          {product.properties.personal ? (
+            <div className="prd-details-profile background">
+              <p>Created: {datetimeToLocal(product.properties.created_at)} </p>
+              {product.properties.updated_at && (
+                <p>Updated: {datetimeToLocal(product.properties.updated_at)}</p>
               )}
-            />
-          </div>
+              <button
+                className="button-link"
+                onClick={() => {
+                  showModal(confirmDelete);
+                }}
+              >
+                Delete product
+              </button>
+            </div>
+          ) : (
+            <div
+              className="prd-details-profile background"
+              onClick={() =>
+                history.push(`/profile/${product.properties.user.profile_addr}`)
+              }
+            >
+              <img src={product.properties.user.image_url} alt="" />
+              <PublicProfileInfo
+                firstName={product.properties.user.first_name}
+                emailVerified={product.properties.user.email_verified}
+                city={product.properties.user.city}
+                usState={product.properties.user.us_state}
+                country={product.properties.user.country}
+                joined={datetimeToLocal(
+                  product.properties.user.created_at,
+                  "month-year"
+                )}
+              />
+            </div>
+          )}
         </div>
       )}
       {modal}
