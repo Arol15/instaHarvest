@@ -44,10 +44,14 @@ const Map = ({ width }) => {
   const [popup, setPopup] = useState();
 
   useEffect(() => {
+    let height = viewport.height;
+    if (Math.abs(parseInt(viewport.height) - screenHeight * 0.5) > 30) {
+      height = calculateHeight();
+    }
     setViewport({
       ...viewport,
       width: calculateWidth(),
-      height: calculateHeight(),
+      height: height,
     });
   }, [screenWidth, screenHeight]); // eslint-disable-line react-hooks/exhaustive-deps
 

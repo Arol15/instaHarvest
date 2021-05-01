@@ -33,8 +33,6 @@ const useScreen = (breakpoint = 600) => {
     }
   }, [width]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(height);
-
   return { isDesktop, screenWidth: width, screenHeight: height };
 };
 

@@ -159,7 +159,6 @@ const AddProduct = () => {
     }
   }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(formData);
   return (
     <div className="add-product-main">
       {isLoading && <Spinner uploadStatus={uploadStatus} />}
