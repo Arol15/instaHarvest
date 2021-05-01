@@ -1,7 +1,7 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useForm, useRequest, useModal } from "../../hooks/hooks";
+import { useForm, useRequest } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
@@ -21,20 +21,13 @@ const SearchMain = () => {
     })
   );
 
-  const { modal, showModal, closeModal, isOpen } = useModal({
-    withBackdrop: true,
-    useTimer: false,
-    inPlace: false,
-    disableClose: true,
-  });
-
   const { isLoading, data, error, sendRequest } = useRequest();
   const dispatch = useDispatch();
 
   const history = useHistory();
 
   const onSubmit = () => {
-    sendRequest("/api/products/get_products", "POST", formData, true);
+    sendRequest("/api/products/get_products", "POST", formData);
   };
 
   const {
@@ -116,7 +109,7 @@ const SearchMain = () => {
   return (
     <>
       {isLoading && <Spinner />}
-      {modal}
+
       <div className="search-container">
         <div id="geocoder-main" />
         <div

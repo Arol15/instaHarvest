@@ -27,7 +27,7 @@ export const parseLocation = ({ result }) => {
     }
 
     if (!location.address) {
-      if (placeType.includes("address")) {
+      if (placeType.includes("address") && result.place_name !== "0") {
         location.address = result.place_name.slice(
           0,
           result.place_name.indexOf(",")
@@ -75,8 +75,9 @@ export const arrangeMarkers = (markers, lon, lat) => {
 
 export const addressObjToString = (addr) => {
   let res = "";
-
-  res = addr.address && res.concat(addr.address, ", ");
+  if (addr.address && addr.address !== "0") {
+    res = res.concat(addr.address, ", ");
+  }
   res = addr.city && res.concat(addr.city, ", ");
   res = addr.us_state && res.concat(addr.us_state, ", ");
   res = addr.country && res.concat(addr.country);

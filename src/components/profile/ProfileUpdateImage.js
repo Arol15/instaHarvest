@@ -84,7 +84,7 @@ const ProfileUpdateImage = ({
         />
       )}
 
-      {method == "close" && (
+      {method === "close" && (
         <button
           onClick={() => {
             closeModal();

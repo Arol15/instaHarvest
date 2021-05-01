@@ -21,14 +21,14 @@ const Product = ({ product, openMap, accentPersonal }) => {
     });
   };
 
-  const primaryImage = useMemo(() => {
-    const images = product.properties.product_images;
-    let primaryImage = images.find((image) => image.primary === true);
-    if (!primaryImage) {
-      primaryImage = product.properties.product_icon;
-    }
-    return primaryImage;
-  }, [product]);
+  // const primaryImage = useMemo(() => {
+  //   const images = product.properties.product_images;
+  //   let primaryImage = images.find((image) => image.primary === true);
+  //   if (!primaryImage) {
+  //     primaryImage = product.properties.product_icon;
+  //   }
+  //   return primaryImage;
+  // }, [product]);
 
   return (
     <div

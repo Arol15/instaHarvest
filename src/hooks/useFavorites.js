@@ -21,7 +21,7 @@ const useFavorites = (product_id) => {
 
   useEffect(() => {
     sendRequest(`/api/products/get_likes/${product_id}`, "POST");
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data) {

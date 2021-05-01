@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import useSupercluster from "use-supercluster";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useWidth } from "../../hooks/hooks";
 
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 
@@ -14,16 +15,19 @@ import "./map.css";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const Map = () => {
+const Map = ({ width }) => {
   const productsData = useSelector(selectProducts);
-
-  const calculateWidth = () => {
-    return `${window.innerWidth * 0.8}px`;
-  };
-
   const mapRef = useRef();
   const history = useHistory();
   const dispatch = useDispatch();
+  const { screenWidth } = useWidth();
+
+  const calculateWidth = () => {
+    if (width && width + 50 < screenWidth) {
+      return width;
+    }
+    return `${screenWidth * 0.8}px`;
+  };
 
   const [viewport, setViewport] = useState({
     latitude: productsData.location.lat,
@@ -35,21 +39,9 @@ const Map = () => {
 
   const [popup, setPopup] = useState();
 
-  // const goToMarker = (lat, lon) => {
-  //   setViewport({...viewport, latitude: lat, longitude: lon, zoom: 9})
-  // }
-
   useEffect(() => {
-    const updateWidth = () => {
-      setViewport({ ...viewport, width: calculateWidth() });
-    };
-
-    window.addEventListener("resize", updateWidth);
-
-    return () => {
-      window.removeEventListener("resize", updateWidth);
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    setViewport({ ...viewport, width: calculateWidth() });
+  }, [screenWidth]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setViewport({

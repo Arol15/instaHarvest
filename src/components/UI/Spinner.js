@@ -1,7 +1,6 @@
 import "./Spinner.css";
 
 const Spinner = ({ uploadStatus }) => {
-  const status = uploadStatus;
   const el = (
     <div className="spinner-center">
       {uploadStatus && (

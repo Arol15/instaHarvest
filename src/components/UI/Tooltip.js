@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import "./tooltip.css";
 
 const Tooltip = ({ children, text, style }) => {

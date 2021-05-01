@@ -8,12 +8,14 @@ import Spinner from "../UI/Spinner";
 import ProductPhotos from "./ProductPhotos";
 import ProductFavorites from "./ProductFavorites";
 import PublicProfileInfo from "../profile/PublicProfileInfo";
+import Map from "../map/Map";
 
 import { showMsg } from "../../store/modalSlice";
 import {
   selectCurrentProduct,
   setCurrentProduct,
 } from "../../store/productsSlice";
+import { addressObjToString } from "../../utils/map";
 import { datetimeToLocal } from "../../utils/datetime";
 import { checkAuth } from "../../utils/localStorage";
 
@@ -118,42 +120,49 @@ const ProductDetails = () => {
               height={300}
               icon={product.properties.product_icon}
             />
-            <ProductFavorites
-              product_id={product.properties.product_id}
-              authorized={product.properties.authorized}
-              full
-            />
-
-            <div>Product: {product.properties.name}</div>
-            <p>About this product: {product.properties.description}</p>
-            {product.properties.personal ? (
-              <button
-                onClick={() => {
-                  showModal(confirmDelete);
-                }}
-              >
-                Delete product
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  if (checkAuth()) {
-                    getChat();
-                  } else {
-                    showModal(
-                      <AuthModal
-                        afterConfirm={() => {
-                          updateProduct();
-                          closeModal();
-                        }}
-                      />
-                    );
-                  }
-                }}
-              >
-                Connect with the seller
-              </button>
-            )}
+            <div className="prd-details-buttons">
+              <ProductFavorites
+                product_id={product.properties.product_id}
+                authorized={product.properties.authorized}
+                full
+              />
+              {product.properties.personal ? (
+                <button
+                  onClick={() => {
+                    showModal(confirmDelete);
+                  }}
+                >
+                  Delete product
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (checkAuth()) {
+                      getChat();
+                    } else {
+                      showModal(
+                        <AuthModal
+                          afterConfirm={() => {
+                            updateProduct();
+                            closeModal();
+                          }}
+                        />
+                      );
+                    }
+                  }}
+                >
+                  Connect with the seller
+                </button>
+              )}
+            </div>
+            <h2> {product.properties.name}</h2>
+            <p className="prd-details-description background">
+              {product.properties.description}
+            </p>
+            <h3 className="prd-details-address">
+              {addressObjToString(product.geometry.properties)}
+            </h3>
+            <Map width={360} />
           </div>
           <div
             className="prd-details-profile background"
@@ -161,7 +170,7 @@ const ProductDetails = () => {
               history.push(`/profile/${product.properties.user.profile_addr}`)
             }
           >
-            <img src={product.properties.user.image_url} />
+            <img src={product.properties.user.image_url} alt="" />
             <PublicProfileInfo
               firstName={product.properties.user.first_name}
               emailVerified={product.properties.user.email_verified}

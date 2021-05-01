@@ -1,5 +1,3 @@
-import Tooltip from "../UI/Tooltip";
-
 import icons from "../../assets/data/icons.json";
 import "./icons.css";
 

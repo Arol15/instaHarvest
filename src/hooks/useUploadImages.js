@@ -93,9 +93,8 @@ const useUploadImages = ({ multipleImages }) => {
       ...(isDragAccept ? acceptStyle : {}),
       ...(isDragReject ? rejectStyle : {}),
     }),
-    [isDragActive, isDragReject, isDragAccept]
+    [isDragActive, isDragReject, isDragAccept] // eslint-disable-line react-hooks/exhaustive-deps
   );
-
   const previewImages = useMemo(() => {
     return filesToSend.map((file) => {
       return (
@@ -116,12 +115,12 @@ const useUploadImages = ({ multipleImages }) => {
                 }}
               />
             </div>
-            <img src={file.preview} />
+            <img src={file.preview} alt="" />
           </div>
         </div>
       );
     });
-  }, [files]);
+  }, [files]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fileRejectionItems = useMemo(() => {
     return fileRejections.map(({ file, errors }) => {
@@ -200,7 +199,7 @@ const useUploadImages = ({ multipleImages }) => {
       });
     },
     [files]
-  );
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
   return [uploadImagesContainer, filesToSend];
 };

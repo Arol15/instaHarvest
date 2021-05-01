@@ -31,7 +31,7 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
     } else {
       setCurrWidth(width);
     }
-  }, [screenWidth]);
+  }, [screenWidth]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -59,7 +59,7 @@ const ProductPhotos = ({ width = 340, height = 300, icon }) => {
             );
           })
         ) : (
-          <img src={icon} style={{ width: currWidth - 40 }} />
+          <img src={icon} style={{ width: currWidth - 40 }} alt="" />
         )}
       </div>
       <div
