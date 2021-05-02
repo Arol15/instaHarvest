@@ -10,6 +10,15 @@
   justify-content: center;
 }
 
+.prd-user-products {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.prd-user-products > p {
+  margin: 0;
+}
+
 .prd-element {
   position: relative;
   width: 200px;

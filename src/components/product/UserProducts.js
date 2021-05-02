@@ -8,6 +8,7 @@ import Product from "./Product";
 import { showMsg } from "../../store/modalSlice";
 import { updateProducts, selectProducts } from "../../store/productsSlice";
 import "./product.css";
+import { addressObjToString } from "../../utils/map";
 
 const UserProducts = ({ user_id, title }) => {
   const [showProducts, setShowProducts] = useState(false);
@@ -52,6 +53,12 @@ const UserProducts = ({ user_id, title }) => {
           {userProducts.products.map((product) => {
             return (
               <div key={product.properties.product_id}>
+                <div className="prd-user-products">
+                  <p>
+                    <b>{product.properties.name}</b>
+                  </p>
+                  <p>{addressObjToString(product.geometry.properties)}</p>
+                </div>
                 <Product product={product} />
               </div>
             );
