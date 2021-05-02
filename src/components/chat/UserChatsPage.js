@@ -46,22 +46,25 @@ const UserChatsPage = () => {
       {isLoading && <Spinner />}
       {data &&
         data.chats.map((chat, i) => {
-          return (
-            <div
-              key={i}
-              className="chat-user-chats"
-              onClick={() => openChat(chat)}
-            >
-              <img className="chat-img" src={chat.recipient_img} alt="" />
-              <div className="chat-last-msg">
-                <b>{chat.recipient_name}</b>
-                <p>
-                  <i>{chat.last_message}</i>
-                </p>
-                <p>{datetimeToLocal(chat.last_date)}</p>
+          if (chat.last_date) {
+            return (
+              <div
+                key={i}
+                className="chat-user-chats"
+                onClick={() => openChat(chat)}
+              >
+                <img className="chat-img" src={chat.recipient_img} alt="" />
+                <div className="chat-last-msg">
+                  <b>{chat.recipient_name}</b>
+                  <p>
+                    <i>{chat.last_message}</i>
+                  </p>
+                  <p>{datetimeToLocal(chat.last_date)}</p>
+                </div>
               </div>
-            </div>
-          );
+            );
+          }
+          return;
         })}
     </>
   );
