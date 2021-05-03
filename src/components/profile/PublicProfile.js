@@ -6,7 +6,7 @@ import PublicProfileInfo from "./PublicProfileInfo";
 import Spinner from "../UI/Spinner";
 import UserProducts from "../product/UserProducts";
 
-import { datetimeToLocal } from "../../utils/datetime";
+import { datetimeToLocal } from "../../utils/utils";
 import "./profile.css";
 
 const PublicProfile = (props) => {

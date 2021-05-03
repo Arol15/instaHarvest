@@ -4,7 +4,7 @@ import { useRequest, useModal, useUploadImages } from "../../hooks/hooks";
 import Spinner from "../UI/Spinner";
 import DeleteImage from "../UI/DeleteImage";
 
-import { createFormData } from "../../utils/images";
+import { createFormData } from "../../utils/utils";
 import "./profile.css";
 
 const ProfileUpdateImage = ({

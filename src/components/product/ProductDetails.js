@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useRequest, useModal } from "../../hooks/hooks";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -9,6 +9,8 @@ import ProductPhotos from "./ProductPhotos";
 import ProductFavorites from "./ProductFavorites";
 import PublicProfileInfo from "../profile/PublicProfileInfo";
 import Map from "../map/Map";
+import EditProductPhotos from "./EditProductPhotos";
+import ConfirmationDelete from "../UI/ConfirmationDelete";
 
 import { FiEdit } from "react-icons/fi";
 import { showMsg } from "../../store/modalSlice";
@@ -16,15 +18,18 @@ import {
   selectCurrentProduct,
   setCurrentProduct,
 } from "../../store/productsSlice";
-import { addressObjToString } from "../../utils/map";
-import { datetimeToLocal } from "../../utils/datetime";
-import { checkAuth } from "../../utils/localStorage";
+import {
+  addressObjToString,
+  datetimeToLocal,
+  checkAuth,
+} from "../../utils/utils";
 
 const ProductDetails = () => {
   const history = useHistory();
   const product = useSelector(selectCurrentProduct);
   const dispatch = useDispatch();
   const { isLoading, data, error, sendRequest } = useRequest();
+  const [editImages, setEditImages] = useState(false);
 
   useEffect(() => {
     if (!product) {
@@ -94,36 +99,34 @@ const ProductDetails = () => {
     }
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const confirmDelete = useMemo(() => {
-    return (
-      <>
-        <h3>Are you sure to delete?</h3>
-        <button
-          onClick={() => {
-            onDelete(product.properties.product_id);
-          }}
-        >
-          Yes
-        </button>
-        <button onClick={closeModal}>No</button>
-      </>
-    );
-  }, []);
-
   return (
     <>
       {isLoading && <Spinner />}
       {product && (
         <div className="flexbox-row prd-details-flexbox">
           <div className="prd-details-main">
-            <ProductPhotos
-              width={400}
-              height={300}
-              icon={product.properties.product_icon}
-              personal={product.properties.personal}
-            />
-            {product.properties.personal && (
-              <div className="prd-details-photos-edit-button">
+            {editImages ? (
+              <EditProductPhotos
+                updateProduct={updateProduct}
+                closeEdit={() => {
+                  setEditImages(false);
+                }}
+              />
+            ) : (
+              <ProductPhotos
+                width={400}
+                height={300}
+                icon={product.properties.product_icon}
+                personal={product.properties.personal}
+              />
+            )}
+            {product.properties.personal && !editImages && (
+              <div
+                className="prd-details-photos-edit-button"
+                onClick={() => {
+                  setEditImages(true);
+                }}
+              >
                 <FiEdit size="26px" style={{ margin: "2px" }} />
               </div>
             )}
@@ -172,7 +175,15 @@ const ProductDetails = () => {
               <button
                 className="button-link"
                 onClick={() => {
-                  showModal(confirmDelete);
+                  showModal(
+                    <ConfirmationDelete
+                      title="Are you sure to delete?"
+                      onYes={() => {
+                        onDelete(product.properties.product_id);
+                      }}
+                      onNo={closeModal}
+                    />
+                  );
                 }}
               >
                 Delete product

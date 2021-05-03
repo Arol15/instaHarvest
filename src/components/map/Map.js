@@ -8,7 +8,7 @@ import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
 
 import { selectProducts, setCurrentProduct } from "../../store/productsSlice";
 import mapboxgl from "mapbox-gl";
-import { arrangeMarkers } from "../../utils/map";
+import { arrangeMarkers } from "../../utils/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./map.css";
 

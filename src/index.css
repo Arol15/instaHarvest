@@ -180,7 +180,12 @@ footer div {
 
 .flexbox-row {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: center;
-  flex-wrap: wrap;
+}
+
+.flexbox-column {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
 }

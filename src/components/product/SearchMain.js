@@ -10,7 +10,7 @@ import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";
 import { updateProducts, updateLocation } from "../../store/productsSlice";
-import { parseLocation, getBrowserLocation } from "../../utils/map";
+import { parseLocation, getBrowserLocation } from "../../utils/utils";
 
 import "../map/mapboxGeocoder.css";
 

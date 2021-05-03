@@ -7,7 +7,7 @@ import Tooltip from "../UI/Tooltip";
 import Spinner from "../UI/Spinner";
 
 import { showMsg } from "../../store/modalSlice";
-import { addressObjToString } from "../../utils/map";
+import { addressObjToString } from "../../utils/utils";
 import "./profile.css";
 import "../map/mapboxGeocoder.css";
 

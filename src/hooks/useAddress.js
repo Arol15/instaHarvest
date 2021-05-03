@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
-import { checkAuth } from "../utils/localStorage";
-import { parseLocation } from "../utils/map";
+import { checkAuth, parseLocation } from "../utils/utils";
 import { showMsg } from "../store/modalSlice";
 
 /**

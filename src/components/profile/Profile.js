@@ -9,8 +9,7 @@ import UserChatsPage from "../chat/UserChatsPage";
 import UserProducts from "../product/UserProducts";
 import TabsMenu from "../UI/TabsMenu";
 
-import { datetimeToLocal } from "../../utils/datetime";
-import { logout, checkAuth } from "../../utils/localStorage";
+import { datetimeToLocal, logout, checkAuth } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
 import "./profile.css";

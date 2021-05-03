@@ -2,7 +2,7 @@ import { useReducer, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
 import axios from "axios";
-import { logout } from "../utils/localStorage";
+import { logout } from "../utils/utils";
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {

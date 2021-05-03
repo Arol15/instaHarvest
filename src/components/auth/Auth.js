@@ -7,9 +7,8 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
 
 import { validation } from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
+import { checkAuth, parseLocation } from "../../utils/utils";
 import { updateProfile } from "../../store/profileSlice";
-import { parseLocation } from "../../utils/map";
 
 import "../map/mapboxGeocoder.css";
 

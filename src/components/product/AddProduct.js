@@ -15,10 +15,12 @@ import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
 
 import { validation } from "../../form_validation/validation";
-import { checkAuth } from "../../utils/localStorage";
+import {
+  checkAuth,
+  createFormData,
+  addressObjToString,
+} from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
-import { createFormData } from "../../utils/images";
-import { addressObjToString } from "../../utils/map";
 import "../map/mapboxGeocoder.css";
 import "./addProduct.css";
 
@@ -138,7 +140,7 @@ const AddProduct = () => {
 
         const formDataObject = createFormData(filesToSend);
         sendRequest(
-          `/api/products/update_product_images/${data.product_id}`,
+          `/api/products/edit_product_images/${data.product_id}`,
           "POST",
           formDataObject,
           true

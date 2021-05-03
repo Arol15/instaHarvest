@@ -6,7 +6,7 @@ import { useModal } from "../hooks/hooks";
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
 
-import { checkAuth, logout } from "../utils/localStorage";
+import { checkAuth, logout } from "../utils/utils";
 import { selectProfile } from "../store/profileSlice";
 import { showMsg } from "../store/modalSlice";
 import "./MainNavbar.css";

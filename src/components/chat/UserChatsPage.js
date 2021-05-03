@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import Spinner from "../UI/Spinner";
 
 import { showMsg } from "../../store/modalSlice";
-import { datetimeToLocal } from "../../utils/datetime";
+import { datetimeToLocal } from "../../utils/utils";
 import "./chat.css";
 // import io from "socket.io-client";
 

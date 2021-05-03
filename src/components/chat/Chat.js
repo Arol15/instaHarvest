@@ -9,7 +9,7 @@ import { IoArrowBack } from "react-icons/io5";
 
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";
-import { datetimeToLocal } from "../../utils/datetime";
+import { datetimeToLocal } from "../../utils/utils";
 import {
   connectSocket,
   disconnectSocket,

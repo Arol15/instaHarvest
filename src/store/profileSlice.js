@@ -1,5 +1,5 @@
 import { createSlice, findNonSerializableValue } from "@reduxjs/toolkit";
-import { loadJSON, saveJSON } from "../utils/localStorage";
+import { loadJSON, saveJSON } from "../utils/utils";
 
 const storage = loadJSON("app_data");
 

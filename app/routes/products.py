@@ -138,47 +138,71 @@ def get_likes(product_id):
     }
 
 
-@bp.route("/update_product_images/<int:product_id>", methods=["POST"])
+@bp.route("/edit_product_images/<int:product_id>", methods=["POST", "DELETE"])
 @auth_required
-def update_product_images(product_id):
+def edit_product_images(product_id):
     user_id = session["id"]
     product = Product.query.filter_by(id=product_id).first()
     user = product.user
     if user_id != product.user_id:
         return {}, 403
-    total_images = product.images.count()
-    if total_images >= 4:
-        return {"error": "You already have 4 images saved. Delete them first."}, 404
-    count_uploaded = 0
-    rejected = []
-    for uploaded_file in request.files.getlist("file"):
-        if total_images == 4:
-            return {"msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"}, 200
-        image_name = f"{product.name}-{product_id}-{total_images}"
-        image_url = save_image(uploaded_file, user.uuid,
-                               image_name)
-        if (image_url == "NOT_ALLOWED" or image_url == "NOT_SAVED"):
-            rejected.append(uploaded_file.filename)
-            continue
-        image = Image(
-            product_id=product_id,
-            image_url=image_url)
-        db.session.add(image)
-        db.session.commit()
-        if total_images == 0:
-            product.primary_image = image_url
-            db.session.add(product)
+    if request.method == "POST":
+        total_images = product.images.count()
+        if total_images >= 4:
+            return {"error": "You already have 4 images saved. Delete them first."}, 404
+        count_uploaded = 0
+        rejected = []
+        for uploaded_file in request.files.getlist("file"):
+            print(count_uploaded)
+            if total_images == 4:
+                return {"msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"}, 200
+            image_name = f"{product.name}-{product_id}-{total_images}"
+            image_url = save_image(uploaded_file, user.uuid,
+                                   image_name)
+            if (image_url == "NOT_ALLOWED" or image_url == "NOT_SAVED"):
+                rejected.append(uploaded_file.filename)
+                continue
+            image = Image(
+                product_id=product_id,
+                image_url=image_url)
+            db.session.add(image)
             db.session.commit()
-        count_uploaded += 1
-        total_images += 1
+            if total_images == 0:
+                product.primary_image = image_url
+                db.session.add(product)
+                db.session.commit()
+            count_uploaded += 1
+            total_images += 1
 
-    msg = f"{count_uploaded} {'file has' if count_uploaded == 1 else 'files have'} been uploaded."
+        msg = f"{count_uploaded} {'file has' if count_uploaded == 1 else 'files have'} been uploaded."
 
-    if len(rejected) > 0:
-        msg += f" {len(rejected)} {'file was rejected: ' if len(rejected) == 1 else 'files were rejected: '} "
-    for r in rejected:
-        msg += f"{r} "
-    return {"msg": msg}, 200
+        if len(rejected) > 0:
+            msg += f" {len(rejected)} {'file was rejected: ' if len(rejected) == 1 else 'files were rejected: '} "
+        if count_uploaded == 0:
+            return {}, 404
+        for r in rejected:
+            msg += f"{r} "
+        return {"msg": msg}, 200
+
+    if request.method == "DELETE":
+        image_id = request.json.get("image_id", None)
+        uuid = product.user.uuid
+        if image_id is None:
+            return {}, 404
+        image = product.images.filter_by(id=image_id).first()
+        if image is None:
+            return {}, 404
+        db.session.delete(image)
+        db.session.commit()
+        image_name = image.image_url.split('/')[-1]
+        to_delete = os.path.join(
+            current_app.config["USERS_FOLDER"], uuid, image_name)
+        try:
+            os.remove(to_delete)
+        except:
+            print(
+                f"File {image_name} in {uuid} folder has not been deleted")
+        return {"msg": "The image has been deleted"}, 200
 
 
 @bp.route("/edit-product/<int:productId>", methods=["PATCH"])
