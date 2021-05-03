@@ -111,6 +111,7 @@ const ProductDetails = () => {
                 closeEdit={() => {
                   setEditImages(false);
                 }}
+                primaryImage={product.properties.primary_image}
               />
             ) : (
               <ProductPhotos

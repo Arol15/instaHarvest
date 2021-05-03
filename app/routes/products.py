@@ -205,16 +205,20 @@ def edit_product_images(product_id):
         return {"msg": "The image has been deleted"}, 200
 
 
-@bp.route("/edit-product/<int:productId>", methods=["PATCH"])
+@bp.route("/set_product_primary_image", methods=["PATCH"])
 @auth_required
-def edit_product(productId):
-    data = request.get_json()
-    product = Product.query.filter_by(id=productId).first()
-    for key, value in data.items():
-        setattr(product, key, value)
+def set_product_primary_image():
+    product_id = request.json.get("product_id", None)
+    image_url = request.json.get("image_url", None)
+    if product_id is None or image_url is None:
+        return {}, 404
+    product = Product.query.filter_by(id=product_id).first()
+    if product is None:
+        return {}, 404
+    product.primary_image = image_url
     db.session.add(product)
     db.session.commit()
-    return {"msg": "Product updated"}, 200
+    return {"msg": "Primary image has been updated"}, 200
 
 
 @bp.route("/delete_product", methods=["DELETE"])
@@ -243,3 +247,15 @@ def delete_product():
                     f"File {image.split('/')[-1]} in {uuid} folder has not been deleted")
 
     return {"msg": "Deleted"}, 200
+
+
+@bp.route("/edit-product/<int:productId>", methods=["PATCH"])
+@auth_required
+def edit_product(productId):
+    data = request.get_json()
+    product = Product.query.filter_by(id=productId).first()
+    for key, value in data.items():
+        setattr(product, key, value)
+    db.session.add(product)
+    db.session.commit()
+    return {"msg": "Product updated"}, 200

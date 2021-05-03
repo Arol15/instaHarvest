@@ -9,7 +9,7 @@ import { createFormData } from "../../utils/utils";
 import { selectCurrentProduct } from "../../store/productsSlice";
 import { showMsg } from "../../store/modalSlice";
 
-const EditProductPhotos = ({ closeEdit, updateProduct }) => {
+const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
   const { properties } = useSelector(selectCurrentProduct);
   const { product_images } = properties;
   const { isLoading, data, error, sendRequest } = useRequest();
@@ -49,6 +49,13 @@ const EditProductPhotos = ({ closeEdit, updateProduct }) => {
     }
   };
 
+  const onMakePrimary = (product_id, image_url) => {
+    sendRequest("/api/products/set_product_primary_image", "PATCH", {
+      product_id: product_id,
+      image_url: image_url,
+    });
+  };
+
   useEffect(() => {
     if (data && data.msg) {
       closeModal();
@@ -85,7 +92,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct }) => {
         {product_images.length > 0 ? (
           product_images.map((image) => {
             return (
-              <div className="flexbox-column">
+              <div className="flexbox-column prd-edit-images-image">
                 <img key={image.id} src={image.image_url} alt="" />
                 <button
                   className="button-link"
@@ -103,6 +110,20 @@ const EditProductPhotos = ({ closeEdit, updateProduct }) => {
                 >
                   Delete
                 </button>
+                {product_images.length > 1 ? (
+                  image.image_url === primaryImage ? (
+                    <p>Primary Image</p>
+                  ) : (
+                    <button
+                      className="button-link"
+                      onClick={() => {
+                        onMakePrimary(properties.product_id, image.image_url);
+                      }}
+                    >
+                      Make primary
+                    </button>
+                  )
+                ) : null}
               </div>
             );
           })
