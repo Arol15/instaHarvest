@@ -49,7 +49,7 @@ const ProfileUpdateImage = ({
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="prf-upload-image">
+    <div className="flexbox-column">
       {isLoading && <Spinner />}
       {title && <h3>{title}</h3>}
       {method === "upload" ? (

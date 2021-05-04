@@ -164,7 +164,9 @@ const useUploadImages = ({ multipleImages }) => {
         </div>
         <aside>
           {previewImages.length > 0 && <h4>Accepted files</h4>}
-          <div className="upload-images-thumbs-container">{previewImages}</div>
+          <div className="flexbox-row upload-images-thumbs-container">
+            {previewImages}
+          </div>
           {fileRejectionItems.length > 0 && <h4>Rejected files</h4>}
           <ul>{fileRejectionItems}</ul>
         </aside>

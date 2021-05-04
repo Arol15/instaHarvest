@@ -51,7 +51,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
               </div>
             )}
           </div>
-          <div className="prf-img-block">
+          <div className="flexbox-column prf-img-block">
             <img
               className="prf-img"
               src={profileImg ? profileImg : data.image_url}

@@ -31,7 +31,7 @@ const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
   return (
     <>
       {full ? (
-        <div className="prd-favorite-full">
+        <div className="flexbox-column prd-favorite-full">
           <button onClick={onClick}>
             <img src={icon} alt="" />{" "}
             <div className="inline-block prd-favorite-full-button-text">

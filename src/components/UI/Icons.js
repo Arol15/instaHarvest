@@ -3,7 +3,7 @@ import "./icons.css";
 
 const Icons = ({ onClick }) => {
   return (
-    <div className="icons-grid">
+    <div className="flexbox-row icons-grid">
       {icons.map((icon, ind) => {
         return (
           <div className="icons-icon-container border" key={ind}>

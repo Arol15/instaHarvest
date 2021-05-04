@@ -131,7 +131,7 @@ const ProductDetails = () => {
                 <FiEdit size="26px" style={{ margin: "2px" }} />
               </div>
             )}
-            <div className="prd-details-buttons">
+            <div className="flexbox-row prd-details-buttons">
               <ProductFavorites
                 product_id={product.properties.product_id}
                 authorized={product.properties.authorized}
@@ -168,7 +168,7 @@ const ProductDetails = () => {
             <Map width={360} />
           </div>
           {product.properties.personal ? (
-            <div className="prd-details-profile background">
+            <div className="flexbox-column prd-details-profile background">
               <p>Created: {datetimeToLocal(product.properties.created_at)} </p>
               {product.properties.updated_at && (
                 <p>Updated: {datetimeToLocal(product.properties.updated_at)}</p>
@@ -192,7 +192,7 @@ const ProductDetails = () => {
             </div>
           ) : (
             <div
-              className="prd-details-profile background"
+              className="flexbox-column prd-details-profile background"
               onClick={() =>
                 history.push(`/profile/${product.properties.user.profile_addr}`)
               }

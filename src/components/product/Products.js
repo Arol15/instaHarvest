@@ -60,7 +60,7 @@ const Products = () => {
         />
 
         <div
-          className={classnames("prd-grid", {
+          className={classnames("flexbox-row prd-grid", {
             "prd-hide-tab": currTab !== "products",
           })}
         >

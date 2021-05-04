@@ -122,7 +122,7 @@ const SearchMain = () => {
       <div className="form-danger">
         {formErrors.address && formErrors.address}
       </div>
-      <div className="prd-search-range">
+      <div className="flexbox-row prd-search-range">
         <div>Range: </div>
         <form>
           <input

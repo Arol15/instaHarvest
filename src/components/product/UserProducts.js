@@ -49,7 +49,7 @@ const UserProducts = ({ user_id, title }) => {
       <h2>{title}</h2>
       {isLoading && <Spinner />}
       {showProducts && (
-        <div className="prd-grid">
+        <div className="flexbox-row prd-grid">
           {userProducts.products.map((product) => {
             return (
               <div

@@ -231,9 +231,6 @@
 }
 
 .prf-img-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   position: relative;
   align-items: center;
   padding-top: 58px;
@@ -281,17 +278,10 @@
 
 /* ProfileUpdateImage*/
 
-.prf-upload-image {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .prf-upload-image-buttons button {
   margin: 10px;
   min-width: 40px;
   width: 100px;
-  /* margin: 10px auto; */
 }
 
 .prf-addresses div,

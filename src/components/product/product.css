@@ -4,10 +4,6 @@
 
 .prd-grid {
   margin: 20px 40px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 .prd-user-products-container {
@@ -41,11 +37,7 @@
 }
 
 .prd-search-range {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
-
   margin: 0 auto;
   margin-top: 20px;
 }
@@ -194,9 +186,6 @@
 }
 
 .prd-details-profile {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   margin: 0 40px;
   margin-top: 40px;
   padding: 20px;
@@ -223,12 +212,8 @@
 }
 
 .prd-details-buttons {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
   align-items: flex-start;
   margin: 0 auto;
-  /* margin-top: -20px; */
 }
 
 .prd-details-buttons button {
@@ -272,9 +257,6 @@
 /*  */
 
 .prd-favorite-full {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   width: 180px;
 }
 

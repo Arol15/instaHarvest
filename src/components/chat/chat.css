@@ -35,10 +35,10 @@
   max-width: 400px;
   width: 60vw;
   display: flex;
+  flex-direction: row;
   margin: 0 auto;
   margin-bottom: 20px;
   border-radius: 10px;
-  flex-direction: row;
   padding: 10px;
   padding-bottom: 5px;
   background-color: hsl(66, 100%, 85%);
