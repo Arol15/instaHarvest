@@ -729,7 +729,7 @@ showModal(children, classes);
 
 **children** - element to add to modal
 
-**type** - [string] css classes
+**type** - [string]: "error" - red background color, "ok" - green background color
 
 #### Example:
 

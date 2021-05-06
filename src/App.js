@@ -14,8 +14,14 @@ import MainNavbar from "./components/MainNavbar";
 import EditProduct from "./components/product/EditProduct";
 import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import styled from "styled-components";
+
+const Filler = styled.div`
+  visibility: hidden;
+  flex: 1;
+`;
 
 function App() {
   return (
@@ -57,7 +63,7 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
-        <div className="filler"></div>
+        <Filler />
       </Router>
       <ModalMsg />
       <Footer />

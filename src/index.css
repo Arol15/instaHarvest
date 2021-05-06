@@ -88,27 +88,8 @@ textarea:focus {
   background-color: hsla(0, 0%, 0%, 0.041);
 }
 
-.filler {
-  visibility: hidden;
-  flex: 1;
-}
-
 .home {
   text-align: center;
-}
-
-footer {
-  margin-top: 80px;
-  height: 80px;
-  width: 100%;
-  background-color: hsl(66, 100%, 75%);
-  position: relative;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-}
-footer div {
-  margin-top: 50px;
 }
 
 ::-webkit-scrollbar-track {
