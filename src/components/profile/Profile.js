@@ -36,7 +36,7 @@ const Profile = ({ tab }) => {
 
   useEffect(() => {
     if (data && data.msg) {
-      dispatch(showMsg({ open: true, msg: data.msg, classes: "mdl-ok" }));
+      dispatch(showMsg({ open: true, msg: data.msg, type: "ok" }));
     } else if (data) {
       dispatch(updateProfile({ ...data }));
     }
@@ -45,7 +45,7 @@ const Profile = ({ tab }) => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

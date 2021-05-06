@@ -44,7 +44,7 @@ const EditProduct = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else if (data) {
@@ -52,7 +52,7 @@ const EditProduct = () => {
         showMsg({
           open: true,
           msg: "Product has been added!",
-          classes: "mdl-ok",
+          type: "ok",
         })
       );
       history.push("/user-products");

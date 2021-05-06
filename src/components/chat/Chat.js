@@ -82,7 +82,7 @@ const Chat = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else if (data) {

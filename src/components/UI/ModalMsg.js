@@ -4,14 +4,32 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Portal from "./Portal";
 
 import { clearMsg, selectModal } from "../../store/modalSlice";
-import classnames from "classnames";
-import "../../index.css";
+import styled from "styled-components";
+
+const StyledMessage = styled.div`
+  z-index: 100;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  transform: ${(props) =>
+    props.active ? "translateY(0)" : "translateY(50px)"};
+  transition: all 300ms;
+  opacity: ${(props) => (props.active ? "1" : "0")};
+  text-align: center;
+  padding: 10px 0;
+  transition-duration: 500ms;
+  background-color: ${(props) => {
+    if (props.type === "error") {
+      return "#e61e14e6";
+    }
+    if (props.type === "ok") {
+      return "#4ac723e6";
+    }
+  }};
+`;
 
 const ModalMsg = () => {
-  const { open, msg, timeOut, classes } = useSelector(
-    selectModal,
-    shallowEqual
-  );
+  const { open, msg, timeOut, type } = useSelector(selectModal, shallowEqual);
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
 
@@ -58,13 +76,9 @@ const ModalMsg = () => {
     <>
       {(open || active) && (
         <Portal>
-          <div
-            className={classnames("mdl-msg", classes, {
-              "mdl-msg-active": active,
-            })}
-          >
+          <StyledMessage active={active} type={type}>
             {msg}
-          </div>
+          </StyledMessage>
         </Portal>
       )}
     </>

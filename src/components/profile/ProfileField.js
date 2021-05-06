@@ -31,9 +31,9 @@ const ProfileFild = (props) => {
   } = useForm({ [props.name]: props.value }, onSubmit, validation);
   useEffect(() => {
     if (error && errorNum !== 403) {
-      props.sendMsg(error, "mdl-error");
+      props.sendMsg(error, "error");
     } else if (data && data.msg) {
-      props.sendMsg(data.msg, "mdl-ok");
+      props.sendMsg(data.msg, "ok");
       props.update();
       setEditState(false);
     }

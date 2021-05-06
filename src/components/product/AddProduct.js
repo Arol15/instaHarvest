@@ -117,7 +117,7 @@ const AddProduct = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else if (error) {
@@ -125,7 +125,7 @@ const AddProduct = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
       history.push("/profile");
@@ -135,7 +135,7 @@ const AddProduct = () => {
           showMsg({
             open: true,
             msg: "Product has been added! Uploading images...",
-            classes: "mdl-ok",
+            type: "ok",
           })
         );
 
@@ -154,7 +154,7 @@ const AddProduct = () => {
           showMsg({
             open: true,
             msg: data.msg,
-            classes: "mdl-ok",
+            type: "ok",
           })
         );
         history.push("/profile");

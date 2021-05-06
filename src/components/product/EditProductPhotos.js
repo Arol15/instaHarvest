@@ -38,7 +38,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
         showMsg({
           open: true,
           msg: `Every product can have up to 4 images. You already have ${product_images.length} and want to upload ${filesToSend.length}`,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else {
@@ -64,7 +64,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
         showMsg({
           open: true,
           msg: data.msg,
-          classes: "mdl-ok",
+          type: "ok",
         })
       );
       updateProduct();
@@ -76,7 +76,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

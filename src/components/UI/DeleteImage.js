@@ -31,10 +31,10 @@ const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
 
   useEffect(() => {
     if (data && data.msg) {
-      showModal(data.msg, "mdl-ok");
+      showModal(data.msg, "ok");
       setCurrTab("close");
     } else if (error) {
-      showModal(error, "mdl-error");
+      showModal(error, "error");
     }
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 

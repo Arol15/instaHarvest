@@ -6,21 +6,21 @@ export const modalSlice = createSlice({
     open: false,
     msg: null,
     timeOut: null,
-    classes: null,
+    type: null,
   },
   reducers: {
     showMsg: (state, action) => {
-      const { msg, timeOut, classes } = action.payload;
+      const { msg, timeOut, type } = action.payload;
       state.open = true;
       state.msg = msg;
       state.timeOut = timeOut;
-      state.classes = classes;
+      state.type = type;
     },
     clearMsg: (state) => {
       state.open = false;
       state.msg = null;
       state.timeOut = null;
-      state.classes = null;
+      state.type = null;
     },
   },
 });
@@ -31,7 +31,7 @@ export const selectModal = (state) => ({
   open: state.modal.open,
   msg: state.modal.msg,
   timeOut: state.modal.timeOut,
-  classes: state.modal.classes,
+  type: state.modal.type,
 });
 
 export default modalSlice.reducer;

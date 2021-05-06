@@ -57,7 +57,7 @@ const useAddress = ({ id, placeholder }) => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else if (data) {

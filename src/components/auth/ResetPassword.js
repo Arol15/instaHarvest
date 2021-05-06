@@ -39,7 +39,7 @@ const ResetPassword = (props) => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else if (data && data.msg) {
@@ -47,7 +47,7 @@ const ResetPassword = (props) => {
         showMsg({
           open: true,
           msg: data.msg,
-          classes: "mdl-ok",
+          type: "ok",
         })
       );
       if (props.reset) {

@@ -729,7 +729,7 @@ showModal(children, classes);
 
 **children** - element to add to modal
 
-**classes** - [string] css classes
+**type** - [string] css classes
 
 #### Example:
 
@@ -744,9 +744,9 @@ const { modal, showModal, closeModal, isOpen } = useModal({
 
 useEffect(() => {
   if (error) {
-    showModal(error, "mdl-error");
+    showModal(error, "error");
   } else if (data && data.msg) {
-    showModal(data.msg, "mdl-ok");
+    showModal(data.msg, "ok");
   }
 }, [error, errorNum, data]);
 

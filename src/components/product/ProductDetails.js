@@ -94,7 +94,7 @@ const ProductDetails = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

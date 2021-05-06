@@ -60,7 +60,7 @@ const SearchMain = () => {
       showMsg({
         open: true,
         msg: err.message,
-        classes: "mdl-error",
+        type: "error",
       })
     );
   };
@@ -91,7 +91,7 @@ const SearchMain = () => {
           showMsg({
             open: true,
             msg: `No results per this location and in range of ${formData.range} mi`,
-            classes: "mdl-error",
+            type: "error",
           })
         );
       }
@@ -100,7 +100,7 @@ const SearchMain = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

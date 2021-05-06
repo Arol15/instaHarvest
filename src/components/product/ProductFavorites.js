@@ -20,7 +20,7 @@ const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
         showMsg({
           open: true,
           msg: "Please authorize!",
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

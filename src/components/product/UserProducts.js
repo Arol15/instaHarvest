@@ -38,7 +38,7 @@ const UserProducts = ({ user_id, title }) => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

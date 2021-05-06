@@ -42,7 +42,7 @@ const Addresses = () => {
           open: true,
           msg:
             "You can not delete the primary address. Change the primary address first",
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else {
@@ -71,7 +71,7 @@ const Addresses = () => {
         showMsg({
           open: true,
           msg: "Choose location",
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else {
@@ -93,7 +93,7 @@ const Addresses = () => {
         showMsg({
           open: true,
           msg: data.msg,
-          classes: "mdl-ok",
+          type: "ok",
         })
       );
       if (data.address_id) {
@@ -105,7 +105,7 @@ const Addresses = () => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }

@@ -102,9 +102,9 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
   useEffect(() => {
     if (error) {
-      showModal(error, "mdl-error");
+      showModal(error, "error");
     } else if (data && data.msg) {
-      showModal(data.msg, "mdl-ok");
+      showModal(data.msg, "ok");
     }
   }, [error, errorNum, data]); // eslint-disable-line react-hooks/exhaustive-deps
 

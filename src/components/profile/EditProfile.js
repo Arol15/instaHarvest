@@ -39,7 +39,7 @@ const Profile = ({ tab }) => {
 
   useEffect(() => {
     if (data && data.msg) {
-      dispatch(showMsg({ open: true, msg: data.msg, classes: "mdl-ok" }));
+      dispatch(showMsg({ open: true, msg: data.msg, type: "ok" }));
     } else if (data) {
       dispatch(updateProfile({ ...data }));
     }
@@ -48,7 +48,7 @@ const Profile = ({ tab }) => {
         showMsg({
           open: true,
           msg: error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     }
@@ -60,7 +60,7 @@ const Profile = ({ tab }) => {
         showMsg({
           open: true,
           msg: rq2.error,
-          classes: "mdl-error",
+          type: "error",
         })
       );
     } else if (rq2.data && rq2.data.msg) {
@@ -68,18 +68,18 @@ const Profile = ({ tab }) => {
         showMsg({
           open: true,
           msg: rq2.data.msg,
-          classes: "mdl-ok",
+          type: "ok",
         })
       );
     }
   }, [rq2.data, rq2.error, rq2.errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const sendMessage = (msg, classes) => {
+  const sendMessage = (msg, type) => {
     dispatch(
       showMsg({
         open: true,
         msg: msg,
-        classes: classes,
+        type: type,
       })
     );
   };

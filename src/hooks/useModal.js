@@ -5,8 +5,29 @@ import Portal from "../components/UI/Portal";
 import { FiX } from "react-icons/fi";
 
 import { showMsg } from "../store/modalSlice";
+import styled from "styled-components";
 import classnames from "classnames";
 import "./useModal.css";
+
+const InPlaceMessage = styled.div`
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: opacity 300ms;
+  opacity: ${(props) => (props.active ? "1" : "0")};
+  text-align: center;
+  border-radius: 0 0 10px 10px;
+  background-color: ${(props) => {
+    if (props.type === "error") {
+      return "#e61e14e6";
+    }
+    if (props.type === "ok") {
+      return "#4ac723e6";
+    }
+  }};
+`;
 
 const fetchReducer = (currState, action) => {
   switch (action.type) {
@@ -19,7 +40,7 @@ const fetchReducer = (currState, action) => {
       return {
         ...currState,
         children: action.children,
-        classes: action.classes,
+        style: action.style,
       };
 
     case "setOpen":
@@ -45,7 +66,7 @@ const fetchReducer = (currState, action) => {
  *  const {modal, showModal, closeModal, isOpen} = useModal({ withBackdrop, useTimer, inPlace, timeOut, disableClose });
  * ```
  * ```
- * showModal(children, classes);
+ * showModal(children, style);
  * ```
  */
 
@@ -60,17 +81,17 @@ const useModal = ({
     active: false,
     isOpen: false,
     children: null,
-    classes: null,
+    style: null,
     modal: null,
   });
   const backdrop = useRef(null);
   const dispatch = useDispatch();
-  const showModal = (children, classes) => {
+  const showModal = (children, style) => {
     dispatchFetch({ type: "setOpen", isOpen: true });
     dispatchFetch({
       type: "setChildren",
       children: children,
-      classes: classes,
+      style: style,
     });
   };
 
@@ -116,7 +137,7 @@ const useModal = ({
         showMsg({
           open: true,
           msg: fetchState.children,
-          classes: fetchState.classes,
+          type: fetchState.style,
         })
       );
     } else if (fetchState.isOpen) {
@@ -180,13 +201,12 @@ const useModal = ({
       dispatchFetch({
         type: "setModal",
         modal: (
-          <div
-            className={classnames("mdl-inpl", fetchState.classes, {
-              "mdl-inpl-active": fetchState.active && fetchState.isOpen,
-            })}
+          <InPlaceMessage
+            active={fetchState.active && fetchState.isOpen}
+            type={fetchState.style}
           >
             {fetchState.children}
-          </div>
+          </InPlaceMessage>
         ),
       });
     } else {
