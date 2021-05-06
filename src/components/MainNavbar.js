@@ -5,6 +5,7 @@ import { useModal } from "../hooks/hooks";
 
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
+import { Button, ButtonLink, ButtonLinkMenu } from "./styled/buttons";
 
 import { checkAuth, logout } from "../utils/utils";
 import { selectProfile } from "../store/profileSlice";
@@ -47,8 +48,8 @@ const MainNavbar = () => {
   const confirmLogout = (
     <>
       <p>Are you sure to logout?</p>
-      <button onClick={() => logoutUser(true)}>Yes</button>
-      <button onClick={() => logoutUser(false)}>No</button>
+      <Button onClick={() => logoutUser(true)}>Yes</Button>
+      <Button onClick={() => logoutUser(false)}>No</Button>
     </>
   );
 
@@ -81,30 +82,27 @@ const MainNavbar = () => {
               }
               onClick={onClickProfile}
             >
-              <button
-                className="button-link btn-main-menu"
+              <ButtonLinkMenu
                 onClick={() => {
                   onClickProfile();
                   history.push("/profile");
                 }}
               >
                 Profile
-              </button>
+              </ButtonLinkMenu>
 
-              <button
-                className="button-link btn-main-menu"
+              <ButtonLinkMenu
                 onClick={() => {
                   showModal(confirmLogout);
                 }}
               >
                 Logout
-              </button>
+              </ButtonLinkMenu>
             </DropDownMenu>
           </>
         ) : (
           <div className="main-navbar-links">
-            <button
-              className="button-link"
+            <ButtonLink
               onClick={() =>
                 showModal(
                   <AuthModal
@@ -118,7 +116,7 @@ const MainNavbar = () => {
               }
             >
               Sign In
-            </button>
+            </ButtonLink>
           </div>
         )}
       </nav>

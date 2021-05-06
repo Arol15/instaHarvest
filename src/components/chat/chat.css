@@ -99,14 +99,6 @@
   margin-right: 10px;
 }
 
-.msg-menu-button {
-  color: black;
-  outline: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 .chat-footer {
   /* display: flex;
   justify-content: center; */
@@ -118,19 +110,4 @@
   width: 100%;
   resize: none;
   border-radius: 10px;
-}
-.chat-footer button {
-  margin: 10px;
-  margin-bottom: 30px;
-  width: 60px;
-  height: 30px;
-  padding: 2px;
-}
-
-.chat-back-button {
-  width: 60px;
-  height: 30px;
-  padding: 2px;
-  /* margin: auto;
-  text-align: center; */
 }

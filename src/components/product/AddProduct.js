@@ -13,6 +13,7 @@ import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
+import { Button } from "../styled/buttons";
 
 import { validation } from "../../form_validation/validation";
 import {
@@ -272,7 +273,7 @@ const AddProduct = () => {
             </>
           )}
           <p></p>
-          <button>Add Product</button>
+          <Button>Add Product</Button>
         </form>
       </div>
       {modal}

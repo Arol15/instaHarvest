@@ -1,14 +1,15 @@
 import { useHistory } from "react-router-dom";
 
+import { Button } from "./styled/buttons";
+
 const ShareProducts = () => {
-    
-    const history = useHistory();
+  const history = useHistory();
 
-    return(
-        <div>
-            <button onClick = {() => history.push("/add-product")}>Share</button>
-        </div>
-    )
-}
+  return (
+    <div>
+      <Button onClick={() => history.push("/add-product")}>Share</Button>
+    </div>
+  );
+};
 
-export default ShareProducts; 
+export default ShareProducts;

@@ -2,6 +2,7 @@ import { useState, memo } from "react";
 
 import DropDownMenu from "../UI/DropDownMenu";
 import { MdMoreVert } from "react-icons/md";
+import { ButtonIcon, ButtonLinkMenu } from "../styled/buttons";
 
 import classnames from "classnames";
 import "./chat.css";
@@ -42,15 +43,13 @@ const Message = ({ msgId, onDeleteMsg, body, createdAt, sender, image }) => {
         <DropDownMenu
           open={openMenu}
           button={
-            <button className="msg-menu-button" onClick={onClick}>
+            <ButtonIcon className="msg-menu-button" onClick={onClick}>
               <MdMoreVert />
-            </button>
+            </ButtonIcon>
           }
           onClick={onClick}
         >
-          <button className="button-link" onClick={deleteMsg}>
-            Delete
-          </button>
+          <ButtonLinkMenu onClick={deleteMsg}>Delete</ButtonLinkMenu>
         </DropDownMenu>
       )}
     </div>
