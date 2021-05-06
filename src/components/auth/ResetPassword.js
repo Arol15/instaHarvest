@@ -5,6 +5,7 @@ import { useRequest, useForm } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
 import { Button } from "../styled/buttons";
+import { FormDanger } from "../styled/form";
 
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";
@@ -76,9 +77,7 @@ const ResetPassword = (props) => {
               onChange={handleInputChange}
               value={formData.email || ""}
             />
-            <div className="form-danger">
-              {formErrors.email && formErrors.email}
-            </div>
+            <FormDanger>{formErrors.email && formErrors.email}</FormDanger>
             <Button onClick={handleSubmit} disabled={isLoading}>
               Submit
             </Button>
@@ -96,9 +95,9 @@ const ResetPassword = (props) => {
               onChange={handleInputChange}
               value={formData.password || ""}
             />
-            <div className="form-danger">
+            <FormDanger>
               {formErrors.password && formErrors.password}
-            </div>
+            </FormDanger>
 
             <label>Confirm password: </label>
             <input
@@ -109,9 +108,9 @@ const ResetPassword = (props) => {
               onChange={handleInputChange}
               value={formData.confirm_pass || ""}
             />
-            <div className="form-danger">
+            <FormDanger>
               {formErrors.confirm_pass && formErrors.confirm_pass}
-            </div>
+            </FormDanger>
             <Button onClick={handleSubmit} disabled={isLoading}>
               Submit
             </Button>

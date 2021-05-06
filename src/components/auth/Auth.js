@@ -5,6 +5,7 @@ import { useRequest, useForm, useModal } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
+import { FormDanger } from "../styled/form";
 
 import { validation } from "../../form_validation/validation";
 import { checkAuth, parseLocation } from "../../utils/utils";
@@ -135,9 +136,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
                 onChange={handleInputChange}
                 value={formData.login || ""}
               />
-              <div className="form-danger">
-                {formErrors.login && formErrors.login}
-              </div>
+              <FormDanger>{formErrors.login && formErrors.login}</FormDanger>
             </>
           )}
 
@@ -150,9 +149,9 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
                 onChange={handleInputChange}
                 value={formData.username || ""}
               />
-              <div className="form-danger">
+              <FormDanger>
                 {formErrors.username && formErrors.username}
-              </div>
+              </FormDanger>
             </>
           )}
 
@@ -165,9 +164,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
                 onChange={handleInputChange}
                 value={formData.email || ""}
               />
-              <div className="form-danger">
-                {formErrors.email && formErrors.email}
-              </div>
+              <FormDanger>{formErrors.email && formErrors.email}</FormDanger>
             </>
           )}
 
@@ -181,9 +178,9 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
               onChange={handleInputChange}
               value={formData.password || ""}
             />
-            <div className="form-danger">
+            <FormDanger>
               {formErrors.password && formErrors.password}
-            </div>
+            </FormDanger>
           </>
           {view === "signup" && (
             <>
@@ -195,9 +192,9 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
                 onChange={handleInputChange}
                 value={formData.confirm_pass || ""}
               />
-              <div className="form-danger">
+              <FormDanger>
                 {formErrors.confirm_pass && formErrors.confirm_pass}
-              </div>
+              </FormDanger>
               <input
                 key="5"
                 type="text"
@@ -206,13 +203,13 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
                 onChange={handleInputChange}
                 value={formData.first_name || ""}
               />
-              <div className="form-danger">
+              <FormDanger>
                 {formErrors.first_name && formErrors.first_name}
-              </div>
+              </FormDanger>
               <div id="geocoder-auth" />
-              <div className="form-danger">
+              <FormDanger>
                 {formErrors.address && formErrors.address}
-              </div>
+              </FormDanger>
             </>
           )}
         </div>

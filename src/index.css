@@ -60,12 +60,6 @@ textarea:focus {
   box-shadow: 0 0 3pt 1pt hsl(0, 0%, 0%);
 }
 
-.form-danger {
-  height: fit-content;
-  color: red;
-  font-size: 0.8rem;
-}
-
 .border {
   border: 1px solid hsl(0, 2%, 75%);
 }

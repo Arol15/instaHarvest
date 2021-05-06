@@ -4,6 +4,7 @@ import { useRequest, useModal, useForm } from "../../hooks/hooks";
 import Auth from "../auth/Auth";
 import Spinner from "../UI/Spinner";
 import { Button, ButtonLink } from "../styled/buttons";
+import { FormDanger } from "../styled/form";
 
 import { validation } from "../../form_validation/validation";
 import statesList from "../../assets/data/states.json";
@@ -81,9 +82,9 @@ const ProfileFild = (props) => {
                     );
                   })}
                 </select>
-                <div className="form-danger">
+                <FormDanger>
                   {formErrors.us_state && formErrors.us_state}
-                </div>
+                </FormDanger>
               </>
             )}
 
@@ -104,9 +105,9 @@ const ProfileFild = (props) => {
                   onChange={handleInputChange}
                   value={formData.confirm_pass || ""}
                 ></input>
-                <div className="form-danger">
+                <FormDanger>
                   {formErrors.confirm_pass && formErrors.confirm_pass}
-                </div>
+                </FormDanger>
               </div>
             )}
 
@@ -119,9 +120,9 @@ const ProfileFild = (props) => {
                   onChange={handleInputChange}
                   value={formData[props.name] || ""}
                 ></input>
-                <div className="form-danger">
+                <FormDanger>
                   {formErrors[props.name] && formErrors[props.name]}
-                </div>
+                </FormDanger>
               </>
             )}
 

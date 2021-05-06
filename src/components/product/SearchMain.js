@@ -6,6 +6,7 @@ import { useForm, useRequest } from "../../hooks/hooks";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
 import { Button } from "../styled/buttons";
+import { FormDanger } from "../styled/form";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
@@ -120,9 +121,7 @@ const SearchMain = () => {
           <MdMyLocation size="30px" />
         </div>
       </div>
-      <div className="form-danger">
-        {formErrors.address && formErrors.address}
-      </div>
+      <FormDanger>{formErrors.address && formErrors.address}</FormDanger>
       <div className="flexbox-row prd-search-range">
         <div>Range: </div>
         <form>
@@ -138,7 +137,7 @@ const SearchMain = () => {
         </form>
         <div> mi</div>
       </div>
-      <div className="form-danger">{formErrors.range && formErrors.range}</div>
+      <FormDanger>{formErrors.range && formErrors.range}</FormDanger>
 
       <Button style={{ marginTop: "20px" }} onClick={handleSubmit}>
         Find

@@ -14,6 +14,7 @@ import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
 import { Button } from "../styled/buttons";
+import { FormDanger } from "../styled/form";
 
 import { validation } from "../../form_validation/validation";
 import {
@@ -186,9 +187,7 @@ const AddProduct = () => {
             onChange={handleInputChange}
             value={formData.name || ""}
           />
-          <div className="form-danger">
-            {formErrors.name && formErrors.name}
-          </div>
+          <FormDanger>{formErrors.name && formErrors.name}</FormDanger>
           <label>Product Type:</label>
           <select
             name="product_type"
@@ -201,9 +200,9 @@ const AddProduct = () => {
             <option>Herb</option>
             <option>Other</option>
           </select>
-          <div className="form-danger">
+          <FormDanger>
             {formErrors.product_type && formErrors.product_type}
-          </div>
+          </FormDanger>
           <label>Icon:</label>
           <img
             onClick={() => {
@@ -218,9 +217,9 @@ const AddProduct = () => {
             alt=""
           />
 
-          <div className="form-danger">
+          <FormDanger>
             {formErrors.product_icon && formErrors.product_icon}
-          </div>
+          </FormDanger>
           <label>Images:</label>
           {uploadImagesContainer}
           <label>Price: </label>
@@ -240,9 +239,9 @@ const AddProduct = () => {
             onChange={handleInputChange}
             value={formData.description || ""}
           />
-          <div className="form-danger">
+          <FormDanger>
             {formErrors.description && formErrors.description}
-          </div>
+          </FormDanger>
           <label>Location: </label>
           {addresses && (
             <>
@@ -267,9 +266,9 @@ const AddProduct = () => {
                 })}
               </select>
               {searchAddress && <div id="geocoder-add-loc" />}
-              <div className="form-danger">
+              <FormDanger>
                 {formErrors.location && formErrors.location}
-              </div>
+              </FormDanger>
             </>
           )}
           <p></p>
