@@ -177,83 +177,6 @@
   cursor: default;
 }
 
-/* ProductDetails */
-
-.prd-details-main {
-  margin: 0 40px;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.prd-details-profile {
-  margin: 0 40px;
-  margin-top: 40px;
-  padding: 20px;
-  position: relative;
-  width: 200px;
-  height: 200px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.prd-details-profile p {
-  margin: 5px 0;
-}
-
-.prd-details-profile div {
-  font-size: 0.8rem;
-}
-
-.prd-details-profile img {
-  margin: 0 auto;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-}
-
-.prd-details-buttons {
-  align-items: flex-start;
-  margin: 0 auto;
-}
-
-.prd-details-buttons button {
-  height: 40px;
-  font-size: 0.9rem;
-}
-
-.prd-details-description {
-  padding: 20px;
-  margin: 0 auto;
-  max-width: 360px;
-  text-align: start;
-  word-wrap: normal;
-  word-break: keep-all;
-}
-.prd-details-address {
-  max-width: 360px;
-  margin: 0 20px;
-  margin-top: 20px;
-}
-
-.prd-details-photos-edit-button {
-  transform: translateY(-34px);
-  background-color: hsla(0, 0%, 0%, 0.562);
-  color: white;
-  border-radius: 50%;
-  margin: 0 auto;
-  width: 34px;
-  height: 34px;
-  /* position: relative; */
-  cursor: pointer;
-  margin-bottom: 0;
-  bottom: 0;
-  transition: 0.25s ease-in-out;
-}
-
-.prd-details-photos-edit-button:hover {
-  background-color: hsla(0, 0%, 0%, 0.719);
-}
-
 /*  */
 
 .prd-favorite-full {
@@ -400,13 +323,4 @@
   padding-top: 0;
   margin-bottom: 0;
   margin-top: 0;
-}
-
-/* Media */
-
-@media screen and (max-width: 699px) {
-  .prd-details-main {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
 }

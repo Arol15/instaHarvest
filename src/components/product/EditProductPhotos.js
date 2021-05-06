@@ -5,6 +5,7 @@ import { useRequest, useUploadImages, useModal } from "../../hooks/hooks";
 import ConfirmationDelete from "../UI/ConfirmationDelete";
 import Spinner from "../UI/Spinner";
 import { ButtonLink, Button } from "../styled/buttons";
+import { FlexRow } from "../styled/flexbox";
 
 import { createFormData } from "../../utils/utils";
 import { selectCurrentProduct } from "../../store/productsSlice";
@@ -87,12 +88,15 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
       {modal}
       {isLoading && <Spinner />}
       <ButtonLink onClick={closeEdit}>Close edit</ButtonLink>
-      <div className="flexbox-row">
+      <FlexRow>
         {product_images.length > 0 ? (
           product_images.map((image) => {
             return (
-              <div className="flexbox-column prd-edit-images-image">
-                <img key={image.id} src={image.image_url} alt="" />
+              <div
+                key={image.id}
+                className="flexbox-column prd-edit-images-image"
+              >
+                <img src={image.image_url} alt="" />
                 <ButtonLink
                   onClick={() => {
                     showModal(
@@ -127,7 +131,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
         ) : (
           <img src={properties.product_icon} alt="" />
         )}
-      </div>
+      </FlexRow>
       {uploadImagesContainer}
       {filesToSend.length > 0 && <Button onClick={onUpload}>Upload</Button>}
     </div>

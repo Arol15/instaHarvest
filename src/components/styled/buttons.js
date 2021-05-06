@@ -2,9 +2,11 @@ import styled from "styled-components";
 
 export const Button = styled.button`
   font-family: "Lora", serif;
-  background: ${(props) => (props.active ? "#e89a7d" : "#ff4400")};
+  background: ${(props) =>
+    props.active ? props.theme.buttonDisabledColor : props.theme.buttonColor};
   outline: none;
-  color: ${(props) => (props.color ? props.color : "#ffffff")};
+  color: ${(props) =>
+    props.color ? props.color : props.theme.buttonTextColor};
   border: 0;
   padding: 8px;
   margin: 5px;
@@ -13,13 +15,16 @@ export const Button = styled.button`
   transition: 0.25s ease-in-out;
 
   &:hover {
-    background: ${(props) => (props.active ? "#e89a7d" : "#bd3200")};
+    background: ${(props) =>
+      props.active
+        ? props.theme.buttonDisabledColor
+        : props.theme.buttonHoverColor};
   }
 `;
 
 export const ButtonLink = styled.button`
   font-family: "Lora", serif;
-  color: ${(props) => (props.color ? props.color : "#0377b5")};
+  color: ${(props) => (props.color ? props.color : props.theme.linkColor)};
   text-decoration-line: underline;
   cursor: pointer;
   background: none;
@@ -41,4 +46,21 @@ export const ButtonIcon = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+`;
+
+export const ButtonCircleIcon = styled.button`
+  background-color: hsla(0, 0%, 0%, 0.562);
+  color: white;
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  margin-bottom: 0;
+  bottom: 0;
+  transition: 0.25s ease-in-out;
+
+  &:hover {
+    background-color: #000000b7;
+  }
 `;

@@ -66,7 +66,7 @@ textarea:focus {
 
 .background {
   border-radius: 5px;
-  background-color: hsla(0, 0%, 0%, 0.041);
+  background-color: #0000000a;
 }
 
 .home {

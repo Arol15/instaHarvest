@@ -16,7 +16,8 @@ import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import styled from "styled-components";
+import { theme } from "./theme/theme";
+import styled, { ThemeProvider } from "styled-components";
 
 const Filler = styled.div`
   visibility: hidden;
@@ -25,7 +26,7 @@ const Filler = styled.div`
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Router>
         <MainNavbar />
         <Switch>
@@ -67,7 +68,7 @@ function App() {
       </Router>
       <ModalMsg />
       <Footer />
-    </>
+    </ThemeProvider>
   );
 }
 

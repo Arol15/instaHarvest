@@ -11,7 +11,9 @@ import PublicProfileInfo from "../profile/PublicProfileInfo";
 import Map from "../map/Map";
 import EditProductPhotos from "./EditProductPhotos";
 import ConfirmationDelete from "../UI/ConfirmationDelete";
-import { Button, ButtonLink } from "../styled/buttons";
+import { Button, ButtonLink, ButtonCircleIcon } from "../styled/buttons";
+import { FlexRow, FlexColumn } from "../styled/flexbox";
+import { ContainerWithBackground } from "../styled/elements";
 
 import { FiEdit } from "react-icons/fi";
 import { showMsg } from "../../store/modalSlice";
@@ -24,6 +26,74 @@ import {
   datetimeToLocal,
   checkAuth,
 } from "../../utils/utils";
+import styled from "styled-components";
+
+const MainContainer = styled.div`
+  margin: 0 40px;
+  margin-top: 20px;
+  text-align: center;
+
+  @media (max-width: 699px) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+`;
+
+const Buttons = styled(FlexRow)`
+  align-items: flex-start;
+  margin: 0 auto;
+  margin-top: 5px;
+
+  button {
+    height: 40px;
+    margin: 0 10px;
+    font-size: 0.9rem;
+  }
+`;
+
+const SecondaryContainer = styled(FlexColumn)`
+  margin: 0 40px;
+  margin-top: 40px;
+  padding: 20px;
+  position: relative;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.secondaryBackgroundColor};
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.25s;
+
+  p {
+    margin: 5px 0;
+  }
+
+  div {
+    font-size: 0.8rem;
+  }
+
+  img {
+    argin: 0 auto;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+  }
+`;
+
+const ProductDescription = styled(ContainerWithBackground)`
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 360px;
+  text-align: start;
+  word-wrap: normal;
+  word-break: keep-all;
+`;
+
+const ProductDetailsAddress = styled.h3`
+  max-width: 360px;
+  margin: 0 20px;
+  margin-top: 20px;
+`;
 
 const ProductDetails = () => {
   const history = useHistory();
@@ -104,8 +174,8 @@ const ProductDetails = () => {
     <>
       {isLoading && <Spinner />}
       {product && (
-        <div className="flexbox-row prd-details-flexbox">
-          <div className="prd-details-main">
+        <FlexRow>
+          <MainContainer>
             {editImages ? (
               <EditProductPhotos
                 updateProduct={updateProduct}
@@ -123,16 +193,16 @@ const ProductDetails = () => {
               />
             )}
             {product.properties.personal && !editImages && (
-              <div
-                className="prd-details-photos-edit-button"
+              <ButtonCircleIcon
                 onClick={() => {
                   setEditImages(true);
                 }}
+                style={{ transform: "translateY(-34px)" }}
               >
                 <FiEdit size="26px" style={{ margin: "2px" }} />
-              </div>
+              </ButtonCircleIcon>
             )}
-            <div className="flexbox-row prd-details-buttons">
+            <Buttons>
               <ProductFavorites
                 product_id={product.properties.product_id}
                 authorized={product.properties.authorized}
@@ -158,18 +228,18 @@ const ProductDetails = () => {
                   Connect with the seller
                 </Button>
               ) : null}
-            </div>
+            </Buttons>
             <h2> {product.properties.name}</h2>
-            <p className="prd-details-description background">
+            <ProductDescription>
               {product.properties.description}
-            </p>
-            <h3 className="prd-details-address">
+            </ProductDescription>
+            <ProductDetailsAddress>
               {addressObjToString(product.geometry.properties)}
-            </h3>
+            </ProductDetailsAddress>
             <Map width={360} />
-          </div>
+          </MainContainer>
           {product.properties.personal ? (
-            <div className="flexbox-column prd-details-profile background">
+            <SecondaryContainer>
               <p>Created: {datetimeToLocal(product.properties.created_at)} </p>
               {product.properties.updated_at && (
                 <p>Updated: {datetimeToLocal(product.properties.updated_at)}</p>
@@ -189,10 +259,9 @@ const ProductDetails = () => {
               >
                 Delete product
               </ButtonLink>
-            </div>
+            </SecondaryContainer>
           ) : (
-            <div
-              className="flexbox-column prd-details-profile background"
+            <SecondaryContainer
               onClick={() =>
                 history.push(`/profile/${product.properties.user.profile_addr}`)
               }
@@ -209,9 +278,9 @@ const ProductDetails = () => {
                   "month-year"
                 )}
               />
-            </div>
+            </SecondaryContainer>
           )}
-        </div>
+        </FlexRow>
       )}
       {modal}
     </>
