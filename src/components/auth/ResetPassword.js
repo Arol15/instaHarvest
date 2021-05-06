@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useRequest, useForm } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
+import { Button } from "../styled/buttons";
 
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";
@@ -65,7 +66,7 @@ const ResetPassword = (props) => {
       {props.reset ? (
         <>
           <p>Enter your email address below</p>
-          <form onSubmit={handleSubmit}>
+          <form>
             <label>Email: </label>
             <input
               key="9"
@@ -78,12 +79,14 @@ const ResetPassword = (props) => {
             <div className="form-danger">
               {formErrors.email && formErrors.email}
             </div>
-            <input key="8" type="submit" disabled={isLoading} />
+            <Button onClick={handleSubmit} disabled={isLoading}>
+              Submit
+            </Button>
           </form>
         </>
       ) : (
         <>
-          <form onSubmit={handleSubmit}>
+          <form>
             <label>New password: </label>
             <input
               key="4"
@@ -109,7 +112,9 @@ const ResetPassword = (props) => {
             <div className="form-danger">
               {formErrors.confirm_pass && formErrors.confirm_pass}
             </div>
-            <input key="87" type="submit" disabled={isLoading} />
+            <Button onClick={handleSubmit} disabled={isLoading}>
+              Submit
+            </Button>
           </form>
         </>
       )}

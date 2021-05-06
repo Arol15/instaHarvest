@@ -60,7 +60,7 @@ const ProfileFild = (props) => {
       <b>{props.title}:</b>
       {editState ? (
         <div>
-          <form onSubmit={handleSubmit}>
+          <form>
             {props.name === "us_state" && (
               <>
                 <select
@@ -126,7 +126,9 @@ const ProfileFild = (props) => {
             )}
 
             <div>
-              <input type="submit" disabled={isLoading}></input>
+              <Button onClick={handleSubmit} disabled={isLoading}>
+                Submit
+              </Button>
               <Button
                 onClick={() => {
                   setEditState(false);

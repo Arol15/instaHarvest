@@ -216,7 +216,6 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
             </>
           )}
         </div>
-        {/* <input key="8" type="submit" disabled={isLoading} /> */}
         <Button onClick={handleSubmit} disabled={isLoading}>
           Submit
         </Button>
