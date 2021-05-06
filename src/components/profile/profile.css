@@ -210,13 +210,6 @@
   background-color: hsla(0, 0%, 0%, 0.37);
 }
 
-.prf-back-block .button-link {
-  position: absolute;
-  padding-left: 10px;
-  padding-top: 4px;
-  color: hsl(0, 0%, 100%);
-}
-
 .prf-back-img {
   position: relative;
   width: 100%;
@@ -241,13 +234,6 @@
   background-color: rgba(0, 0, 0, 0.37);
   transform: translateY(75%);
   clip-path: circle(76px at 50% -25%);
-}
-
-.prf-img-block > .button-link {
-  font-size: 1.1rem;
-  position: absolute;
-  color: white;
-  transform: translate(0, 45px);
 }
 
 .prf-img {

@@ -30,6 +30,12 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             {edit && (
               <div>
                 <ButtonLink
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "10px",
+                    paddingTop: "4px",
+                    color: "white",
+                  }}
                   onClick={() => {
                     showModal(
                       <div className="prf-edit-modal">
@@ -60,7 +66,12 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             {edit && <div></div>}
             {edit && (
               <ButtonLink
-                className="button-link"
+                style={{
+                  fontSize: "1.1rem",
+                  position: "absolute",
+                  color: "white",
+                  transform: "translate(0, 45px)",
+                }}
                 onClick={() => {
                   showModal(
                     <div className="prf-edit-modal">
