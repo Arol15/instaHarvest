@@ -4,6 +4,7 @@ import { useRequest, useUploadImages, useModal } from "../../hooks/hooks";
 
 import ConfirmationDelete from "../UI/ConfirmationDelete";
 import Spinner from "../UI/Spinner";
+import { ButtonLink, Button } from "../styled/buttons";
 
 import { createFormData } from "../../utils/utils";
 import { selectCurrentProduct } from "../../store/productsSlice";
@@ -85,17 +86,14 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
     <div className="prd-edit-images-main">
       {modal}
       {isLoading && <Spinner />}
-      <button className="button-link" onClick={closeEdit}>
-        Close edit
-      </button>
+      <ButtonLink onClick={closeEdit}>Close edit</ButtonLink>
       <div className="flexbox-row">
         {product_images.length > 0 ? (
           product_images.map((image) => {
             return (
               <div className="flexbox-column prd-edit-images-image">
                 <img key={image.id} src={image.image_url} alt="" />
-                <button
-                  className="button-link"
+                <ButtonLink
                   onClick={() => {
                     showModal(
                       <ConfirmationDelete
@@ -109,19 +107,18 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
                   }}
                 >
                   Delete
-                </button>
+                </ButtonLink>
                 {product_images.length > 1 ? (
                   image.image_url === primaryImage ? (
                     <p>Primary Image</p>
                   ) : (
-                    <button
-                      className="button-link"
+                    <ButtonLink
                       onClick={() => {
                         onMakePrimary(properties.product_id, image.image_url);
                       }}
                     >
                       Make primary
-                    </button>
+                    </ButtonLink>
                   )
                 ) : null}
               </div>
@@ -132,7 +129,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
         )}
       </div>
       {uploadImagesContainer}
-      {filesToSend.length > 0 && <button onClick={onUpload}>Upload</button>}
+      {filesToSend.length > 0 && <Button onClick={onUpload}>Upload</Button>}
     </div>
   );
 };

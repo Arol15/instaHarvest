@@ -150,7 +150,7 @@
 }
 
 .prd-hide-tab {
-  display: none;
+  display: none !important;
 }
 
 .prd-favorite-circle {
@@ -408,9 +408,5 @@
   .prd-details-main {
     margin-left: 10px;
     margin-right: 10px;
-  }
-
-  .prd-details-buttons button {
-    font-size: 0.7rem;
   }
 }

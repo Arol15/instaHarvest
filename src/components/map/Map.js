@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useScreen } from "../../hooks/hooks";
 
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
+import { ButtonLink } from "../styled/buttons";
 
 import { selectProducts, setCurrentProduct } from "../../store/productsSlice";
 import mapboxgl from "mapbox-gl";
@@ -111,14 +112,13 @@ const Map = ({ width }) => {
           </p>
 
           <p>{props.description}</p>
-          <button
-            className="button-link"
+          <ButtonLink
             onClick={() => {
               handleClick(marker);
             }}
           >
             Details
-          </button>
+          </ButtonLink>
         </div>
       </Popup>
     );

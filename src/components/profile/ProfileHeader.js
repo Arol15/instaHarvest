@@ -2,6 +2,7 @@ import { useModal } from "../../hooks/hooks";
 import { useSelector, shallowEqual } from "react-redux";
 
 import ProfileUpdateImage from "./ProfileUpdateImage";
+import { ButtonLink } from "../styled/buttons";
 
 import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";
@@ -28,8 +29,13 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             />
             {edit && (
               <div>
-                <button
-                  className="button-link"
+                <ButtonLink
+                  style={{
+                    position: "absolute",
+                    paddingLeft: "10px",
+                    paddingTop: "4px",
+                    color: "white",
+                  }}
                   onClick={() => {
                     showModal(
                       <div className="prf-edit-modal">
@@ -47,7 +53,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                   }}
                 >
                   Edit
-                </button>
+                </ButtonLink>
               </div>
             )}
           </div>
@@ -59,8 +65,13 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             />
             {edit && <div></div>}
             {edit && (
-              <button
-                className="button-link"
+              <ButtonLink
+                style={{
+                  fontSize: "1.1rem",
+                  position: "absolute",
+                  color: "white",
+                  transform: "translate(0, 45px)",
+                }}
                 onClick={() => {
                   showModal(
                     <div className="prf-edit-modal">
@@ -78,7 +89,7 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
                 }}
               >
                 Edit
-              </button>
+              </ButtonLink>
             )}
           </div>
         </div>

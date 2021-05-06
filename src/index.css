@@ -33,22 +33,15 @@ code {
     monospace;
 }
 
-a,
-.button-link {
+a {
   font-family: "Lora", serif;
-  color: hsl(201, 97%, 36%);
+  color: #0377b5;
   text-decoration-line: underline;
   cursor: pointer;
   background: none;
   margin: 0px !important;
 }
 
-.btn-main-menu {
-  color: hsl(0, 0%, 100%);
-  font-size: 1rem;
-}
-
-button,
 input[type="submit"] {
   background: hsl(16, 100%, 50%);
   /* font-size: 0.9rem; */
@@ -60,14 +53,6 @@ input[type="submit"] {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.25s ease-in-out;
-}
-
-button:hover {
-  background: hsl(16, 100%, 37%);
-}
-
-.button-link:hover {
-  background: hsla(16, 100%, 37%, 0);
 }
 
 input,
@@ -88,10 +73,10 @@ textarea:focus {
   box-shadow: 0 0 3pt 1pt hsl(0, 0%, 0%);
 }
 
-.inline-block {
+/* .inline-block {
   margin-block: 0;
   display: inline-block;
-}
+} */
 
 .form-danger {
   height: fit-content;

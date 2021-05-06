@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { FiX, FiCheck } from "react-icons/fi";
 import Tooltip from "../UI/Tooltip";
 import Spinner from "../UI/Spinner";
+import { Button, ButtonLink } from "../styled/buttons";
 
 import { showMsg } from "../../store/modalSlice";
 import { addressObjToString } from "../../utils/utils";
@@ -48,7 +49,7 @@ const Addresses = () => {
       showModal(
         <>
           <h3>Are you sure to delete?</h3>
-          <button
+          <Button
             onClick={() => {
               closeModal();
               sendRequest("/api/account/edit_user_address", "DELETE", {
@@ -57,8 +58,8 @@ const Addresses = () => {
             }}
           >
             Yes
-          </button>
-          <button onClick={closeModal}>No</button>
+          </Button>
+          <Button onClick={closeModal}>No</Button>
         </>
       );
     }
@@ -166,27 +167,26 @@ const Addresses = () => {
       {address && (
         <div className="prf-addresses-add-address">
           {!searchAddress ? (
-            <button
+            <ButtonLink
               onClick={() => {
                 setSearchAddress(true);
               }}
-              className="button-link"
               style={{ fontSize: "1.1rem" }}
             >
               Add address
-            </button>
+            </ButtonLink>
           ) : (
             <>
               <p>Add address:</p>
               <div className="prf-addresses-add-field" id="addresses-loc" />
-              <button onClick={onClickSubmit}>Submit</button>
-              <button
+              <Button onClick={onClickSubmit}>Submit</Button>
+              <Button
                 onClick={() => {
                   setSearchAddress(false);
                 }}
               >
                 Cancel
-              </button>
+              </Button>
             </>
           )}
         </div>

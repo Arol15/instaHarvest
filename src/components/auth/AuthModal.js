@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Auth from "../../components/auth/Auth";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
+import { Button } from "../styled/buttons";
 
 import classnames from "classnames";
 import "./auth.css";
@@ -18,20 +19,20 @@ const AuthModal = ({ closeModal, afterConfirm }) => {
   };
   return (
     <div>
-      <button
+      <Button
         disabled={view === "login"}
-        className={classnames("authButton", { active: view === "login" })}
+        active={view === "login"}
         onClick={switchComponents}
       >
         Log In
-      </button>
-      <button
+      </Button>
+      <Button
         disabled={view === "signup"}
-        className={classnames("authButton", { active: view === "signup" })}
+        active={view === "signup"}
         onClick={switchComponents}
       >
         Sign Up
-      </button>
+      </Button>
 
       <SwitchTransition>
         <CSSTransition

@@ -1,6 +1,9 @@
 import { useFavorites } from "../../hooks/hooks";
 import { useDispatch } from "react-redux";
 
+import { FlexRow } from "../styled/flexbox";
+import { Button } from "../styled/buttons";
+
 import { showMsg } from "../../store/modalSlice";
 import classnames from "classnames";
 import "./product.css";
@@ -32,12 +35,14 @@ const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
     <>
       {full ? (
         <div className="flexbox-column prd-favorite-full">
-          <button onClick={onClick}>
-            <img src={icon} alt="" />{" "}
-            <div className="inline-block prd-favorite-full-button-text">
-              {added ? "Added to favorites" : "Add to favorites"}
-            </div>
-          </button>
+          <Button onClick={onClick}>
+            <FlexRow>
+              <img src={icon} alt="" />{" "}
+              <div style={{ margin: "auto 0", marginLeft: "5px" }}>
+                {added ? "Added to favorites" : "Add to favorites"}
+              </div>
+            </FlexRow>
+          </Button>
           {totalExceptUser > 0 && (
             <div className="prd-favorite-full-text-bottom">{`${totalExceptUser} user${
               totalExceptUser > 1 ? "s have" : " has"

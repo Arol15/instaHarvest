@@ -3,9 +3,9 @@ import { useRequest, useModal, useForm } from "../../hooks/hooks";
 
 import Auth from "../auth/Auth";
 import Spinner from "../UI/Spinner";
+import { Button, ButtonLink } from "../styled/buttons";
 
 import { validation } from "../../form_validation/validation";
-
 import statesList from "../../assets/data/states.json";
 import "./profile.css";
 
@@ -127,14 +127,14 @@ const ProfileFild = (props) => {
 
             <div>
               <input type="submit" disabled={isLoading}></input>
-              <button
+              <Button
                 onClick={() => {
                   setEditState(false);
                   setFormData({ [props.name]: props.value });
                 }}
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -147,14 +147,13 @@ const ProfileFild = (props) => {
           ) : (
             <p>Empty</p>
           )}
-          <button
-            className="button-link"
+          <ButtonLink
             onClick={() => {
               setEditState(true);
             }}
           >
             {props.name === "password" ? "Change password" : "Edit"}
-          </button>
+          </ButtonLink>
         </>
       )}
 

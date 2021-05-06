@@ -11,6 +11,7 @@ import PublicProfileInfo from "../profile/PublicProfileInfo";
 import Map from "../map/Map";
 import EditProductPhotos from "./EditProductPhotos";
 import ConfirmationDelete from "../UI/ConfirmationDelete";
+import { Button, ButtonLink } from "../styled/buttons";
 
 import { FiEdit } from "react-icons/fi";
 import { showMsg } from "../../store/modalSlice";
@@ -138,7 +139,7 @@ const ProductDetails = () => {
                 full
               />
               {!product.properties.personal ? (
-                <button
+                <Button
                   onClick={() => {
                     if (checkAuth()) {
                       getChat();
@@ -155,7 +156,7 @@ const ProductDetails = () => {
                   }}
                 >
                   Connect with the seller
-                </button>
+                </Button>
               ) : null}
             </div>
             <h2> {product.properties.name}</h2>
@@ -173,8 +174,7 @@ const ProductDetails = () => {
               {product.properties.updated_at && (
                 <p>Updated: {datetimeToLocal(product.properties.updated_at)}</p>
               )}
-              <button
-                className="button-link"
+              <ButtonLink
                 onClick={() => {
                   showModal(
                     <ConfirmationDelete
@@ -188,7 +188,7 @@ const ProductDetails = () => {
                 }}
               >
                 Delete product
-              </button>
+              </ButtonLink>
             </div>
           ) : (
             <div

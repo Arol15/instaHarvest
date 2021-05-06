@@ -6,6 +6,7 @@ import { useRequest, useForm } from "../../hooks/hooks";
 import Message from "./Message";
 import Spinner from "../UI/Spinner";
 import { IoArrowBack } from "react-icons/io5";
+import { Button } from "../styled/buttons";
 
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";
@@ -100,14 +101,17 @@ const Chat = () => {
         {isLoading && <Spinner />}
         <div className="chat-header">
           <h1>Chat with {chatState && chatState.recipient_name}</h1>
-          <button
+          <Button
             onClick={() => {
               history.goBack();
             }}
-            className="chat-back-button"
+            style={{
+              width: "60px",
+              height: "30px",
+            }}
           >
             <IoArrowBack />
-          </button>
+          </Button>
         </div>
         <div className="chat-scroll">
           {chatMsgs &&
@@ -144,7 +148,7 @@ const Chat = () => {
               <div className="form-danger">
                 {formErrors.body && formErrors.body}
               </div>
-              <button onClick={handleSubmit}>Send</button>
+              <Button onClick={handleSubmit}>Send</Button>
             </form>
           </div>
         )}

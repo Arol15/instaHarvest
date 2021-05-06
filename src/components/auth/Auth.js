@@ -9,6 +9,7 @@ import Spinner from "../UI/Spinner";
 import { validation } from "../../form_validation/validation";
 import { checkAuth, parseLocation } from "../../utils/utils";
 import { updateProfile } from "../../store/profileSlice";
+import { Button } from "../styled/buttons";
 
 import "../map/mapboxGeocoder.css";
 
@@ -216,9 +217,9 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
           )}
         </div>
         {/* <input key="8" type="submit" disabled={isLoading} /> */}
-        <button onClick={handleSubmit} disabled={isLoading}>
+        <Button onClick={handleSubmit} disabled={isLoading}>
           Submit
-        </button>
+        </Button>
       </form>
 
       {inModal ? null : view === "login" ? (

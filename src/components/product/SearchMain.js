@@ -5,6 +5,7 @@ import { useForm, useRequest } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
+import { Button } from "../styled/buttons";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
@@ -139,9 +140,9 @@ const SearchMain = () => {
       </div>
       <div className="form-danger">{formErrors.range && formErrors.range}</div>
 
-      <button style={{ marginTop: "20px" }} onClick={handleSubmit}>
+      <Button style={{ marginTop: "20px" }} onClick={handleSubmit}>
         Find
-      </button>
+      </Button>
     </>
   );
 };

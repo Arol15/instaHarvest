@@ -3,6 +3,7 @@ import { useRequest, useModal, useUploadImages } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
 import DeleteImage from "../UI/DeleteImage";
+import { Button, ButtonLink } from "../styled/buttons";
 
 import { createFormData } from "../../utils/utils";
 import "./profile.css";
@@ -55,22 +56,21 @@ const ProfileUpdateImage = ({
       {method === "upload" ? (
         <h4>Upload images</h4>
       ) : (
-        <button
-          className="button-link"
+        <ButtonLink
           onClick={() => {
             setMethod("upload");
           }}
         >
           Upload images
-        </button>
+        </ButtonLink>
       )}
 
       {method === "upload" && (
         <>
           {uploadImagesContainer}
           <div className="prf-upload-image-buttons">
-            <button onClick={onSubmit}>Submit</button>
-            <button onClick={resetMethod}>Cancel</button>
+            <Button onClick={onSubmit}>Submit</Button>
+            <Button onClick={resetMethod}>Cancel</Button>
           </div>
         </>
       )}
@@ -85,14 +85,14 @@ const ProfileUpdateImage = ({
       )}
 
       {method === "close" && (
-        <button
+        <Button
           onClick={() => {
             closeModal();
             window.location.reload();
           }}
         >
           Close
-        </button>
+        </Button>
       )}
 
       {modal}

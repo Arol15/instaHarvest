@@ -8,6 +8,7 @@ import PublicProfileInfo from "./PublicProfileInfo";
 import UserChatsPage from "../chat/UserChatsPage";
 import UserProducts from "../product/UserProducts";
 import TabsMenu from "../UI/TabsMenu";
+import { Button } from "../styled/buttons";
 
 import { datetimeToLocal, logout, checkAuth } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
@@ -63,13 +64,13 @@ const Profile = ({ tab }) => {
             usState={profileData.us_state}
             joined={datetimeToLocal(profileData.created_at, "month-year")}
           />
-          <button
+          <Button
             onClick={() => {
               history.push("/profile/edit");
             }}
           >
             Edit profile
-          </button>
+          </Button>
           <TabsMenu
             currTab={currTab}
             tabs={[
