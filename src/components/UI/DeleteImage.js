@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useRequest, useModal } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
+import ConfirmationDelete from "../UI/ConfirmationDelete";
+import { ButtonLink } from "../styled/buttons";
+import { FlexRow } from "../styled/flexbox";
 
 const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
   const { modal, showModal } = useModal({
@@ -38,34 +41,29 @@ const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
   return (
     <>
       {isLoading && <Spinner />}
-      <button
-        className="button-link"
+      <ButtonLink
         onClick={() => {
           setCurrTab("delete");
           setDeleteImage(true);
         }}
       >
         {title}
-      </button>
+      </ButtonLink>
       {deleteImage && (
-        <div>
-          <p>Delete image? Are you sure?</p>
-          <button
-            onClick={() => {
-              setDeleteImage(false);
-            }}
-          >
-            No
-          </button>
-          <button
-            onClick={() => {
-              setDeleteImage(false);
-              deleteImageRequest(deleteImageAPI);
-            }}
-          >
-            Yes
-          </button>
-        </div>
+        <>
+          <h3>Delete image? Are you sure?</h3>
+          <FlexRow>
+            <ConfirmationDelete
+              onYes={() => {
+                setDeleteImage(false);
+                deleteImageRequest(deleteImageAPI);
+              }}
+              onNo={() => {
+                setDeleteImage(false);
+              }}
+            />
+          </FlexRow>
+        </>
       )}
       {modal}
     </>

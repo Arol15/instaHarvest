@@ -24,6 +24,7 @@ export const ButtonLink = styled.button`
   cursor: pointer;
   background: none;
   margin: 0px !important;
+  padding: 8px;
 
   &:hover {
     background: #bd320000;

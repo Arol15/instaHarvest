@@ -9,6 +9,7 @@ import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
 import Spinner from "../UI/Spinner";
 import Addresses from "./Addresses";
+import { Button, ButtonLink } from "../styled/buttons";
 
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
@@ -91,14 +92,14 @@ const Profile = ({ tab }) => {
     <>
       {isLoading && <Spinner />}
       <ProfileHeader edit={true} />
-      <button
-        className="prf-return-button"
+      <Button
+        style={{ width: "fit-content", margin: "0 auto", marginBottom: "20px" }}
         onClick={() => {
           history.push("/profile");
         }}
       >
         Return to profile
-      </button>
+      </Button>
 
       {profileData && (
         <div className="prf-edit">
@@ -169,12 +170,9 @@ const Profile = ({ tab }) => {
                   </ProfileField>
                   {!profileData.email_verified && (
                     <div>
-                      <button
-                        className="button-link"
-                        onClick={resendConfirmEmail}
-                      >
+                      <ButtonLink onClick={resendConfirmEmail}>
                         Resend confirmation email
-                      </button>
+                      </ButtonLink>
                     </div>
                   )}
                   <hr />

@@ -28,7 +28,7 @@ Find and share local homegrown fruits and vegetables
 
 **Front-end:**
 
-- [React](https://reactjs.org/) using functional components and hooks
+- [React](https://reactjs.org/) using functional components, styled components and hooks
 - Managing complex app state with [Redux](https://redux.js.org/)
 - Establishing connection between users in chats with [socket.io](https://socket.io/docs/v4)
 

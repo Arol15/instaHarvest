@@ -3,6 +3,8 @@ import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useRequest, useForm } from "../../hooks/hooks";
 
+import { Button } from "../styled/buttons";
+
 import { showMsg } from "../../store/modalSlice";
 import { validation } from "../../form_validation/validation";
 
@@ -104,14 +106,14 @@ const EditProduct = () => {
           onChange={handleInputChange}
           value={formData.description}
         />
-        <button>Save Changes</button>
-        <button
+        <Button>Save Changes</Button>
+        <Button
           onClick={() => {
             history.push("/user-products");
           }}
         >
           Cancel
-        </button>
+        </Button>
       </form>
     </div>
   );
