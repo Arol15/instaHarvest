@@ -153,7 +153,6 @@ def edit_product_images(product_id):
         count_uploaded = 0
         rejected = []
         for uploaded_file in request.files.getlist("file"):
-            print(count_uploaded)
             if total_images == 4:
                 return {"msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"}, 200
             image_name = f"{product.name}-{product_id}-{total_images}"
@@ -202,6 +201,11 @@ def edit_product_images(product_id):
         except:
             print(
                 f"File {image_name} in {uuid} folder has not been deleted")
+        total_images = product.images.count()
+        if total_images == 0:
+            product.primary_image = ""
+            db.session.add(product)
+            db.session.commit()
         return {"msg": "The image has been deleted"}, 200
 
 
