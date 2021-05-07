@@ -20,10 +20,10 @@ const StyledMessage = styled.div`
   transition-duration: 500ms;
   background-color: ${(props) => {
     if (props.type === "error") {
-      return "#e61e14e6";
+      return props.theme.errorColor;
     }
     if (props.type === "ok") {
-      return "#4ac723e6";
+      return props.theme.acceptColor;
     }
   }};
 `;

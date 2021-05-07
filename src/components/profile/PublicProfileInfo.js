@@ -23,7 +23,9 @@ const PublicProfileInfo = ({
   return (
     <div className="prf-pbl-top">
       <EmailConfirmIcon verified={emailVerified}>
-        <h2 className="inline-block">{firstName}</h2>
+        <span style={{ fontSize: "24px", fontWeight: "bold" }}>
+          {firstName}
+        </span>
       </EmailConfirmIcon>
 
       <p>

@@ -16,7 +16,7 @@ import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { theme } from "./theme/theme";
+import { lightTheme } from "./theme/theme";
 import styled, { ThemeProvider } from "styled-components";
 
 const Filler = styled.div`
@@ -26,7 +26,7 @@ const Filler = styled.div`
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={lightTheme}>
       <Router>
         <MainNavbar />
         <Switch>
