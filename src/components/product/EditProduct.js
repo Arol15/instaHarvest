@@ -3,7 +3,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useRequest, useForm } from "../../hooks/hooks";
 
-import { Button } from "../styled/buttons";
+import { Button } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { validation } from "../../form_validation/validation";

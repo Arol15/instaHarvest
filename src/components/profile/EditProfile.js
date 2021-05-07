@@ -9,7 +9,7 @@ import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
 import Spinner from "../UI/Spinner";
 import Addresses from "./Addresses";
-import { Button, ButtonLink } from "../styled/buttons";
+import { Button, ButtonLink } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";

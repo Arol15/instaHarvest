@@ -8,7 +8,7 @@ import PublicProfileInfo from "./PublicProfileInfo";
 import UserChatsPage from "../chat/UserChatsPage";
 import UserProducts from "../product/UserProducts";
 import TabsMenu from "../UI/TabsMenu";
-import { Button } from "../styled/buttons";
+import { Button } from "../styled/styled";
 
 import { datetimeToLocal, logout, checkAuth } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";

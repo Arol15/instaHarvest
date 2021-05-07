@@ -1,14 +1,34 @@
 import { useFavorites } from "../../hooks/hooks";
 import { useDispatch } from "react-redux";
 
-import { FlexRow } from "../styled/flexbox";
-import { Button } from "../styled/buttons";
+import {
+  FlexRow,
+  FlexColumn,
+  Button,
+  CircleContainer,
+  IconInsideCircleContainer,
+} from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
-import classnames from "classnames";
 import "./product.css";
+import styled from "styled-components";
 
-const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
+const Container = styled(FlexColumn)`
+  width: 190px;
+
+  & img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .full-text {
+    width: max-content;
+    font-size: 0.7rem;
+    color: hsl(0, 0%, 74%);
+  }
+`;
+
+const ProductFavorites = ({ product_id, authorized, full, position }) => {
   const { total, added, addToFavorites } = useFavorites(product_id);
   const dispatch = useDispatch();
 
@@ -34,7 +54,7 @@ const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
   return (
     <>
       {full ? (
-        <div className="flexbox-column prd-favorite-full">
+        <Container>
           <Button onClick={onClick}>
             <FlexRow>
               <img src={icon} alt="" />{" "}
@@ -44,27 +64,21 @@ const ProductFavorites = ({ product_id, authorized, addClass, full }) => {
             </FlexRow>
           </Button>
           {totalExceptUser > 0 && (
-            <div className="prd-favorite-full-text-bottom">{`${totalExceptUser} user${
+            <div className="full-text">{`${totalExceptUser} user${
               totalExceptUser > 1 ? "s have" : " has"
             } already added to favorites`}</div>
           )}
-        </div>
+        </Container>
       ) : (
-        <div
-          className={classnames("prd-favorite-circle", addClass, {
-            "prd-unauth": !authorized,
-          })}
-        >
-          <img
+        <CircleContainer cursor={authorized} position={position}>
+          <IconInsideCircleContainer
             onClick={onClick}
-            className={classnames("prd-heart-icon", {
-              "prd-favorite": total > 0,
-            })}
+            favorites={total > 0}
             src={icon}
             alt=""
           />
           {total > 0 && <p>{total}</p>}
-        </div>
+        </CircleContainer>
       )}
     </>
   );

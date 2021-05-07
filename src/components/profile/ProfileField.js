@@ -3,8 +3,7 @@ import { useRequest, useModal, useForm } from "../../hooks/hooks";
 
 import Auth from "../auth/Auth";
 import Spinner from "../UI/Spinner";
-import { Button, ButtonLink } from "../styled/buttons";
-import { FormDanger } from "../styled/form";
+import { Button, ButtonLink, FormDanger } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import statesList from "../../assets/data/states.json";

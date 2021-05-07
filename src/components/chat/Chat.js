@@ -6,8 +6,7 @@ import { useRequest, useForm } from "../../hooks/hooks";
 import Message from "./Message";
 import Spinner from "../UI/Spinner";
 import { IoArrowBack } from "react-icons/io5";
-import { Button } from "../styled/buttons";
-import { FormDanger } from "../styled/form";
+import { Button, FormDanger } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";

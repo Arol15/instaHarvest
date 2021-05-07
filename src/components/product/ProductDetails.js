@@ -11,9 +11,14 @@ import PublicProfileInfo from "../profile/PublicProfileInfo";
 import Map from "../map/Map";
 import EditProductPhotos from "./EditProductPhotos";
 import ConfirmationDelete from "../UI/ConfirmationDelete";
-import { Button, ButtonLink, ButtonCircleIcon } from "../styled/buttons";
-import { FlexRow, FlexColumn } from "../styled/flexbox";
-import { ContainerWithBackground } from "../styled/elements";
+import {
+  Button,
+  ButtonLink,
+  ButtonCircleIcon,
+  FlexRow,
+  FlexColumn,
+  ContainerWithBackground,
+} from "../styled/styled";
 
 import { FiEdit } from "react-icons/fi";
 import { showMsg } from "../../store/modalSlice";

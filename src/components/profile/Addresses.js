@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { FiX, FiCheck } from "react-icons/fi";
 import Tooltip from "../UI/Tooltip";
 import Spinner from "../UI/Spinner";
-import { Button, ButtonLink } from "../styled/buttons";
+import { Button, ButtonLink } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { addressObjToString } from "../../utils/utils";

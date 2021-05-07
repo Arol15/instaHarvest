@@ -1,4 +1,4 @@
-import { Button } from "../styled/buttons";
+import { Button } from "../styled/styled";
 
 const ConfirmationDelete = ({ title, onYes, onNo }) => {
   return (

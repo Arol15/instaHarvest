@@ -3,7 +3,7 @@ import { useRequest, useModal, useUploadImages } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
 import DeleteImage from "../UI/DeleteImage";
-import { Button, ButtonLink } from "../styled/buttons";
+import { Button, ButtonLink } from "../styled/styled";
 
 import { createFormData } from "../../utils/utils";
 import "./profile.css";

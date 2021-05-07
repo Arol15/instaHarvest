@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useScreen } from "../../hooks/hooks";
 
 import ReactMapGL, { Marker, Popup, FlyToInterpolator } from "react-map-gl";
-import { ButtonLink } from "../styled/buttons";
+import { ButtonLink } from "../styled/styled";
 
 import { selectProducts, setCurrentProduct } from "../../store/productsSlice";
 import mapboxgl from "mapbox-gl";

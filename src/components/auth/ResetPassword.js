@@ -4,8 +4,7 @@ import { useDispatch } from "react-redux";
 import { useRequest, useForm } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
-import { Button } from "../styled/buttons";
-import { FormDanger } from "../styled/form";
+import { Button, FormDanger } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";

@@ -3,8 +3,7 @@ import { useRequest, useModal } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
 import ConfirmationDelete from "../UI/ConfirmationDelete";
-import { ButtonLink } from "../styled/buttons";
-import { FlexRow } from "../styled/flexbox";
+import { ButtonLink, FlexRow } from "../styled/styled";
 
 const DeleteImage = ({ title, deleteImageAPI, currTab, setCurrTab }) => {
   const { modal, showModal } = useModal({

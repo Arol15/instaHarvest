@@ -5,12 +5,11 @@ import { useRequest, useForm, useModal } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
-import { FormDanger } from "../styled/form";
+import { FormDanger, Button } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import { checkAuth, parseLocation } from "../../utils/utils";
 import { updateProfile } from "../../store/profileSlice";
-import { Button } from "../styled/buttons";
 
 import "../map/mapboxGeocoder.css";
 

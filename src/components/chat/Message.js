@@ -2,7 +2,7 @@ import { useState, memo } from "react";
 
 import DropDownMenu from "../UI/DropDownMenu";
 import { MdMoreVert } from "react-icons/md";
-import { ButtonIcon, ButtonLinkMenu } from "../styled/buttons";
+import { ButtonIcon, ButtonLinkMenu } from "../styled/styled";
 
 import classnames from "classnames";
 import "./chat.css";

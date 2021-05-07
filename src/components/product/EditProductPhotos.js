@@ -4,8 +4,7 @@ import { useRequest, useUploadImages, useModal } from "../../hooks/hooks";
 
 import ConfirmationDelete from "../UI/ConfirmationDelete";
 import Spinner from "../UI/Spinner";
-import { ButtonLink, Button } from "../styled/buttons";
-import { FlexRow } from "../styled/flexbox";
+import { ButtonLink, Button, FlexRow } from "../styled/styled";
 
 import { createFormData } from "../../utils/utils";
 import { selectCurrentProduct } from "../../store/productsSlice";

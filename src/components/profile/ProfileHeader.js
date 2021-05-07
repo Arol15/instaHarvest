@@ -2,7 +2,7 @@ import { useModal } from "../../hooks/hooks";
 import { useSelector, shallowEqual } from "react-redux";
 
 import ProfileUpdateImage from "./ProfileUpdateImage";
-import { ButtonLink } from "../styled/buttons";
+import { ButtonLink } from "../styled/styled";
 
 import { selectProfile } from "../../store/profileSlice";
 import "./profile.css";

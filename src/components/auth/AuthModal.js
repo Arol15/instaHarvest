@@ -2,9 +2,8 @@ import { useState } from "react";
 
 import Auth from "../../components/auth/Auth";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
-import { Button } from "../styled/buttons";
+import { Button } from "../styled/styled";
 
-import classnames from "classnames";
 import "./auth.css";
 
 const AuthModal = ({ closeModal, afterConfirm }) => {

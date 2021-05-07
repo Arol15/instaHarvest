@@ -5,8 +5,7 @@ import { useForm, useRequest } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
-import { Button } from "../styled/buttons";
-import { FormDanger } from "../styled/form";
+import { Button, FormDanger } from "../styled/styled";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";

@@ -5,7 +5,7 @@ import { useModal } from "../hooks/hooks";
 
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import { Button, ButtonLink, ButtonLinkMenu } from "./styled/buttons";
+import { Button, ButtonLink, ButtonLinkMenu } from "./styled/styled";
 
 import { checkAuth, logout } from "../utils/utils";
 import { selectProfile } from "../store/profileSlice";

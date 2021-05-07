@@ -13,8 +13,7 @@ import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
-import { Button } from "../styled/buttons";
-import { FormDanger } from "../styled/form";
+import { Button, FormDanger } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import {

@@ -1,9 +1,9 @@
-import { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import Tooltip from "../UI/Tooltip";
 import ProductFavorites from "./ProductFavorites";
+import { CircleContainer, IconInsideCircleContainer } from "../styled/styled";
 
 import { setCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
@@ -39,49 +39,55 @@ const Product = ({ product, openMap, accentPersonal }) => {
         }
         alt={product.properties.name}
       />
-      <div
-        className="prd-circle prd-circle-top-left"
+      <CircleContainer
+        cursor
+        position="top-left"
         onClick={() => {
           history.push(`/profile/${product.properties.user.profile_addr}`);
         }}
       >
         <Tooltip text={product.properties.user.first_name}>
           <img
-            className="prd-user-icon"
+            style={{
+              marginTop: "10%",
+              height: "80%",
+              width: "80%",
+              borderRadius: "50%",
+            }}
             src={product.properties.user.image_url}
             alt={product.properties.user.first_name}
           />
         </Tooltip>
-      </div>
+      </CircleContainer>
       {product.geometry.properties.distance_mi !== null && (
-        <div className="prd-circle prd-circle-top-right">
+        <CircleContainer position="top-right">
           <p>{product.geometry.properties.distance_mi}</p>
           <p>mi</p>
-        </div>
+        </CircleContainer>
       )}
 
       <ProductFavorites
         product_id={product.properties.product_id}
         authorized={product.properties.authorized}
-        addClass="prd-circle-bottom-left"
+        position="bottom-left"
       />
 
       {openMap && (
-        <div
+        <CircleContainer
+          cursor
           onClick={() => {
             dispatch(setCurrentProduct(product));
             openMap();
           }}
-          className="prd-circle prd-circle-bottom-right"
+          position="bottom-right"
         >
           <Tooltip text="Show on map">
-            <img
-              className="prd-map-icon"
+            <IconInsideCircleContainer
               src="https://instaharvest.net/assets/images/icons/map.png"
               alt="map"
             />
           </Tooltip>
-        </div>
+        </CircleContainer>
       )}
     </div>
   );
