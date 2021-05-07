@@ -24,7 +24,51 @@ import {
 } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
 import "../map/mapboxGeocoder.css";
-import "./addProduct.css";
+import styled from "styled-components";
+
+const Container = styled.div`
+  padding: 0 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+
+  label {
+    text-align: left;
+    display: block;
+    margin: 15px 0;
+  }
+
+  h2 {
+    font-size: 30px;
+    color: ${({ theme }) => theme.buttonColor};
+  }
+
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  textarea {
+    resize: none;
+    border-radius: 10px;
+  }
+`;
+
+const Icon = styled.img`
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 5px;
+    border-width: 1px;
+  border-style: solid;
+  border-color: ${({ theme }) => theme.borderColor};
+  }
+`;
 
 const AddProduct = () => {
   const history = useHistory();
@@ -164,9 +208,9 @@ const AddProduct = () => {
   }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="add-product-main">
+    <>
       {isLoading && <Spinner uploadStatus={uploadStatus} />}
-      <div className="add-product">
+      <Container>
         <h2>Share Your Product</h2>
         <form
           onSubmit={(e) => {
@@ -180,7 +224,6 @@ const AddProduct = () => {
         >
           <label>Name of your product:</label>
           <input
-            className="add-product-input"
             placeholder="Name"
             type="text"
             name="name"
@@ -204,11 +247,11 @@ const AddProduct = () => {
             {formErrors.product_type && formErrors.product_type}
           </FormDanger>
           <label>Icon:</label>
-          <img
+
+          <Icon
             onClick={() => {
               showModal(<Icons onClick={onChooseIcon} />);
             }}
-            className="add-product-icon border"
             src={
               formData.product_icon
                 ? formData.product_icon
@@ -274,9 +317,9 @@ const AddProduct = () => {
           <p></p>
           <Button>Add Product</Button>
         </form>
-      </div>
+      </Container>
       {modal}
-    </div>
+    </>
   );
 };
 

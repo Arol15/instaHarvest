@@ -5,4 +5,5 @@ export const theme = {
   buttonHoverColor: "#bd3200",
   linkColor: "#0377b5",
   secondaryBackgroundColor: "#0000000a",
+  borderColor: "#c1bebe",
 };
