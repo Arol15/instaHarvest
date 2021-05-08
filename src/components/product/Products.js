@@ -5,10 +5,15 @@ import { useSelector } from "react-redux";
 import Product from "./Product";
 import Map from "../map/Map";
 import TabsMenu from "../UI/TabsMenu";
+import { FlexRow } from "../styled/styled";
 
-import classnames from "classnames";
 import { selectProducts } from "../../store/productsSlice";
-import "./product.css";
+import styled from "styled-components";
+
+const ProductsGrid = styled(FlexRow)`
+  margin: 20px 40px;
+  ${(props) => (props.show ? null : "display: none;")}
+`;
 
 const Products = () => {
   const history = useHistory();
@@ -59,11 +64,7 @@ const Products = () => {
           ]}
         />
 
-        <div
-          className={classnames("flexbox-row prd-grid", {
-            "prd-hide-tab": currTab !== "products",
-          })}
-        >
+        <ProductsGrid show={currTab === "products"}>
           {productsData.products.map((product) => {
             return (
               <div key={product.properties.product_id}>
@@ -77,13 +78,9 @@ const Products = () => {
               </div>
             );
           })}
-        </div>
+        </ProductsGrid>
 
-        <div
-          className={classnames({
-            "prd-hide-tab": currTab !== "map",
-          })}
-        >
+        <div style={currTab !== "map" ? { display: "none" } : {}}>
           <Map />
         </div>
       </>

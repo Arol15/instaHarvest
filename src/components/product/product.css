@@ -2,9 +2,9 @@
   text-align: center;
 }
 
-.prd-grid {
+/* .prd-grid {
   margin: 20px 40px;
-}
+} */
 
 .prd-user-products-container {
   display: flex;
@@ -40,9 +40,9 @@
   height: 30px;
 }
 
-.prd-hide-tab {
+/* .prd-hide-tab {
   display: none !important;
-}
+} */
 
 .prd-edit-images-main {
   padding-bottom: 40px;
