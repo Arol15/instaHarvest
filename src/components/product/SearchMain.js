@@ -6,14 +6,35 @@ import { useForm, useRequest } from "../../hooks/hooks";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
 import { Button, FormDanger } from "../styled/styled";
+import { FlexRow } from "../styled/styled";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
 import { showMsg } from "../../store/modalSlice";
 import { updateProducts, updateLocation } from "../../store/productsSlice";
 import { parseLocation, getBrowserLocation } from "../../utils/utils";
-
 import "../map/mapboxGeocoder.css";
+import styled from "styled-components";
+
+const RangeInput = styled(FlexRow)`
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 20px;
+
+  > div {
+    margin: 0 5px;
+  }
+
+  input[type="range"] {
+    padding: 0;
+    margin: 10px;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    height: 30px;
+  }
+`;
 
 const SearchMain = () => {
   const [geocoder] = useState(
@@ -121,7 +142,7 @@ const SearchMain = () => {
         </div>
       </div>
       <FormDanger>{formErrors.address && formErrors.address}</FormDanger>
-      <div className="flexbox-row prd-search-range">
+      <RangeInput>
         <div>Range: </div>
         <form>
           <input
@@ -135,7 +156,7 @@ const SearchMain = () => {
           ></input>
         </form>
         <div> mi</div>
-      </div>
+      </RangeInput>
       <FormDanger>{formErrors.range && formErrors.range}</FormDanger>
 
       <Button style={{ marginTop: "20px" }} onClick={handleSubmit}>

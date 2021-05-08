@@ -10,7 +10,6 @@ import {
 } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
-import "./product.css";
 import styled from "styled-components";
 
 const Container = styled(FlexColumn)`
