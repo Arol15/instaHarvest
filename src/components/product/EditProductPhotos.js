@@ -5,10 +5,34 @@ import { useRequest, useUploadImages, useModal } from "../../hooks/hooks";
 import ConfirmationDelete from "../UI/ConfirmationDelete";
 import Spinner from "../UI/Spinner";
 import { ButtonLink, Button, FlexRow } from "../styled/styled";
+import { FlexColumn } from "../styled/styled";
 
 import { createFormData } from "../../utils/utils";
 import { selectCurrentProduct } from "../../store/productsSlice";
 import { showMsg } from "../../store/modalSlice";
+import styled from "styled-components";
+
+const MainContainer = styled.div`
+  padding-bottom: 40px;
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    padding: 5px;
+  }
+`;
+
+const ProductImage = styled(FlexColumn)`
+  p,
+  button {
+    font-size: 0.9rem;
+    padding-bottom: 4px;
+    padding-top: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+`;
 
 const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
   const { properties } = useSelector(selectCurrentProduct);
@@ -83,7 +107,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
   }, [data, error]);
 
   return (
-    <div className="prd-edit-images-main">
+    <MainContainer>
       {modal}
       {isLoading && <Spinner />}
       <ButtonLink onClick={closeEdit}>Close edit</ButtonLink>
@@ -91,10 +115,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
         {product_images.length > 0 ? (
           product_images.map((image) => {
             return (
-              <div
-                key={image.id}
-                className="flexbox-column prd-edit-images-image"
-              >
+              <ProductImage key={image.id}>
                 <img src={image.image_url} alt="" />
                 <ButtonLink
                   onClick={() => {
@@ -124,7 +145,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
                     </ButtonLink>
                   )
                 ) : null}
-              </div>
+              </ProductImage>
             );
           })
         ) : (
@@ -133,7 +154,7 @@ const EditProductPhotos = ({ closeEdit, updateProduct, primaryImage }) => {
       </FlexRow>
       {uploadImagesContainer}
       {filesToSend.length > 0 && <Button onClick={onUpload}>Upload</Button>}
-    </div>
+    </MainContainer>
   );
 };
 

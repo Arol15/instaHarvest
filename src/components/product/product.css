@@ -16,23 +16,3 @@
 .prd-search-range input[type="number"]::-webkit-outer-spin-button {
   height: 30px;
 }
-
-.prd-edit-images-main {
-  padding-bottom: 40px;
-}
-
-.prd-edit-images-main img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  padding: 5px;
-}
-
-.prd-edit-images-image p,
-.prd-edit-images-image button {
-  font-size: 0.9rem;
-  padding-bottom: 4px;
-  padding-top: 0;
-  margin-bottom: 0;
-  margin-top: 0;
-}
