@@ -12,6 +12,8 @@ export {
   CircleContainer,
   IconInsideCircleContainer,
   ProductsGrid,
+  MainContainer,
+  ContainerWithForm,
 } from "./elements";
 
 export { Flex, FlexRow, FlexColumn } from "./flexbox";

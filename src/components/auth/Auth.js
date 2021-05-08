@@ -5,13 +5,25 @@ import { useRequest, useForm, useModal } from "../../hooks/hooks";
 
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
-import { FormDanger, Button } from "../styled/styled";
+import {
+  FormDanger,
+  Button,
+  ContainerWithForm,
+  FlexColumn,
+} from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import { checkAuth, parseLocation } from "../../utils/utils";
 import { updateProfile } from "../../store/profileSlice";
 
 import "../map/mapboxGeocoder.css";
+import styled from "styled-components";
+
+const AuthContainerWithForm = styled(ContainerWithForm)`
+  ${Button} {
+    margin: 20px;
+  }
+`;
 
 const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
   const { isLoading, data, error, errorNum, sendRequest } = useRequest();
@@ -116,7 +128,7 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
 
   // console.log(formData);
   return (
-    <div>
+    <AuthContainerWithForm>
       {modal}
       {isLoading && <Spinner />}
       {view === "login" && <h1>Log In</h1>}
@@ -216,22 +228,21 @@ const Auth = ({ view, inModal, closeModal, user, afterConfirm }) => {
           Submit
         </Button>
       </form>
-
-      {inModal ? null : view === "login" ? (
-        <Link to="/signup">Sign Up</Link>
-      ) : (
-        <Link to="/login">Login</Link>
-      )}
-      <p></p>
-      {view === "login" && (
-        <>
-          <Link onClick={closeModal} to="/reset-password">
-            Forgot your password?
-          </Link>
-          <p></p>
-        </>
-      )}
-    </div>
+      <FlexColumn>
+        {inModal ? null : view === "login" ? (
+          <Link to="/signup">Sign Up</Link>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
+        {view === "login" && (
+          <>
+            <Link onClick={closeModal} to="/reset-password">
+              Forgot your password?
+            </Link>
+          </>
+        )}
+      </FlexColumn>
+    </AuthContainerWithForm>
   );
 };
 

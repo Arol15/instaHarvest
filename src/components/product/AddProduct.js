@@ -13,7 +13,7 @@ import AuthModal from "../auth/AuthModal";
 import ToggleInput from "../UI/ToggleInput";
 import Spinner from "../UI/Spinner";
 import Icons from "../UI/Icons";
-import { Button, FormDanger } from "../styled/styled";
+import { Button, FormDanger, ContainerWithForm } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import {
@@ -24,38 +24,6 @@ import {
 import { showMsg } from "../../store/modalSlice";
 import "../map/mapboxGeocoder.css";
 import styled from "styled-components";
-
-const Container = styled.div`
-  padding: 0 20px;
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: center;
-
-  label {
-    text-align: left;
-    display: block;
-    margin: 15px 0;
-  }
-
-  h2 {
-    font-size: 30px;
-    color: ${({ theme }) => theme.buttonColor};
-  }
-
-  input[type="text"],
-  textarea,
-  select {
-    width: 100%;
-    padding: 6px 10px;
-    box-sizing: border-box;
-    display: block;
-  }
-
-  textarea {
-    resize: none;
-    border-radius: 10px;
-  }
-`;
 
 const Icon = styled.img`
     width: 50px;
@@ -209,7 +177,7 @@ const AddProduct = () => {
   return (
     <>
       {isLoading && <Spinner uploadStatus={uploadStatus} />}
-      <Container>
+      <ContainerWithForm>
         <h2>Share Your Product</h2>
         <form
           onSubmit={(e) => {
@@ -316,7 +284,7 @@ const AddProduct = () => {
           <p></p>
           <Button>Add Product</Button>
         </form>
-      </Container>
+      </ContainerWithForm>
       {modal}
     </>
   );

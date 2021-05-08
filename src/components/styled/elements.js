@@ -54,3 +54,42 @@ export const ProductsGrid = styled(FlexRow)`
   margin: 20px 40px;
   ${(props) => (props.hide ? "display: none;" : null)}
 `;
+
+export const MainContainer = styled.div`
+  padding: 0 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+export const ContainerWithForm = styled(MainContainer)`
+  padding: 0 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+
+  label {
+    text-align: left;
+    display: block;
+    margin: 15px 0;
+  }
+
+  h2 {
+    font-size: 30px;
+    color: ${({ theme }) => theme.buttonColor};
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  textarea {
+    resize: none;
+    border-radius: 10px;
+  }
+`;
