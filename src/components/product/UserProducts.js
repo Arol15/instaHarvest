@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Spinner from "../UI/Spinner";
 import Product from "./Product";
-import { ProductsGrid } from "../styled/styled";
+import { ProductsGrid, FlexColumn } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { updateProducts, selectProducts } from "../../store/productsSlice";
@@ -52,7 +52,10 @@ const UserProducts = ({ user_id, title }) => {
         <ProductsGrid>
           {userProducts.products.map((product) => {
             return (
-              <div key={product.properties.product_id}>
+              <FlexColumn
+                justify-content="space-between"
+                key={product.properties.product_id}
+              >
                 <div
                   style={{
                     width: "200px",
@@ -65,7 +68,7 @@ const UserProducts = ({ user_id, title }) => {
                   <p>{addressObjToString(product.geometry.properties)}</p>
                 </div>
                 <Product product={product} />
-              </div>
+              </FlexColumn>
             );
           })}
         </ProductsGrid>
