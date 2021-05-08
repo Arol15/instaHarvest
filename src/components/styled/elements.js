@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FlexRow } from "./flexbox";
 
 export const ContainerWithBackground = styled.div`
   border-radius: 5px;
@@ -47,4 +48,9 @@ export const IconInsideCircleContainer = styled.img`
 
   ${(props) =>
     props.favorites ? "width: 26px; height: 26px; padding-top: 12px;" : null}
+`;
+
+export const ProductsGrid = styled(FlexRow)`
+  margin: 20px 40px;
+  ${(props) => (props.hide ? "display: none;" : null)}
 `;

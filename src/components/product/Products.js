@@ -5,15 +5,10 @@ import { useSelector } from "react-redux";
 import Product from "./Product";
 import Map from "../map/Map";
 import TabsMenu from "../UI/TabsMenu";
-import { FlexRow } from "../styled/styled";
+import { ProductsGrid } from "../styled/styled";
 
 import { selectProducts } from "../../store/productsSlice";
 import styled from "styled-components";
-
-const ProductsGrid = styled(FlexRow)`
-  margin: 20px 40px;
-  ${(props) => (props.show ? null : "display: none;")}
-`;
 
 const Products = () => {
   const history = useHistory();
@@ -64,7 +59,7 @@ const Products = () => {
           ]}
         />
 
-        <ProductsGrid show={currTab === "products"}>
+        <ProductsGrid hide={currTab !== "products"}>
           {productsData.products.map((product) => {
             return (
               <div key={product.properties.product_id}>

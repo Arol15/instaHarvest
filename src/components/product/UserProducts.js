@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Spinner from "../UI/Spinner";
 import Product from "./Product";
+import { ProductsGrid } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { updateProducts, selectProducts } from "../../store/productsSlice";
-import "./product.css";
 import { addressObjToString } from "../../utils/utils";
 
 const UserProducts = ({ user_id, title }) => {
@@ -45,18 +45,20 @@ const UserProducts = ({ user_id, title }) => {
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="prd">
+    <div style={{ textAlign: "center" }}>
       <h2>{title}</h2>
       {isLoading && <Spinner />}
       {showProducts && (
-        <div className="flexbox-row prd-grid">
+        <ProductsGrid>
           {userProducts.products.map((product) => {
             return (
-              <div
-                className="prd-user-products-container"
-                key={product.properties.product_id}
-              >
-                <div className="prd-user-products-title">
+              <div key={product.properties.product_id}>
+                <div
+                  style={{
+                    width: "200px",
+                    margin: "0 auto",
+                  }}
+                >
                   <p>
                     <b>{product.properties.name}</b>
                   </p>
@@ -66,7 +68,7 @@ const UserProducts = ({ user_id, title }) => {
               </div>
             );
           })}
-        </div>
+        </ProductsGrid>
       )}
     </div>
   );
