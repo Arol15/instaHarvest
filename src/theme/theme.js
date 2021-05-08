@@ -8,4 +8,6 @@ export const lightTheme = {
   borderColor: "#c1bebe",
   errorColor: "#e61e14e6",
   acceptColor: "#4ac723e6",
+  elementHoverColor: "#0000002f",
+  elementSecondaryColor: "#ff440063",
 };
