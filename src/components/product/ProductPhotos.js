@@ -7,6 +7,7 @@ import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { selectCurrentProduct } from "../../store/productsSlice";
 import classnames from "classnames";
 import "./product.css";
+import styled from "styled-components";
 
 const ProductPhotos = ({ width = 340, height = 300, icon, personal }) => {
   const {
