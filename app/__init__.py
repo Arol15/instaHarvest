@@ -8,7 +8,7 @@ from logging.config import dictConfig
 from flask_socketio import SocketIO, send
 
 db = SQLAlchemy()
-migrate = Migrate()
+migrate = Migrate(compare_type=True)
 mail = Mail()
 session = Session()
 socketio = SocketIO()

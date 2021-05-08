@@ -199,7 +199,7 @@ class Address(db.Model):
     address = db.Column(db.String(100))
     lon = db.Column(db.Float, nullable=False)
     lat = db.Column(db.Float, nullable=False)
-    state = db.Column(db.String(12))
+    state = db.Column(db.String(24))
     city = db.Column(db.String(20))
     zip_code = db.Column(db.Integer)
     country = db.Column(db.String(20))
