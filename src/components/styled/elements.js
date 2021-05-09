@@ -105,7 +105,7 @@ export const StyledProfileField = styled.div`
     );
   }
 
-  input {
+  > input {
     margin: 10px 0;
     margin-left: -10px;
     max-width: 100%;

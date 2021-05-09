@@ -3,10 +3,18 @@ import { useRequest, useModal, useUploadImages } from "../../hooks/hooks";
 
 import Spinner from "../UI/Spinner";
 import DeleteImage from "../UI/DeleteImage";
-import { Button, ButtonLink } from "../styled/styled";
+import { Button, ButtonLink, FlexColumn } from "../styled/styled";
 
 import { createFormData } from "../../utils/utils";
-import "./profile.css";
+import styled from "styled-components";
+
+const Buttons = styled.div`
+  button {
+    margin: 10px;
+    min-width: 40px;
+    width: 100px;
+  }
+`;
 
 const ProfileUpdateImage = ({
   title,
@@ -50,7 +58,7 @@ const ProfileUpdateImage = ({
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flexbox-column">
+    <FlexColumn>
       {isLoading && <Spinner />}
       {title && <h3>{title}</h3>}
       {method === "upload" ? (
@@ -68,10 +76,10 @@ const ProfileUpdateImage = ({
       {method === "upload" && (
         <>
           {uploadImagesContainer}
-          <div className="prf-upload-image-buttons">
+          <Buttons>
             <Button onClick={onSubmit}>Submit</Button>
             <Button onClick={resetMethod}>Cancel</Button>
-          </div>
+          </Buttons>
         </>
       )}
 
@@ -96,7 +104,7 @@ const ProfileUpdateImage = ({
       )}
 
       {modal}
-    </div>
+    </FlexColumn>
   );
 };
 

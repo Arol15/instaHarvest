@@ -13,7 +13,6 @@ import { Button } from "../styled/styled";
 import { datetimeToLocal, logout, checkAuth } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
-import "./profile.css";
 
 const Profile = ({ tab }) => {
   const history = useHistory();
@@ -93,7 +92,7 @@ const Profile = ({ tab }) => {
             ]}
           />
 
-          <div className="prf-body">
+          <div style={{ width: "80%", margin: "0 auto" }}>
             {currTab === "chats" && <UserChatsPage />}
             {currTab === "products" && <UserProducts />}
           </div>

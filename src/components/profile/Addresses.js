@@ -5,12 +5,26 @@ import { useDispatch } from "react-redux";
 import { FiX, FiCheck } from "react-icons/fi";
 import Tooltip from "../UI/Tooltip";
 import Spinner from "../UI/Spinner";
-import { Button, ButtonLink } from "../styled/styled";
+import { Button, ButtonLink, FlexRow } from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { addressObjToString } from "../../utils/utils";
-import "./profile.css";
 import "../map/mapboxGeocoder.css";
+import styled from "styled-components";
+
+const AddressField = styled(FlexRow)`
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-bottom: 10px;
+
+  & > div,
+  & > p {
+    text-align: start;
+    word-wrap: normal;
+    word-break: keep-all;
+  }
+`;
 
 const Addresses = () => {
   const [requestData, setRequestData] = useState(null);
@@ -123,49 +137,44 @@ const Addresses = () => {
         addresses.map((addr, ind) => {
           const isPrimary = addr.properties.primary_address;
           return (
-            <div key={ind} className="prf-addresses">
-              <div className="prf-address-flexbox">
-                <div>{addressObjToString(addr.properties)}</div>
-                <div>
-                  <Tooltip
-                    style={{ marginBottom: "10px" }}
-                    text={isPrimary ? "Can not delete" : "Delete"}
-                  >
-                    <FiX
-                      onClick={() =>
-                        onClickDelete(isPrimary, addr.properties.id)
-                      }
-                      color={isPrimary ? "#a3a3a3" : "red"}
-                      size="34px"
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Tooltip>
-                </div>
-                <div>
-                  <Tooltip
-                    style={{ marginBottom: "10px" }}
-                    text={
-                      isPrimary ? "Primary address" : "Make as primary address"
-                    }
-                  >
-                    <FiCheck
-                      onClick={() =>
-                        onClickMakePrimary(isPrimary, addr.properties.id)
-                      }
-                      color={isPrimary ? "#00ac00" : "#a3a3a3"}
-                      size="34px"
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Tooltip>
-                </div>
+            <AddressField key={ind}>
+              <div>{addressObjToString(addr.properties)}</div>
+              <div>
+                <Tooltip
+                  style={{ marginBottom: "10px" }}
+                  text={isPrimary ? "Can not delete" : "Delete"}
+                >
+                  <FiX
+                    onClick={() => onClickDelete(isPrimary, addr.properties.id)}
+                    color={isPrimary ? "#a3a3a3" : "red"}
+                    size="34px"
+                    style={{ cursor: "pointer" }}
+                  />
+                </Tooltip>
               </div>
-              <hr />
-            </div>
+              <div>
+                <Tooltip
+                  style={{ marginBottom: "10px" }}
+                  text={
+                    isPrimary ? "Primary address" : "Make as primary address"
+                  }
+                >
+                  <FiCheck
+                    onClick={() =>
+                      onClickMakePrimary(isPrimary, addr.properties.id)
+                    }
+                    color={isPrimary ? "#00ac00" : "#a3a3a3"}
+                    size="34px"
+                    style={{ cursor: "pointer" }}
+                  />
+                </Tooltip>
+              </div>
+            </AddressField>
           );
         })}
 
       {address && (
-        <div className="prf-addresses-add-address">
+        <div>
           {!searchAddress ? (
             <ButtonLink
               onClick={() => {
@@ -178,7 +187,7 @@ const Addresses = () => {
           ) : (
             <>
               <p>Add address:</p>
-              <div className="prf-addresses-add-field" id="addresses-loc" />
+              <div id="addresses-loc" />
               <Button onClick={onClickSubmit}>Submit</Button>
               <Button
                 onClick={() => {

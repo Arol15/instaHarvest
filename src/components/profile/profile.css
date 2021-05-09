@@ -1,8 +1,3 @@
-/* .prf-edit {
-  display: flex;
-  flex-direction: row;
-} */
-
 .prf-side-menu {
   position: absolute;
   text-align: left;
@@ -101,53 +96,7 @@
   padding-bottom: 52px;
 }
 
-/* .prf-change-pass p {
-  margin: 0;
-} */
-
 .prf-pbl-top {
   margin-top: 20px;
   text-align: center;
-}
-
-.prf-body {
-  width: 80%;
-  margin: 0 auto;
-}
-
-/* ProfileUpdateImage*/
-
-.prf-upload-image-buttons button {
-  margin: 10px;
-  min-width: 40px;
-  width: 100px;
-}
-
-.prf-addresses div,
-.prf-addresses p {
-  text-align: start;
-  word-wrap: normal;
-  word-break: keep-all;
-}
-
-.prf-address-flexbox {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  /* flex-wrap: wrap; */
-  align-items: center;
-}
-.prf-addresses-add-address p {
-  font-size: 1.1rem;
-}
-
-.prf-addresses-add-field {
-  display: flex;
-  max-width: 100%;
-  height: 100%;
-  padding-bottom: 10px;
-}
-
-.prf-addresses-add-field input {
-  margin: 0;
 }
