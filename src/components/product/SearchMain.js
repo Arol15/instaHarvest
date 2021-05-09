@@ -159,7 +159,7 @@ const SearchMain = () => {
       </RangeInput>
       <FormDanger>{formErrors.range && formErrors.range}</FormDanger>
 
-      <Button style={{ marginTop: "20px" }} onClick={handleSubmit}>
+      <Button css="margin-top: 20px;" onClick={handleSubmit}>
         Find
       </Button>
     </>

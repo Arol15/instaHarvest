@@ -45,7 +45,7 @@ const UserProducts = ({ user_id, title }) => {
   }, [data, error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div css="text-align: center;">
       <h2>{title}</h2>
       {isLoading && <Spinner />}
       {showProducts && (
@@ -57,10 +57,10 @@ const UserProducts = ({ user_id, title }) => {
                 key={product.properties.product_id}
               >
                 <div
-                  style={{
-                    width: "200px",
-                    margin: "0 auto",
-                  }}
+                  css={`
+                    width: 200px;
+                    margin: 0 auto;
+                  `}
                 >
                   <p>
                     <b>{product.properties.name}</b>

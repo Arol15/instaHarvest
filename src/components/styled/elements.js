@@ -20,7 +20,7 @@ export const CircleContainer = styled.div`
   width: 60px;
   background-color: #1c1c1c69;
   border-radius: 50%;
-  cursor: ${(props) => (props.cursor ? "pointer" : "default")};
+  cursor: ${(props) => (props.showCursor ? "pointer" : "default")};
   ${(props) => (props.position.includes("top") ? "top: 0;" : null)}
   ${(props) => (props.position.includes("left") ? "left: 0;" : null)}
   ${(props) => (props.position.includes("bottom") ? "bottom: 0;" : null)}

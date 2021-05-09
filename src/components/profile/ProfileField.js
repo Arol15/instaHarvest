@@ -94,7 +94,12 @@ const ProfileFild = (props) => {
               )}
 
               {props.name === "password" && (
-                <div style={{ width: "70%", margin: "0 auto" }}>
+                <div
+                  css={`
+                    width: 70%;
+                    margin: 0 auto;
+                  `}
+                >
                   <FlexColumn>
                     <input
                       placeholder="New password"

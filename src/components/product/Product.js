@@ -66,7 +66,7 @@ const Product = ({ product, openMap, accentPersonal }) => {
         alt={product.properties.name}
       />
       <CircleContainer
-        cursor
+        showCursor
         position="top-left"
         onClick={() => {
           history.push(`/profile/${product.properties.user.profile_addr}`);
@@ -74,12 +74,12 @@ const Product = ({ product, openMap, accentPersonal }) => {
       >
         <Tooltip text={product.properties.user.first_name}>
           <img
-            style={{
-              marginTop: "10%",
-              height: "80%",
-              width: "80%",
-              borderRadius: "50%",
-            }}
+            css={`
+              margin-top: 10%;
+              height: 80%;
+              width: 80%;
+              border-radius: 50%;
+            `}
             src={product.properties.user.image_url}
             alt={product.properties.user.first_name}
           />
@@ -100,7 +100,7 @@ const Product = ({ product, openMap, accentPersonal }) => {
 
       {openMap && (
         <CircleContainer
-          cursor
+          showCursor
           onClick={() => {
             dispatch(setCurrentProduct(product));
             openMap();

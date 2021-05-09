@@ -112,12 +112,12 @@ const ProfileHeader = ({ edit, profileImg, profileBackImg }) => {
             {edit && <div></div>}
             {edit && (
               <ButtonLink
-                style={{
-                  fontSize: "1.1rem",
-                  position: "absolute",
-                  color: "white",
-                  transform: "translate(0, 45px)",
-                }}
+                css={`
+                  fontsize: 1.1rem;
+                  position: absolute;
+                  color: white;
+                  transform: translate(0, 45px);
+                `}
                 onClick={() => {
                   showModal(
                     <ModalContainer>

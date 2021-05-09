@@ -20,9 +20,19 @@ const PublicProfileInfo = ({
   }
 
   return (
-    <div style={{ marginTop: "20px", textAlign: "center" }}>
+    <div
+      css={`
+        margin-top: 20px;
+        text-align: center;
+      `}
+    >
       <EmailConfirmIcon verified={emailVerified}>
-        <span style={{ fontSize: "24px", fontWeight: "bold" }}>
+        <span
+          css={`
+            font-size: 24px;
+            font-weight: bold;
+          `}
+        >
           {firstName}
         </span>
       </EmailConfirmIcon>

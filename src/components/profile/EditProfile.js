@@ -120,7 +120,11 @@ const EditProfile = ({ tab }) => {
       {isLoading && <Spinner />}
       <ProfileHeader edit={true} />
       <Button
-        style={{ width: "fit-content", margin: "0 auto", marginBottom: "20px" }}
+        css={`
+          width: fit-content;
+          margin: 0 auto;
+          margin-bottom: 20px;
+        `}
         onClick={() => {
           history.push("/profile");
         }}

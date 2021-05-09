@@ -180,7 +180,7 @@ const Addresses = () => {
               onClick={() => {
                 setSearchAddress(true);
               }}
-              style={{ fontSize: "1.1rem" }}
+              css="font-size: 1.1rem;"
             >
               Add address
             </ButtonLink>

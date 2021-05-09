@@ -50,7 +50,6 @@ function App() {
           </Route>
           <Route path="/add-product" component={AddProduct} exact />
           <Route path="/user-products" component={UserProducts} />
-          <Route path="/edit-product" component={EditProduct} />
           <Route path="/product-info" component={ProductDetails} />
           <Route path="/chats/:name" component={Chat} />
           <Route path="/profile/:addr" component={PublicProfile} />

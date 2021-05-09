@@ -57,7 +57,12 @@ const ProductFavorites = ({ product_id, authorized, full, position }) => {
           <Button onClick={onClick}>
             <FlexRow>
               <img src={icon} alt="" />{" "}
-              <div style={{ margin: "auto 0", marginLeft: "5px" }}>
+              <div
+                css={`
+                  margin: auto 0;
+                  marginleft: 5px;
+                `}
+              >
                 {added ? "Added to favorites" : "Add to favorites"}
               </div>
             </FlexRow>
@@ -69,7 +74,7 @@ const ProductFavorites = ({ product_id, authorized, full, position }) => {
           )}
         </Container>
       ) : (
-        <CircleContainer cursor={authorized} position={position}>
+        <CircleContainer showCursor={authorized} position={position}>
           <IconInsideCircleContainer
             onClick={onClick}
             favorites={total > 0}

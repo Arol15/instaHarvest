@@ -78,7 +78,7 @@ const SecondaryContainer = styled(FlexColumn)`
   }
 
   img {
-    argin: 0 auto;
+    margin: 0 auto;
     height: 80px;
     width: 80px;
     border-radius: 50%;
@@ -202,7 +202,7 @@ const ProductDetails = () => {
                 onClick={() => {
                   setEditImages(true);
                 }}
-                style={{ transform: "translateY(-34px)" }}
+                css="transform: translateY(-34px);"
               >
                 <FiEdit size="26px" style={{ margin: "2px" }} />
               </ButtonCircleIcon>
