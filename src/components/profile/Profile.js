@@ -54,7 +54,7 @@ const Profile = ({ tab }) => {
   return (
     <>
       {profileData && (
-        <div className="profile">
+        <div>
           <ProfileHeader edit={false} />
           <PublicProfileInfo
             firstName={profileData.first_name}

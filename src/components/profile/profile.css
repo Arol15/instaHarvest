@@ -1,6 +1,6 @@
-.profile {
+/* .profile {
   text-align: center;
-}
+} */
 
 .prf-edit {
   text-align: center;
@@ -113,30 +113,6 @@
   width: 50px;
 }
 
-/* @media (width < 900px) {
-  .prf-back-left {
-    transform: scaleX(40);
-    transform-origin: left;
-  }
-
-  .prf-back-right {
-    transform: translateX(39px);
-  }
-
-  .prf-side-hamb {
-    visibility: visible;
-  }
-
-  .prf-side-title {
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-  }
-  .prf-side-menu {
-    width: 50px;
-  }
-} */
-
 .prf-block-top {
   padding-bottom: 52px;
 }
@@ -187,61 +163,6 @@
   margin: 0;
 }
 
-.prf-header {
-  position: relative;
-  width: 100%;
-  height: 220px;
-}
-
-.prf-back-block {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  height: 152px;
-  position: absolute;
-}
-
-.prf-back-block div {
-  position: absolute;
-  margin: 112px 10px;
-  border-radius: 10px;
-  height: 30px;
-  width: 50px;
-  background-color: hsla(0, 0%, 0%, 0.37);
-}
-
-.prf-back-img {
-  position: relative;
-  width: 100%;
-  height: 152px;
-  object-fit: cover;
-}
-
-.prf-img-block {
-  position: relative;
-  align-items: center;
-  padding-top: 58px;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.prf-img-block > div {
-  position: absolute;
-  outline: none;
-  border: none;
-  width: 152px;
-  height: 76px;
-  background-color: rgba(0, 0, 0, 0.37);
-  transform: translateY(75%);
-  clip-path: circle(76px at 50% -25%);
-}
-
-.prf-img {
-  height: 152px;
-  width: 152px;
-  border-radius: 50%;
-}
-
 .prf-pbl-top {
   margin-top: 20px;
   text-align: center;
@@ -250,10 +171,6 @@
 .prf-body {
   width: 80%;
   margin: 0 auto;
-}
-
-.prf-edit-modal {
-  padding: 30px;
 }
 
 /* ProfileUpdateImage*/

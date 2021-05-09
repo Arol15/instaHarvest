@@ -5,7 +5,7 @@ const TooltipText = styled.span`
   max-width: 70px;
   visibility: hidden;
   opacity: 0;
-  background-color: hsla(0, 0%, 29%, 0.9);
+  background-color: ${({ theme }) => theme.menuBackgroundColor};
   color: hsl(0, 0%, 100%);
   font-size: 12px;
   word-wrap: normal;

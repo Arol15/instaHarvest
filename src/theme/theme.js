@@ -10,4 +10,5 @@ export const lightTheme = {
   acceptColor: "#4ac723e6",
   elementHoverColor: "#0000002f",
   elementSecondaryColor: "#ff440063",
+  menuBackgroundColor: "#4a4a4ae6",
 };

@@ -63,11 +63,6 @@ export const MainContainer = styled.div`
 `;
 
 export const ContainerWithForm = styled(MainContainer)`
-  padding: 0 20px;
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: center;
-
   label {
     text-align: left;
     display: block;

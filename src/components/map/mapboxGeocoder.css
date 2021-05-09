@@ -34,7 +34,7 @@
 }
 
 #geocoder-auth > .mapboxgl-ctrl-geocoder {
-  width: 80%;
+  width: 100%;
   max-width: none;
 }
 
@@ -71,11 +71,6 @@
   right: 8px;
   top: 7px;
   display: none;
-}
-
-.mapboxgl-ctrl-geocoder,
-.mapboxgl-ctrl-geocoder .suggestions {
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Collapsed */
