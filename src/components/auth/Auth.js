@@ -17,7 +17,7 @@ import { checkAuth, parseLocation } from "../../utils/utils";
 import { updateProfile } from "../../store/profileSlice";
 
 import "../map/mapboxGeocoder.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const AuthContainerWithForm = styled(ContainerWithForm)`
   ${Button} {

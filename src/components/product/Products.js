@@ -8,7 +8,7 @@ import TabsMenu from "../UI/TabsMenu";
 import { ProductsGrid } from "../styled/styled";
 
 import { selectProducts } from "../../store/productsSlice";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const Products = () => {
   const history = useHistory();

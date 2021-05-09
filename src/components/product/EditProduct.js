@@ -7,7 +7,7 @@
 
 // import { showMsg } from "../../store/modalSlice";
 // import { validation } from "../../form_validation/validation";
-// import styled from "styled-components"
+// import styled from "styled-components/macro"
 // import "./editProduct.css";
 
 // const EditProduct = () => {

@@ -14,7 +14,7 @@ import { showMsg } from "../../store/modalSlice";
 import { updateProducts, updateLocation } from "../../store/productsSlice";
 import { parseLocation, getBrowserLocation } from "../../utils/utils";
 import "../map/mapboxGeocoder.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const RangeInput = styled(FlexRow)`
   align-items: center;

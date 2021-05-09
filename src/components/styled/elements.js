@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { FlexRow } from "./flexbox";
 
 export const ContainerWithBackground = styled.div`

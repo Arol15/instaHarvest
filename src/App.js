@@ -17,7 +17,7 @@ import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { lightTheme } from "./theme/theme";
-import styled, { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components/macro";
 
 const Filler = styled.div`
   visibility: hidden;

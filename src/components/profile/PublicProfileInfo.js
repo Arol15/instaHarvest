@@ -1,7 +1,6 @@
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 
 import statesList from "../../assets/data/states.json";
-import "./profile.css";
 
 const PublicProfileInfo = ({
   firstName,
@@ -21,7 +20,7 @@ const PublicProfileInfo = ({
   }
 
   return (
-    <div className="prf-pbl-top">
+    <div style={{ marginTop: "20px", textAlign: "center" }}>
       <EmailConfirmIcon verified={emailVerified}>
         <span style={{ fontSize: "24px", fontWeight: "bold" }}>
           {firstName}

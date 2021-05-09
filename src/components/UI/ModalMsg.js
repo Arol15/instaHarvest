@@ -4,7 +4,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Portal from "./Portal";
 
 import { clearMsg, selectModal } from "../../store/modalSlice";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const StyledMessage = styled.div`
   z-index: 100;

@@ -5,7 +5,7 @@ import Portal from "../components/UI/Portal";
 import { FiX } from "react-icons/fi";
 
 import { showMsg } from "../store/modalSlice";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import classnames from "classnames";
 import "./useModal.css";
 

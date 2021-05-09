@@ -10,7 +10,7 @@ import {
 } from "../styled/styled";
 
 import { setCurrentProduct } from "../../store/productsSlice";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const ProductElement = styled(ContainerWithBorder)`
   position: relative;

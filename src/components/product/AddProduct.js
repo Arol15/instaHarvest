@@ -23,7 +23,7 @@ import {
 } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
 import "../map/mapboxGeocoder.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const Icon = styled.img`
     width: 50px;

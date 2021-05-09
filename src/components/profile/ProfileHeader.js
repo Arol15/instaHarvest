@@ -5,8 +5,7 @@ import ProfileUpdateImage from "./ProfileUpdateImage";
 import { ButtonLink, FlexColumn } from "../styled/styled";
 
 import { selectProfile } from "../../store/profileSlice";
-import "./profile.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const Header = styled.div`
   position: relative;

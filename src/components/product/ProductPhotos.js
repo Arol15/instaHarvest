@@ -5,7 +5,7 @@ import { useElementPosition, useScreen } from "../../hooks/hooks";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 import { selectCurrentProduct } from "../../store/productsSlice";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const CarouselArrow = styled.div`
   visibility: visible;

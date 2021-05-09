@@ -7,7 +7,6 @@ import Spinner from "../UI/Spinner";
 import UserProducts from "../product/UserProducts";
 
 import { datetimeToLocal } from "../../utils/utils";
-import "./profile.css";
 
 const PublicProfile = (props) => {
   const { isLoading, data, error, sendRequest } = useRequest();

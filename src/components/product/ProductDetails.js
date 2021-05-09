@@ -31,7 +31,7 @@ import {
   datetimeToLocal,
   checkAuth,
 } from "../../utils/utils";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const MainContainer = styled.div`
   margin: 0 40px;

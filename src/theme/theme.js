@@ -1,4 +1,5 @@
 export const lightTheme = {
+  mainColor: "#f2ff80",
   buttonColor: "#ff4400",
   buttonTextColor: "#ffffff",
   buttonDisabledColor: "#e89a7d",
@@ -11,4 +12,8 @@ export const lightTheme = {
   elementHoverColor: "#0000002f",
   elementSecondaryColor: "#ff440063",
   menuBackgroundColor: "#4a4a4ae6",
+  textColor: "#000000",
+  secondaryTextColor: "#787878",
+  activeTextColor: "#0377b5",
+  shadowColor: "#0000002a",
 };

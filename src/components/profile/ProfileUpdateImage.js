@@ -6,7 +6,7 @@ import DeleteImage from "../UI/DeleteImage";
 import { Button, ButtonLink, FlexColumn } from "../styled/styled";
 
 import { createFormData } from "../../utils/utils";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const Buttons = styled.div`
   button {

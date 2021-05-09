@@ -10,7 +10,7 @@ import { FlexColumn } from "../styled/styled";
 import { createFormData } from "../../utils/utils";
 import { selectCurrentProduct } from "../../store/productsSlice";
 import { showMsg } from "../../store/modalSlice";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const MainContainer = styled.div`
   padding-bottom: 40px;

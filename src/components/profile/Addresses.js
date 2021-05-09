@@ -10,7 +10,7 @@ import { Button, ButtonLink, FlexRow } from "../styled/styled";
 import { showMsg } from "../../store/modalSlice";
 import { addressObjToString } from "../../utils/utils";
 import "../map/mapboxGeocoder.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const AddressField = styled(FlexRow)`
   justify-content: flex-start;

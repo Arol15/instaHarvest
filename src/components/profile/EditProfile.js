@@ -19,7 +19,7 @@ import {
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
 import config from "../../config";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const EditProfileContainer = styled(FlexRow)`
   justify-content: space-between;
