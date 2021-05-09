@@ -14,6 +14,7 @@ export {
   ProductsGrid,
   MainContainer,
   ContainerWithForm,
+  StyledProfileField,
 } from "./elements";
 
 export { Flex, FlexRow, FlexColumn } from "./flexbox";

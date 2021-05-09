@@ -3,11 +3,16 @@ import { useRequest, useModal, useForm } from "../../hooks/hooks";
 
 import Auth from "../auth/Auth";
 import Spinner from "../UI/Spinner";
-import { Button, ButtonLink, FormDanger } from "../styled/styled";
+import {
+  Button,
+  ButtonLink,
+  FormDanger,
+  StyledProfileField,
+  FlexColumn,
+} from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
 import statesList from "../../assets/data/states.json";
-import "./profile.css";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
@@ -57,109 +62,112 @@ const ProfileFild = (props) => {
     <>
       {modal}
       {isLoading && <Spinner />}
-      <b>{props.title}:</b>
-      {editState ? (
-        <div>
-          <form>
-            {props.name === "us_state" && (
-              <>
-                <select
-                  key="6"
-                  placeholder="State"
-                  name="us_state"
-                  onChange={handleInputChange}
-                  value={formData.us_state || ""}
+      <StyledProfileField>
+        <b>{props.title}:</b>
+        {editState ? (
+          <div>
+            <form>
+              {props.name === "us_state" && (
+                <>
+                  <select
+                    key="6"
+                    placeholder="State"
+                    name="us_state"
+                    onChange={handleInputChange}
+                    value={formData.us_state || ""}
+                  >
+                    <option key="-" value="">
+                      Select state
+                    </option>
+                    {statesList.map((elem) => {
+                      return (
+                        <option key={elem.abbreviation} value={statesList.name}>
+                          {elem.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <FormDanger>
+                    {formErrors.us_state && formErrors.us_state}
+                  </FormDanger>
+                </>
+              )}
+
+              {props.name === "password" && (
+                <div style={{ width: "70%", margin: "0 auto" }}>
+                  <FlexColumn>
+                    <input
+                      placeholder="New password"
+                      type="password"
+                      name={props.name}
+                      onChange={handleInputChange}
+                      value={formData[props.name] || ""}
+                    ></input>
+                    <input
+                      placeholder="Confirm new password"
+                      type="password"
+                      name="confirm_pass"
+                      onChange={handleInputChange}
+                      value={formData.confirm_pass || ""}
+                    ></input>
+                  </FlexColumn>
+                  <FormDanger>
+                    {formErrors.confirm_pass && formErrors.confirm_pass}
+                  </FormDanger>
+                </div>
+              )}
+
+              {props.name !== "us_state" && props.name !== "password" && (
+                <>
+                  <input
+                    placeholder={""}
+                    type="text"
+                    name={props.name}
+                    onChange={handleInputChange}
+                    value={formData[props.name] || ""}
+                  ></input>
+                  <FormDanger>
+                    {formErrors[props.name] && formErrors[props.name]}
+                  </FormDanger>
+                </>
+              )}
+
+              <div>
+                <Button onClick={handleSubmit} disabled={isLoading}>
+                  Submit
+                </Button>
+                <Button
+                  onClick={() => {
+                    setEditState(false);
+                    setFormData({ [props.name]: props.value });
+                  }}
                 >
-                  <option key="-" value="">
-                    Select state
-                  </option>
-                  {statesList.map((elem) => {
-                    return (
-                      <option key={elem.abbreviation} value={statesList.name}>
-                        {elem.name}
-                      </option>
-                    );
-                  })}
-                </select>
-                <FormDanger>
-                  {formErrors.us_state && formErrors.us_state}
-                </FormDanger>
-              </>
-            )}
-
-            {props.name === "password" && (
-              <div className="prf-change-pass">
-                <input
-                  placeholder="New password"
-                  type="password"
-                  name={props.name}
-                  onChange={handleInputChange}
-                  value={formData[props.name] || ""}
-                ></input>
-                <p></p>
-                <input
-                  placeholder="Confirm new password"
-                  type="password"
-                  name="confirm_pass"
-                  onChange={handleInputChange}
-                  value={formData.confirm_pass || ""}
-                ></input>
-                <FormDanger>
-                  {formErrors.confirm_pass && formErrors.confirm_pass}
-                </FormDanger>
+                  Cancel
+                </Button>
               </div>
+            </form>
+          </div>
+        ) : (
+          <>
+            {props.name === "password" ? (
+              <p></p>
+            ) : props.value ? (
+              props.children
+            ) : (
+              <p>Empty</p>
             )}
+            <ButtonLink
+              onClick={() => {
+                setEditState(true);
+              }}
+            >
+              {props.name === "password" ? "Change password" : "Edit"}
+            </ButtonLink>
+          </>
+        )}
 
-            {props.name !== "us_state" && props.name !== "password" && (
-              <>
-                <input
-                  placeholder={""}
-                  type="text"
-                  name={props.name}
-                  onChange={handleInputChange}
-                  value={formData[props.name] || ""}
-                ></input>
-                <FormDanger>
-                  {formErrors[props.name] && formErrors[props.name]}
-                </FormDanger>
-              </>
-            )}
-
-            <div>
-              <Button onClick={handleSubmit} disabled={isLoading}>
-                Submit
-              </Button>
-              <Button
-                onClick={() => {
-                  setEditState(false);
-                  setFormData({ [props.name]: props.value });
-                }}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        <>
-          {props.name === "password" ? (
-            <p></p>
-          ) : props.value ? (
-            props.children
-          ) : (
-            <p>Empty</p>
-          )}
-          <ButtonLink
-            onClick={() => {
-              setEditState(true);
-            }}
-          >
-            {props.name === "password" ? "Change password" : "Edit"}
-          </ButtonLink>
-        </>
-      )}
-
-      <br />
+        <hr />
+      </StyledProfileField>
     </>
   );
 };

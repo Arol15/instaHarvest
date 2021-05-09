@@ -88,3 +88,26 @@ export const ContainerWithForm = styled(MainContainer)`
     border-radius: 10px;
   }
 `;
+
+export const StyledProfileField = styled.div`
+  padding: 10px;
+  word-break: break-all;
+
+  hr {
+    margin-top: 15px;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.75),
+      rgba(0, 0, 0, 0)
+    );
+  }
+
+  input {
+    margin: 10px 0;
+    margin-left: -10px;
+    max-width: 100%;
+  }
+`;

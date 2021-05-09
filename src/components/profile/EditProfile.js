@@ -9,14 +9,41 @@ import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 import ProfileSideMenu from "./ProfileSideMenu";
 import Spinner from "../UI/Spinner";
 import Addresses from "./Addresses";
-import { Button, ButtonLink } from "../styled/styled";
+import {
+  Button,
+  ButtonLink,
+  FlexRow,
+  StyledProfileField,
+} from "../styled/styled";
 
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
 import config from "../../config";
-import "./profile.css";
+import styled from "styled-components";
 
-const Profile = ({ tab }) => {
+const EditProfileContainer = styled(FlexRow)`
+  justify-content: space-between;
+  flex-wrap: nowrap;
+`;
+
+const Column = styled.div`
+  margin: 0 20px;
+`;
+
+const Section = styled.section`
+  width: 60vw;
+  margin: 0 auto;
+  padding: 5px 20px;
+  text-align: center;
+  background-color: ${({ theme }) => theme.secondaryBackgroundColor};
+  border-radius: 15px;
+
+  @media (max-width: 440px) {
+    margin-left: 40px;
+  }
+`;
+
+const EditProfile = ({ tab }) => {
   const profileData = useSelector(selectProfile, shallowEqual);
   const dispatch = useDispatch();
   const [currTab, setCurrTab] = useState(tab);
@@ -102,146 +129,124 @@ const Profile = ({ tab }) => {
       </Button>
 
       {profileData && (
-        <div className="prf-edit">
+        <EditProfileContainer>
           <ProfileSideMenu currTab={currTab} />
-          <div className="prf-col"></div>
+          <Column />
           {!currTab && (
-            <div className="prf-block">
+            <Section>
               <h2>Public Information</h2>
-              <p></p>
 
-              <div className="prf-field">
-                <ProfileField
-                  name="first_name"
-                  title="First name"
-                  api="/edit_profile"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.first_name}
-                >
-                  <p>{profileData.first_name}</p>
-                </ProfileField>
-                <hr />
-              </div>
+              <ProfileField
+                name="first_name"
+                title="First name"
+                api="/edit_profile"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                value={profileData.first_name}
+              >
+                <p>{profileData.first_name}</p>
+              </ProfileField>
 
-              <div className="prf-field">
-                <ProfileField
-                  name="profile_addr"
-                  title="Profile address"
-                  api="/edit_profile_address"
-                  method="PATCH"
-                  update={updateProfileData}
-                  sendMsg={sendMessage}
-                  value={profileData.profile_addr}
-                >
-                  <p>
-                    <Link to={`/profile/${profileData.profile_addr}`}>
-                      {config.baseUrl}
-                      {profileData.profile_addr}
-                    </Link>
-                  </p>
-                </ProfileField>
-                <hr />
-              </div>
-            </div>
+              <ProfileField
+                name="profile_addr"
+                title="Profile address"
+                api="/edit_profile_address"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                value={profileData.profile_addr}
+              >
+                <p>
+                  <Link to={`/profile/${profileData.profile_addr}`}>
+                    {config.baseUrl}
+                    {profileData.profile_addr}
+                  </Link>
+                </p>
+              </ProfileField>
+            </Section>
           )}
 
           {currTab === "private" && (
-            <div className="prf-block">
-              <div className="">
-                <h2>Private information</h2>
-                <div className="prf-field">
-                  <ProfileField
-                    name="new_email"
-                    title="Email"
-                    api="/request_change_email"
-                    method="POST"
-                    update={updateProfileData}
-                    sendMsg={sendMessage}
-                    user={profileData.email}
-                    value={profileData.email}
-                  >
-                    <div>
-                      <span>{profileData.email}</span>
-                      <EmailConfirmIcon verified={profileData.email_verified} />
-                    </div>
-                    <p></p>
-                  </ProfileField>
-                  {!profileData.email_verified && (
-                    <div>
-                      <ButtonLink onClick={resendConfirmEmail}>
-                        Resend confirmation email
-                      </ButtonLink>
-                    </div>
-                  )}
-                  <hr />
+            <Section>
+              <h2>Private information</h2>
+              <ProfileField
+                name="new_email"
+                title="Email"
+                api="/request_change_email"
+                method="POST"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                user={profileData.email}
+                value={profileData.email}
+              >
+                <div>
+                  <span>{profileData.email}</span>
+                  <EmailConfirmIcon verified={profileData.email_verified} />
                 </div>
+                {!profileData.email_verified && (
+                  <div>
+                    <ButtonLink onClick={resendConfirmEmail}>
+                      Resend confirmation email
+                    </ButtonLink>
+                  </div>
+                )}
+              </ProfileField>
 
-                <div className="prf-field">
-                  <ProfileField
-                    name="username"
-                    title="Username"
-                    api="/edit_username"
-                    method="PATCH"
-                    update={updateProfileData}
-                    sendMsg={sendMessage}
-                    user={profileData.email}
-                    value={profileData.username}
-                  >
-                    <p>{profileData.username}</p>
-                  </ProfileField>
-                  <hr />
-                </div>
+              <ProfileField
+                name="username"
+                title="Username"
+                api="/edit_username"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                user={profileData.email}
+                value={profileData.username}
+              >
+                <p>{profileData.username}</p>
+              </ProfileField>
 
-                <div className="prf-field">
-                  <ProfileField
-                    name="last_name"
-                    title="Last name"
-                    api="/edit_profile"
-                    method="PATCH"
-                    update={updateProfileData}
-                    sendMsg={sendMessage}
-                    value={profileData.last_name}
-                  >
-                    <p>{profileData.last_name}</p>
-                  </ProfileField>
-                  <hr />
-                </div>
+              <ProfileField
+                name="last_name"
+                title="Last name"
+                api="/edit_profile"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                value={profileData.last_name}
+              >
+                <p>{profileData.last_name}</p>
+              </ProfileField>
 
-                <div className="prf-field">
-                  <ProfileField
-                    name="password"
-                    user={profileData.email}
-                    title="Change password"
-                    api="/change_pass"
-                    method="PATCH"
-                    update={updateProfileData}
-                    sendMsg={sendMessage}
-                    value={profileData.password}
-                  >
-                    <p>{profileData.password}</p>
-                  </ProfileField>
-                  <hr />
-                </div>
-              </div>
-            </div>
+              <ProfileField
+                name="password"
+                user={profileData.email}
+                title="Change password"
+                api="/change_pass"
+                method="PATCH"
+                update={updateProfileData}
+                sendMsg={sendMessage}
+                value={profileData.password}
+              >
+                <p>{profileData.password}</p>
+              </ProfileField>
+            </Section>
           )}
 
           {currTab === "address" && (
-            <div className="prf-block">
+            <Section>
               <h2>Addresses</h2>
 
-              <div className="prf-field">
+              <StyledProfileField>
                 <Addresses />
-              </div>
-            </div>
+              </StyledProfileField>
+            </Section>
           )}
-          <div className="prf-col"></div>
-        </div>
+          <Column />
+        </EditProfileContainer>
       )}
     </>
   );
 };
 
-export default Profile;
+export default EditProfile;
