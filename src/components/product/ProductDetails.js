@@ -94,6 +94,11 @@ const ProductDescription = styled(ContainerWithBackground)`
   word-break: keep-all;
 `;
 
+const ProductPrice = styled.div`
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+`;
+
 const ProductDetailsAddress = styled.h3`
   max-width: 360px;
   margin: 0 20px;
@@ -238,6 +243,11 @@ const ProductDetails = () => {
               ) : null}
             </Buttons>
             <h2> {product.properties.name}</h2>
+            <ProductPrice>
+              {product.properties.price === 0
+                ? "Free"
+                : `$ ${product.properties.price}`}
+            </ProductPrice>
             <ProductDescription>
               {product.properties.description}
             </ProductDescription>
