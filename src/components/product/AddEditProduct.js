@@ -63,9 +63,9 @@ const AddEditProduct = ({ editProduct }) => {
 
   const onSubmit = () => {
     if (editProduct) {
-      console.log("EDIT RERQUEST");
+      sendRequest("/api/products/add_edit_product", "PATCH", formData);
     } else {
-      sendRequest("/api/products/add_product", "post", formData);
+      sendRequest("/api/products/add_edit_product", "POST", formData);
     }
   };
 
@@ -169,7 +169,8 @@ const AddEditProduct = ({ editProduct }) => {
         );
       } else if (
         data.msg === "Product created" ||
-        data.msg.includes("been uploaded")
+        data.msg.includes("been uploaded") ||
+        data.msg.includes("been updated")
       ) {
         dispatch(
           showMsg({
@@ -178,8 +179,8 @@ const AddEditProduct = ({ editProduct }) => {
             type: "ok",
           })
         );
-        if (data.msg === "Product information has been updated") {
-          history.goBack();
+        if (data.msg.includes("been updated")) {
+          history.push({ pathname: "/product-info", state: "update" });
         } else {
           history.push("/profile");
         }

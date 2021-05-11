@@ -107,12 +107,6 @@ const ProductDetails = () => {
   const { isLoading, data, error, sendRequest } = useRequest();
   const [editImages, setEditImages] = useState(false);
 
-  useEffect(() => {
-    if (!product) {
-      history.push("/search-results");
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
     useTimer: false,
@@ -143,6 +137,15 @@ const ProductDetails = () => {
       product_id: product.properties.product_id,
     });
   };
+
+  useEffect(() => {
+    if (!product) {
+      history.push("/search-results");
+    }
+    if (history.location.state && history.location.state === "update") {
+      updateProduct();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (data) {

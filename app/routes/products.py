@@ -11,7 +11,7 @@ from app.utils.image import save_image
 bp = Blueprint("products", __name__)
 
 
-@bp.route("/add_product", methods=["POST"])
+@bp.route("/add_edit_product", methods=["POST", "PATCH"])
 @auth_required
 def create_product():
     data = request.get_json()
@@ -40,18 +40,38 @@ def create_product():
         db.session.commit()
         address_id = address.id
 
-    product = Product(user_id=user_id,
-                      name=data["name"],
-                      product_type=data["product_type"],
-                      product_icon=data["product_icon"],
-                      price=data["price"],
-                      status="available",
-                      description=data["description"],
-                      address_id=address_id)
+    if request.method == "POST":
+        product = Product(user_id=user_id,
+                          name=data["name"],
+                          product_type=data["product_type"],
+                          product_icon=data["product_icon"],
+                          price=data["price"],
+                          status="available",
+                          description=data["description"],
+                          address_id=address_id)
+
+    elif request.method == "PATCH":
+        product = Product.query.filter_by(id=data["product_id"]).first()
+        if product is None or product.user_id != user_id:
+            return {}, 403
+        product.name = data["name"]
+        product.product_type = data["product_type"]
+        product.product_icon = data["product_icon"]
+        product.price = data["price"]
+        product.description = data["description"]
+        product.address_id = address_id
+
     db.session.add(product)
     db.session.commit()
-    return {"msg": "Product created",
-            "product_id": product.id}, 200
+
+    ret = {"msg": "Product created",
+           "product_id": product.id}
+
+    if request.method == "PATCH":
+        ret["msg"] = "Product has been updated"
+        return ret, 200
+
+    return ret, 201
 
 
 @bp.route("/products_per_user", methods=["POST"])
