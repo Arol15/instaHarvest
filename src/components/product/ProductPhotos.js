@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useElementPosition, useScreen } from "../../hooks/hooks";
 
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { ContainerWithBackground } from "../styled/styled";
 
 import { selectCurrentProduct } from "../../store/productsSlice";
 import styled from "styled-components/macro";
@@ -28,7 +29,7 @@ const CarouselArrow = styled.div`
   }
 `;
 
-const PhotoCarousel = styled.div`
+const PhotoCarousel = styled(ContainerWithBackground)`
   position: relative;
   margin: 0 auto;
   padding: 10px 0;
@@ -73,10 +74,12 @@ const CarouselInner = styled.div`
 
   img:first-child {
     padding-left: 20px;
+    padding-right: 5px;
   }
 
   img:last-child {
     padding-right: 20px;
+    padding left: 5px;
   }
 `;
 
@@ -90,12 +93,8 @@ const ProductPhotos = ({ width = 340, height = 300, icon, personal }) => {
 
   const { screenWidth } = useScreen();
 
-  const {
-    hasElemOnLeft,
-    hasElemOnRight,
-    scrollLeft,
-    scrollRight,
-  } = useElementPosition(ref);
+  const { hasElemOnLeft, hasElemOnRight, scrollLeft, scrollRight } =
+    useElementPosition(ref);
 
   useEffect(() => {
     if (width > screenWidth) {

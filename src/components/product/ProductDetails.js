@@ -264,6 +264,15 @@ const ProductDetails = () => {
               >
                 Delete product
               </ButtonLink>
+              <ButtonLink
+                onClick={() => {
+                  history.push(
+                    `/edit-product/${product.properties.product_id}`
+                  );
+                }}
+              >
+                Edit product
+              </ButtonLink>
             </SecondaryContainer>
           ) : (
             <SecondaryContainer

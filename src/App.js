@@ -7,11 +7,10 @@ import PublicProfile from "./components/profile/PublicProfile";
 import ResetPassword from "./components/auth/ResetPassword";
 import ModalMsg from "./components/UI/ModalMsg";
 import Chat from "./components/chat/Chat";
-import AddProduct from "./components/product/AddProduct";
+import AddEditProduct from "./components/product/AddEditProduct";
 import UserProducts from "./components/product/UserProducts";
 import ProductDetails from "./components/product/ProductDetails";
 import MainNavbar from "./components/MainNavbar";
-import EditProduct from "./components/product/EditProduct";
 import EditProfile from "./components/profile/EditProfile";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -48,7 +47,10 @@ function App() {
           <Route path="/profile/edit/address">
             <EditProfile tab="address" />
           </Route>
-          <Route path="/add-product" component={AddProduct} exact />
+          <Route path="/add-product" component={AddEditProduct} exact />
+          <Route path="/edit-product/:productId" exact>
+            <AddEditProduct editProduct />
+          </Route>
           <Route path="/user-products" component={UserProducts} />
           <Route path="/product-info" component={ProductDetails} />
           <Route path="/chats/:name" component={Chat} />

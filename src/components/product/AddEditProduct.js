@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useRequest,
   useForm,
@@ -16,6 +16,7 @@ import Icons from "../UI/Icons";
 import { Button, FormDanger, ContainerWithForm } from "../styled/styled";
 
 import { validation } from "../../form_validation/validation";
+import { selectCurrentProduct } from "../../store/productsSlice";
 import {
   checkAuth,
   createFormData,
@@ -37,16 +38,11 @@ const Icon = styled.img`
   }
 `;
 
-const AddProduct = () => {
+const AddEditProduct = ({ editProduct }) => {
   const history = useHistory();
-  const {
-    isLoading,
-    data,
-    error,
-    errorNum,
-    sendRequest,
-    uploadStatus,
-  } = useRequest();
+  const params = useParams();
+  const { isLoading, data, error, errorNum, sendRequest, uploadStatus } =
+    useRequest();
   const dispatch = useDispatch();
   const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
@@ -59,35 +55,38 @@ const AddProduct = () => {
     placeholder: "Add new location",
   });
 
+  const product = useSelector(selectCurrentProduct);
+
   const [uploadImagesContainer, filesToSend] = useUploadImages({
     multipleImages: true,
   });
 
   const onSubmit = () => {
-    sendRequest("/api/products/add_product", "post", formData);
+    if (editProduct) {
+      console.log("EDIT RERQUEST");
+    } else {
+      sendRequest("/api/products/add_product", "post", formData);
+    }
   };
 
-  const {
-    setFormData,
-    handleSubmit,
-    handleInputChange,
-    formData,
-    formErrors,
-  } = useForm(
-    {
-      name: "",
-      product_type: "",
-      product_icon: "",
-      image_urls: null,
-      price: 0,
-      status: "",
-      description: "",
-      location: "",
-      new_addr: "",
-    },
-    onSubmit,
-    validation
-  );
+  const { setFormData, handleSubmit, handleInputChange, formData, formErrors } =
+    useForm(
+      editProduct && product
+        ? { ...product.properties }
+        : {
+            name: "",
+            product_type: "",
+            product_icon: "",
+            image_urls: null,
+            price: 0,
+            status: "",
+            description: "",
+            location: "",
+            new_addr: "",
+          },
+      onSubmit,
+      validation
+    );
 
   const handleAfterConfirm = () => {
     closeModal();
@@ -120,6 +119,16 @@ const AddProduct = () => {
   useEffect(() => {
     if (!checkAuth()) {
       showModal(<AuthModal afterConfirm={handleAfterConfirm} />);
+    }
+    if (editProduct) {
+      if (
+        !product ||
+        !product.properties ||
+        params.productId != product.properties.product_id ||
+        !product.properties.personal
+      ) {
+        history.push("/profile");
+      }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -169,7 +178,11 @@ const AddProduct = () => {
             type: "ok",
           })
         );
-        history.push("/profile");
+        if (data.msg === "Product information has been updated") {
+          history.goBack();
+        } else {
+          history.push("/profile");
+        }
       }
     }
   }, [data, error, errorNum]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -178,7 +191,18 @@ const AddProduct = () => {
     <>
       {isLoading && <Spinner uploadStatus={uploadStatus} />}
       <ContainerWithForm>
-        <h2>Share Your Product</h2>
+        <h2>{editProduct ? "Edit product" : "Share Your Product"}</h2>
+
+        {editProduct && (
+          <Button
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            Return
+          </Button>
+        )}
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -230,8 +254,14 @@ const AddProduct = () => {
           <FormDanger>
             {formErrors.product_icon && formErrors.product_icon}
           </FormDanger>
-          <label>Images:</label>
-          {uploadImagesContainer}
+
+          {!editProduct && (
+            <>
+              <label>Images:</label>
+              {uploadImagesContainer}
+            </>
+          )}
+
           <label>Price: </label>
           <ToggleInput
             name="price"
@@ -282,7 +312,7 @@ const AddProduct = () => {
             </>
           )}
           <p></p>
-          <Button>Add Product</Button>
+          <Button>{editProduct ? "Update Product" : "Add Product"}</Button>
         </form>
       </ContainerWithForm>
       {modal}
@@ -290,4 +320,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AddEditProduct;
