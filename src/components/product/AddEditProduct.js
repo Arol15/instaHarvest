@@ -72,7 +72,7 @@ const AddEditProduct = ({ editProduct }) => {
   const { setFormData, handleSubmit, handleInputChange, formData, formErrors } =
     useForm(
       editProduct && product
-        ? { ...product.properties }
+        ? { ...product.properties, location: product.geometry.properties.id }
         : {
             name: "",
             product_type: "",
@@ -289,7 +289,9 @@ const AddEditProduct = ({ editProduct }) => {
               <select
                 name="location"
                 onChange={handleInputChangeLocation}
-                defaultValue={"select"}
+                defaultValue={
+                  editProduct ? product.geometry.properties.id : "select"
+                }
               >
                 <option key="select" value="">
                   Select location
@@ -297,9 +299,9 @@ const AddEditProduct = ({ editProduct }) => {
                 <option key="addnew" value="add">
                   Add new location
                 </option>
-                {addresses.map((addr, i) => {
+                {addresses.map((addr) => {
                   return (
-                    <option key={i} value={addr.properties.id}>
+                    <option key={addr.properties.id} value={addr.properties.id}>
                       {addr.properties.primary_address && "Primary address: "}
                       {addressObjToString(addr.properties)}
                     </option>
