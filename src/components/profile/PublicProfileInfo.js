@@ -1,6 +1,7 @@
 import EmailConfirmIcon from "../UI/EmailConfirmIcon";
 
 import statesList from "../../assets/data/states.json";
+import _styled from "styled-components/macro";
 
 const PublicProfileInfo = ({
   firstName,

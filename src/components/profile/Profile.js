@@ -13,6 +13,7 @@ import { Button } from "../styled/styled";
 import { datetimeToLocal, logout, checkAuth } from "../../utils/utils";
 import { showMsg } from "../../store/modalSlice";
 import { updateProfile, selectProfile } from "../../store/profileSlice";
+import styled from "styled-components/macro";
 
 const Profile = ({ tab }) => {
   const history = useHistory();

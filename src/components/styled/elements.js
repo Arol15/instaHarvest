@@ -91,7 +91,8 @@ export const ContainerWithForm = styled(MainContainer)`
 
 export const StyledProfileField = styled.div`
   padding: 10px;
-  word-break: break-all;
+  word-wrap: break-word;
+  word-break: keep-all;
 
   hr {
     margin-top: 15px;

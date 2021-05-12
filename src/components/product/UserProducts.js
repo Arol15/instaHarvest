@@ -9,6 +9,7 @@ import { ProductsGrid, FlexColumn } from "../styled/styled";
 import { showMsg } from "../../store/modalSlice";
 import { updateProducts, selectProducts } from "../../store/productsSlice";
 import { addressObjToString } from "../../utils/utils";
+import _styled from "styled-components/macro";
 
 const UserProducts = ({ user_id, title }) => {
   const [showProducts, setShowProducts] = useState(false);

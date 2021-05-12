@@ -13,6 +13,7 @@ import {
 
 import { validation } from "../../form_validation/validation";
 import statesList from "../../assets/data/states.json";
+import _styled from "styled-components/macro";
 
 const ProfileFild = (props) => {
   const [editState, setEditState] = useState(false);
@@ -27,13 +28,8 @@ const ProfileFild = (props) => {
     sendRequest(`/api/account${props.api}`, props.method, formData);
   };
 
-  const {
-    setFormData,
-    handleSubmit,
-    handleInputChange,
-    formData,
-    formErrors,
-  } = useForm({ [props.name]: props.value }, onSubmit, validation);
+  const { setFormData, handleSubmit, handleInputChange, formData, formErrors } =
+    useForm({ [props.name]: props.value }, onSubmit, validation);
   useEffect(() => {
     if (error && errorNum !== 403) {
       props.sendMsg(error, "error");
@@ -96,8 +92,13 @@ const ProfileFild = (props) => {
               {props.name === "password" && (
                 <div
                   css={`
-                    width: 70%;
-                    margin: 0 auto;
+                    margin-top: 20px;
+
+                    input {
+                      margin: 0 auto;
+                      margin-bottom: 10px;
+                      max-width: 70%;
+                    }
                   `}
                 >
                   <FlexColumn>
