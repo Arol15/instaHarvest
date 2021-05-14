@@ -22,11 +22,11 @@ body {
   overflow-x: hidden;
 }
 
-#root {
+/* #root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
+} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -69,10 +69,6 @@ textarea:focus {
 .background {
   border-radius: 5px;
   background-color: #0000000a;
-}
-
-.home {
-  text-align: center;
 }
 
 ::-webkit-scrollbar-track {
