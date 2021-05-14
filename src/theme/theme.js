@@ -1,5 +1,6 @@
 export const lightTheme = {
   mainColor: "#f2ff80",
+  mainColor2: "#ffcd5e",
   buttonColor: "#ff4400",
   buttonTextColor: "#ffffff",
   buttonDisabledColor: "#e89a7d",

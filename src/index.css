@@ -22,11 +22,11 @@ body {
   overflow-x: hidden;
 }
 
-/* #root {
+#root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-} */
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

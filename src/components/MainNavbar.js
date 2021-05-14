@@ -19,9 +19,16 @@ const MainNavbarStyled = styled.div`
   height: 80px;
   z-index: 50;
   align-items: center;
-  background-color: ${({ theme }) => theme.mainColor};
+  background: ${({ theme }) => theme.mainColor};
+  background-image: ${({ theme }) => `linear-gradient(
+    135deg,
+    ${theme.mainColor2} 0%,
+    ${theme.mainColor} 54%,
+    ${theme.mainColor2} 98%`} 
+  );
   transition: all 0.5s ease-in-out;
-  // top: 0;
+  transition-delay: color 0.25;
+  top: 0;
   // left: 20px;
   width: 100%;
   display: flex;
@@ -29,11 +36,12 @@ const MainNavbarStyled = styled.div`
     props.isHome &&
     `
     height: 60px;
-  margin-top: 20px;
+    top: 20px;
     margin-left: 20px;
   width: 400px;
   border-radius: 30px;
-  background-color: white;
+  background-color: #ffffffaf;
+  background-image: none;
 
   @media (max-width: 440px) {
     margin: 20px auto;

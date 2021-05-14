@@ -18,6 +18,20 @@ const HomeStyled = styled.div`
   text-align: center;
 `;
 
+const Background = styled.div`
+  background: ${({ theme }) => theme.mainColor};
+  background-image: ${({ theme }) => `linear-gradient(
+    135deg,
+    ${theme.mainColor2} 0%,
+    ${theme.mainColor} 54%,
+    ${theme.mainColor2} 98%`} 
+  );
+  min-height: 100%;
+  width: 100%;
+  top: 0;
+  position: absolute;
+`;
+
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -31,15 +45,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div
-      css={`
-        background-color: #f2ff80;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        position: absolute;
-      `}
-    >
+    <Background>
       <HomeStyled>
         <h1>Welcome to instaHarvest</h1>
         <SearchMain />
@@ -53,7 +59,7 @@ const Home = () => {
         </Suspense>
       </Canvas> */}
       </HomeStyled>
-    </div>
+    </Background>
   );
 };
 
