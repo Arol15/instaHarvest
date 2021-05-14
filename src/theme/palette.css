@@ -1,0 +1,19 @@
+.light-theme {
+  color: mainColor #f2ff80;
+  color: buttonColor #ff4400;
+  color: buttonTextColor #ffffff;
+  color: buttonDisabledColor #e89a7d;
+  color: buttonHoverColor #bd3200;
+  color: linkColor #0377b5;
+  color: secondaryBackgroundColor #0000000a;
+  color: borderColor #c1bebe;
+  color: errorColor #e61e14e6;
+  color: acceptColor #4ac723e6;
+  color: elementHoverColor #0000002f;
+  color: elementSecondaryColor #ff440063;
+  color: menuBackgroundColor #4a4a4ae6;
+  color: textColor #000000;
+  color: secondaryTextColor #787878;
+  color: activeTextColor #0377b5;
+  color: shadowColor #0000002a;
+}

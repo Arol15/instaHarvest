@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { useModal } from "../hooks/hooks";
@@ -9,12 +9,44 @@ import { Button, ButtonLink, ButtonLinkMenu } from "./styled/styled";
 
 import { checkAuth, logout } from "../utils/utils";
 import { selectProfile } from "../store/profileSlice";
+import { isHomePage } from "../store/currentPageSlice";
 import { showMsg } from "../store/modalSlice";
 import "./MainNavbar.css";
+import styled from "styled-components/macro";
+
+const MainNavbarStyled = styled.div`
+  position: sticky;
+  height: 80px;
+  z-index: 50;
+  align-items: center;
+  background-color: ${({ theme }) => theme.mainColor};
+  transition: all 0.5s ease-in-out;
+  // top: 0;
+  // left: 20px;
+  width: 100%;
+  display: flex;
+  ${(props) =>
+    props.isHome &&
+    `
+    height: 60px;
+  margin-top: 20px;
+    margin-left: 20px;
+  width: 400px;
+  border-radius: 30px;
+  background-color: white;
+
+  @media (max-width: 440px) {
+    margin: 20px auto;
+    width: 80%;
+  }
+  
+  `}
+`;
 
 const MainNavbar = () => {
   const history = useHistory();
   const { image_url } = useSelector(selectProfile, shallowEqual);
+  const isHome = useSelector(isHomePage);
   const dispatch = useDispatch();
   const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
@@ -59,7 +91,7 @@ const MainNavbar = () => {
 
   return (
     <>
-      <nav className="main-navbar">
+      <MainNavbarStyled isHome={isHome} className="main-navbar">
         <div className="main-navbar-logo">
           <Link to="/">instaHarvest</Link>
         </div>
@@ -119,7 +151,7 @@ const MainNavbar = () => {
             </ButtonLink>
           </div>
         )}
-      </nav>
+      </MainNavbarStyled>
       {modal}
     </>
   );
