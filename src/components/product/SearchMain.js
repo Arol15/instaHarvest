@@ -23,6 +23,7 @@ width: 45px;
 height: 45px;
 border-radius: 50%;
 cursor: pointer;
+
 `;
 
 const RangeInput = styled(FlexRow)`
@@ -78,14 +79,23 @@ width: fit-content;
         ${thumb}
       margin-top: -18px;
       background: ${({ theme }) => theme.buttonColor};
+      background-image:${({ theme }) =>
+        `radial-gradient(circle at top left, #ffa42a 20%, ${theme.buttonColor} 80%)`}; 
+
       }
     &::-moz-range-thumb {
         ${thumb}
         background: ${({ theme }) => theme.buttonColor};
+        background-image:${({ theme }) =>
+          `radial-gradient(circle at top left, #ffa42a 20%, ${theme.buttonColor} 80%)`}; 
+
       }
     &::-ms-thumb {
         ${thumb}
         background: ${({ theme }) => theme.buttonColor};
+        background-image:${({ theme }) =>
+          `radial-gradient(circle at top left, #ffa42a 20%, ${theme.buttonColor} 80%)`}; 
+
       }
     }
 
@@ -206,7 +216,7 @@ const SearchMain = () => {
           className="geocoder-find-location"
           onClick={() => getBrowserLocation(successFn, errorFn)}
         >
-          <MdMyLocation size="30px" />
+          <MdMyLocation size="30px" color="#787878" />
         </div>
       </div>
       <FormDanger>{formErrors.address && formErrors.address}</FormDanger>

@@ -47,8 +47,30 @@ const MainNavbarStyled = styled.div`
     margin: 20px auto;
     width: 80%;
   }
-  
   `}
+`;
+
+const Logo = styled.div`
+  margin-left: 10px;
+  margin-right: auto;
+  font-family: "Lobster", cursive;
+  font-size: 24px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.secondaryTextColor};
+  transition: 0.25s ease-in-out;
+
+  &:hover {
+    color: black;
+  }
+`;
+
+const NavbarLink = styled(ButtonLink)`
+  text-decoration-line: none;
+  color: ${({ theme }) => theme.secondaryTextColor};
+
+  &:hover {
+    color: black;
+  }
 `;
 
 const MainNavbar = () => {
@@ -99,13 +121,23 @@ const MainNavbar = () => {
 
   return (
     <>
-      <MainNavbarStyled isHome={isHome} className="main-navbar">
-        <div className="main-navbar-logo">
-          <Link to="/">instaHarvest</Link>
-        </div>
-        <div>
-          <Link to="/add-product">Share your Product</Link>
-        </div>
+      <MainNavbarStyled isHome={isHome}>
+        <Logo
+          onClick={() => {
+            history.push("/");
+          }}
+        >
+          InstaHarvest
+        </Logo>
+
+        <NavbarLink
+          onClick={() => {
+            history.push("/add-product");
+          }}
+        >
+          Share Product
+        </NavbarLink>
+
         {checkAuth() ? (
           <>
             <DropDownMenu
