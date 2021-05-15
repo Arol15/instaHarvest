@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { useModal } from "../hooks/hooks";
@@ -9,12 +9,84 @@ import { Button, ButtonLink, ButtonLinkMenu } from "./styled/styled";
 
 import { checkAuth, logout } from "../utils/utils";
 import { selectProfile } from "../store/profileSlice";
+import { isHomePage } from "../store/currentPageSlice";
 import { showMsg } from "../store/modalSlice";
-import "./MainNavbar.css";
+import styled from "styled-components/macro";
+
+const MainNavbarStyled = styled.div`
+  position: sticky;
+  height: 80px;
+  z-index: 50;
+  align-items: center;
+  background: ${({ theme }) => theme.mainColor};
+  background-image: ${({ theme }) => `linear-gradient(
+    135deg,
+    ${theme.mainColor2} 0%,
+    ${theme.mainColor} 54%,
+    ${theme.mainColor2} 98%`} 
+  );
+  transition: all 0.5s ease-in-out;
+  transition-delay: color 0.25;
+  top: 0;
+  transform: translateY(${(props) => (props.show ? "0" : "-100%")});
+
+  width: 100%;
+  display: flex;
+  top: ${(props) => (props.show && props.isHome ? "20px" : "0")};
+  ${(props) =>
+    props.isHome &&
+    `
+    height: 60px;
+    margin-left: 20px;
+  width: 400px;
+  border-radius: 30px;
+  background-color: #ffffffaf;
+  background-image: none;
+
+  @media (max-width: 440px) {
+    margin: 20px auto;
+    width: 80%;
+  }
+  `}
+`;
+
+const Logo = styled.div`
+  margin-left: 10px;
+  margin-right: auto;
+  font-family: "Lobster", cursive;
+  font-size: 24px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.secondaryTextColor};
+  transition: 0.25s;
+
+  &:hover {
+    color: black;
+  }
+`;
+
+const NavbarLink = styled(ButtonLink)`
+  text-decoration-line: none;
+  color: ${({ theme }) => theme.secondaryTextColor};
+  transition: 0.25s;
+
+  &:hover {
+    color: black;
+  }
+`;
+
+const ProfileIcon = styled.img`
+  padding: 0 20px;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+`;
 
 const MainNavbar = () => {
   const history = useHistory();
   const { image_url } = useSelector(selectProfile, shallowEqual);
+  const isHome = useSelector(isHomePage);
   const dispatch = useDispatch();
   const { modal, showModal, closeModal } = useModal({
     withBackdrop: true,
@@ -24,6 +96,7 @@ const MainNavbar = () => {
   });
 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(false);
 
   const logoutUser = (val) => {
     if (val) {
@@ -57,23 +130,42 @@ const MainNavbar = () => {
     setShowProfileMenu(!showProfileMenu);
   };
 
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setShowNavbar(true);
+    }, 500);
+
+    return () => {
+      clearTimeout(id);
+    };
+  });
+
   return (
     <>
-      <nav className="main-navbar">
-        <div className="main-navbar-logo">
-          <Link to="/">instaHarvest</Link>
-        </div>
-        <div>
-          <Link to="/add-product">Share your Product</Link>
-        </div>
+      <MainNavbarStyled isHome={isHome} show={showNavbar}>
+        <Logo
+          onClick={() => {
+            history.push("/");
+          }}
+        >
+          InstaHarvest
+        </Logo>
+
+        <NavbarLink
+          onClick={() => {
+            history.push("/add-product");
+          }}
+        >
+          Share Product
+        </NavbarLink>
+
         {checkAuth() ? (
           <>
             <DropDownMenu
               open={showProfileMenu}
               button={
                 <div>
-                  <img
-                    className="main-navbar-profile"
+                  <ProfileIcon
                     src={image_url}
                     onClick={onClickProfile}
                     alt=""
@@ -101,25 +193,23 @@ const MainNavbar = () => {
             </DropDownMenu>
           </>
         ) : (
-          <div className="main-navbar-links">
-            <ButtonLink
-              onClick={() =>
-                showModal(
-                  <AuthModal
-                    closeModal={closeModal}
-                    afterConfirm={() => {
-                      closeModal();
-                      history.push("/profile");
-                    }}
-                  />
-                )
-              }
-            >
-              Sign In
-            </ButtonLink>
-          </div>
+          <NavbarLink
+            onClick={() =>
+              showModal(
+                <AuthModal
+                  closeModal={closeModal}
+                  afterConfirm={() => {
+                    closeModal();
+                    history.push("/profile");
+                  }}
+                />
+              )
+            }
+          >
+            Sign In
+          </NavbarLink>
         )}
-      </nav>
+      </MainNavbarStyled>
       {modal}
     </>
   );

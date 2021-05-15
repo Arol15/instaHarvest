@@ -101,17 +101,17 @@ export const validation = (data) => {
         errors.product_icon = "Please choose an icon";
       }
     }
-    if (key === "range") {
-      if (!value || value === 0) {
-        errors.range = "Please enter range";
-      }
-      if (value > 3000) {
-        errors.range = "Range should be less then 3000";
-      }
-      if (value < 0) {
-        errors.range = "Range should be positive number";
-      }
-    }
+    // if (key === "range") {
+    //   if (!value || value === 0) {
+    //     errors.range = "Please enter range";
+    //   }
+    //   if (value > 3000) {
+    //     errors.range = "Range should be less then 300";
+    //   }
+    //   if (value < 0) {
+    //     errors.range = "Range should be positive number";
+    //   }
+    // }
   });
 
   return errors;

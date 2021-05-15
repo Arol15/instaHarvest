@@ -71,10 +71,6 @@ textarea:focus {
   background-color: #0000000a;
 }
 
-.home {
-  text-align: center;
-}
-
 ::-webkit-scrollbar-track {
   background-color: #f5f5f500;
 }

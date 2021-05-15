@@ -6,7 +6,7 @@ import { useForm, useRequest } from "../../hooks/hooks";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
 import { Button, FormDanger } from "../styled/styled";
-import { FlexRow } from "../styled/styled";
+import { FlexRow, FlexColumn } from "../styled/styled";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
@@ -16,23 +16,106 @@ import { parseLocation, getBrowserLocation } from "../../utils/utils";
 import "../map/mapboxGeocoder.css";
 import styled from "styled-components/macro";
 
+const thumb = `
+
+border: none;
+width: 45px; 
+height: 45px;
+border-radius: 50%;
+cursor: pointer;
+
+`;
+
 const RangeInput = styled(FlexRow)`
   align-items: center;
   margin: 0 auto;
   margin-top: 20px;
+position:relative;
+width: fit-content;
 
   > div {
     margin: 0 5px;
   }
 
-  input[type="range"] {
-    padding: 0;
-    margin: 10px;
+
+  input{
+    border: none;
+    width: 250px;
   }
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    height: 30px;
+  input[type="range"]{
+    -webkit-appearance: none; 
+    background: transparent;
+
+    &:focus {
+      outline: none;
+  box-shadow: none;
+    }
+
+    &::-webkit-slider-runnable-track{
+      width:80%;
+      height: 10px;
+      border-radius: 20px;
+      background: ${({ theme }) => theme.secondaryTextColor};
+    }
+
+    &::-moz-range-track{
+      width:80%;
+      height: 10px;
+      border-radius: 20px;
+      background: ${({ theme }) => theme.secondaryTextColor};
+    }
+
+    &::-ms-track {
+      width: 100%;
+      cursor: pointer;
+      background: transparent; 
+      border-color: transparent;
+      color: transparent;
+    }
+
+    &::-webkit-slider-thumb{
+      -webkit-appearance: none;
+        ${thumb}
+      margin-top: -18px;
+      background: ${({ theme }) => theme.buttonColor};
+      background-image:${({ theme }) =>
+        `radial-gradient(circle at top left, #ffa42a 20%, ${theme.buttonColor} 80%)`}; 
+
+      }
+    &::-moz-range-thumb {
+        ${thumb}
+        background: ${({ theme }) => theme.buttonColor};
+        background-image:${({ theme }) =>
+          `radial-gradient(circle at top left, #ffa42a 20%, ${theme.buttonColor} 80%)`}; 
+
+      }
+    &::-ms-thumb {
+        ${thumb}
+        background: ${({ theme }) => theme.buttonColor};
+        background-image:${({ theme }) =>
+          `radial-gradient(circle at top left, #ffa42a 20%, ${theme.buttonColor} 80%)`}; 
+
+      }
+    }
+
+    
+  }
+`;
+
+const ThumbValueContainer = styled(FlexColumn)`
+  position: absolute;
+  font-size: 0.9rem;
+  font-weight: bold;
+  top: 6px;
+  left: 27px;
+  pointer-events: none;
+  color: #fff;
+  transform: ${(props) => `translateX(${(195 / 3000) * props.value}px)`};
+
+  div:last-child {
+    font-size: 0.7rem;
+    margin-top: -4px;
   }
 `;
 
@@ -52,13 +135,8 @@ const SearchMain = () => {
     sendRequest("/api/products/get_products", "POST", formData);
   };
 
-  const {
-    setFormData,
-    handleSubmit,
-    handleInputChange,
-    formData,
-    formErrors,
-  } = useForm({ lat: "", lon: "", range: 20 }, onSubmit, validation);
+  const { setFormData, handleSubmit, handleInputChange, formData, formErrors } =
+    useForm({ lat: "", lon: "", range: 20 }, onSubmit, validation);
 
   const onResultGeocoder = (data) => {
     const location = parseLocation(data);
@@ -138,24 +216,26 @@ const SearchMain = () => {
           className="geocoder-find-location"
           onClick={() => getBrowserLocation(successFn, errorFn)}
         >
-          <MdMyLocation size="30px" />
+          <MdMyLocation size="30px" color="#787878" />
         </div>
       </div>
       <FormDanger>{formErrors.address && formErrors.address}</FormDanger>
       <RangeInput>
-        <div>Range: </div>
         <form>
           <input
-            type="number"
+            type="range"
             name="range"
-            min="0"
-            max="3000"
+            max="3002"
+            min="2"
             step="5"
             onChange={handleInputChange}
             value={formData.range || ""}
           ></input>
+          <ThumbValueContainer value={formData.range}>
+            <div>{formData.range}</div>
+            <div>mi</div>
+          </ThumbValueContainer>
         </form>
-        <div> mi</div>
       </RangeInput>
       <FormDanger>{formErrors.range && formErrors.range}</FormDanger>
 

@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 import Home from "./components/Home";
 import Profile from "./components/profile/Profile";
 import Products from "./components/product/Products";
@@ -17,6 +19,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { lightTheme } from "./theme/theme";
 import styled, { ThemeProvider } from "styled-components/macro";
+import { isHomePage } from "./store/currentPageSlice";
 
 const Filler = styled.div`
   visibility: hidden;
@@ -24,6 +27,8 @@ const Filler = styled.div`
 `;
 
 function App() {
+  const isHome = useSelector(isHomePage);
+
   return (
     <ThemeProvider theme={lightTheme}>
       <Router>
@@ -65,10 +70,10 @@ function App() {
           />
           <Route path="*" component={NotFoundPage} />
         </Switch>
-        <Filler />
+        {!isHome && <Filler />}
       </Router>
       <ModalMsg />
-      <Footer />
+      {!isHome && <Footer />}
     </ThemeProvider>
   );
 }
