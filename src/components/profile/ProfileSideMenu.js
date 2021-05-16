@@ -56,26 +56,21 @@ const MenuElementTitle = styled.span`
 
 const MenuBack = styled.div`
   position: absolute;
+  border-radius: 0 20px 20px 0;
   z-index: 2;
   height: 300px;
+  width: ${(props) => (props.hide ? "50" : "230")}px;
+  transition: 0.5s ease;
+
   background: ${({ theme }) => theme.mainColor};
-`;
+  background-image: ${({ theme }) => `linear-gradient(
+    135deg,
+    ${theme.mainColor2} 0%,
+    ${theme.mainColor} 54%,
+    ${theme.mainColor2} 98%`} 
+  );
 
-const MenuBackLeft = styled(MenuBack)`
-  width: 1px;
-  transform: ${(props) => (props.hide ? "scaleX(40)" : "scaleX(205)")};
-  transform-origin: left;
-  transition: 0.5s ease;
-`;
-
-const MenuBackRight = styled(MenuBack)`
-  width: 15px;
-  border-radius: 0 20px 20px 0;
-  transform: ${(props) =>
-    props.hide ? "translateX(39px)" : "translateX(204px)"};
-  transition: 0.5s ease;
   box-shadow: 5px 0 5px ${({ theme }) => theme.shadowColor};
-
   ${(props) => props.hide && "box-shadow: none;"}
 `;
 
@@ -149,8 +144,8 @@ const ProfileSideMenu = ({ currTab }) => {
         </MenuItem>
       </MenuBody>
 
-      <MenuBackLeft hide={!showMenu}></MenuBackLeft>
-      <MenuBackRight hide={!showMenu}></MenuBackRight>
+      <MenuBack hide={!showMenu}></MenuBack>
+      {/* <MenuBackRight hide={!showMenu}></MenuBackRight> */}
     </StyledSideMenu>
   );
 };

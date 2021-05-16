@@ -4,7 +4,13 @@ const StyledFooter = styled.footer`
   margin-top: 80px;
   height: 80px;
   width: 100%;
-  background-color: #f2ff80;
+  background: ${({ theme }) => theme.mainColor};
+  background-image: ${({ theme }) => `linear-gradient(
+    135deg,
+    ${theme.mainColor2} 0%,
+    ${theme.mainColor} 54%,
+    ${theme.mainColor2} 98%`} 
+  );
   position: relative;
   bottom: 0;
   left: 0;

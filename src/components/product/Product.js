@@ -33,6 +33,7 @@ const ProductElement = styled(ContainerWithBorder)`
 
 const ProductImage = styled.img`
   cursor: pointer;
+  border-radius: 10px;
   position: absolute;
   top: 0;
   left: 0;
