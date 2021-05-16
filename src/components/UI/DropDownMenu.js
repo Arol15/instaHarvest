@@ -1,24 +1,42 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-import classnames from "classnames";
-import "./dropDownMenu.css";
+import { FlexColumn } from "../styled/styled";
 
-const DropDownMenu = ({
-  children,
-  open,
-  button,
-  onClick,
-  classContainer,
-  classMenu,
-  classActive,
-}) => {
-  const [classes] = useState({
-    clContainer: classContainer ? classContainer : "menu-container",
-    clMenu: classMenu ? classMenu : "menu",
-    clActive: classActive ? classActive : "menu-active",
-  });
+import styled from "styled-components/macro";
 
+const MenuContainer = styled.div`
+  position: relative;
+`;
+
+const Menu = styled.nav`
+  background: ${({ theme }) => theme.menuBackgroundColor};
+  border-radius: 15px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  padding: 0 5px;
+  width: max-content;
+  box-shadow: 0 1px 8px ${({ theme }) => theme.shadowColor};
+  opacity: ${({ active }) => (active ? "1" : "0")};
+  visibility: ${({ active }) => (active ? "visible" : "hidden")};
+  transform: translateY(${({ active }) => (active ? "0" : "-20px")});
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+`;
+
+const MenuElements = styled(FlexColumn)`
+  margin: 10px;
+  & > * {
+    color: white;
+  }
+
+  & > *:hover {
+    color: ${({ theme }) => theme.secondaryTextColor};
+  }
+`;
+
+const DropDownMenu = ({ children, open, button, onClick }) => {
   const refer = useRef(null);
+
   useEffect(() => {
     const clickEvent = (e) => {
       if (refer.current !== null && !refer.current.contains(e.target)) {
@@ -35,15 +53,12 @@ const DropDownMenu = ({
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={classes.clContainer}>
+    <MenuContainer>
       {button && button}
-      <nav
-        ref={refer}
-        className={classnames(classes.clMenu, { [classes.clActive]: open })}
-      >
-        <div className="menu-elements">{children}</div>
-      </nav>
-    </div>
+      <Menu active={open} ref={refer}>
+        <MenuElements>{children}</MenuElements>
+      </Menu>
+    </MenuContainer>
   );
 };
 
