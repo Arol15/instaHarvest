@@ -21,6 +21,8 @@ const Menu = styled.nav`
   visibility: ${({ active }) => (active ? "visible" : "hidden")};
   transform: translateY(${({ active }) => (active ? "0" : "-20px")});
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+
+  ${({ styles }) => styles}
 `;
 
 const MenuElements = styled(FlexColumn)`
@@ -34,7 +36,7 @@ const MenuElements = styled(FlexColumn)`
   }
 `;
 
-const DropDownMenu = ({ children, open, button, onClick }) => {
+const DropDownMenu = ({ children, open, button, onClick, styles }) => {
   const refer = useRef(null);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const DropDownMenu = ({ children, open, button, onClick }) => {
   return (
     <MenuContainer>
       {button && button}
-      <Menu active={open} ref={refer}>
+      <Menu active={open} ref={refer} styles={styles}>
         <MenuElements>{children}</MenuElements>
       </Menu>
     </MenuContainer>

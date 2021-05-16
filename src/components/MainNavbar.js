@@ -5,13 +5,7 @@ import { useModal, useScreen } from "../hooks/hooks";
 
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import {
-  Button,
-  ButtonLink,
-  ButtonLinkMenu,
-  Flex,
-  FlexRow,
-} from "./styled/styled";
+import { Button, ButtonLink, Flex } from "./styled/styled";
 import { IoIosArrowDown } from "react-icons/io";
 
 import { checkAuth, logout } from "../utils/utils";
@@ -24,6 +18,7 @@ const MainNavbarStyled = styled.div`
   position: sticky;
   height: 80px;
   z-index: 50;
+
   // align-items: center;
   background: ${({ theme }) => theme.mainColor};
   background-image: ${({ theme }) => `linear-gradient(
@@ -48,7 +43,7 @@ const MainNavbarStyled = styled.div`
   ${(props) =>
     props.isHome &&
     `
-    height: ${props.align === "vert" && props.showMenu ? "140" : "60"}px;
+    height: ${props.align === "vert" && props.showMenu ? "190" : "60"}px;
     margin-left: 20px;
     width: ${props.align === "hor" && props.showMenu ? "760" : "400"}px;
     border-radius: 30px;
@@ -63,27 +58,26 @@ const MainNavbarStyled = styled.div`
 `;
 
 const Logo = styled.div`
-  margin-left: 10px;
+  margin-left: 40px;
   margin-right: auto;
   font-family: "Lobster", cursive;
   font-size: 24px;
   cursor: pointer;
-  color: ${({ theme }) => theme.secondaryTextColor};
+  color: black;
   transition: 0.25s;
 
   &:hover {
-    color: black;
+    color: ${({ theme }) => theme.secondaryTextColor};
+  }
+
+  @media (max-width: 640px) {
+    margin-left: 20px;
   }
 `;
 
 const NavbarLink = styled(ButtonLink)`
   text-decoration-line: none;
-  color: ${({ theme }) => theme.secondaryTextColor};
   transition: 0.25s;
-
-  &:hover {
-    color: black;
-  }
 `;
 
 const ProfileIcon = styled.img`
@@ -91,7 +85,7 @@ const ProfileIcon = styled.img`
   transition: all 0.5s ease-in-out;
   margin-right: ${(props) => {
     if (!props.isHome) {
-      return "0";
+      return `20px`;
     } else {
       return props.show && props.align === "hor" ? "360px" : "0";
     }
@@ -101,6 +95,12 @@ const ProfileIcon = styled.img`
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
+
+  ${(props) =>
+    !props.isHome &&
+    `@media (max-width: 640px) {
+    margin-right: 0px;
+  }`}
 `;
 
 const MenuArrow = styled.div`
@@ -109,21 +109,18 @@ const MenuArrow = styled.div`
   bottom: -5px;
   transition: 0.25s;
   cursor: pointer;
-  color: ${({ theme }) => theme.secondaryTextColor};
+  color: black;
 
   &:hover {
-    color: black;
+    color: ${({ theme }) => theme.secondaryTextColor};
   }
 
   ${(props) => {
     if (!props.isHome) {
-      if (props.show) {
-        return `
+      return `
         bottom: 0;
+        opacity: 0;
         visibility: hidden;`;
-      } else {
-        return `bottom: 0;`;
-      }
     } else {
       if (props.align === "hor") {
         if (props.show) {
@@ -152,6 +149,7 @@ const MenuArrow = styled.div`
 `;
 
 const MenuItemsStyled = styled(Flex)`
+  font-size: 1.1rem;
   flex-direction: ${(props) => (props.align === "vert" ? "column" : "row")};
   text-align: ${(props) => (props.align === "vert" ? "right" : null)};
   position: absolute;
@@ -163,8 +161,12 @@ const MenuItemsStyled = styled(Flex)`
   top: ${(props) => (props.align === "vert" ? "40px" : null)};
 
   ${NavbarLink} {
-    color: ${({ theme }) => theme.secondaryTextColor};
+    color: black;
     text-align: inherit;
+  }
+
+  ${NavbarLink}:hover {
+    color: ${({ theme }) => theme.secondaryTextColor};
   }
 
   ${(props) =>
@@ -172,10 +174,10 @@ const MenuItemsStyled = styled(Flex)`
     `
     ${NavbarLink} {
       padding: 0;
-      padding-bottom: 3px;
+      padding-bottom: 15px;
     }
     ${NavbarLink}:first-child {
-      padding-top: 10px;
+      padding-top: 20px;
     }
     `}
 `;
@@ -322,7 +324,18 @@ const MainNavbar = () => {
                   {menuItems}
                 </MenuItemsStyled>
               ) : (
-                <DropDownMenu open={showMenu} onClick={onClickMenu}>
+                <DropDownMenu
+                  open={showMenu}
+                  onClick={onClickMenu}
+                  styles={`
+                  right: 40px;
+
+                  @media (max-width: 640px) {
+                    right: 20px;
+                  }
+
+                `}
+                >
                   {menuItems}
                 </DropDownMenu>
               )}
