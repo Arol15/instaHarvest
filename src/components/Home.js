@@ -26,7 +26,7 @@ const Background = styled.div`
     ${theme.mainColor} 54%,
     ${theme.mainColor2} 98%`} 
   );
-  min-height: 100%;
+  min-height: 100vh;
   width: 100%;
   top: 0;
   position: absolute;

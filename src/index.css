@@ -48,7 +48,7 @@ textarea {
   font: inherit;
   text-align: center;
   border: 1px solid hsl(0, 2%, 75%);
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
   font-size: 1rem;
 }
@@ -67,7 +67,7 @@ textarea:focus {
 }
 
 .background {
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #0000000a;
 }
 
@@ -98,4 +98,24 @@ textarea:focus {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
+}
+
+.page-enter {
+  opacity: 0;
+}
+
+.page-enter-active {
+  opacity: 1;
+
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 0;
+
+  transition: opacity 300ms, transform 300ms;
 }

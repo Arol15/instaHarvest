@@ -10,7 +10,7 @@ export const Button = styled.button`
   border: 0;
   padding: 8px;
   margin: 5px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: 0.25s ease-in-out;
 
@@ -28,7 +28,7 @@ export const ButtonLink = styled.button`
   text-decoration-line: underline;
   cursor: pointer;
   background: none;
-  margin: 0px !important;
+  margin: 0px;
   padding: 8px;
 
   &:hover {

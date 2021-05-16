@@ -27,8 +27,7 @@
   max-width: 400px;
   z-index: 1;
   margin: 0 auto;
-  border: 1px solid hsl(0, 2%, 75%);
-  border-radius: 5px;
+  border-radius: 15px;
   transition: width 0.25s, min-width 0.25s;
   font-size: 1rem;
 }
@@ -42,12 +41,9 @@
   font: inherit;
   width: 100%;
   border: 0;
-  /* background-color: transparent; */
   margin: 0;
-  /* height: 50px; */
   color: #404040; /* fallback */
   color: rgba(0, 0, 0, 0.75);
-  /* padding: 0 10px; */
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

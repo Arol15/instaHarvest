@@ -18,7 +18,7 @@ const ProductElement = styled(ContainerWithBorder)`
   height: 200px;
   padding: 10px;
   margin: 7px;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: 0.5s;
   ${(props) =>
     props.personal

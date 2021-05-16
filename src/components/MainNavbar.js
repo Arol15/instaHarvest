@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useState, useEffect, useLayoutEffect, useMemo } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { useModal } from "../hooks/hooks";
+import { useModal, useScreen } from "../hooks/hooks";
 
 import AuthModal from "../components/auth/AuthModal";
 import DropDownMenu from "../components/UI/DropDownMenu";
-import { Button, ButtonLink, ButtonLinkMenu } from "./styled/styled";
+import {
+  Button,
+  ButtonLink,
+  ButtonLinkMenu,
+  Flex,
+  FlexRow,
+} from "./styled/styled";
+import { IoIosArrowDown } from "react-icons/io";
 
 import { checkAuth, logout } from "../utils/utils";
 import { selectProfile } from "../store/profileSlice";
@@ -17,7 +24,7 @@ const MainNavbarStyled = styled.div`
   position: sticky;
   height: 80px;
   z-index: 50;
-  align-items: center;
+  // align-items: center;
   background: ${({ theme }) => theme.mainColor};
   background-image: ${({ theme }) => `linear-gradient(
     135deg,
@@ -26,27 +33,32 @@ const MainNavbarStyled = styled.div`
     ${theme.mainColor2} 98%`} 
   );
   transition: all 0.5s ease-in-out;
-  transition-delay: color 0.25;
-  top: 0;
-  transform: translateY(${(props) => (props.show ? "0" : "-100%")});
-
+  // transition-delay: width 0.5s;
+  transform: translateY(${(props) => (props.showNavbar ? "0" : "-200%")});
+    
   width: 100%;
   display: flex;
-  top: ${(props) => (props.show && props.isHome ? "20px" : "0")};
+  align-items: flex-start;
+  top: ${(props) => (props.showNavbar && props.isHome ? "20px" : "0")};
+
+  & > * {
+    margin-top: ${(props) => (props.isHome ? "13px" : "25px")};;
+  }
+
   ${(props) =>
     props.isHome &&
     `
-    height: 60px;
+    height: ${props.align === "vert" && props.showMenu ? "140" : "60"}px;
     margin-left: 20px;
-  width: 400px;
-  border-radius: 30px;
-  background-color: #ffffffaf;
-  background-image: none;
+    width: ${props.align === "hor" && props.showMenu ? "760" : "400"}px;
+    border-radius: 30px;
+    background-color: #ffffffd5;
+    background-image: none;
 
-  @media (max-width: 440px) {
-    margin: 20px auto;
-    width: 80%;
-  }
+    @media (max-width: 440px) {
+      margin: 20px auto;
+      width: 80%;
+    }
   `}
 `;
 
@@ -76,11 +88,96 @@ const NavbarLink = styled(ButtonLink)`
 
 const ProfileIcon = styled.img`
   padding: 0 20px;
+  transition: all 0.5s ease-in-out;
+  margin-right: ${(props) => {
+    if (!props.isHome) {
+      return "0";
+    } else {
+      return props.show && props.align === "hor" ? "360px" : "0";
+    }
+  }};
   width: 35px;
   height: 35px;
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
+`;
+
+const MenuArrow = styled.div`
+  position: absolute;
+  right: 30px;
+  bottom: -5px;
+  transition: 0.25s;
+  cursor: pointer;
+  color: ${({ theme }) => theme.secondaryTextColor};
+
+  &:hover {
+    color: black;
+  }
+
+  ${(props) => {
+    if (!props.isHome) {
+      if (props.show) {
+        return `
+        bottom: 0;
+        visibility: hidden;`;
+      } else {
+        return `bottom: 0;`;
+      }
+    } else {
+      if (props.align === "hor") {
+        if (props.show) {
+          return `
+            right: 8px;
+            bottom: 18px;
+            transform: rotate(90deg);
+            `;
+        } else {
+          return `
+          transform-origin: top left;
+          transform: rotate(-90deg);
+          right: 8px;
+          bottom: 0;
+        }`;
+        }
+      }
+      if (props.align === "vert" && props.show) {
+        return `
+        transform: rotate(180deg);
+        bottom: 5px;
+        `;
+      }
+    }
+  }}
+`;
+
+const MenuItemsStyled = styled(Flex)`
+  flex-direction: ${(props) => (props.align === "vert" ? "column" : "row")};
+  text-align: ${(props) => (props.align === "vert" ? "right" : null)};
+  position: absolute;
+  right: 20px;
+  opacity: ${(props) => (props.show ? "1" : "0")};
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  transition: all 0.25s;
+  transition-delay: ${(props) => (props.show ? "0.25" : "0")}s;
+  top: ${(props) => (props.align === "vert" ? "40px" : null)};
+
+  ${NavbarLink} {
+    color: ${({ theme }) => theme.secondaryTextColor};
+    text-align: inherit;
+  }
+
+  ${(props) =>
+    props.align === "vert" &&
+    `
+    ${NavbarLink} {
+      padding: 0;
+      padding-bottom: 3px;
+    }
+    ${NavbarLink}:first-child {
+      padding-top: 10px;
+    }
+    `}
 `;
 
 const MainNavbar = () => {
@@ -94,9 +191,13 @@ const MainNavbar = () => {
     inPlace: false,
     disableClose: true,
   });
+  const { screenWidth } = useScreen();
 
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [showNavbar, setShowNavbar] = useState(false);
+  const [navbarAlign, setNavbarAlign] = useState(
+    screenWidth > 920 ? "hor" : "vert"
+  );
 
   const logoutUser = (val) => {
     if (val) {
@@ -115,7 +216,7 @@ const MainNavbar = () => {
         });
     }
     closeModal();
-    setShowProfileMenu(false);
+    setShowMenu(false);
   };
 
   const confirmLogout = (
@@ -126,9 +227,42 @@ const MainNavbar = () => {
     </>
   );
 
-  const onClickProfile = () => {
-    setShowProfileMenu(!showProfileMenu);
+  const onClickMenu = () => {
+    setShowMenu(!showMenu);
   };
+
+  const menuItems = useMemo(() => {
+    return (
+      <>
+        <NavbarLink
+          onClick={() => {
+            setShowMenu(false);
+            history.push("/profile");
+          }}
+        >
+          Profile
+        </NavbarLink>
+
+        <NavbarLink
+          onClick={() => {
+            setShowMenu(false);
+            history.push("/add-product");
+          }}
+        >
+          Share Product
+        </NavbarLink>
+
+        <NavbarLink
+          onClick={() => {
+            setShowMenu(false);
+            showModal(confirmLogout);
+          }}
+        >
+          Logout
+        </NavbarLink>
+      </>
+    );
+  }, []);
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -140,9 +274,30 @@ const MainNavbar = () => {
     };
   });
 
+  useEffect(() => {
+    if (screenWidth > 920) {
+      setNavbarAlign("hor");
+    } else {
+      if (showMenu) {
+        setShowMenu(false);
+      }
+      setNavbarAlign("vert");
+    }
+  }, [screenWidth]);
+
+  useEffect(() => {
+    setShowMenu(false);
+  }, [isHome]);
+
   return (
     <>
-      <MainNavbarStyled isHome={isHome} show={showNavbar}>
+      <MainNavbarStyled
+        isHome={isHome}
+        showNavbar={showNavbar}
+        showMenu={showMenu}
+        width={screenWidth}
+        align={navbarAlign}
+      >
         <Logo
           onClick={() => {
             history.push("/");
@@ -151,46 +306,35 @@ const MainNavbar = () => {
           InstaHarvest
         </Logo>
 
-        <NavbarLink
-          onClick={() => {
-            history.push("/add-product");
-          }}
-        >
-          Share Product
-        </NavbarLink>
-
         {checkAuth() ? (
           <>
-            <DropDownMenu
-              open={showProfileMenu}
-              button={
-                <div>
-                  <ProfileIcon
-                    src={image_url}
-                    onClick={onClickProfile}
-                    alt=""
-                  />
-                </div>
-              }
-              onClick={onClickProfile}
-            >
-              <ButtonLinkMenu
-                onClick={() => {
-                  onClickProfile();
-                  history.push("/profile");
-                }}
+            <Flex>
+              <ProfileIcon
+                show={showMenu}
+                isHome={isHome}
+                align={navbarAlign}
+                src={image_url}
+                onClick={onClickMenu}
+                alt=""
+              />
+              {isHome ? (
+                <MenuItemsStyled align={navbarAlign} show={showMenu}>
+                  {menuItems}
+                </MenuItemsStyled>
+              ) : (
+                <DropDownMenu open={showMenu} onClick={onClickMenu}>
+                  {menuItems}
+                </DropDownMenu>
+              )}
+              <MenuArrow
+                onClick={onClickMenu}
+                show={showMenu}
+                align={navbarAlign}
+                isHome={isHome}
               >
-                Profile
-              </ButtonLinkMenu>
-
-              <ButtonLinkMenu
-                onClick={() => {
-                  showModal(confirmLogout);
-                }}
-              >
-                Logout
-              </ButtonLinkMenu>
-            </DropDownMenu>
+                <IoIosArrowDown />
+              </MenuArrow>
+            </Flex>
           </>
         ) : (
           <NavbarLink
@@ -210,6 +354,7 @@ const MainNavbar = () => {
           </NavbarLink>
         )}
       </MainNavbarStyled>
+
       {modal}
     </>
   );

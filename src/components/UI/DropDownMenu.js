@@ -36,7 +36,7 @@ const DropDownMenu = ({
 
   return (
     <div className={classes.clContainer}>
-      {button}
+      {button && button}
       <nav
         ref={refer}
         className={classnames(classes.clMenu, { [classes.clActive]: open })}
