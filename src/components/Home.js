@@ -2,8 +2,9 @@ import { useRef, useEffect, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import ShareProducts from "./ShareProducts";
 import SearchMain from "./product/SearchMain";
+import ButtonWithIcon from "./UI/ButtonWithIcon";
+import { RiHandCoinLine } from "react-icons/ri";
 
 import { setHomePage } from "../store/currentPageSlice";
 import { Canvas } from "@react-three/fiber";
@@ -14,8 +15,29 @@ import styled from "styled-components/macro";
 const HomeStyled = styled.div`
   // flex: 1;
   padding-top: 100px;
-
+  color: ${({ theme }) => theme.secondaryTextColor};
   text-align: center;
+
+  // @keyframes slideInFromLeft {
+  //   0% {
+  //     transform: translateX(20%);
+  //   }
+  //   100% {
+  //     transform: translateX(0);
+  //   }
+  // }
+
+  // #w1 {
+  //   animation: 1s cubic-bezier(0.1, 0.1, 0.25, 1) 0s 1 slideInFromLeft;
+  // }
+
+  // #w2 {
+  //   animation: 1s cubic-bezier(0.1, 0.1, 0.25, 1) 0.25s 1 slideInFromLeft;
+  // }
+
+  // #w3 {
+  //   animation: 1s cubic-bezier(0.1, 0.1, 0.25, 1) 0.5s 1 slideInFromLeft;
+  // }
 `;
 
 const Background = styled.div`
@@ -47,9 +69,16 @@ const Home = () => {
   return (
     <Background>
       <HomeStyled>
-        <h1>Welcome to instaHarvest</h1>
+        <h1 id="w1">Find homegrown fruits and vegetables</h1>
+
         <SearchMain />
-        <ShareProducts />
+        <ButtonWithIcon
+          addCss="margin-top: 20px;"
+          onClick={() => history.push("/add-product")}
+          icon={<RiHandCoinLine size="20px" />}
+        >
+          Share
+        </ButtonWithIcon>
 
         {/* <Canvas concurent>
         <ambientLight intensity={0.5} />
