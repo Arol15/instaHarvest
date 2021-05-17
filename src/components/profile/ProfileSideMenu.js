@@ -41,9 +41,7 @@ const MenuButton = styled.div`
 const MenuItem = styled.p`
   font-weight: ${(props) => (props.active ? "bold" : "normal")};
   color: ${(props) =>
-    props.active
-      ? props.theme.activeTextColor
-      : props.theme.secondaryTextColor};
+    props.active ? props.theme.textColor : props.theme.secondaryTextColor};
 `;
 
 const MenuElementTitle = styled.span`

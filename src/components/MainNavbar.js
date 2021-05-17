@@ -58,7 +58,7 @@ const MainNavbarStyled = styled.div`
 `;
 
 const Logo = styled.div`
-  margin-left: 40px;
+  margin-left: ${({ isHome }) => (isHome ? "20" : "40")}px;
   margin-right: auto;
   font-family: "Lobster", cursive;
   font-size: 24px;
@@ -182,6 +182,23 @@ const MenuItemsStyled = styled(Flex)`
     `}
 `;
 
+const Share = styled(Flex)`
+  width: 50px;
+  height: 50px;
+  border: 5px solid ${({ theme }) => theme.buttonColor};
+  border-radius: 50%;
+  margin-top: 0;
+  transition: all 0.5s;
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
+  @media (max-width: 600px) {
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0);
+  }
+`;
+
 const MainNavbar = () => {
   const history = useHistory();
   const { image_url } = useSelector(selectProfile, shallowEqual);
@@ -301,12 +318,14 @@ const MainNavbar = () => {
         align={navbarAlign}
       >
         <Logo
+          isHome={isHome}
           onClick={() => {
             history.push("/");
           }}
         >
           InstaHarvest
         </Logo>
+        <Share></Share>
 
         {checkAuth() ? (
           <>
