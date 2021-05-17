@@ -7,6 +7,8 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import Spinner from "../UI/Spinner";
 import { Button, FormDanger } from "../styled/styled";
 import { FlexRow, FlexColumn } from "../styled/styled";
+import ButtonWithIcon from "../UI/ButtonWithIcon";
+import { FaSearchLocation } from "react-icons/fa";
 
 import { MdMyLocation } from "react-icons/md";
 import { validation } from "../../form_validation/validation";
@@ -30,8 +32,8 @@ const RangeInput = styled(FlexRow)`
   align-items: center;
   margin: 0 auto;
   margin-top: 20px;
-position:relative;
-width: fit-content;
+  position:relative;
+  width: fit-content;
 
   > div {
     margin: 0 5px;
@@ -49,7 +51,7 @@ width: fit-content;
 
     &:focus {
       outline: none;
-  box-shadow: none;
+      box-shadow: none;
     }
 
     &::-webkit-slider-runnable-track{
@@ -239,9 +241,13 @@ const SearchMain = () => {
       </RangeInput>
       <FormDanger>{formErrors.range && formErrors.range}</FormDanger>
 
-      <Button css="margin-top: 20px;" onClick={handleSubmit}>
+      <ButtonWithIcon
+        addCss="margin-top: 20px;"
+        onClick={handleSubmit}
+        icon={<FaSearchLocation size="20px" />}
+      >
         Find
-      </Button>
+      </ButtonWithIcon>
     </>
   );
 };

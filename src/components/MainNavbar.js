@@ -325,7 +325,7 @@ const MainNavbar = () => {
         >
           InstaHarvest
         </Logo>
-        <Share></Share>
+        {/* <Share></Share> */}
 
         {checkAuth() ? (
           <>
