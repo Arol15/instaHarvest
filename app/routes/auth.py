@@ -111,7 +111,7 @@ def resend_email():
     now = datetime.utcnow()
     time_diff = now - user.confirm_email_sent
     if time_diff.seconds < 14400:
-        return {"error": f"Sorry, you can resend confirmation email in {(14400 - time_diff.seconds) // 60} minutes"}, 406
+        return {"error": f"Sorry, you can resend confirmation email in {(14400 - time_diff.seconds) // 60 + 1} minutes"}, 406
     email = user.email
     email_token = ts.dumps(email, salt="email-confirm")
     confirm_url = url_for(".confirm_email", token=email_token, _external=True)
@@ -144,11 +144,10 @@ def confirm_email(token):
     try:
         email = ts.loads(token, salt="email-confirm", max_age=86400)
     except:
-        redirect(f"{current_app.config['BASE_URL']}/404", code=302)
-
+        return redirect(f"{current_app.config['BASE_URL']}/404", code=302)
     user = User.query.filter_by(email=email).first()
     if user is None:
-        redirect(f"{current_app.config['BASE_URL']}/404", code=302)
+        return redirect(f"{current_app.config['BASE_URL']}/404", code=302)
     user.email_verified = True
     db.session.add(user)
     db.session.commit()

@@ -29,4 +29,5 @@ class Config(object):
     RADIUS = 6372.795477598
     KM_TO_MI_FACTOR = 0.621371
     USERS_FOLDER = os.environ.get("USERS_FOLDER_PATH")
+    USERS_FOLDER_TEST = os.environ.get("USERS_FOLDER_TEST_PATH")
     IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".bmp", ".gif"]

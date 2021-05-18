@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from flask import Blueprint, request, url_for, session, current_app
+from flask import Blueprint, request, url_for, session, current_app, redirect
 from app import db
 from app.models import User, Address
 from app.utils.security import ts, auth_required
@@ -216,7 +216,7 @@ def change_email(token):
 
     user = User.query.filter_by(email=old_email).first()
     if user is None:
-        redirect(f"{current_app.config['BASE_URL']}/404", code=302)
+        return redirect(f"{current_app.config['BASE_URL']}/404", code=302)
     user.email = new_email
     db.session.add(user)
     db.session.commit()
