@@ -23,7 +23,7 @@ const Shape = styled.div`
   cursor: pointer;
 `;
 const ButtonFront = styled(Shape)`
-  transition: 0.5s cubic-bezier(0.9, 0.1, 0.1, 0.9);
+  transition: 0.5s cubic-bezier(0.99, 0.01, 0.1, 0.9);
   background: ${({ theme }) => theme.buttonColor};
 `;
 

@@ -1,20 +1,20 @@
 .light-theme {
-  color: mainColor #f2ff80;
-  color: mainColor2 #ffcd5e;
-  color: buttonColor #ff4400;
-  color: buttonTextColor #ffffff;
-  color: buttonDisabledColor #e89a7d;
-  color: buttonHoverColor #bd3200;
-  color: linkColor #0377b5;
-  color: secondaryBackgroundColor #0000000a;
-  color: borderColor #c1bebe;
-  color: errorColor #e61e14e6;
-  color: acceptColor #4ac723e6;
-  color: elementHoverColor #0000002f;
-  color: elementSecondaryColor #ff440063;
-  color: menuBackgroundColor #4a4a4ae6;
-  color: textColor #000000;
-  color: secondaryTextColor #787878;
-  color: activeTextColor #0377b5;
-  color: shadowColor #0000002a;
+  color: mainColor hsl(66, 100%, 75%);
+  color: mainColor2 hsl(41, 100%, 68%);
+  color: buttonColor hsl(16, 100%, 50%);
+  color: buttonTextColor hsl(0, 0%, 100%);
+  color: buttonDisabledColor hsl(16, 70%, 70%);
+  color: buttonHoverColor hsl(16, 100%, 37%);
+  color: linkColor hsl(201, 97%, 36%);
+  color: secondaryBackgroundColor hsla(0, 0%, 0%, 0.039);
+  color: borderColor hsl(0, 2%, 75%);
+  color: errorColor hsla(3, 84%, 49%, 0.902);
+  color: acceptColor hsla(106, 70%, 46%, 0.902);
+  color: elementHoverColor hsla(0, 0%, 0%, 0.184);
+  color: elementSecondaryColor hsla(16, 100%, 50%, 0.388);
+  color: menuBackgroundColor hsla(0, 0%, 29%, 0.902);
+  color: textColor hsl(0, 0%, 0%);
+  color: secondaryTextColor hsl(0, 0%, 47%);
+  color: activeTextColor hsl(201, 97%, 36%);
+  color: shadowColor hsla(0, 0%, 0%, 0.165);
 }

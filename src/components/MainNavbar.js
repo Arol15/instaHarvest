@@ -291,7 +291,7 @@ const MainNavbar = () => {
     return () => {
       clearTimeout(id);
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (screenWidth > 920) {
