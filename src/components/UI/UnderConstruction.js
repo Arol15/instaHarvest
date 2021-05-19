@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import styled from "styled-components/macro";
+import styled, { keyframes } from "styled-components/macro";
 
 const tr1 = "hsl(33,86%,27%)";
 const tr2 = "hsl(34, 76%, 61%)";
@@ -12,9 +12,9 @@ const or1 = "hsl(34,97%, 59%)";
 const or2 = "hsl(30, 100%, 49%)";
 const or3 = "hsl(30, 43%, 23%)";
 
-const getRandom = (min, max) => {
-  return Math.floor(Math.random() * (max - min) + min);
-};
+// const getRandom = (min, max) => {
+//   return Math.floor(Math.random() * (max - min) + min);
+// };
 
 const Container = styled.div`
   position: relative;
@@ -22,9 +22,8 @@ const Container = styled.div`
   display: block;
   width: 200px;
   height: 200px;
-  margin-bottom: 40px;
+  // margin-bottom: 40px;
   background: none;
-  border: 2px solid #000;
 
   & * {
     position: absolute;
@@ -114,10 +113,10 @@ const Container = styled.div`
       //top-left-back
       radial-gradient(
           45% 75% at 85% 75%,
-          ${gr2} 46%,
+          ${gr2} 45%,
           ${tr1} 47%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 53%
         ) -45px -14px / 60% 50%,
       //
       //top-center-front
@@ -129,27 +128,27 @@ const Container = styled.div`
           ${gr1} 46%,
           ${tr1} 47%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 53%
         )
         159px 15px / 49% 45%,
       //
       //top-right-back
       radial-gradient(
           55% 78% at 15% 75%,
-          ${gr2} 46%,
-          ${tr1} 47%,
+          ${gr2} 45%,
+          ${tr1} 48%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 53%
         )
         126px -18px / 50% 50%,
       //
       //left-center-back
       radial-gradient(
           25% 35% at 100% 65%,
-          ${gr2} 44%,
-          ${tr1} 45%,
+          ${gr2} 43%,
+          ${tr1} 46%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 54%
         ) -104px 0px / 70% 70%,
       //
       //bottom-left-back
@@ -158,7 +157,7 @@ const Container = styled.div`
           ${gr1} 47%,
           ${tr1} 48%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 52%
         ) -80px 72px / 85% 80%,
       //
       //bottom-right-back
@@ -167,7 +166,7 @@ const Container = styled.div`
           ${gr1} 47%,
           ${tr1} 48%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 52%
         )
         26px 68px / 80% 80%,
       //
@@ -177,7 +176,7 @@ const Container = styled.div`
           ${gr2} 46%,
           ${tr1} 47%,
           ${tr1} 50%,
-          ${t} 51%
+          ${t} 53%
         )
         45px -52px / 60% 60%;
 
@@ -191,50 +190,53 @@ const Container = styled.div`
     height: 40px;
     // outline: 1px solid #aaa;
 
-    background: radial-gradient(45px 35px at 10px 10px, ${gr1} 50%, ${t} 51%)
+    background: radial-gradient(45px 35px at 10px 10px, ${gr1} 50%, ${t} 52%)
         14px 1px / 75px 65px,
-      radial-gradient(45px 35px at 10px 10px, ${tr1} 50%, ${t} 51%) 16px 3px /
+      radial-gradient(45px 35px at 10px 10px, ${tr1} 50%, ${t} 52%) 16px 3px /
         75px 65px,
       //
-      radial-gradient(40px 30px at 70px 10px, ${gr1} 50%, ${t} 51%) 0px 3px /
+      radial-gradient(40px 30px at 70px 10px, ${gr1} 50%, ${t} 52%) 0px 3px /
         73px 60px,
-      radial-gradient(40px 30px at 70px 10px, ${tr1} 50%, ${t} 51%) 1px 6px /
+      radial-gradient(40px 30px at 70px 10px, ${tr1} 50%, ${t} 52%) 1px 6px /
         70px 60px;
 
     background-repeat: no-repeat;
   }
-
-  .fruit {
-    --position-left: 50px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    left: var(--position-left);
-    top: 10px;
-    background-color: orange;
-    background: radial-gradient(100% 100% at 70% 20%, ${or2} 60%, ${or1} 71%) 0
-      0 / 30px 30px;
-
-    background-repeat: no-repeat;
-
-    transition: all 0.25s;
-    animation: grow 10s infinite;
-  }
-
-  @keyframes grow {
-    0% {
-      transform: scale(0);
-      // transform: translateY(10px);
-    }
-    50% {
-      transform: scale(1);
-      // transform: translateY(20px);
-    }
-    60% {
-      transform: translateY(50px);
-    }
-  }
 `;
+
+const animation = (top) => {
+  // const bottom = 160 - top;
+
+  return keyframes`
+0% {
+  transform: scale(0);
+  background-color: ${or1};
+  top:${top}px;
+
+}
+50% {
+  transform: scale(1);
+  background-color: ${or2};
+  top:${top}px;
+
+}
+55% {
+  transform: scale(1);
+  transform-origin: bottom;
+  background-color: ${or2};
+  top:160px;
+
+}
+100% {
+  transform: scale(1.2, 0);
+  transform-origin: bottom;
+  background-color: ${or3};
+  top:160px;
+ 
+
+}
+`;
+};
 
 const Fruit = styled.div`
   width: 30px;
@@ -242,54 +244,32 @@ const Fruit = styled.div`
   border-radius: 50%;
   left: ${({ left }) => left}px;
   top: ${({ top }) => top}px;
-  transform: scale(0) translateY(0px);
+  transform: scale(0) translateY(0);
   background-color: ${or1};
-  background: radial-gradient(100% 100% at 74% 75%, ${t} 60%, ${or1} 71%) 0 0 /
+  // background: radial-gradient(100% 100% at 74% 75%, ${t} 60%, ${or1} 71%) 0 0 /
     30px 30px;
-  background-repeat: no-repeat;
+  // background-repeat: no-repeat;
   transition: all 0.25s;
 
-  animation: grow 15s infinite;
+  animation: ${(props) => animation(props.top)} 15s infinite;
   animation-delay: ${({ delay }) => delay}s;
-
-  @keyframes grow {
-    0% {
-      top: ${({ top }) => top}px;
-      transform: scale(0);
-      background-color: ${or1};
-
-      // transform: translateY(10px);
-    }
-    50% {
-      top: ${({ top }) => top}px;
-      transform: scale(1);
-      background-color: ${or2};
-    }
-    55% {
-      top: 160px;
-      transform: scale(1);
-      background-color: ${or2};
-    }
-    100% {
-      top: 175px;
-      transform: scale(1.2, 0);
-      background-color: ${or3};
-    }
-  }
 `;
 
 const UnderConstruction = () => {
   return (
-    <Container>
-      <div className="crown-back" />
-      <div className="grass-oval" />
-      <div className="trunk" />
-      <div className="crown-front" />
-      <Fruit key="1" left={25} top={10} delay={0} />
-      <Fruit key="2" left={90} top={75} delay={6} />
-      <Fruit key="3" left={140} top={35} delay={14} />
-      <Fruit key="4" left={45} top={40} delay={8} />
-    </Container>
+    <>
+      <Container>
+        <div className="crown-back" />
+        <div className="grass-oval" />
+        <div className="trunk" />
+        <div className="crown-front" />
+        <Fruit key="1" left={25} top={10} delay={0} />
+        <Fruit key="2" left={90} top={75} delay={6} />
+        <Fruit key="3" left={140} top={35} delay={14} />
+        <Fruit key="4" left={45} top={40} delay={8} />
+      </Container>
+      <h2>Site is ripening</h2>
+    </>
   );
 };
 
