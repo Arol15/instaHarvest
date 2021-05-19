@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import styled, { keyframes } from "styled-components/macro";
 
 const tr1 = "hsl(33,86%,27%)";
@@ -205,35 +203,26 @@ const Container = styled.div`
 `;
 
 const animation = (top) => {
-  // const bottom = 160 - top;
+  const bottom = 160 - top;
 
   return keyframes`
 0% {
-  transform: scale(0);
+  transform: scale(0) translateY(0);
   background-color: ${or1};
-  top:${top}px;
-
 }
 50% {
-  transform: scale(1);
+  transform: scale(1) translateY(0);
   background-color: ${or2};
-  top:${top}px;
-
 }
 55% {
-  transform: scale(1);
+  transform: translateY(${bottom}px) scale(1);
   transform-origin: bottom;
   background-color: ${or2};
-  top:160px;
-
 }
 100% {
-  transform: scale(1.2, 0);
+  transform: translateY(${bottom}px) scale(1.2, 0);
   transform-origin: bottom;
   background-color: ${or3};
-  top:160px;
- 
-
 }
 `;
 };
@@ -244,7 +233,7 @@ const Fruit = styled.div`
   border-radius: 50%;
   left: ${({ left }) => left}px;
   top: ${({ top }) => top}px;
-  transform: scale(0) translateY(0);
+  transform: scale(0);
   background-color: ${or1};
   // background: radial-gradient(100% 100% at 74% 75%, ${t} 60%, ${or1} 71%) 0 0 /
     30px 30px;
@@ -263,10 +252,10 @@ const UnderConstruction = () => {
         <div className="grass-oval" />
         <div className="trunk" />
         <div className="crown-front" />
-        <Fruit key="1" left={25} top={10} delay={0} />
-        <Fruit key="2" left={90} top={75} delay={6} />
-        <Fruit key="3" left={140} top={35} delay={14} />
-        <Fruit key="4" left={45} top={40} delay={8} />
+        <Fruit left={25} top={10} delay={0} />
+        <Fruit left={90} top={75} delay={6} />
+        <Fruit left={140} top={35} delay={14} />
+        <Fruit left={45} top={40} delay={8} />
       </Container>
       <h2>Site is ripening</h2>
     </>
