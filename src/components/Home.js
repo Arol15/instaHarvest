@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import SearchMain from "./product/SearchMain";
 import ButtonWithIcon from "./UI/ButtonWithIcon";
 import { RiHandCoinLine } from "react-icons/ri";
+import UnderConstruction from "./UI/UnderConstruction";
 
 import { setHomePage } from "../store/currentPageSlice";
 import { Canvas } from "@react-three/fiber";
@@ -70,7 +71,7 @@ const Home = () => {
     <Background>
       <HomeStyled>
         <h1 id="w1">Find homegrown fruits and vegetables</h1>
-
+        <UnderConstruction />
         <SearchMain />
         <ButtonWithIcon
           addCss="margin-top: 20px;"
