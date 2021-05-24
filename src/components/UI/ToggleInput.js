@@ -33,6 +33,7 @@ const SwitchInner = styled.span`
 
 const SwitchText = styled.span`
   z-index: 1;
+  cursor: pointer;
   position: absolute;
   opacity: ${({ pos }) => (pos === "left" ? "1" : "0")};
   text-align: center;
@@ -104,7 +105,9 @@ const ToggleInput = ({
   return (
     <Switch className="switch">
       <SwitchInner pos={pos} onClick={onClick}></SwitchInner>
-      <SwitchText pos={pos}>Free</SwitchText>
+      <SwitchText pos={pos} onClick={onClick}>
+        Free
+      </SwitchText>
       <Slider pos={pos}></Slider>
       <Input
         pos={pos}
