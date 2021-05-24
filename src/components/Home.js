@@ -8,8 +8,8 @@ import { RiHandCoinLine } from "react-icons/ri";
 import UnderConstruction from "./UI/UnderConstruction";
 
 import { setHomePage } from "../store/currentPageSlice";
-import { Canvas } from "@react-three/fiber";
-import OrangeObj from "../assets/objects/OrangeObj";
+// import { Canvas } from "@react-three/fiber";
+// import OrangeObj from "../assets/objects/OrangeObj";
 
 import styled from "styled-components/macro";
 
