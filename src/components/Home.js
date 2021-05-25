@@ -1,4 +1,4 @@
-import { useRef, useEffect, Suspense } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -6,39 +6,45 @@ import SearchMain from "./product/SearchMain";
 import ButtonWithIcon from "./UI/ButtonWithIcon";
 import { RiHandCoinLine } from "react-icons/ri";
 import UnderConstruction from "./UI/UnderConstruction";
-
+import { Flex } from "../components/styled/styled";
 import { setHomePage } from "../store/currentPageSlice";
-// import { Canvas } from "@react-three/fiber";
-// import OrangeObj from "../assets/objects/OrangeObj";
-
 import styled from "styled-components/macro";
 
-const HomeStyled = styled.div`
-  // flex: 1;
+const HomeStyled = styled(Flex)`
+  position: relative;
   padding-top: 100px;
+  left: 0;
+  padding-left: 0;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const LeftColumn = styled.div`
+  position: relative;
+  // flex: 0.5;
+  z-index: 2;
+  // flex: 1;
+  // padding-left: 40px;
   color: ${({ theme }) => theme.secondaryTextColor};
   text-align: center;
+`;
 
-  // @keyframes slideInFromLeft {
-  //   0% {
-  //     transform: translateX(20%);
-  //   }
-  //   100% {
-  //     transform: translateX(0);
-  //   }
-  // }
+const RightColumn = styled.div`
+  // flex: 2;
+  z-index: 1;
+  position: relative;
+  // width: 50%;
+`;
 
-  // #w1 {
-  //   animation: 1s cubic-bezier(0.1, 0.1, 0.25, 1) 0s 1 slideInFromLeft;
-  // }
-
-  // #w2 {
-  //   animation: 1s cubic-bezier(0.1, 0.1, 0.25, 1) 0.25s 1 slideInFromLeft;
-  // }
-
-  // #w3 {
-  //   animation: 1s cubic-bezier(0.1, 0.1, 0.25, 1) 0.5s 1 slideInFromLeft;
-  // }
+const FrontImage = styled.img`
+  position: relative;
+  // z-index: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  // height: 100%;
+  height: 100%;
+  max-width: 400px;
 `;
 
 const Background = styled.div`
@@ -70,25 +76,22 @@ const Home = () => {
   return (
     <Background>
       <HomeStyled>
-        <h1 id="w1">Find homegrown fruits and vegetables</h1>
-        <UnderConstruction />
-        <SearchMain />
-        <ButtonWithIcon
-          addCss="margin-top: 20px;"
-          onClick={() => history.push("/add-product")}
-          icon={<RiHandCoinLine size="20px" />}
-        >
-          Share
-        </ButtonWithIcon>
-
-        {/* <Canvas concurent>
-        <ambientLight intensity={0.5} />
-        <pointLight intensity={0.3} position={[10, 10, 10]} />
-        <Suspense fallback={null}>
-          <OrangeObj position={[0, 0, 0]} />
-        </Suspense>
-      </Canvas> */}
+        <LeftColumn>
+          <h1 id="w1">Find homegrown fruits and vegetables</h1>
+          <UnderConstruction />
+        </LeftColumn>
+        <RightColumn>
+          <FrontImage src="https://instaharvest.net/assets/images/front-img2.png" />
+        </RightColumn>
       </HomeStyled>
+      <SearchMain />
+      <ButtonWithIcon
+        addCss="margin-top: 20px;"
+        onClick={() => history.push("/add-product")}
+        icon={<RiHandCoinLine size="20px" />}
+      >
+        Share
+      </ButtonWithIcon>
     </Background>
   );
 };
