@@ -1,5 +1,5 @@
 from flask import Blueprint, request, session, current_app
-import json
+import logging
 import os
 from uuid import uuid4
 from sqlalchemy.sql import func
@@ -22,33 +22,36 @@ def create_product():
     if address_id is None:
         loc = data["location"]
         user = User.query.filter_by(id=user_id).first()
-        address = user.addresses.filter_by(
-            lon=loc["lon"], lat=loc["lat"]).first()
+        address = user.addresses.filter_by(lon=loc["lon"], lat=loc["lat"]).first()
         if address:
             return {"error": "Address already exists"}, 409
 
-        address = Address(user_id=user_id,
-                          primary_address=False,
-                          state=loc["state"],
-                          city=loc["city"],
-                          country=loc["country"],
-                          lat=loc["lat"],
-                          lon=loc["lon"],
-                          address=loc["address"],
-                          zip_code=loc["zip_code"] if loc["zip_code"] else None)
+        address = Address(
+            user_id=user_id,
+            primary_address=False,
+            state=loc["state"],
+            city=loc["city"],
+            country=loc["country"],
+            lat=loc["lat"],
+            lon=loc["lon"],
+            address=loc["address"],
+            zip_code=loc["zip_code"] if loc["zip_code"] else None,
+        )
         db.session.add(address)
         db.session.commit()
         address_id = address.id
 
     if request.method == "POST":
-        product = Product(user_id=user_id,
-                          name=data["name"],
-                          product_type=data["product_type"],
-                          product_icon=data["product_icon"],
-                          price=data["price"],
-                          status="available",
-                          description=data["description"],
-                          address_id=address_id)
+        product = Product(
+            user_id=user_id,
+            name=data["name"],
+            product_type=data["product_type"],
+            product_icon=data["product_icon"],
+            price=data["price"],
+            status="available",
+            description=data["description"],
+            address_id=address_id,
+        )
 
     elif request.method == "PATCH":
         product = Product.query.filter_by(id=data["product_id"]).first()
@@ -64,8 +67,7 @@ def create_product():
     db.session.add(product)
     db.session.commit()
 
-    ret = {"msg": "Product created",
-           "product_id": product.id}
+    ret = {"msg": "Product created", "product_id": product.id}
 
     if request.method == "PATCH":
         ret["msg"] = "Product has been updated"
@@ -85,7 +87,7 @@ def get_products_per_user():
         try:
             user_id = session["id"]
         except:
-            return {'error': 'Unauthorized'}, 401
+            return {"error": "Unauthorized"}, 401
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return {}, 404
@@ -104,12 +106,19 @@ def get_local_products():
     lon = request.json.get("lon")
     lat = request.json.get("lat")
     rng = request.json.get("range")
-    params = func.acos(func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat)) + func.cos(
-        func.radians(lat)) * func.cos(func.radians(Address.lat)) * func.cos(func.radians(Address.lon) - (func.radians(lon)))) * current_app.config['RADIUS']
-    products = Product.query.join(Product.address).filter(
-        params <= rng).order_by(params).all()
-    products_dict = [product.to_dict(user_id, lat, lon)
-                     for product in products]
+    params = (
+        func.acos(
+            func.sin(func.radians(lat)) * func.sin(func.radians(Address.lat))
+            + func.cos(func.radians(lat))
+            * func.cos(func.radians(Address.lat))
+            * func.cos(func.radians(Address.lon) - (func.radians(lon)))
+        )
+        * current_app.config["RADIUS"]
+    )
+    products = (
+        Product.query.join(Product.address).filter(params <= rng).order_by(params).all()
+    )
+    products_dict = [product.to_dict(user_id, lat, lon) for product in products]
     return {"products": products_dict}, 200
 
 
@@ -139,24 +148,18 @@ def give_like(product_id):
         db.session.commit()
         liked = False
     likes = product.likes.count()
-    return {
-        "liked": liked,
-        "likes": likes
-    }, 200
+    return {"liked": liked, "likes": likes}, 200
 
 
 @bp.route("/get_likes/<int:product_id>", methods=["POST"])
 def get_likes(product_id):
     product = Product.query.filter_by(id=product_id).first()
     likes = product.likes.count()
-    user_id = session.get('id', False)
+    user_id = session.get("id", False)
     liked = False
     if user_id:
         liked = product.liked_by_user(session["id"])
-    return {
-        "liked": liked,
-        "likes": likes
-    }
+    return {"liked": liked, "likes": likes}
 
 
 @bp.route("/edit_product_images/<int:product_id>", methods=["POST", "DELETE"])
@@ -175,16 +178,15 @@ def edit_product_images(product_id):
         rejected = []
         for uploaded_file in request.files.getlist("file"):
             if total_images == 4:
-                return {"msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"}, 200
+                return {
+                    "msg": f"Every product can have up to 4 images. Uploaded {count_uploaded} images"
+                }, 200
             image_name = f"{product.name}-{product_id}-{str(uuid4())[:8]}"
-            image_url = save_image(uploaded_file, user.uuid,
-                                   image_name)
-            if (image_url == "NOT_ALLOWED" or image_url == "NOT_SAVED"):
+            image_url = save_image(uploaded_file, user.uuid, image_name)
+            if image_url == "NOT_ALLOWED" or image_url == "NOT_SAVED":
                 rejected.append(uploaded_file.filename)
                 continue
-            image = Image(
-                product_id=product_id,
-                image_url=image_url)
+            image = Image(product_id=product_id, image_url=image_url)
             db.session.add(image)
             db.session.commit()
             if total_images == 0:
@@ -225,14 +227,12 @@ def edit_product_images(product_id):
         db.session.delete(image)
         db.session.commit()
 
-        image_name = image.image_url.split('/')[-1]
-        to_delete = os.path.join(
-            current_app.config["USERS_FOLDER"], uuid, image_name)
+        image_name = image.image_url.split("/")[-1]
+        to_delete = os.path.join(current_app.config["USERS_FOLDER"], uuid, image_name)
         try:
             os.remove(to_delete)
         except:
-            print(
-                f"File {image_name} in {uuid} folder has not been deleted")
+            logging.warning(f"File {image_name} in {uuid} folder has not been deleted")
         return {"msg": "The image has been deleted"}, 200
 
 
@@ -266,16 +266,15 @@ def delete_product():
     db.session.delete(product)
     db.session.commit()
     if len(images_names) > 0:
-        path = os.path.join(
-            current_app.config["USERS_FOLDER"], uuid)
+        path = os.path.join(current_app.config["USERS_FOLDER"], uuid)
         for image in images_names:
-            to_delete = os.path.join(
-                path, image.split('/')[-1])
+            to_delete = os.path.join(path, image.split("/")[-1])
             try:
                 os.remove(to_delete)
             except:
-                print(
-                    f"File {image.split('/')[-1]} in {uuid} folder has not been deleted")
+                logging.warning(
+                    f"File {image.split('/')[-1]} in {uuid} folder has not been deleted"
+                )
 
     return {"msg": "Deleted"}, 200
 

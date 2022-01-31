@@ -1,4 +1,4 @@
-import json
+import logging
 import os
 from uuid import uuid4
 from datetime import datetime
@@ -35,7 +35,7 @@ def signup():
     try:
         os.mkdir(user_folder)
     except OSError:
-        print(f"Creation of the directory for user {uuid} failed")
+        logging.warning(f"Creation of the directory for user {uuid} failed")
 
     user = User(username=username,
                 uuid=uuid,

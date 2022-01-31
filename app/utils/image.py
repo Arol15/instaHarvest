@@ -1,6 +1,7 @@
 from PIL import Image
 import imghdr
 import os
+import logging
 from flask import current_app
 
 
@@ -50,7 +51,7 @@ def save_image(uploaded_file, uuid, image_name, base_width=1200):
     try:
         image.save(path, optimize=True)
     except:
-        print(f"Error saving image to {path}")
+        logging.warning(f"Error saving image to {path}")
         return "NOT_SAVED"
 
     return f"{current_app.config['USERS_URL']}/{uuid}/{file_name}"

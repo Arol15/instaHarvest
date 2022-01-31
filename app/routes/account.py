@@ -1,4 +1,4 @@
-import json
+import logging
 import os
 from datetime import datetime
 from flask import Blueprint, request, url_for, session, current_app, redirect
@@ -251,7 +251,7 @@ def edit_profile_image():
         try:
             os.remove(path)
         except:
-            print(
+            logging.warning(
                 f"File {url.split('/')[-1]} in folder {user.uuid} has not been deleted")
         user.image_url = current_app.config['PROFILE_IMAGE']
 
